@@ -1,0 +1,26 @@
+server:
+  port: ${PORT:8080}
+  max-http-header-size: 16384
+
+spring:
+  main:
+    banner-mode: "off"
+  http.encoding:
+    charset: UTF-8
+    enabled: true
+    force: true
+
+logging:
+  level:
+    org:
+      springframework:
+        web: INFO
+    com:
+      tingcore:
+        organization: INFO
+    root: INFO
+
+info:
+  app:
+    name: ${spring.application.name}
+    version: ${VERSION:unknown}

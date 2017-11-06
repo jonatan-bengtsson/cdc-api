@@ -1,0 +1,195 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath('io.swagger:swagger-codegen:2.2.3')
+    }
+}
+
+plugins {
+    id "com.github.samueltbrown.cucumber" version "0.9"
+    id "org.springframework.boot" version "1.5.8.RELEASE"
+    id "org.sonarqube" version "2.5"
+    id "com.github.hierynomus.license" version "0.14.0"
+    id 'com.github.jk1.dependency-license-report' version '0.3.4'
+}
+
+import com.github.jk1.license.render.*
+
+apply plugin: "java"
+apply plugin: "idea"
+apply plugin: "eclipse"
+apply plugin: "org.springframework.boot"
+apply plugin: "org.sonarqube"
+apply plugin: "jacoco"
+
+version = '0.1.0-0-SNAPSHOT'
+group = "com.tingcore"
+
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+
+
+jar {
+    baseName = "$rootProject.name"
+    version = "$project.version"
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir "$projectDir/src/main/java"
+        }
+    }
+}
+
+idea {
+    project {
+        vcs = "Git"
+    }
+    module {
+        downloadSources = true
+        sourceDirs -= file("src/resources/java")
+    }
+}
+
+
+repositories {
+    mavenLocal()
+    jcenter()
+    mavenCentral()
+    maven { url "http://artifactory.tingcore-infra.com/artifactory/libs-release" }
+    maven { url "http://artifactory.tingcore-infra.com/artifactory/libs-snapshot" }
+}
+
+configurations.all {
+    exclude module: "spring-boot-starter-logging"
+    exclude module: "logback-classic"
+    exclude group: "org.apache.tomcat", module: "tomcat-jdbc"
+}
+
+ext {
+    versionSwagger = "2.7.0"
+}
+
+dependencies {
+
+    // Spring
+    compile("org.springframework.boot:spring-boot-starter-web")
+    compile("org.springframework.boot:spring-boot-starter-actuator")
+    compile("org.springframework.boot:spring-boot-starter-log4j2")
+    compile("org.springframework.boot:spring-boot-devtools")
+    compileOnly('org.springframework.boot:spring-boot-configuration-processor')
+    compile("org.springframework.cloud:spring-cloud-starter-config")
+
+    // Tingcore
+    compile("com.tingcore.commons:commons-rest:1.0.1-SNAPSHOT")
+    compile("com.tingcore.charging:asset-service-java-client:0.1.0-SNAPSHOT")
+    compile("com.tingcore:user-service-java-client:1.0.0-RC1-SNAPSHOT")
+    compile 'com.squareup.retrofit2:converter-gson:2.3.0'
+    compile 'com.google.code.gson:gson:2.8.2'
+
+
+    // Swagger
+    compile("io.springfox:springfox-swagger2:$versionSwagger")
+    compile("io.springfox:springfox-swagger-ui:$versionSwagger")
+    compile("io.springfox:springfox-bean-validators:$versionSwagger")
+
+    // Jackson
+    compile("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml")
+    compile("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
+
+    // Apache commons
+    compile("org.apache.commons:commons-lang3:3.5")
+    compile("org.apache.commons:commons-collections4:4.1")
+
+    // crypto
+    compile 'org.hashids:hashids:1.0.3'
+
+    // Google Guava
+    compile("com.google.guava:guava")
+
+    // For Log4j2 async logging
+    compile("com.lmax:disruptor:3.3.6")
+
+    compileOnly("org.springframework.boot:spring-boot-configuration-processor")
+
+    // Test
+    testCompile("org.springframework.boot:spring-boot-starter-test")
+    testCompile("org.assertj:assertj-core:3.8.0")
+    testCompile("io.github.benas:random-beans:3.6.0")
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:Camden.SR4"
+    }
+}
+
+//noinspection GroovyAssignabilityCheck
+bootRun {
+    systemProperties = System.properties as Map<String, ?>
+}
+
+testResultsDirName = "results"
+
+test {
+    jacoco {
+        append = false
+        destinationFile = file("$buildDir/results/jacoco/test.exec")
+    }
+}
+
+
+
+sonarqube {
+    properties {
+        property "sonar.projectName", "$rootProject.name"
+        property "sonar.projectKey", "$project.group:$rootProject.name"
+        property "sonar.projectVersion", "$project.version"
+        property "sonar.host.url", "https://sonarqube.tingcore-central.com"
+        property "sonar.jacoco.reportPath", "build/results/jacoco/test.exec"
+        property "sonar.jacoco.itReportPath", "build/results/jacoco/cucumber.exec"
+        property "sonar.junit.reportPaths", "build/results/test,build/results/cucumber"
+        property "sonar.coverage.exclusions", "**/*Constants*,**/*Constant*"
+        property "sonar.sourceEncoding", "UTF-8"
+        property "sonar.language", "java"
+    }
+}
+
+
+import io.swagger.codegen.config.CodegenConfigurator
+import io.swagger.codegen.DefaultGenerator
+
+def npmName = 'cdc-api-client'
+def swaggerInput = "${project.buildDir.path}/swagger/swagger.json"
+def swaggerOutputDirTs = file("${projectDir.path}/typescript-client")
+task swaggerTs {
+    dependsOn 'test'
+    inputs.file(swaggerInput)
+    outputs.dir(swaggerOutputDirTs)
+    doLast {
+        def config = new CodegenConfigurator()
+        config.setInputSpec(swaggerInput)
+        config.setOutputDir(swaggerOutputDirTs.path)
+        config.setLang("typescript-fetch")
+        // Note, @tingcore/ is neccesary for it to be privately scoped
+        config.setAdditionalProperties([npmName:'@tingcore/' + npmName, npmVersion: "$version"])
+        new DefaultGenerator().opts(config.toClientOptInput()).generate()
+    }
+}
+
+clean.doFirst {
+    delete(swaggerOutputDirTs)
+}
+
+licenseReport {
+    renderer = new CsvReportRenderer()
+    configurations = ['compile']
+}

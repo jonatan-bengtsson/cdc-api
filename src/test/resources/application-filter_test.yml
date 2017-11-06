@@ -1,0 +1,13 @@
+spring:
+  profiles:
+    active: filter_test
+
+flyway:
+    enabled: false
+
+logging:
+  level:
+    com:
+      tingcore:
+        users: TRACE
+    root: TRACE

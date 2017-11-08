@@ -24,3 +24,12 @@ info:
   app:
     name: ${spring.application.name}
     version: ${VERSION:unknown}
+
+security:
+  header: X-Authorization-Id
+
+integration:
+  user:
+    hostname: user-service-test.tingcore-infra.com
+  asset:
+    hostname: asset-service-test.tingcore-infra.com

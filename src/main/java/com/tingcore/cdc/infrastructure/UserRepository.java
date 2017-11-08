@@ -1,10 +1,5 @@
 package com.tingcore.cdc.infrastructure;
 
-import com.tingcore.cdc.common.Reference;
-import com.tingcore.cdc.common.Reference.Entity;
-import com.tingcore.cdc.common.Reference.Service;
-import com.tingcore.cdc.common.Reference.Version;
-import com.tingcore.cdc.configuration.IntegrationConfiguration.UserServiceInformation;
 import com.tingcore.cdc.model.AuthorizationId;
 import com.tingcore.cdc.model.User;
 import com.tingcore.cdc.model.UserId;
@@ -27,12 +22,9 @@ import static org.apache.commons.lang3.Validate.notNull;
 public class UserRepository {
 
     private final UsersApi usersApi;
-    private final UserServiceInformation userServiceInformation;
 
-    public UserRepository(final UsersApi usersApi,
-                          final UserServiceInformation userServiceInformation) {
+    public UserRepository(final UsersApi usersApi) {
         this.usersApi = notNull(usersApi);
-        this.userServiceInformation = notNull(userServiceInformation);
     }
 
     public Optional<User> getUserIdForAuthorizationId(final AuthorizationId authorizationId) {
@@ -66,9 +58,7 @@ public class UserRepository {
 
     // This should be provided by the user service, but until then we create it ourselves
     private UserId createUserId(final UserResponse userResponse) {
-        final Version version = new Version("v1", new Service(userServiceInformation.getHostname()));
-        final Entity entityReference = new Entity(userResponse.getId(), new Reference.Collection("users", version));
-        return new UserId(entityReference.asString());
+        return new UserId(userResponse.getId());
     }
 
     private boolean accountLocked(final UserResponse userResponse) {

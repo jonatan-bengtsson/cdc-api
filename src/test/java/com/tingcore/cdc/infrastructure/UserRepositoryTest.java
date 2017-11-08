@@ -1,7 +1,6 @@
 package com.tingcore.cdc.infrastructure;
 
 import com.google.common.collect.ImmutableList;
-import com.tingcore.cdc.configuration.IntegrationConfiguration.UserServiceInformation;
 import com.tingcore.cdc.model.AuthorizationId;
 import com.tingcore.cdc.model.User;
 import com.tingcore.cdc.model.UserId;
@@ -36,12 +35,12 @@ public class UserRepositoryTest {
         final Optional<User> user = whenTheUserIsFetchedByAuthorizationId(authorizationId);
         thenTheUserExists(user);
         user.ifPresent(u -> {
-            thenTheUserIdIs(u, new UserId("//user-service/v1/users/1"));
+            thenTheUserIdIs(u, new UserId(1L));
         });
     }
 
     private void givenAUserRepository() {
-        userRepository = new UserRepository(usersApi, createUserServiceInformation());
+        userRepository = new UserRepository(usersApi);
     }
 
     private void givenAUserExists(String authorizationId) {
@@ -63,7 +62,7 @@ public class UserRepositoryTest {
     private CompletableFuture<UserResponse> createUserResponse() {
         final UserResponse userResponse = new UserResponse();
         userResponse.setId(1L);
-        userResponse.setAttributes(ImmutableList.<AttributeResponse> of(
+        userResponse.setAttributes(ImmutableList.<AttributeResponse>of(
                 isLockedOut(false)
         ));
         return CompletableFuture.completedFuture(userResponse);
@@ -76,12 +75,6 @@ public class UserRepositoryTest {
         avr.setValue(Boolean.toString(lockedOut));
         ar.setAttributeValue(avr);
         return ar;
-    }
-
-    private UserServiceInformation createUserServiceInformation() {
-        final UserServiceInformation information = new UserServiceInformation();
-        information.setHostname("user-service");
-        return information;
     }
 
 }

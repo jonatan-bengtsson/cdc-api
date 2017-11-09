@@ -29,7 +29,8 @@ public enum ErrorCode {
     CONFLICT_VERSION(40901, "error.conflict_version"), // used for PUT if version check fails
 
     INTERNAL_SERVER_ERROR(50000, "error.internal_server_error"),
-    INTERNAL_API_ERROR(50001, "error.internal_api_error");
+    DATA_PROCESSING_ERROR(50001, "error.data_processing_error"),
+    ;
 
     private Integer value;
     private String messageKey;

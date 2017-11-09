@@ -2,6 +2,8 @@ package com.tingcore.cdc.controller;
 
 
 import com.tingcore.cdc.constant.ErrorCode;
+import com.tingcore.cdc.crm.service.InvalidAttributeValueException;
+import com.tingcore.cdc.exception.EntityNotFoundException;
 import com.tingcore.cdc.service.MessageByLocaleService;
 import com.tingcore.cdc.service.ServiceException;
 import com.tingcore.commons.rest.ErrorResponse;
@@ -19,7 +21,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import javax.validation.ConstraintViolationException;
@@ -138,7 +139,16 @@ public class GlobalExceptionHandler {
                         .build());
     }
 
+    @ExceptionHandler(value = EntityNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleResourceNotFoundException(final EntityNotFoundException e) {
+        return handleServiceException(e, ErrorResponse.notFound());
+    }
 
+    @ExceptionHandler(value = InvalidAttributeValueException.class)
+    public ResponseEntity<ErrorResponse> handleResourceNotFoundException(final InvalidAttributeValueException e) {
+        LOG.error("Data was invalid for some attribute value - please check!", e);
+        return handleServiceException(e, ErrorResponse.serverError());
+    }
 
     private ResponseEntity<ErrorResponse> handleServiceException(final ServiceException serviceException, final ErrorResponse.Builder errorResponseBuilder) {
         LOG.trace(serviceException.getMessage(), serviceException);
@@ -150,19 +160,6 @@ public class GlobalExceptionHandler {
         }
         return errorResponseToResponseEntity(errorResponseBuilder.build());
     }
-
-    @ExceptionHandler(value = HttpClientErrorException.class)
-    private ResponseEntity<ErrorResponse> handleInternalApiException(final HttpClientErrorException e) {
-        // TODO Handle internal api exceptions in a better way, switch client lib perhaps?
-        LOG.error(e.getMessage(), e);
-        ErrorCode errorCode = ErrorCode.INTERNAL_API_ERROR;
-        return errorResponseToResponseEntity(ErrorResponse
-                .serverError()
-                .code(errorCode.value())
-                .message(messageByLocaleService.getMessage(errorCode.messageKey()))
-                .build());
-    }
-
 
     private ResponseEntity<ErrorResponse> errorResponseToResponseEntity(final ErrorResponse errorResponse) {
         return ResponseEntity

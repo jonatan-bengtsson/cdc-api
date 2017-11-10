@@ -1,7 +1,7 @@
 
 @Library('tingcore@feature/npm-builds') _
 
-apigwSwaggerImportPipeline {
+apigwProxyPipeline {
     appName = 'cdc-api'
     availability = 'public'
     httpsListener = true

@@ -3,16 +3,22 @@ package com.tingcore.cdc;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.beans.factory.support.BeanDefinitionReaderUtils;
+import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.data.jpa.JpaRepositoriesAutoConfiguration;
+import org.springframework.context.annotation.AnnotationBeanNameGenerator;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.Environment;
 
 import javax.annotation.PostConstruct;
 import java.util.TimeZone;
 
 @SpringBootApplication
+@ComponentScan(nameGenerator = Application.CustomBeanNameGenerator.class)
 @EnableAutoConfiguration(exclude = JpaRepositoriesAutoConfiguration.class)
 public class Application {
 
@@ -38,4 +44,13 @@ public class Application {
             LOG.warn("No Spring profile configured, running with default configuration");
         }
     }
+
+    static class CustomBeanNameGenerator extends AnnotationBeanNameGenerator {
+        @Override
+        protected String buildDefaultBeanName(final BeanDefinition definition,
+                                              final BeanDefinitionRegistry registry) {
+            return BeanDefinitionReaderUtils.generateBeanName(definition, registry);
+        }
+    }
+
 }

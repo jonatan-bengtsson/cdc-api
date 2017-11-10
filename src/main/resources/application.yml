@@ -29,3 +29,11 @@ info:
 app:
   user-service:
     base-url: http://localhost:8085
+security:
+  header: X-Authorization-Id
+
+integration:
+  user:
+    hostname: user-service-test.tingcore-infra.com
+  asset:
+    hostname: asset-service-test.tingcore-infra.com

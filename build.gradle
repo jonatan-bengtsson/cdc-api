@@ -65,8 +65,8 @@ repositories {
     mavenLocal()
     jcenter()
     mavenCentral()
-    maven { url "http://artifactory.tingcore-central.com/artifactory/libs-release" }
-    maven { url "http://artifactory.tingcore-central.com/artifactory/libs-snapshot" }
+    maven { url "https://artifactory.tingcore-central.com/artifactory/libs-release" }
+    maven { url "https://artifactory.tingcore-central.com/artifactory/libs-snapshot" }
 }
 
 configurations.all {
@@ -86,6 +86,7 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-web")
     compile("org.springframework.boot:spring-boot-starter-actuator")
     compile("org.springframework.boot:spring-boot-starter-log4j2")
+    compile("org.springframework.boot:spring-boot-starter-security")
     compile("org.springframework.boot:spring-boot-devtools")
     compileOnly('org.springframework.boot:spring-boot-configuration-processor')
     compile("org.springframework.cloud:spring-cloud-starter-config")
@@ -94,6 +95,7 @@ dependencies {
     compile("com.tingcore.commons:commons-rest:1.0.4-SNAPSHOT")
     compile("com.tingcore.charging:asset-service-java-client:0.1.0-SNAPSHOT")
     compile("com.tingcore:user-service-java-client:1.0.0.1-SNAPSHOT")
+    compile "com.tingcore:library-eventprocessing:0.0.8"
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
     compile 'com.google.code.gson:gson:2.8.2'
 
@@ -129,6 +131,7 @@ dependencies {
     testCompile("org.springframework.boot:spring-boot-starter-test")
     testCompile("org.assertj:assertj-core:3.8.0")
     testCompile("io.github.benas:random-beans:3.6.0")
+    testCompile('com.google.truth:truth:0.36')
 }
 
 dependencyManagement {

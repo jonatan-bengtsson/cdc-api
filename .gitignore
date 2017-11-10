@@ -35,7 +35,7 @@ fabric.properties
 
 *.ipr
 .idea/*
-
+*.iml
 
 ### Gradle ###
 .gradle

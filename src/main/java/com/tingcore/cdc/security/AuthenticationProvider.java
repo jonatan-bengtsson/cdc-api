@@ -1,8 +1,10 @@
 package com.tingcore.cdc.security;
 
+import com.tingcore.cdc.constant.SpringProfilesConstant;
 import com.tingcore.cdc.infrastructure.UserRepository;
 import com.tingcore.cdc.model.AuthorizationId;
 import com.tingcore.cdc.model.security.Token;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,6 +18,7 @@ import java.util.Optional;
 import static org.apache.commons.lang3.Validate.notNull;
 
 @Component
+@Profile({SpringProfilesConstant.TEST, SpringProfilesConstant.STAGE, SpringProfilesConstant.PROD})
 public class AuthenticationProvider extends AbstractUserDetailsAuthenticationProvider {
 
     private final UserRepository userRepository;

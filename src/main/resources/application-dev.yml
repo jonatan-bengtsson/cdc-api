@@ -13,6 +13,9 @@ logging:
         organizstion: DEBUG
     root: INFO
 
+security:
+  basic:
+    enabled: false
 
 app:
   user-service:

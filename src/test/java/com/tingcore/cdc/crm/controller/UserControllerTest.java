@@ -28,7 +28,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @since 2017-11-09
  */
 @WebMvcTest(value = UserController.class,
-        excludeFilters = {@ComponentScan.Filter(type = FilterType.REGEX, pattern = "com.tingcore.cdc.filter")})
+        excludeFilters = {
+                @ComponentScan.Filter(type = FilterType.REGEX, pattern = "com.tingcore.cdc.filter"),
+                @ComponentScan.Filter(type = FilterType.REGEX, pattern = "com.tingcore.cdc.security")
+        })
 public class UserControllerTest extends ControllerUnitTest {
 
     @Autowired private HashIdService hashIdService;

@@ -1,9 +1,9 @@
 package com.tingcore.cdc.security;
 
-import com.tingcore.cdc.configuration.SecurityConfiguration.SecurityProperties;
 import com.tingcore.cdc.model.AuthorizationId;
 import com.tingcore.cdc.model.security.Metadata;
 import com.tingcore.cdc.model.security.Token;
+import com.tingcore.cdc.security.SecurityConfiguration.SecurityProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;

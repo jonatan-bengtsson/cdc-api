@@ -1,9 +1,6 @@
-package com.tingcore.cdc.configuration;
+package com.tingcore.cdc.security;
 
-import com.tingcore.cdc.security.AuthenticationFailureHandler;
-import com.tingcore.cdc.security.AuthenticationFilter;
-import com.tingcore.cdc.security.AuthenticationMetadataSource;
-import com.tingcore.cdc.security.AuthenticationSuccessHandler;
+import com.tingcore.cdc.constant.SpringProfilesConstant;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -11,6 +8,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.ProviderManager;
@@ -21,7 +19,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.util.matcher.AnyRequestMatcher;
 
-import java.util.Arrays;
+import java.util.Collections;
 
 @Configuration
 @EnableWebSecurity
@@ -29,21 +27,26 @@ import java.util.Arrays;
 @Import({
         SecurityConfiguration.SecurityProperties.class
 })
+@Profile({SpringProfilesConstant.TEST, SpringProfilesConstant.STAGE, SpringProfilesConstant.PROD})
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
+    private final ApplicationContext applicationContext;
+    private final AuthenticationProvider authenticationProvider;
+    private final AuthenticationSuccessHandler authenticationSuccessHandler;
+    private final AuthenticationFailureHandler authenticationFailureHandler;
+
     @Autowired
-    private ApplicationContext applicationContext;
-    @Autowired
-    private AuthenticationProvider authenticationProvider;
-    @Autowired
-    private AuthenticationSuccessHandler authenticationSuccessHandler;
-    @Autowired
-    private AuthenticationFailureHandler authenticationFailureHandler;
+    public SecurityConfiguration(final ApplicationContext applicationContext, final AuthenticationProvider authenticationProvider, final AuthenticationSuccessHandler authenticationSuccessHandler, final AuthenticationFailureHandler authenticationFailureHandler) {
+        this.applicationContext = applicationContext;
+        this.authenticationProvider = authenticationProvider;
+        this.authenticationSuccessHandler = authenticationSuccessHandler;
+        this.authenticationFailureHandler = authenticationFailureHandler;
+    }
 
     @Bean
     @Override
     public AuthenticationManager authenticationManager() throws Exception {
-        return new ProviderManager(Arrays.asList(authenticationProvider));
+        return new ProviderManager(Collections.singletonList(authenticationProvider));
     }
 
     @Bean
@@ -74,7 +77,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         @NotBlank
         private String header;
 
-        public String header() {
+        String header() {
             return header;
         }
 

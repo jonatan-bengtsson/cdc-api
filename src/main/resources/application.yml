@@ -25,7 +25,6 @@ info:
     name: ${spring.application.name}
     version: ${VERSION:unknown}
 
-
 app:
   user-service:
     base-url: http://localhost:8085

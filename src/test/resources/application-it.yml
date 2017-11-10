@@ -11,3 +11,8 @@ logging:
       tingcore:
         users: TRACE
     root: TRACE
+
+
+security:
+  basic:
+    enabled: false

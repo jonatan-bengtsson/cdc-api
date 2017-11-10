@@ -11,6 +11,6 @@ apigwSwaggerImportPipeline {
     desiredCountTest = 1
     desiredCountProd = 2
     businessUnit = 'ChargeAndDrive'
-    buildCommand = './gradlew clean build swaggerTs && ./swagger-cleaner.py build/swagger/swagger.json'
+    buildCommand = './gradlew clean build swaggerTs'
     npmProjects = [['typescript-client','npm run prepublish']]
 }

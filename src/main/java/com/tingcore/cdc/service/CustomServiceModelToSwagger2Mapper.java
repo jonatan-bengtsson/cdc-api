@@ -47,7 +47,6 @@ public class CustomServiceModelToSwagger2Mapper extends ServiceModelToSwagger2Ma
             final Map<String, Property> updatedProperties = new HashMap<>();
             if (definitionModel.getProperties() != null) {
                 definitionModel.getProperties().forEach((propertiesKey, property) -> {
-                    LOG.info(propertiesKey);
                     if ((property instanceof LongProperty) && HashIdService.isIdKey(property.getName())) {
                         final StringProperty stringProperty = convertToStringProperty(property);
                         updatedProperties.put(propertiesKey, stringProperty);

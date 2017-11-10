@@ -30,6 +30,7 @@ public enum ErrorCode {
 
     INTERNAL_SERVER_ERROR(50000, "error.internal_server_error"),
     DATA_PROCESSING_ERROR(50001, "error.data_processing_error"),
+    CONFIGURATION_ERROR(50002, "error.configuration_error"),
     ;
 
     private Integer value;

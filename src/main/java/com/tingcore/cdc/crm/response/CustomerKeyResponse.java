@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.List;
 
 /**
  * @author palmithor
@@ -15,8 +16,9 @@ import java.time.Instant;
  */
 @ApiModel
 @JsonPropertyOrder({FieldConstant.ID, FieldConstant.KEY_NUMBER, FieldConstant.TYPE, FieldConstant.NAME, FieldConstant.ORGANIZATION_ID,
-FieldConstant.ACTIVATED_FROM, FieldConstant.ACTIVATED_TO, FieldConstant.CREDITS, FieldConstant.DEFAULT_CURRENCY})
-public class CustomerKeyResponse implements Serializable{
+        FieldConstant.ACTIVE_FROM, FieldConstant.ACTIVE_TO, FieldConstant.IS_SERVICE_KEY, FieldConstant.CHARGE_GROUP_IDS,
+        FieldConstant.PAYMENT_INFORMATION, FieldConstant.PAYMENT_INFORMATION, FieldConstant.DEFAULT_CURRENCY})
+public class CustomerKeyResponse implements Serializable {
 
     private static final long serialVersionUID = -6763921790222839944L;
 
@@ -25,9 +27,11 @@ public class CustomerKeyResponse implements Serializable{
     private final String type;
     private final String name;
     private final Long organizationId;
-    private final Instant activatedFrom;
-    private final Instant activatedTo;
-    private final Integer credits;
+    private final Instant activeFrom;
+    private final Instant activeTo;
+    private final Boolean serviceKey;
+    private final List<Long> chargeGroupIds;
+    private final PaymentInformationResponse paymentInformation;
     private final String defaultCurrency;
 
     public CustomerKeyResponse() {
@@ -36,9 +40,11 @@ public class CustomerKeyResponse implements Serializable{
         this.type = null;
         this.name = null;
         this.organizationId = null;
-        this.activatedFrom = null;
-        this.activatedTo = null;
-        this.credits = null;
+        this.activeFrom = null;
+        this.activeTo = null;
+        this.serviceKey = null;
+        this.chargeGroupIds = null;
+        this.paymentInformation = null;
         this.defaultCurrency = null;
     }
 
@@ -47,23 +53,27 @@ public class CustomerKeyResponse implements Serializable{
                                final String type,
                                final String name,
                                final Long organizationId,
-                               final Instant activatedFrom,
-                               final Instant activatedTo,
-                               final Integer credits,
+                               final Instant activeFrom,
+                               final Instant activeTo,
+                               final Boolean serviceKey,
+                               final List<Long> chargeGroupIds,
+                               final PaymentInformationResponse paymentInformation,
                                final String defaultCurrency) {
         this.id = id;
         this.keyNumber = keyNumber;
         this.type = type;
         this.name = name;
         this.organizationId = organizationId;
-        this.activatedFrom = activatedFrom;
-        this.activatedTo = activatedTo;
-        this.credits = credits;
+        this.activeFrom = activeFrom;
+        this.activeTo = activeTo;
+        this.serviceKey = serviceKey;
+        this.chargeGroupIds = chargeGroupIds;
+        this.paymentInformation = paymentInformation;
         this.defaultCurrency = defaultCurrency;
     }
 
     @JsonProperty(FieldConstant.ID)
-    @ApiModelProperty(position = 1, value = "The customer key id", example = "1", required = true)
+    @ApiModelProperty(position = 1, value = "The customer key id", example = "pNK7rWbjGP", required = true)
     public Long getId() {
         return id;
     }
@@ -87,31 +97,43 @@ public class CustomerKeyResponse implements Serializable{
     }
 
     @JsonProperty(FieldConstant.ORGANIZATION_ID)
-    @ApiModelProperty(position = 5, value = "The providing organization id", example = "")
+    @ApiModelProperty(position = 5, value = "The providing organization id", example = "pNK7rWbjGP")
     public Long getOrganizationId() {
         return organizationId;
     }
 
-    @JsonProperty(FieldConstant.ACTIVATED_FROM)
+    @JsonProperty(FieldConstant.ACTIVE_FROM)
     @ApiModelProperty(position = 6, value = "Timestamp indicating the time of the activation", example = "1510230745348")
-    public Instant getActivatedFrom() {
-        return activatedFrom;
+    public Instant getActiveFrom() {
+        return activeFrom;
     }
 
-    @JsonProperty(FieldConstant.ACTIVATED_TO)
+    @JsonProperty(FieldConstant.ACTIVE_TO)
     @ApiModelProperty(position = 7, value = "Timestamp indicating the time when the customer key should expire", example = "1510230745348")
-    public Instant getActivatedTo() {
-        return activatedTo;
+    public Instant getActiveTo() {
+        return activeTo;
     }
 
-    @JsonProperty(FieldConstant.CREDITS)
-    @ApiModelProperty(position = 8, value = /* todo credit ? */"TODO...", example = "100")
-    public Integer getCredits() {
-        return credits;
+    @JsonProperty(FieldConstant.IS_SERVICE_KEY)
+    @ApiModelProperty(position = 8, value = "Boolean specifying if this customer key is a service key", example = "false", required = true)
+    public Boolean getServiceKey() {
+        return serviceKey;
+    }
+
+    @JsonProperty(FieldConstant.CHARGE_GROUP_IDS)
+    @ApiModelProperty(position = 9, value = "The charging groups this customer key has access to", example = "[\"pNK7rWbjGP\"]")
+    public List<Long> getChargeGroupIds() {
+        return chargeGroupIds;
+    }
+
+    @JsonProperty(FieldConstant.PAYMENT_INFORMATION)
+    @ApiModelProperty(position = 10, value = "The payment profile associated with this user key")
+    public PaymentInformationResponse getPaymentInformation() {
+        return paymentInformation;
     }
 
     @JsonProperty(FieldConstant.DEFAULT_CURRENCY)
-    @ApiModelProperty(position = 9, value = "The default currency", example = "100")
+    @ApiModelProperty(position = 11, value = "The default currency", example = "100")
     public String getDefaultCurrency() {
         return defaultCurrency;
     }
@@ -120,19 +142,25 @@ public class CustomerKeyResponse implements Serializable{
         return new Builder();
     }
 
+
     public static final class Builder {
         private Long id;
         private String keyNumber;
         private String type;
         private String name;
         private Long organizationId;
-        private Instant activatedFrom;
-        private Instant activatedTo;
-        private Integer credits;
-
+        private Instant activeFrom;
+        private Instant activeTo;
+        private Boolean serviceKey;
+        private List<Long> chargeGroupIds;
+        private PaymentInformationResponse paymentInformation;
         private String defaultCurrency;
 
         private Builder() {
+        }
+
+        public static Builder aCustomerKeyResponse() {
+            return new Builder();
         }
 
         public Builder id(final Long id) {
@@ -160,18 +188,28 @@ public class CustomerKeyResponse implements Serializable{
             return this;
         }
 
-        public Builder activatedFrom(final Instant activatedFrom) {
-            this.activatedFrom = activatedFrom;
+        public Builder activeFrom(final Instant activeFrom) {
+            this.activeFrom = activeFrom;
             return this;
         }
 
-        public Builder activatedTo(final Instant activatedTo) {
-            this.activatedTo = activatedTo;
+        public Builder activeTo(final Instant activeTo) {
+            this.activeTo = activeTo;
             return this;
         }
 
-        public Builder credits(final Integer credits) {
-            this.credits = credits;
+        public Builder serviceKey(final Boolean serviceKey) {
+            this.serviceKey = serviceKey;
+            return this;
+        }
+
+        public Builder chargeGroupIds(final List<Long> chargeGroupIds) {
+            this.chargeGroupIds = chargeGroupIds;
+            return this;
+        }
+
+        public Builder paymentInformation(final PaymentInformationResponse paymentInformation) {
+            this.paymentInformation = paymentInformation;
             return this;
         }
 
@@ -181,7 +219,7 @@ public class CustomerKeyResponse implements Serializable{
         }
 
         public CustomerKeyResponse build() {
-            return new CustomerKeyResponse(id, keyNumber, type, name, organizationId, activatedFrom, activatedTo, credits, defaultCurrency);
+            return new CustomerKeyResponse(id, keyNumber, type, name, organizationId, activeFrom, activeTo, serviceKey, chargeGroupIds, paymentInformation, defaultCurrency);
         }
     }
 }

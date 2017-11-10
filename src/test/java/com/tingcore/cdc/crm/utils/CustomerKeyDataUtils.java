@@ -2,7 +2,7 @@ package com.tingcore.cdc.crm.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tingcore.cdc.crm.mapper.CustomerKey;
+import com.tingcore.cdc.crm.model.CustomerKey;
 import com.tingcore.cdc.crm.response.CustomerKeyResponse;
 import com.tingcore.cdc.utils.CommonDataUtils;
 import com.tingcore.cdc.utils.JsonUtils;
@@ -11,6 +11,7 @@ import com.tingcore.users.model.AttributeValueResponse;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,10 +38,11 @@ public class CustomerKeyDataUtils {
                 .id(CommonDataUtils.getNextId())
                 .keyNumber(CommonDataUtils.nextZeroPaddedId(10))
                 .type(TYPE_VIRTUAL)
-                .activatedFrom(getPassedInstant())
-                .activatedTo(getFutureInstant())
-                .credits(0)
+                .activeFrom(getPassedInstant())
+                .activeTo(getFutureInstant())
                 .defaultCurrency("sek")
+                .serviceKey(false)
+                .chargeGroupIds(new ArrayList<Long>() {{add(1l);add(2l);}})
                 .name(CommonDataUtils.nextZeroPaddedId(5))
                 .organizationId(CommonDataUtils.getNextId())
                 .build();
@@ -52,7 +54,7 @@ public class CustomerKeyDataUtils {
         attributeResponse.setName("CustomerKey");
         attributeResponse.setType(AttributeResponse.TypeEnum.JSON);
         Map<String, String> properties = new HashMap<>();
-        properties.put("required", "[\"namePrefix\", \"provider\", \"activatedFrom\", \"activatedTo\", \"defaultCurrency\", \"credit\", \"creditLimitPerPurchase\", \"creditExpirationDate\"]");
+        properties.put("required", "[\"namePrefix\", \"provider\", \"activeFrom\", \"activeTo\", \"defaultCurrency\", \"credit\", \"creditLimitPerPurchase\", \"creditExpirationDate\"]");
         properties.put("allowMultiple", "true");
         attributeResponse.setProperties(properties);
 
@@ -72,9 +74,7 @@ public class CustomerKeyDataUtils {
                 getFutureInstant(),
                 getPassedInstant(),
                 "SEK",
-                0,
-                1500,
-                getFutureInstant()
+                false
         );
     }
 

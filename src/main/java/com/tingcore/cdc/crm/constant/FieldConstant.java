@@ -31,11 +31,13 @@ public class FieldConstant {
     public static final String USER_POOL_ID = "userPoolId";
     public static final String VALUE_ID = "valueId";
     public static final String KEY_NUMBER = "keyNumber";
-    public static final String ACTIVATED_FROM = "activatedFrom";
-    public static final String ACTIVATED_TO = "activatedTo";
+    public static final String ACTIVE_FROM = "activeFrom";
+    public static final String ACTIVE_TO = "activeTo";
     public static final String CREDITS = "credits";
     public static final String DEFAULT_CURRENCY = "defaultCurrency";
-
+    public static final String PAYMENT_INFORMATION = "paymentInformation";
+    public static final String CHARGE_GROUP_IDS = "chargeGroupIds";
+    public static final String IS_SERVICE_KEY = "isServiceKey";
 
     private FieldConstant() {
     }

@@ -1,7 +1,7 @@
 package com.tingcore.cdc.crm.repository;
 
 import com.tingcore.commons.rest.PageResponse;
-import com.tingcore.users.api.AttributesApi;
+import com.tingcore.users.api.UsersApi;
 import com.tingcore.users.model.AttributeResponse;
 import com.tingcore.users.model.AttributeValueResponse;
 import org.springframework.stereotype.Repository;
@@ -21,10 +21,12 @@ public class CustomerKeyRepository {
 
     private static final AtomicLong ID_GENERATOR = new AtomicLong(100);
 
-    private final AttributesApi attributesApi;
+    private final AttributeRepository attributeRepository;
+    private final UsersApi usersApi;
 
-    public CustomerKeyRepository(final AttributesApi attributesApi) {
-        this.attributesApi = attributesApi;
+    public CustomerKeyRepository(final AttributeRepository attributeRepository, final UsersApi usersApi) {
+        this.attributeRepository = attributeRepository;
+        this.usersApi = usersApi;
     }
 
     public PageResponse<AttributeResponse> findByUserId(final Long decodedId) {
@@ -51,13 +53,10 @@ public class CustomerKeyRepository {
         attributeValueResponse.setValue("{\n" +
                 "    \"keyNumber\":\"1510227553885\",\n" +
                 "    \"name\": \"value\",\n" +
-                "    \"organizationId\": \"N4RE3JrnAa\",\n" +
+                "    \"organizationId\": \"1\",\n" +
                 "    \"activatedFrom\": 1510227553885,\n" +
                 "    \"activatedTo\": 1510227553885,\n" +
                 "    \"defaultCurrency\" : \"SEK\", \n" +
-                "    \"credit\": 100,\n" +
-                "    \"creditLimitPerPurchase\": 1500,\n" +
-                "    \"creditExpiration\": 1510227553885,\n" +
                 "    \"type\": \"virtual\"\n" +
                 "}");
         attributeResponse.setAttributeValue(attributeValueResponse);

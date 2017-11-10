@@ -1,4 +1,4 @@
-package com.tingcore.cdc.crm.mapper;
+package com.tingcore.cdc.crm.model;
 
 import java.time.Instant;
 
@@ -15,9 +15,7 @@ public class CustomerKey {
     private final Instant activatedFrom;
     private final Instant activatedTo;
     private final String defaultCurrency;
-    private final Integer credit;
-    private final Integer creditLimitPerPurchase;
-    private final Instant creditExpiration;
+    private final Boolean isServiceKey;
 
     public CustomerKey() {
         this.keyNumber = null;
@@ -27,9 +25,7 @@ public class CustomerKey {
         this.activatedFrom = null;
         this.activatedTo = null;
         this.defaultCurrency = null;
-        this.credit = null;
-        this.creditLimitPerPurchase = null;
-        this.creditExpiration = null;
+        this.isServiceKey = null;
     }
 
     public CustomerKey(final String keyNumber,
@@ -39,9 +35,7 @@ public class CustomerKey {
                        final Instant activatedFrom,
                        final Instant activatedTo,
                        final String defaultCurrency,
-                       final Integer credit,
-                       final Integer creditLimitPerPurchase,
-                       final Instant creditExpiration) {
+                       final Boolean isServiceKey) {
         this.keyNumber = keyNumber;
         this.type = type;
         this.name = name;
@@ -49,9 +43,7 @@ public class CustomerKey {
         this.activatedFrom = activatedFrom;
         this.activatedTo = activatedTo;
         this.defaultCurrency = defaultCurrency;
-        this.credit = credit;
-        this.creditLimitPerPurchase = creditLimitPerPurchase;
-        this.creditExpiration = creditExpiration;
+        this.isServiceKey = isServiceKey;
     }
 
     public String getKeyNumber() {
@@ -82,15 +74,7 @@ public class CustomerKey {
         return defaultCurrency;
     }
 
-    public Integer getCredit() {
-        return credit;
-    }
-
-    public Integer getCreditLimitPerPurchase() {
-        return creditLimitPerPurchase;
-    }
-
-    public Instant getCreditExpiration() {
-        return creditExpiration;
+    public Boolean getServiceKey() {
+        return isServiceKey;
     }
 }

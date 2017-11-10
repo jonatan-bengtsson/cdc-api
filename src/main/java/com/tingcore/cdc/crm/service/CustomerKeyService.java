@@ -24,6 +24,6 @@ public class CustomerKeyService {
 
     public PageResponse<CustomerKeyResponse> findByUserId(final Long decodedId) {
         return customerKeyRepository.findByUserId(decodedId)
-                .map(customerKeyMapper::toResponse);
+                .map(attributeResponse -> customerKeyMapper.toResponse(attributeResponse, null));
     }
 }

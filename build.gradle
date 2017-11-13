@@ -4,7 +4,7 @@ buildscript {
         maven {
             url "https://plugins.gradle.org/m2/"
         }
-        maven { url "http://artifactory.tingcore-central.com/artifactory/libs-snapshot" }
+        maven { url "https://artifactory.tingcore-central.com/artifactory/libs-snapshot" }
     }
     dependencies {
         classpath('tmp.io.swagger:swagger-codegen:2.3.1-SNAPSHOT')

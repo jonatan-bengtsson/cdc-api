@@ -98,4 +98,7 @@ rebel_project.xml
 # # Work around https://youtrack.jetbrains.com/issue/IDEA-116898
 # gradle/wrapper/gradle-wrapper.properties
 
+### Generated client code ###
+typescript-client/
+
 # End of https://www.gitignore.io/api/gradle,intellij

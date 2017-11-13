@@ -35,7 +35,7 @@ public class CustomerKeyRepository {
         for (int i = 0; i < 1 + (int) (Math.random() * 10); i++) {
             responseList.add(mockAttributeResponse());
         }
-        return new PageResponse<>(responseList, null);
+        return new PageResponse<>(responseList);
     }
 
     private AttributeResponse mockAttributeResponse() {

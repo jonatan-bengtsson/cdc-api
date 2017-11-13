@@ -43,7 +43,7 @@ public class UserControllerTest extends ControllerUnitTest {
         final Long userId = CommonDataUtils.getNextId();
         final String hashedId = hashIdService.encode(userId);
         final List<CustomerKeyResponse> customerKeys = Arrays.asList(CustomerKeyDataUtils.customerKeyResponse(), CustomerKeyDataUtils.customerKeyResponse(), CustomerKeyDataUtils.customerKeyResponse());
-        PageResponse<CustomerKeyResponse> mockResponse = new PageResponse<>(customerKeys, null);
+        PageResponse<CustomerKeyResponse> mockResponse = new PageResponse<>(customerKeys);
         given(customerKeyService.findByUserId(userId)).willReturn(mockResponse);
         MvcResult result = mockMvc.perform(get("/v1/users/{userId}/keys", hashedId))
                 .andExpect(status().isOk())
@@ -56,7 +56,7 @@ public class UserControllerTest extends ControllerUnitTest {
     public void failFindByUserIdInvalidType() throws Exception {
         final Long userId = CommonDataUtils.getNextId();
         final List<CustomerKeyResponse> customerKeys = Arrays.asList(CustomerKeyDataUtils.customerKeyResponse(), CustomerKeyDataUtils.customerKeyResponse(), CustomerKeyDataUtils.customerKeyResponse());
-        PageResponse<CustomerKeyResponse> mockResponse = new PageResponse<>(customerKeys, null);
+        PageResponse<CustomerKeyResponse> mockResponse = new PageResponse<>(customerKeys);
         given(customerKeyService.findByUserId(userId)).willReturn(mockResponse);
         mockMvc.perform(get("/v1/users/{userId}/keys", userId))
                 .andExpect(status().isNotFound());

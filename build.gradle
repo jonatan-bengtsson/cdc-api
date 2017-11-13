@@ -7,7 +7,7 @@ buildscript {
         maven { url "http://artifactory.tingcore-central.com/artifactory/libs-snapshot" }
     }
     dependencies {
-        classpath('io.swagger:swagger-codegen:2.3.0-SNAPSHOT')
+        classpath('tmp.io.swagger:swagger-codegen:2.3.1-SNAPSHOT')
     }
 }
 

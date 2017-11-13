@@ -4,6 +4,7 @@ import com.tingcore.cdc.constant.SpringProfilesConstant;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -45,12 +46,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Bean
     @Override
-    public AuthenticationManager authenticationManager() throws Exception {
+    public AuthenticationManager authenticationManager() {
         return new ProviderManager(Collections.singletonList(authenticationProvider));
     }
 
     @Bean
-    public AuthenticationFilter authenticationFilter() throws Exception {
+    public AuthenticationFilter authenticationFilter() {
         final AuthenticationFilter authenticationFilter = new AuthenticationFilter(AnyRequestMatcher.INSTANCE);
         authenticationFilter.setAuthenticationManager(authenticationManager());
         authenticationFilter.setAuthenticationSuccessHandler(authenticationSuccessHandler);
@@ -59,6 +60,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         authenticationFilter.setApplicationEventPublisher(applicationContext);
         authenticationFilter.setAuthenticationDetailsSource(new AuthenticationMetadataSource());
         return authenticationFilter;
+    }
+
+    @Bean
+    public FilterRegistrationBean registerAuthenticationFilter() {
+        FilterRegistrationBean registrationBean = new FilterRegistrationBean();
+        registrationBean.setFilter(authenticationFilter());
+        registrationBean.setOrder(1);
+        registrationBean.setUrlPatterns(Collections.singletonList("/v1/*"));
+        return registrationBean;
     }
 
     @Override

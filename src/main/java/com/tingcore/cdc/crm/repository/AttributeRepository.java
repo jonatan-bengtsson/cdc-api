@@ -41,7 +41,7 @@ public class AttributeRepository {
     }
 
     @CacheEvict(CacheConfiguration.USER_SERVICE_ATTRIBUTES)
-    public List<AttributeResponse> resetCache() {
-        return findAll();
+    public void resetCache() {
+        findAll();
     }
 }

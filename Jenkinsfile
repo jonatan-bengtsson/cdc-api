@@ -1,6 +1,4 @@
 
-@Library('tingcore@feature/npm-builds') _
-
 apigwProxyPipeline {
     appName = 'cdc-api'
     availability = 'public'

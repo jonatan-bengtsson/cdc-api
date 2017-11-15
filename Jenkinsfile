@@ -10,5 +10,5 @@ apigwProxyPipeline {
     desiredCountProd = 2
     businessUnit = 'ChargeAndDrive'
     buildCommand = './gradlew clean build swaggerTs'
-    npmProjects = [['typescript-client','npm run postinstall']]
+    npmProjects = ['typescript-client']
 }

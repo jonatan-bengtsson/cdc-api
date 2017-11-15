@@ -3,7 +3,7 @@ package com.tingcore.cdc.charging.model;
 import com.tingcore.charging.assets.model.Location;
 
 public class MapPreviewChargeSite {
-    private long id;
+    private Long id;
     private String name;
     private Location location;
     private ChargeSiteStatus chargeSiteStatus;
@@ -11,18 +11,18 @@ public class MapPreviewChargeSite {
     MapPreviewChargeSite() {
     }
 
-    public MapPreviewChargeSite(long id, String name, Location location, ChargeSiteStatus chargeSiteStatus) {
+    public MapPreviewChargeSite(Long id, String name, Location location, ChargeSiteStatus chargeSiteStatus) {
         this.id = id;
         this.name = name;
         this.location = location;
         this.chargeSiteStatus = chargeSiteStatus;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

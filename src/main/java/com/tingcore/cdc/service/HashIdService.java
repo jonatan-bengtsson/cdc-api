@@ -52,6 +52,12 @@ public class HashIdService {
 
     public static boolean isIdKey(final String currentKey) {
         return StringUtils.equalsAny(currentKey, ID_UPPER_CASE, ID_LOWER_CASE) ||
-                StringUtils.endsWithAny(currentKey, ID_UPPER_CASE, ID_CAMEL_CASE, ID_LOWER_CASE, IDS_UPPER_CASE, IDS_CAMEL_CASE, IDS_LOWER_CASE);
+                StringUtils.endsWithAny(currentKey,
+                        ID_UPPER_CASE,
+                        ID_CAMEL_CASE,
+                        ID_LOWER_CASE,
+                        IDS_UPPER_CASE,
+                        IDS_CAMEL_CASE,
+                        IDS_LOWER_CASE);
     }
 }

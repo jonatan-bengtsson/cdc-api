@@ -1,16 +1,18 @@
 package com.tingcore.cdc.charging.controller;
 
+import com.tingcore.cdc.charging.model.ChargePointSite;
 import com.tingcore.cdc.charging.model.MapPreviewChargeSite;
 import com.tingcore.cdc.charging.service.ChargeSiteService;
+import com.tingcore.cdc.exception.EntityNotFoundException;
+import com.tingcore.cdc.service.HashIdService;
 import com.tingcore.commons.rest.PageResponse;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 
 @RestController
@@ -18,11 +20,13 @@ import java.util.concurrent.ExecutionException;
 // @RequestMapping(value = "/v1")
 public class ChargeSiteController {
 
+    private final HashIdService hashIdService;
     private ChargeSiteService chargeSiteService;
 
     @Autowired
-    public ChargeSiteController(ChargeSiteService chargeSiteService) {
+    public ChargeSiteController(ChargeSiteService chargeSiteService, HashIdService hashIdService) {
         this.chargeSiteService = chargeSiteService;
+        this.hashIdService = hashIdService;
     }
 
     @RequestMapping(
@@ -42,4 +46,26 @@ public class ChargeSiteController {
 
         return chargeSiteService.getChargeSiteByCoordinate(latitude1, longitude1, latitude2, longitude2);
     }
+
+    @RequestMapping(
+            value = "/chargesites/{id}",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE
+    )
+    @ApiOperation(value = "Get complete Charge Point Site",
+            notes = "Get complete Charge Point Site including Charge Points with Connectors"
+    )
+    public ChargePointSite getChargePointSite(@PathVariable("id") String id) throws ExecutionException, InterruptedException {
+        return chargeSiteService.getChargeSite(getId(id));
+    }
+
+    private long getId(String hashId) {
+        Optional<Long> decode = hashIdService.decode(hashId);
+        if(decode.isPresent()) {
+            return decode.get();
+        } else {
+            throw new EntityNotFoundException();
+        }
+    }
+
 }

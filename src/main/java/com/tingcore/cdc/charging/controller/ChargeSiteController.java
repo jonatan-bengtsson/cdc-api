@@ -1,7 +1,7 @@
 package com.tingcore.cdc.charging.controller;
 
 import com.tingcore.cdc.charging.model.ChargePointSite;
-import com.tingcore.cdc.charging.model.MapPreviewChargeSite;
+import com.tingcore.cdc.charging.model.BasicChargeSite;
 import com.tingcore.cdc.charging.service.ChargeSiteService;
 import com.tingcore.cdc.exception.EntityNotFoundException;
 import com.tingcore.cdc.service.HashIdService;
@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 
@@ -38,7 +37,7 @@ public class ChargeSiteController {
             notes = "Get preview versions of Charge Point Sites bounded by the box representing the two coordinates. The bounds are not inclusive"
     )
 
-    public PageResponse<MapPreviewChargeSite> chargeSitesByCoordinates(
+    public PageResponse<BasicChargeSite> chargeSitesByCoordinates(
             @RequestParam("latitude1") double latitude1,
             @RequestParam("longitude1") double longitude1,
             @RequestParam("latitude2") double latitude2,

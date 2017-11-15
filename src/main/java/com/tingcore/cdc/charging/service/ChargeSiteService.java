@@ -25,16 +25,16 @@ public class ChargeSiteService {
     }
 
     // TODO proper error handling overall
-    public PageResponse<MapPreviewChargeSite> getChargeSiteByCoordinate(double lat1, double lng1, double lat2, double lng2) throws ExecutionException, InterruptedException {
+    public PageResponse<BasicChargeSite> getChargeSiteByCoordinate(double lat1, double lng1, double lat2, double lng2) throws ExecutionException, InterruptedException {
 
 
         List<ChargeSiteWithAvailabilityRules> chargeSiteWithAvailabilityRules = chargeSitesApi.chargeSiteByLocationUsingGET(lat1, lng1, lat2, lng2).get();
 
-        List<MapPreviewChargeSite> previewChargeSites = chargeSiteWithAvailabilityRules.stream()
+        List<BasicChargeSite> previewChargeSites = chargeSiteWithAvailabilityRules.stream()
                 .map(cs -> {
 
                     CompleteChargePointSite ccps = cs.getChargePointSite();
-                    return new MapPreviewChargeSite(
+                    return new BasicChargeSite(
                             ccps.getId(),
                             ccps.getName(),
                             ccps.getLocation(),

@@ -2,16 +2,16 @@ package com.tingcore.cdc.charging.model;
 
 import com.tingcore.charging.assets.model.Location;
 
-public class MapPreviewChargeSite {
+public class BasicChargeSite {
     private Long id;
     private String name;
     private Location location;
     private ChargeSiteStatus chargeSiteStatus;
 
-    MapPreviewChargeSite() {
+    BasicChargeSite() {
     }
 
-    public MapPreviewChargeSite(Long id, String name, Location location, ChargeSiteStatus chargeSiteStatus) {
+    public BasicChargeSite(Long id, String name, Location location, ChargeSiteStatus chargeSiteStatus) {
         this.id = id;
         this.name = name;
         this.location = location;

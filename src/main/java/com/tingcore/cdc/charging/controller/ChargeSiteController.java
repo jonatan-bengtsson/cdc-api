@@ -11,8 +11,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.concurrent.ExecutionException;
+
 @RestController
-@RequestMapping(value = "/v1")
+// TODO Readd when spring security is configured correctly/removed
+// @RequestMapping(value = "/v1")
 public class ChargeSiteController {
 
     private ChargeSiteService chargeSiteService;
@@ -28,16 +31,15 @@ public class ChargeSiteController {
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
     @ApiOperation(value = "Get preview versions of Charge Point Sites",
-            notes = "Route allows fetching all customer keys that belong to a user."
+            notes = "Get preview versions of Charge Point Sites bounded by the box representing the two coordinates. The bounds are not inclusive"
     )
 
     public PageResponse<MapPreviewChargeSite> chargeSitesByCoordinates(
             @RequestParam("latitude1") double latitude1,
             @RequestParam("longitude1") double longitude1,
             @RequestParam("latitude2") double latitude2,
-            @RequestParam("longitude2") double longitude2) {
+            @RequestParam("longitude2") double longitude2) throws ExecutionException, InterruptedException {
 
         return chargeSiteService.getChargeSiteByCoordinate(latitude1, longitude1, latitude2, longitude2);
-
     }
 }

@@ -2,69 +2,52 @@ package com.tingcore.cdc.charging.service;
 
 import com.tingcore.cdc.charging.model.ChargeSiteStatus;
 import com.tingcore.cdc.charging.model.MapPreviewChargeSite;
-import com.tingcore.charging.assets.model.Address;
-import com.tingcore.charging.assets.model.GeoCoordinate;
-import com.tingcore.charging.assets.model.Location;
+import com.tingcore.charging.assets.api.ChargeSitesApi;
+import com.tingcore.charging.assets.model.*;
 import com.tingcore.commons.rest.PageResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
 
 @Service
 public class ChargeSiteService {
 
-    // TODO Remove temporary mock
-    private static Location create() {
-        GeoCoordinate geoCoordinate = new GeoCoordinate();
-        geoCoordinate.setLatitude(59.369956289349005);
-        geoCoordinate.setLongitude(18.001026213169098);
+    private final ChargeSitesApi chargeSitesApi;
 
-        return create(geoCoordinate);
+    @Autowired
+    public ChargeSiteService(ChargeSitesApi chargeSitesApi) {
+        this.chargeSitesApi = chargeSitesApi;
     }
 
-    // TODO Remove temporary mock
-    private static Location create(GeoCoordinate coordinate) {
-        Address address = new Address();
+    // TODO proper error handling overall
+    public PageResponse<MapPreviewChargeSite> getChargeSiteByCoordinate(double lat1, double lng1, double lat2, double lng2) throws ExecutionException, InterruptedException {
 
-        address.setCity("Stockholm");
-        address.setCity("Sweden");
-        address.setPostalCode("SE-18754");
-        address.setState("Stockholms län");
-        address.setStreet("Solnastigen");
-        address.setNumber("17C");
-        address.setFloor("våning 2");
 
-        Location l = new Location();
-        l.setAddress(address);
-        l.setGeoCoordinate(coordinate);
+        List<ChargeSiteWithAvailabilityRules> chargeSiteWithAvailabilityRules = chargeSitesApi.chargeSiteByLocationUsingGET(lat1, lng1, lat2, lng2).get();
 
-        return l;
+        List<MapPreviewChargeSite> previewChargeSites = chargeSiteWithAvailabilityRules.stream()
+                .map(cs -> {
 
+                    CompleteChargePointSite ccps = cs.getChargePointSite();
+                    return new MapPreviewChargeSite(
+                            ccps.getId(),
+                            ccps.getName(),
+                            ccps.getLocation(),
+                            getStatus(ccps)
+                    );
+                }).collect(Collectors.toList());
+
+        return new PageResponse<>(previewChargeSites);
     }
 
-    public PageResponse<MapPreviewChargeSite> getChargeSiteByCoordinate(double lat1, double lng1, double lat2, double lng2) {
+    private ChargeSiteStatus getStatus(CompleteChargePointSite ccps) {
+        // TODO Proper implementation of this logic
         ChargeSiteStatus[] statuses = ChargeSiteStatus.values();
-
-        GeoCoordinate geoCoordinate = new GeoCoordinate();
-        geoCoordinate.setLatitude(59.369956289349005);
-        geoCoordinate.setLongitude(18.001026213169098);
-
-        GeoCoordinate geoCoordinate1 = new GeoCoordinate();
-        geoCoordinate.setLatitude(60.369956289349005);
-        geoCoordinate.setLongitude(18.001026213169098);
-
-        GeoCoordinate geoCoordinate2 = new GeoCoordinate();
-        geoCoordinate.setLatitude(59.369956289349005);
-        geoCoordinate.setLongitude(19.001026213169098);
-
-
-        // TODO Remove temporary mock
-        return new PageResponse<>(Arrays.asList(
-                new MapPreviewChargeSite(1, "Site 1", create(geoCoordinate), statuses[ThreadLocalRandom.current().nextInt(0, statuses.length)]),
-                new MapPreviewChargeSite(2, "Site 2", create(geoCoordinate1), statuses[ThreadLocalRandom.current().nextInt(0, statuses.length)]),
-                new MapPreviewChargeSite(3, "Site 3", create(geoCoordinate2), statuses[ThreadLocalRandom.current().nextInt(0, statuses.length)])
-        ));
+        return statuses[ThreadLocalRandom.current().nextInt(0, statuses.length)];
     }
 
 }

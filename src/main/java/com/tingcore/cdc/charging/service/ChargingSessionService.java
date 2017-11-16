@@ -8,8 +8,6 @@ import org.springframework.stereotype.Service;
 
 import static org.apache.commons.lang3.Validate.notNull;
 
-import java.util.Optional;
-
 @Service
 public class ChargingSessionService {
     private final TokenRepository tokenRepository;
@@ -31,17 +29,17 @@ public class ChargingSessionService {
         return session;
     }
 
-    public Optional<ChargingSessionEvent> stopSession(final UserReference userReference,
-                                                      final ChargingSessionId sessionId,
-                                                      final ChargePointId chargePointId) {
+    public ChargingSessionEvent stopSession(final UserReference userReference,
+                                            final ChargingSessionId sessionId,
+                                            final ChargePointId chargePointId) {
 
-      return chargingSessionRepository
-          .fetchSession(sessionId)
-          .map(chargingSession -> tokenRepository.createToken(userReference, chargingSession.customerKeyId, chargePointId))
-          .map(authorizationToken -> chargingSessionRepository.stopSession(sessionId, authorizationToken));
+      final ChargingSession chargingSession = chargingSessionRepository.fetchSession(sessionId);
+      final AuthorizationToken authorizationToken = tokenRepository.createToken(userReference, chargingSession.customerKeyId, chargePointId);
+
+      return chargingSessionRepository.stopSession(sessionId, authorizationToken);
     }
 
-    public Optional<ChargingSession> fetchSession(final ChargingSessionId sessionId) {
+    public ChargingSession fetchSession(final ChargingSessionId sessionId) {
       return chargingSessionRepository.fetchSession(notNull(sessionId));
     }
 }

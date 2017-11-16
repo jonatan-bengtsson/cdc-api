@@ -10,6 +10,7 @@ import com.tingcore.cdc.charging.model.ConnectorId;
 import com.tingcore.cdc.charging.model.CustomerKeyId;
 import com.tingcore.cdc.charging.service.ChargingSessionService;
 import com.tingcore.cdc.exception.EntityNotFoundException;
+import com.tingcore.cdc.exception.NoSessionFoundException;
 import com.tingcore.cdc.service.HashIdService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -67,17 +68,22 @@ public class ChargingSessionController {
     @ApiOperation(value = "Get a charge session.")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Get a charging session", response = ChargingSession.class),
-	@ApiResponse(code = 404, message = "Charging session not found", response = ChargingSession.class)
+	@ApiResponse(code = 404, message = "Charging session not found", response = Error.class)
     })
-    public ResponseEntity<ChargingSession> getChargeStatus(@PathVariable Long chargingSessionId) {
-      Optional<ChargingSession> chargingSession =
-          chargingSessionService
-	      .fetchSession(new ChargingSessionId(chargingSessionId))
-              .map(session -> toApiObject(session));
+    public ResponseEntity<ChargingSession> getChargeSession(@PathVariable("chargingSessionId") String chargingSessionId) {
 
-      return chargingSession
-              .map(ResponseEntity::ok)
-              .orElseGet(() -> ResponseEntity.notFound().build());
+      try {
+        Long sessionId =
+            hashIdService.decode(chargingSessionId).get();
+
+        ChargingSession chargingSession =
+            toApiObject(chargingSessionService.fetchSession(new ChargingSessionId(sessionId)));
+
+        return ResponseEntity.ok(chargingSession);
+
+      } catch (NoSessionFoundException e) {
+          return ResponseEntity.notFound().build();
+      }
     }
 
     private CustomerKeyId customerKeyIdFromRequest(final CreateChargingSessionRequest request) {

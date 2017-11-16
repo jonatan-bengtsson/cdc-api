@@ -5,6 +5,7 @@ import com.tingcore.cdc.charging.api.ChargingSessionStatus;
 import com.tingcore.cdc.charging.api.CreateChargingSessionRequest;
 import com.tingcore.cdc.charging.api.CustomerKey;
 import com.tingcore.cdc.charging.model.ChargePointId;
+import com.tingcore.cdc.charging.model.ChargingSessionId;
 import com.tingcore.cdc.charging.model.ConnectorId;
 import com.tingcore.cdc.charging.model.CustomerKeyId;
 import com.tingcore.cdc.charging.service.ChargingSessionService;
@@ -15,6 +16,8 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,7 +44,7 @@ public class ChargingSessionController {
         this.chargingSessionService = notNull(chargingSessionService);
     }
 
-    @PostMapping
+    @PostMapping(value = "/start")
     @ApiOperation(code = 201, value = "Create a charging session", response = ChargingSession.class)
     @ApiResponses(value = {
             @ApiResponse(code = 404, message = "Charge site not found.", response = Error.class)
@@ -54,6 +57,17 @@ public class ChargingSessionController {
                 chargePointIdFromRequest(request),
                 connectorIdFromRequest(request)
         )));
+    }
+
+    @GetMapping(value = "/status/{chargingSessionId}")
+    @ApiOperation(value = "Get the status of a charge session.")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Get the status of a charging session", response = ChargingSessionStatus.class),
+    })
+    public ResponseEntity<ChargingSessionStatus> getChargeStatus(@PathVariable Long chargingSessionId) {
+      ChargingSessionStatus chargingSessionStatus =
+          toApiObject(chargingSessionService.fetchSession(new ChargingSessionId(chargingSessionId))).status;
+      return ResponseEntity.ok(chargingSessionStatus);
     }
 
     private CustomerKeyId customerKeyIdFromRequest(final CreateChargingSessionRequest request) {

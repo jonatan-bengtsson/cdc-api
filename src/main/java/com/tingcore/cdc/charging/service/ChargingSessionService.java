@@ -37,4 +37,8 @@ public class ChargingSessionService {
 
         return chargingSessionRepository.stopSession(sessionId, authorizationToken);
     }
+
+    public ChargingSession fetchSession(final ChargingSessionId sessionId) {
+      return chargingSessionRepository.fetchSession(notNull(sessionId));
+    }
 }

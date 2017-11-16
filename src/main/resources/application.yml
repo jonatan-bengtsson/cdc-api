@@ -27,7 +27,7 @@ info:
 
 app:
   user-service:
-    base-url: http://localhost:8085
+    base-url: https://${integration.user.hostname}
 security:
   header: X-Authorization-Id
 
@@ -35,6 +35,6 @@ integration:
   payments:
     hostname: payments-service.tingcore-prod.com
   user:
-    hostname: user-service.tingcore-infra.com
+    hostname: user-service-test.tingcore-infra.com
   asset:
     hostname: asset-service.tingcore-infra.com

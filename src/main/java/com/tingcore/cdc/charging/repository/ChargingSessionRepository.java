@@ -24,15 +24,15 @@ public class ChargingSessionRepository {
     }
 
     public ChargingSession fetchSession(final ChargingSessionId id) {
-        try {
-            Response<ApiCharge> response = chargesApi.getCharge(id.value).execute();
-            if (response.code() == 404) {
-                throw new NoSessionFoundException("Session not found");
-            }
-            return apiSessionToModel(response.body());
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
+      try {
+        Response<ApiCharge> response = chargesApi.getCharge(id.value).execute();
+        if(response.code() == 404) {
+          throw new NoSessionFoundException("Session not found");
         }
+        return apiSessionToModel(response.body());
+      } catch (IOException e) {
+        throw new UncheckedIOException(e);
+      }
     }
 
     public ChargingSession createSession(final CustomerKeyId targetUser) {
@@ -83,28 +83,27 @@ public class ChargingSessionRepository {
         }
     }
 
-    private ChargingSession apiSessionToModel(final ApiCharge apiCharge) {
+    static ChargingSession apiSessionToModel(final ApiCharge apiCharge) {
         return new ChargingSession(
-                new ChargingSessionId(apiCharge.getId()),
-                new CustomerKeyId(apiCharge.getUser()),
-                nullableInstant(apiCharge.getStartTime()),
-                nullableInstant(apiCharge.getStopTime()),
-                ChargingSessionStatus.valueOf(apiCharge.getState())
+                      new ChargingSessionId(apiCharge.getId()),
+                      new CustomerKeyId(apiCharge.getUser()),
+                      apiTimeToNullableInstant(apiCharge.getStartTime()),
+                      apiTimeToNullableInstant(apiCharge.getStopTime()),
+                      ChargingSessionStatus.valueOf(apiCharge.getState())
         );
     }
 
     private ChargingSessionEvent apiEventToModel(final ChargingSessionId sessionId,
                                                  final ApiChargeEvent apiEvent) {
         return new ChargingSessionEvent(
-                sessionId,
-                new ChargingSessionEventId(apiEvent.getId()),
-                Instant.ofEpochMilli(apiEvent.getTime()),
-                ChargingSessionEventNature.valueOf(apiEvent.getNature().name())
+                                   sessionId,
+                                   new ChargingSessionEventId(apiEvent.getId()),
+                                   apiTimeToNullableInstant(apiEvent.getTime()),
+                                   ChargingSessionEventNature.valueOf(apiEvent.getNature().name())
         );
     }
 
-    private Instant nullableInstant(final Long epoch) {
-        return ofNullable(epoch).map(ms -> Instant.ofEpochMilli(ms)).orElse(null);
+    private static Instant apiTimeToNullableInstant(final Long time) {
+        return ofNullable(time).map(Instant::ofEpochMilli).orElse(null);
     }
-
 }

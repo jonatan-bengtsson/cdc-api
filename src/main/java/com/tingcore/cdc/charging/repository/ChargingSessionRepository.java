@@ -10,6 +10,7 @@ import retrofit2.Response;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.time.Instant;
+import java.util.Optional;
 
 import static org.apache.commons.lang3.Validate.notNull;
 
@@ -21,9 +22,13 @@ public class ChargingSessionRepository {
         this.chargesApi = notNull(chargesApi);
     }
 
-    public ChargingSession fetchSession(final ChargingSessionId id) {
+    public Optional<ChargingSession> fetchSession(final ChargingSessionId id) {
         try {
-            return apiSessionToModel(chargesApi.getCharge(id.value).execute().body());
+          return Optional
+              .ofNullable(chargesApi.getCharge(id.value).execute())
+              .filter(response -> response.code() != 404)
+              .map(response -> response.body())
+              .map(body -> apiSessionToModel(body));
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }

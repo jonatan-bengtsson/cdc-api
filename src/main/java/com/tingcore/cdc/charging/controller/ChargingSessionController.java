@@ -30,6 +30,8 @@ import static com.tingcore.cdc.charging.controller.ChargingSessionController.VER
 import static com.tingcore.cdc.security.SecurityUtil.currentMetadata;
 import static org.apache.commons.lang3.Validate.notNull;
 
+import java.util.Optional;
+
 @Api
 @RestController
 @RequestMapping("/" + VERSION + "/" + SESSIONS)
@@ -65,11 +67,17 @@ public class ChargingSessionController {
     @ApiOperation(value = "Get a charge session.")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Get a charging session", response = ChargingSession.class),
+	@ApiResponse(code = 404, message = "Charging session not found", response = ChargingSession.class)
     })
     public ResponseEntity<ChargingSession> getChargeStatus(@PathVariable Long chargingSessionId) {
-      ChargingSession chargingSession =
-          toApiObject(chargingSessionService.fetchSession(new ChargingSessionId(chargingSessionId)));
-      return ResponseEntity.ok(chargingSession);
+      Optional<ChargingSession> chargingSession =
+          chargingSessionService
+	      .fetchSession(new ChargingSessionId(chargingSessionId))
+              .map(session -> toApiObject(session));
+
+      return chargingSession
+              .map(ResponseEntity::ok)
+              .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     private CustomerKeyId customerKeyIdFromRequest(final CreateChargingSessionRequest request) {

@@ -55,12 +55,14 @@ public class ChargingSessionEventController {
 
     private ResponseEntity<ChargingSessionEvent> handleStopEvent(final String sessionId,
                                                                  final String chargePointId) {
-        // TODO return created response
-        return ResponseEntity.ok(toApiObject(chargingSessionService.stopSession(
-                currentMetadata().userReference,
-                sessionIdFromRequest(sessionId),
-                chargePointIdFromRequest(chargePointId)
-        )));
+      // TODO return created response
+      return chargingSessionService.stopSession(
+            currentMetadata().userReference,
+            sessionIdFromRequest(sessionId),
+            chargePointIdFromRequest(chargePointId))
+        .map(event -> toApiObject(event))
+        .map(ResponseEntity::ok)
+        .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     private ChargingSessionEvent toApiObject(final com.tingcore.cdc.charging.model.ChargingSessionEvent chargingSessionEvent) {

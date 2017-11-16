@@ -12,6 +12,9 @@ logging:
         users: TRACE
     root: TRACE
 
+app:
+  allowed-origins: http://localhost:3000
+
 security:
   basic:
     enabled: false

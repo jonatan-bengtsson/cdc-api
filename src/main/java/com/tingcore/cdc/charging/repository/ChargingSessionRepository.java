@@ -2,6 +2,7 @@ package com.tingcore.cdc.charging.repository;
 
 import com.google.common.collect.ImmutableMap;
 import com.tingcore.cdc.charging.model.*;
+import com.tingcore.cdc.exception.NoSessionFoundException;
 import com.tingcore.payments.emp.api.ChargesApi;
 import com.tingcore.payments.emp.model.*;
 import org.springframework.stereotype.Repository;
@@ -10,8 +11,6 @@ import retrofit2.Response;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.time.Instant;
-import java.util.Optional;
-
 import static org.apache.commons.lang3.Validate.notNull;
 
 @Repository
@@ -22,16 +21,16 @@ public class ChargingSessionRepository {
         this.chargesApi = notNull(chargesApi);
     }
 
-    public Optional<ChargingSession> fetchSession(final ChargingSessionId id) {
-        try {
-          return Optional
-              .ofNullable(chargesApi.getCharge(id.value).execute())
-              .filter(response -> response.code() != 404)
-              .map(response -> response.body())
-              .map(body -> apiSessionToModel(body));
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
+    public ChargingSession fetchSession(final ChargingSessionId id) {
+      try {
+        Response<ApiCharge> response = chargesApi.getCharge(id.value).execute();
+        if(response.code() == 404) {
+          throw new NoSessionFoundException("Session not found");
         }
+        return apiSessionToModel(response.body());
+      } catch (IOException e) {
+        throw new UncheckedIOException(e);
+      }
     }
 
     public ChargingSession createSession(final CustomerKeyId targetUser) {

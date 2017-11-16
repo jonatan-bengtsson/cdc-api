@@ -6,5 +6,5 @@ public enum ChargeSiteStatus {
     OCCUPIED,
     OCCUPIED_QUICKCHARGE,
     OUT_OF_ORDER,
-    UNKOWN
+    UNKNOWN
 }

@@ -62,7 +62,8 @@ public class ChargeSiteService {
                 ccps.getLocation(),
                 "No description available", // TODO This should be part of CompleteChargeSite
                 getStatus(ccps),
-                getChargePoints(ccps)
+                getChargePoints(ccps),
+                null
         );
     }
 

@@ -2,7 +2,7 @@ package com.tingcore.cdc.charging.service;
 
 import com.tingcore.cdc.charging.model.*;
 import com.tingcore.charging.assets.api.ChargeSitesApi;
-import com.tingcore.charging.assets.model.ChargeSiteWithAvailabilityRules;
+import com.tingcore.charging.assets.model.ChargePointSiteWithAvailabilityRules;
 import com.tingcore.charging.assets.model.CompleteChargePoint;
 import com.tingcore.charging.assets.model.CompleteChargePointSite;
 import com.tingcore.commons.rest.PageResponse;
@@ -28,7 +28,7 @@ public class ChargeSiteService {
     public PageResponse<BasicChargeSite> getChargeSiteByCoordinate(double lat1, double lng1, double lat2, double lng2) throws ExecutionException, InterruptedException {
 
 
-        List<ChargeSiteWithAvailabilityRules> chargeSiteWithAvailabilityRules = chargeSitesApi.chargeSiteByLocationUsingGET(lat1, lng1, lat2, lng2).get();
+        List<ChargePointSiteWithAvailabilityRules> chargeSiteWithAvailabilityRules = chargeSitesApi.chargeSiteByLocationUsingGET(lat1, lng1, lat2, lng2).get();
 
         List<BasicChargeSite> previewChargeSites = chargeSiteWithAvailabilityRules.stream()
                 .map(cs -> {

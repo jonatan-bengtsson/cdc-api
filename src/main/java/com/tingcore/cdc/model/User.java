@@ -15,7 +15,7 @@ public class User extends org.springframework.security.core.userdetails.User {
                 final boolean credentialsNonExpired,
                 final boolean accountNonLocked,
                 final Collection<? extends GrantedAuthority> authorities) {
-        super(notNull(userId).value, "", enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, notNull(authorities));
+        super(notNull(userId).value.toString(), "", enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, notNull(authorities));
         this.userId = userId;
     }
 

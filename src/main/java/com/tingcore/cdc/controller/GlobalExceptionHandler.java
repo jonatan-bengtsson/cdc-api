@@ -8,6 +8,8 @@ import com.tingcore.cdc.service.MessageByLocaleService;
 import com.tingcore.cdc.service.ServiceException;
 import com.tingcore.commons.rest.ErrorResponse;
 import com.tingcore.commons.utils.StreamUtils;
+import java.util.List;
+import javax.validation.ConstraintViolationException;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,9 +24,6 @@ import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
-
-import javax.validation.ConstraintViolationException;
-import java.util.List;
 
 
 /**

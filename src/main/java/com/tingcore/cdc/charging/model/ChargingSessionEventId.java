@@ -1,13 +1,13 @@
-package com.tingcore.cdc.model;
+package com.tingcore.cdc.charging.model;
 
 import java.util.Objects;
 
 import static org.apache.commons.lang3.Validate.notNull;
 
-public class UserId {
+public class ChargingSessionEventId {
     public final Long value;
 
-    public UserId(final Long value) {
+    public ChargingSessionEventId(final Long value) {
         this.value = notNull(value);
     }
 
@@ -19,8 +19,8 @@ public class UserId {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        final UserId userId = (UserId) o;
-        return Objects.equals(value, userId.value);
+        final ChargingSessionEventId that = (ChargingSessionEventId) o;
+        return Objects.equals(value, that.value);
     }
 
     @Override

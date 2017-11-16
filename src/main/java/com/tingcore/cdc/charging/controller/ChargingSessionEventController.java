@@ -1,0 +1,84 @@
+package com.tingcore.cdc.charging.controller;
+
+import com.tingcore.cdc.charging.api.AddChargingSessionEventRequest;
+import com.tingcore.cdc.charging.api.ChargingSessionEvent;
+import com.tingcore.cdc.charging.api.ChargingSessionEventNature;
+import com.tingcore.cdc.charging.model.ChargePointId;
+import com.tingcore.cdc.charging.model.ChargingSessionId;
+import com.tingcore.cdc.charging.service.ChargingSessionService;
+import com.tingcore.cdc.exception.EntityNotFoundException;
+import com.tingcore.cdc.service.HashIdService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import static com.tingcore.cdc.charging.controller.ChargingSessionEventController.SESSIONS;
+import static com.tingcore.cdc.charging.controller.ChargingSessionEventController.VERSION;
+import static com.tingcore.cdc.security.SecurityUtil.currentMetadata;
+import static org.apache.commons.lang3.Validate.notNull;
+
+@Api
+@RestController
+@RequestMapping("/" + VERSION + "/" + SESSIONS)
+public class ChargingSessionEventController {
+    static final String VERSION = "v1";
+    static final String SESSIONS = ChargingSessionController.SESSIONS;
+    static final String EVENTS = "events";
+
+    private final HashIdService hashIdService;
+    private final ChargingSessionService chargingSessionService;
+
+    public ChargingSessionEventController(final HashIdService hashIdService,
+                                          final ChargingSessionService chargingSessionService) {
+        this.hashIdService = notNull(hashIdService);
+        this.chargingSessionService = notNull(chargingSessionService);
+    }
+
+    @PostMapping("/{sessionId}/" + EVENTS)
+    @ApiOperation(code = 201, value = "Create a session event.", response = ChargingSessionEvent.class, tags = {SESSIONS})
+    @ApiResponses(value = {
+            @ApiResponse(code = 404, message = "The session with the supplied id could not be found.", response = Error.class)
+    })
+    public ResponseEntity<ChargingSessionEvent> addEvent(final @PathVariable("sessionId") String sessionId,
+                                                         final @RequestBody AddChargingSessionEventRequest request) {
+        switch (request.nature) {
+            case REQUEST_STOP:
+                return handleStopEvent(sessionId, String.class.cast(request.data.get("chargePointId")));
+        }
+        throw new IllegalArgumentException("Only stop events are supported for now.");
+    }
+
+    private ResponseEntity<ChargingSessionEvent> handleStopEvent(final String sessionId,
+                                                                 final String chargePointId) {
+        // TODO return created response
+        return ResponseEntity.ok(toApiObject(chargingSessionService.stopSession(
+                currentMetadata().userReference,
+                sessionIdFromRequest(sessionId),
+                chargePointIdFromRequest(chargePointId)
+        )));
+    }
+
+    private ChargingSessionEvent toApiObject(final com.tingcore.cdc.charging.model.ChargingSessionEvent chargingSessionEvent) {
+        return new ChargingSessionEvent(
+                hashIdService.encode(chargingSessionEvent.sessionId.value),
+                hashIdService.encode(chargingSessionEvent.eventId.value),
+                chargingSessionEvent.time,
+                ChargingSessionEventNature.valueOf(chargingSessionEvent.nature.name())
+        );
+    }
+
+    private ChargingSessionId sessionIdFromRequest(final String sessionId) {
+        return hashIdService.decode(sessionId)
+                .map(ChargingSessionId::new)
+                .orElseThrow(() -> new EntityNotFoundException("Could not find the specified session."));
+    }
+
+    private ChargePointId chargePointIdFromRequest(final String chargePointId) {
+        return hashIdService.decode(chargePointId)
+                .map(ChargePointId::new)
+                .orElseThrow(() -> new EntityNotFoundException("Could not find the specified charge point."));
+    }
+}

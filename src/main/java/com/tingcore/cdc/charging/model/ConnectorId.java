@@ -1,26 +1,26 @@
-package com.tingcore.cdc.model;
+package com.tingcore.cdc.charging.model;
 
 import java.util.Objects;
 
 import static org.apache.commons.lang3.Validate.notNull;
 
-public class UserId {
+public class ConnectorId {
     public final Long value;
 
-    public UserId(final Long value) {
+    public ConnectorId(final Long value) {
         this.value = notNull(value);
     }
 
     @Override
-    public boolean equals(final Object o) {
+    public boolean equals(Object o) {
         if (this == o) {
             return true;
         }
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        final UserId userId = (UserId) o;
-        return Objects.equals(value, userId.value);
+        ConnectorId that = (ConnectorId) o;
+        return Objects.equals(value, that.value);
     }
 
     @Override

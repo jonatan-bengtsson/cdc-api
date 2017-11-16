@@ -32,7 +32,9 @@ security:
   header: X-Authorization-Id
 
 integration:
+  payments:
+    hostname: payments-service.tingcore-prod.com
   user:
-    hostname: user-service-test.tingcore-infra.com
+    hostname: user-service.tingcore-infra.com
   asset:
-    hostname: asset-service-test.tingcore-infra.com
+    hostname: asset-service.tingcore-infra.com

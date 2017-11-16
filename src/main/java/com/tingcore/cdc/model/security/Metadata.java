@@ -1,5 +1,7 @@
 package com.tingcore.cdc.model.security;
 
+import com.tingcore.cdc.model.UserReference;
+
 import java.util.Optional;
 
 import static java.util.Optional.ofNullable;
@@ -8,33 +10,29 @@ import static org.apache.commons.lang3.Validate.notNull;
 
 public class Metadata {
 
-    public final String clientAddress;
-    public final Optional<String> proxyUsername;
-    public final Optional<String> proxyHostname;
-    public final Optional<String> originalRequestedHostname;
-    public final Optional<String> originalClientAddress;
-    public final Optional<String> authorizationEmail;
+    public final String clientAddress; //TODO: Specific type for this
+    public final UserReference userReference;
+    public final Optional<String> originalRequestedHostname; //TODO: Specific type for this
+    public final Optional<String> originalClientAddress; //TODO: Specific type for this
+    public final Optional<String> email; //TODO: Specific type for this
 
     public Metadata(final String clientAddress,
-                    final String proxyUsername,
-                    final String proxyHostname,
+                    final UserReference userReference,
                     final String originalRequestedHostname,
                     final String originalClientAddress,
-                    final String authorizationEmail) {
-        this(clientAddress, ofNullable(proxyUsername), ofNullable(proxyHostname), ofNullable(originalRequestedHostname), ofNullable(originalClientAddress), ofNullable(authorizationEmail));
+                    final String email) {
+        this(clientAddress, userReference, ofNullable(originalRequestedHostname), ofNullable(originalClientAddress), ofNullable(email));
     }
 
-    public Metadata(final String clientAddress,
-                    final Optional<String> proxyUsername,
-                    final Optional<String> proxyHostname,
-                    final Optional<String> originalRequestedHostname,
-                    final Optional<String> originalClientAddress,
-                    final Optional<String> authorizationEmail) {
+    private Metadata(final String clientAddress,
+                     final UserReference userReference,
+                     final Optional<String> originalRequestedHostname,
+                     final Optional<String> originalClientAddress,
+                     final Optional<String> email) {
         this.clientAddress = notBlank(clientAddress);
-        this.proxyUsername = notNull(proxyUsername);
-        this.proxyHostname = notNull(proxyHostname);
+        this.userReference = notNull(userReference);
         this.originalRequestedHostname = notNull(originalRequestedHostname);
         this.originalClientAddress = notNull(originalClientAddress);
-        this.authorizationEmail = notNull(authorizationEmail);
+        this.email = notNull(email);
     }
 }

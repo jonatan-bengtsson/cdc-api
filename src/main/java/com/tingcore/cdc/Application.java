@@ -1,5 +1,7 @@
 package com.tingcore.cdc;
 
+import java.util.TimeZone;
+import javax.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +15,6 @@ import org.springframework.boot.autoconfigure.data.jpa.JpaRepositoriesAutoConfig
 import org.springframework.context.annotation.AnnotationBeanNameGenerator;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.Environment;
-
-import javax.annotation.PostConstruct;
-import java.util.TimeZone;
 
 @SpringBootApplication
 @ComponentScan(nameGenerator = Application.CustomBeanNameGenerator.class)

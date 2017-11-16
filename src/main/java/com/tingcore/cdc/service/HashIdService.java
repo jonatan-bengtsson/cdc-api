@@ -1,11 +1,10 @@
 package com.tingcore.cdc.service;
 
+import java.util.Optional;
 import org.apache.commons.lang3.StringUtils;
 import org.hashids.Hashids;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 /**
  * @author palmithor

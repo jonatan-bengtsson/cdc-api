@@ -9,6 +9,21 @@ import org.springframework.stereotype.Component;
 public class IntegrationConfiguration {
 
   @Component
+  @ConfigurationProperties(prefix = "integration.payments", ignoreUnknownFields = false)
+  public static class PaymentsServiceInformation {
+    @NotBlank
+    private String hostname;
+
+    public String getHostname() {
+      return hostname;
+    }
+
+    public void setHostname(final String hostname) {
+      this.hostname = hostname;
+    }
+  }
+
+  @Component
   @ConfigurationProperties(prefix = "integration.user", ignoreUnknownFields = false)
   public static class UserServiceInformation {
     @NotBlank

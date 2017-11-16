@@ -77,7 +77,7 @@ public class ChargingSessionRepository {
         }
     }
 
-    private ChargingSession apiSessionToModel(final ApiCharge apiCharge) {
+    static ChargingSession apiSessionToModel(final ApiCharge apiCharge) {
         return new ChargingSession(
                 new ChargingSessionId(apiCharge.getId()),
                 new CustomerKeyId(apiCharge.getUser()),

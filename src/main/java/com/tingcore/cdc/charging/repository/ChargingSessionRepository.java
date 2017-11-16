@@ -11,6 +11,8 @@ import retrofit2.Response;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.time.Instant;
+
+import static java.util.Optional.ofNullable;
 import static org.apache.commons.lang3.Validate.notNull;
 
 @Repository
@@ -22,15 +24,15 @@ public class ChargingSessionRepository {
     }
 
     public ChargingSession fetchSession(final ChargingSessionId id) {
-      try {
-        Response<ApiCharge> response = chargesApi.getCharge(id.value).execute();
-        if(response.code() == 404) {
-          throw new NoSessionFoundException("Session not found");
+        try {
+            Response<ApiCharge> response = chargesApi.getCharge(id.value).execute();
+            if (response.code() == 404) {
+                throw new NoSessionFoundException("Session not found");
+            }
+            return apiSessionToModel(response.body());
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
         }
-        return apiSessionToModel(response.body());
-      } catch (IOException e) {
-        throw new UncheckedIOException(e);
-      }
     }
 
     public ChargingSession createSession(final CustomerKeyId targetUser) {
@@ -81,12 +83,12 @@ public class ChargingSessionRepository {
         }
     }
 
-    static ChargingSession apiSessionToModel(final ApiCharge apiCharge) {
+    private ChargingSession apiSessionToModel(final ApiCharge apiCharge) {
         return new ChargingSession(
                 new ChargingSessionId(apiCharge.getId()),
                 new CustomerKeyId(apiCharge.getUser()),
-                Instant.ofEpochMilli(apiCharge.getStartTime()),
-                Instant.ofEpochMilli(apiCharge.getStopTime()),
+                nullableInstant(apiCharge.getStartTime()),
+                nullableInstant(apiCharge.getStopTime()),
                 ChargingSessionStatus.valueOf(apiCharge.getState())
         );
     }
@@ -99,6 +101,10 @@ public class ChargingSessionRepository {
                 Instant.ofEpochMilli(apiEvent.getTime()),
                 ChargingSessionEventNature.valueOf(apiEvent.getNature().name())
         );
+    }
+
+    private Instant nullableInstant(final Long epoch) {
+        return ofNullable(epoch).map(ms -> Instant.ofEpochMilli(ms)).orElse(null);
     }
 
 }

@@ -17,6 +17,7 @@ import java.util.concurrent.ExecutionException;
 @RestController
 // TODO Readd when spring security is configured correctly/removed
 // @RequestMapping(value = "/v1")
+@RequestMapping(value = "/chargesites")
 public class ChargeSiteController {
 
     private final HashIdService hashIdService;
@@ -29,7 +30,7 @@ public class ChargeSiteController {
     }
 
     @RequestMapping(
-            value = "/chargesites;context=map",
+            value = ";context=map",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
@@ -47,7 +48,7 @@ public class ChargeSiteController {
     }
 
     @RequestMapping(
-            value = "/chargesites/{id}",
+            value = "/{id}",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )

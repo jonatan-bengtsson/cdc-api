@@ -37,7 +37,7 @@ public class ChargeSiteService {
                     return new BasicChargeSite(
                             ccps.getId(),
                             ccps.getName(),
-                            ccps.getLocation(),
+                            ccps.getLocation().getGeoCoordinate(),
                             getStatus(ccps)
                     );
                 }).collect(Collectors.toList());
@@ -60,7 +60,7 @@ public class ChargeSiteService {
                 ccps.getId(),
                 ccps.getName(),
                 ccps.getLocation(),
-                "No description available",
+                "No description available", // TODO This should be part of CompleteChargeSite
                 getStatus(ccps),
                 getChargePoints(ccps)
         );
@@ -80,10 +80,11 @@ public class ChargeSiteService {
                 .map(c -> new Connector(
                         c.getId(),
                         getLabel(c.getConnectorNumber()),
+                        c.getConnectorNumber(),
                         c.getConnectorType(),
                         isQuickCharge(c),
                         getConnectorStatus(c),
-                        "No price available"))
+                        "No price available")) // TODO Integrate with payments
                 .collect(Collectors.toList());
     }
 
@@ -97,18 +98,15 @@ public class ChargeSiteService {
     }
 
     private String getLabel(int connectorNumber) {
-        switch (connectorNumber) {
-            case 1:
-                return "A";
-            case 2:
-                return "B";
-            case 3:
-                return "C";
-            case 4:
-                return "D";
-            default:
-                return "MISSING LABEL";
+        String[] connectorLabels = new String[] {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "P", "Q", "R", "S", "T"};
+
+        // ConnectorNumber 0 means all
+        int labelIndex = connectorNumber - 1;
+        if(labelIndex < 0 || labelIndex > connectorLabels.length) {
+            return "NO LABEL PRESENT";
         }
+
+        return connectorLabels[labelIndex];
     }
 
 }

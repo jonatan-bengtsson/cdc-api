@@ -1,21 +1,22 @@
 package com.tingcore.cdc.charging.model;
 
+import com.tingcore.charging.assets.model.GeoCoordinate;
 import com.tingcore.charging.assets.model.Location;
 
 public class BasicChargeSite {
     private Long id;
     private String name;
-    private Location location;
-    private ChargeSiteStatus chargeSiteStatus;
+    private GeoCoordinate coordinate;
+    private ChargeSiteStatus status;
 
     BasicChargeSite() {
     }
 
-    public BasicChargeSite(Long id, String name, Location location, ChargeSiteStatus chargeSiteStatus) {
+    public BasicChargeSite(Long id, String name, GeoCoordinate coordinate, ChargeSiteStatus chargeSiteStatus) {
         this.id = id;
         this.name = name;
-        this.location = location;
-        this.chargeSiteStatus = chargeSiteStatus;
+        this.coordinate = coordinate;
+        this.status = chargeSiteStatus;
     }
 
     public Long getId() {
@@ -34,19 +35,19 @@ public class BasicChargeSite {
         this.name = name;
     }
 
-    public Location getLocation() {
-        return location;
+    public GeoCoordinate getCoordinate() {
+        return coordinate;
     }
 
-    public void setLocation(Location location) {
-        this.location = location;
+    public void setCoordinate(GeoCoordinate coordinate) {
+        this.coordinate = coordinate;
     }
 
-    public ChargeSiteStatus getChargeSiteStatus() {
-        return chargeSiteStatus;
+    public ChargeSiteStatus getStatus() {
+        return status;
     }
 
-    public void setChargeSiteStatus(ChargeSiteStatus chargeSiteStatus) {
-        this.chargeSiteStatus = chargeSiteStatus;
+    public void setStatus(ChargeSiteStatus status) {
+        this.status = status;
     }
 }

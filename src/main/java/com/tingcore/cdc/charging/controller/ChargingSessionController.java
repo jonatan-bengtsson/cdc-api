@@ -46,7 +46,7 @@ public class ChargingSessionController {
         this.chargingSessionService = notNull(chargingSessionService);
     }
 
-    @PostMapping(value = "/start")
+    @PostMapping
     @ApiOperation(code = 201, value = "Create a charging session", response = ChargingSession.class)
     @ApiResponses(value = {
             @ApiResponse(code = 404, message = "Charge site not found.", response = Error.class)
@@ -61,15 +61,15 @@ public class ChargingSessionController {
         )));
     }
 
-    @GetMapping(value = "/status/{chargingSessionId}")
-    @ApiOperation(value = "Get the status of a charge session.")
+    @GetMapping(value = "/{chargingSessionId}")
+    @ApiOperation(value = "Get a charge session.")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Get the status of a charging session", response = ChargingSessionStatus.class),
+        @ApiResponse(code = 200, message = "Get a charging session", response = ChargingSession.class),
     })
-    public ResponseEntity<ChargingSessionStatus> getChargeStatus(@PathVariable Long chargingSessionId) {
-      ChargingSessionStatus chargingSessionStatus =
-          toApiObject(chargingSessionService.fetchSession(new ChargingSessionId(chargingSessionId))).status;
-      return ResponseEntity.ok(chargingSessionStatus);
+    public ResponseEntity<ChargingSession> getChargeStatus(@PathVariable Long chargingSessionId) {
+      ChargingSession chargingSession =
+          toApiObject(chargingSessionService.fetchSession(new ChargingSessionId(chargingSessionId)));
+      return ResponseEntity.ok(chargingSession);
     }
 
     private CustomerKeyId customerKeyIdFromRequest(final CreateChargingSessionRequest request) {

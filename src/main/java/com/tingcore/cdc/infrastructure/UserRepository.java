@@ -28,9 +28,11 @@ public class UserRepository {
     }
 
     public Optional<User> getUserIdForAuthorizationId(final AuthorizationId authorizationId) {
+
         try {
             //TODO: use circuit breaker here
-            return Optional.of(toDomain(usersApi.getSelfUsingGET(authorizationId.value).get(10, TimeUnit.SECONDS)));
+          final boolean getUserAttributes = false;
+          return Optional.of(toDomain(usersApi.getSelfUsingGET(authorizationId.value, getUserAttributes).get(10, TimeUnit.SECONDS)));
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
             throw new RuntimeException("Thread interrupted while waiting for response from user service", e);

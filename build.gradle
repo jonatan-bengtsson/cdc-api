@@ -94,6 +94,7 @@ dependencies {
     // Tingcore
     compile("com.tingcore.commons:commons-rest:1.0.4")
     compile("com.tingcore.charging:asset-service-java-client:0.1.0-SNAPSHOT")
+    compile("com.tingcore.charging:charging-operations-java-client:0.1.0-SNAPSHOT")
     compile("com.tingcore:user-service-java-client:1.0.0.1-SNAPSHOT")
     compile('com.tingcore.payments:payments-emp-client:0.1.0-SNAPSHOT')
     compile "com.tingcore:library-eventprocessing:0.0.8"

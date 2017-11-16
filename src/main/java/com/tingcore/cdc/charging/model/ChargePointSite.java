@@ -9,13 +9,13 @@ public class ChargePointSite {
 
     public ChargePointSite() {}
 
-    public ChargePointSite(Long id, String name, Location location, String description, ChargeSiteStatus status, List<ChargePoint> chargePoints, String imageUrl) {
+    public ChargePointSite(Long id, String name, Location location, String description, List<ChargePointTypeStatus> chargePointTypeStatuses, List<ChargePoint> chargePoints, String imageUrl) {
         this.id = id;
         this.name = name;
         this.location = location;
         this.description = description;
-        this.status = status;
         this.chargePoints = chargePoints;
+        this.chargePointTypeStatuses = chargePointTypeStatuses;
         this.imageUrl = imageUrl;
     }
 
@@ -23,7 +23,7 @@ public class ChargePointSite {
     private String name;
     private Location location;
     private String description;
-    private ChargeSiteStatus status;
+    private List<ChargePointTypeStatus> chargePointTypeStatuses;
     private List<ChargePoint> chargePoints;
     private String imageUrl;
 
@@ -59,14 +59,6 @@ public class ChargePointSite {
         this.description = description;
     }
 
-    public ChargeSiteStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(ChargeSiteStatus status) {
-        this.status = status;
-    }
-
     public List<ChargePoint> getChargePoints() {
         return chargePoints;
     }
@@ -77,5 +69,17 @@ public class ChargePointSite {
 
     public Optional<String> getImageUrl() {
         return Optional.ofNullable(imageUrl);
+    }
+
+    public List<ChargePointTypeStatus> getChargePointTypeStatuses() {
+        return chargePointTypeStatuses;
+    }
+
+    public void setChargePointTypeStatuses(List<ChargePointTypeStatus> chargePointTypeStatuses) {
+        this.chargePointTypeStatuses = chargePointTypeStatuses;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

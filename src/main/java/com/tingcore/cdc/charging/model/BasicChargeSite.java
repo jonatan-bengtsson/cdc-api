@@ -1,18 +1,17 @@
 package com.tingcore.cdc.charging.model;
 
 import com.tingcore.charging.assets.model.GeoCoordinate;
-import com.tingcore.charging.assets.model.Location;
 
 public class BasicChargeSite {
     private Long id;
     private String name;
     private GeoCoordinate coordinate;
-    private ChargeSiteStatus status;
+    private AggregatedChargePointTypeStatus status;
 
     BasicChargeSite() {
     }
 
-    public BasicChargeSite(Long id, String name, GeoCoordinate coordinate, ChargeSiteStatus chargeSiteStatus) {
+    public BasicChargeSite(Long id, String name, GeoCoordinate coordinate, AggregatedChargePointTypeStatus chargeSiteStatus) {
         this.id = id;
         this.name = name;
         this.coordinate = coordinate;
@@ -43,11 +42,11 @@ public class BasicChargeSite {
         this.coordinate = coordinate;
     }
 
-    public ChargeSiteStatus getStatus() {
+    public AggregatedChargePointTypeStatus getStatus() {
         return status;
     }
 
-    public void setStatus(ChargeSiteStatus status) {
+    public void setStatus(AggregatedChargePointTypeStatus status) {
         this.status = status;
     }
 }

@@ -1,6 +1,6 @@
 package com.tingcore.cdc.charging.model;
 
-public enum ChargeSiteStatus {
+public enum AggregatedChargePointTypeStatus {
     AVAILABLE,
     AVAILABLE_QUICKCHARGE,
     OCCUPIED,

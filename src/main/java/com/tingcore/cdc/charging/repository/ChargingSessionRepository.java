@@ -82,7 +82,7 @@ public class ChargingSessionRepository {
                 new ChargingSessionId(apiCharge.getId()),
                 new CustomerKeyId(apiCharge.getUser()),
                 Instant.ofEpochMilli(apiCharge.getStartTime()),
-                Instant.ofEpochSecond(apiCharge.getStopTime()),
+                Instant.ofEpochMilli(apiCharge.getStopTime()),
                 ChargingSessionStatus.valueOf(apiCharge.getState())
         );
     }

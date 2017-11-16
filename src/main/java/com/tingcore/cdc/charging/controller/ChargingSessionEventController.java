@@ -15,6 +15,8 @@ import io.swagger.annotations.ApiResponses;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 import static com.tingcore.cdc.charging.controller.ChargingSessionEventController.SESSIONS;
 import static com.tingcore.cdc.charging.controller.ChargingSessionEventController.VERSION;
 import static com.tingcore.cdc.security.SecurityUtil.currentMetadata;
@@ -43,7 +45,7 @@ public class ChargingSessionEventController {
             @ApiResponse(code = 404, message = "The session with the supplied id could not be found.", response = Error.class)
     })
     public ResponseEntity<ChargingSessionEvent> addEvent(final @PathVariable("sessionId") String sessionId,
-                                                         final @RequestBody AddChargingSessionEventRequest request) {
+                                                         final @RequestBody @Valid AddChargingSessionEventRequest request) {
         switch (request.nature) {
             case REQUEST_STOP:
                 return handleStopEvent(sessionId, String.class.cast(request.data.get("chargePointId")));

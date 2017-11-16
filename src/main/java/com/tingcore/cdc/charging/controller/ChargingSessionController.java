@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 import static com.tingcore.cdc.charging.controller.ChargingSessionController.SESSIONS;
 import static com.tingcore.cdc.charging.controller.ChargingSessionController.VERSION;
 import static com.tingcore.cdc.security.SecurityUtil.currentMetadata;
@@ -46,7 +48,7 @@ public class ChargingSessionController {
     @ApiResponses(value = {
             @ApiResponse(code = 404, message = "Charge site not found.", response = Error.class)
     })
-    public ResponseEntity<ChargingSession> createSession(final @RequestBody CreateChargingSessionRequest request) {
+    public ResponseEntity<ChargingSession> createSession(final @RequestBody @Valid CreateChargingSessionRequest request) {
         // TODO return created response
         return ResponseEntity.ok(toApiObject(chargingSessionService.startSession(
                 currentMetadata().userReference,
@@ -57,9 +59,10 @@ public class ChargingSessionController {
     }
 
     private CustomerKeyId customerKeyIdFromRequest(final CreateChargingSessionRequest request) {
-        return hashIdService.decode(request.getCustomerKey())
+        return new CustomerKeyId(669L);
+        /*return hashIdService.decode(request.getCustomerKey())
                 .map(CustomerKeyId::new)
-                .orElseThrow(() -> new EntityNotFoundException("Could not find the specified customer key."));
+                .orElseThrow(() -> new EntityNotFoundException("Could not find the specified customer key."));*/
     }
 
     private ChargePointId chargePointIdFromRequest(final CreateChargingSessionRequest request) {

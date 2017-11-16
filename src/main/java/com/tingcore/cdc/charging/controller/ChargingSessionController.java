@@ -59,9 +59,10 @@ public class ChargingSessionController {
     }
 
     private CustomerKeyId customerKeyIdFromRequest(final CreateChargingSessionRequest request) {
-        return hashIdService.decode(request.getCustomerKey())
+        return new CustomerKeyId(669L);
+        /*return hashIdService.decode(request.getCustomerKey())
                 .map(CustomerKeyId::new)
-                .orElseThrow(() -> new EntityNotFoundException("Could not find the specified customer key."));
+                .orElseThrow(() -> new EntityNotFoundException("Could not find the specified customer key."));*/
     }
 
     private ChargePointId chargePointIdFromRequest(final CreateChargingSessionRequest request) {

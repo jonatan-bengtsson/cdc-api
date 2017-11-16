@@ -1,8 +1,12 @@
 package com.tingcore.cdc.configuration;
 
+import com.fasterxml.jackson.databind.introspect.AnnotatedField;
+import com.fasterxml.jackson.databind.introspect.AnnotatedMethod;
 import com.fasterxml.jackson.databind.introspect.AnnotatedParameter;
 import com.fasterxml.jackson.databind.introspect.BeanPropertyDefinition;
 import java.util.Optional;
+
+import com.tingcore.cdc.Application;
 import org.apache.logging.log4j.core.config.Order;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +21,9 @@ import springfox.documentation.swagger.common.SwaggerPluginSupport;
 @Order(SwaggerPluginSupport.SWAGGER_PLUGIN_ORDER+1)
 public class OptionalModelPropertyBuilderPlugin implements ModelPropertyBuilderPlugin {
 
+
+  private static final Logger LOG = LoggerFactory.getLogger(ModelPropertyBuilderPlugin.class);
+
   @Override
   public boolean supports(DocumentationType delimiter) {
     return true;
@@ -28,7 +35,13 @@ public class OptionalModelPropertyBuilderPlugin implements ModelPropertyBuilderP
     boolean required = true;
     if (beanPropertyDefinition.isPresent()) {
       BeanPropertyDefinition propertyDefinition = beanPropertyDefinition.get();
-      Class<?> rawType = propertyDefinition.getField().getRawType();
+      AnnotatedField field = propertyDefinition.getField();
+      if(field != null) {
+        Class<?> rawType = field.getRawType();
+        if (rawType.isAssignableFrom(Optional.class)) {
+          required = false;
+        }
+      }
 
       AnnotatedParameter constructParameter = propertyDefinition.getConstructorParameter();
       if (constructParameter != null) {
@@ -38,13 +51,12 @@ public class OptionalModelPropertyBuilderPlugin implements ModelPropertyBuilderP
         }
       }
 
-      Class<?> rawReturnType = propertyDefinition.getGetter().getRawReturnType();
-      if (rawReturnType.isAssignableFrom(Optional.class)) {
-        required = false;
-      }
-
-      if (rawType.isAssignableFrom(Optional.class)) {
-        required = false;
+      AnnotatedMethod getter = propertyDefinition.getGetter();
+      if(getter != null) {
+        Class<?> rawReturnType = getter.getRawReturnType();
+        if (rawReturnType.isAssignableFrom(Optional.class)) {
+          required = false;
+        }
       }
     }
 

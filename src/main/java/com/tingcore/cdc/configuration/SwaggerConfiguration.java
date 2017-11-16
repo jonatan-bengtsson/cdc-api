@@ -2,7 +2,9 @@ package com.tingcore.cdc.configuration;
 
 import static com.google.common.base.Predicates.or;
 import static com.google.common.collect.Lists.newArrayList;
+import static springfox.documentation.schema.AlternateTypeRules.newRule;
 
+import com.fasterxml.classmate.TypeResolver;
 import com.google.common.base.Predicate;
 import com.tingcore.cdc.constant.SuppressWarningConstant;
 import com.tingcore.commons.rest.ErrorResponse;
@@ -10,6 +12,9 @@ import com.tingcore.commons.rest.SwaggerDefaultConstant;
 import io.swagger.annotations.ApiOperation;
 import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,6 +24,7 @@ import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.builders.ResponseMessageBuilder;
 import springfox.documentation.schema.ModelRef;
+import springfox.documentation.schema.WildcardType;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.ResponseMessage;
 import springfox.documentation.spi.DocumentationType;
@@ -29,6 +35,9 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 @SuppressWarnings(SuppressWarningConstant.SPRING_FACET_CODE_INSPECTION)
 public class SwaggerConfiguration {
+
+    @Autowired
+    private TypeResolver typeResolver;
 
     private static final ResponseMessage BAD_REQUEST_RESPONSE_MESSAGE = new ResponseMessageBuilder()
             .code(SwaggerDefaultConstant.HTTP_STATUS_BAD_REQUEST)
@@ -53,6 +62,12 @@ public class SwaggerConfiguration {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .directModelSubstitute(Instant.class, Long.class)
+                .alternateTypeRules(
+                        newRule(
+                                typeResolver.resolve(Optional.class, WildcardType.class),
+                                typeResolver.resolve(WildcardType.class)
+                        )
+                )
                 .useDefaultResponseMessages(false)
                 .globalResponseMessage(RequestMethod.GET, getResponseMessages())
                 .globalResponseMessage(RequestMethod.POST, postResponseMessages())

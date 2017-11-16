@@ -76,6 +76,6 @@ public class ChargePointSite {
     }
 
     public Optional<String> getImageUrl() {
-        return Optional.of(imageUrl);
+        return Optional.ofNullable(imageUrl);
     }
 }

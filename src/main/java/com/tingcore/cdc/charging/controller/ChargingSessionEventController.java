@@ -47,7 +47,7 @@ public class ChargingSessionEventController {
     public ResponseEntity<ChargingSessionEvent> addEvent(final @PathVariable("sessionId") String sessionId,
                                                          final @RequestBody @Valid AddChargingSessionEventRequest request) {
         switch (request.nature) {
-            case REQUEST_STOP:
+            case STOP_REQUESTED:
                 return handleStopEvent(sessionId, String.class.cast(request.data.get("chargePointId")));
         }
         throw new IllegalArgumentException("Only stop events are supported for now.");
@@ -57,7 +57,7 @@ public class ChargingSessionEventController {
                                                                  final String chargePointId) {
         // TODO return created response
         return ResponseEntity.ok(toApiObject(chargingSessionService.stopSession(
-                currentMetadata().userReference,
+                currentMetadata().userReference.orElseThrow(IllegalStateException::new),
                 sessionIdFromRequest(sessionId),
                 chargePointIdFromRequest(chargePointId)
         )));

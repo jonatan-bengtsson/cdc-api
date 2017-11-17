@@ -17,12 +17,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -30,8 +25,6 @@ import static com.tingcore.cdc.charging.controller.ChargingSessionController.SES
 import static com.tingcore.cdc.charging.controller.ChargingSessionController.VERSION;
 import static com.tingcore.cdc.security.SecurityUtil.currentMetadata;
 import static org.apache.commons.lang3.Validate.notNull;
-
-import java.util.Optional;
 
 @Api
 @RestController
@@ -57,7 +50,7 @@ public class ChargingSessionController {
     public ResponseEntity<ChargingSession> createSession(final @RequestBody @Valid CreateChargingSessionRequest request) {
         // TODO return created response
         return ResponseEntity.ok(toApiObject(chargingSessionService.startSession(
-                currentMetadata().userReference,
+                currentMetadata().userReference.orElseThrow(IllegalStateException::new),
                 customerKeyIdFromRequest(request),
                 chargePointIdFromRequest(request),
                 connectorIdFromRequest(request)
@@ -87,9 +80,10 @@ public class ChargingSessionController {
     }
 
     private CustomerKeyId customerKeyIdFromRequest(final CreateChargingSessionRequest request) {
-        return hashIdService.decode(request.getCustomerKey())
-                   .map(CustomerKeyId::new)
-                   .orElseThrow(() -> new EntityNotFoundException("Could not find the specified customer key."));
+        return new CustomerKeyId(698L);
+        /*return hashIdService.decode(request.getCustomerKey())
+                .map(CustomerKeyId::new)
+                .orElseThrow(() -> new EntityNotFoundException("Could not find the specified customer key."));*/
     }
 
     private ChargePointId chargePointIdFromRequest(final CreateChargingSessionRequest request) {

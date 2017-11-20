@@ -33,13 +33,13 @@ public class ChargingSessionService {
                                             final ChargingSessionId sessionId,
                                             final ChargePointId chargePointId) {
 
-      final ChargingSession chargingSession = chargingSessionRepository.fetchSession(sessionId);
-      final AuthorizationToken authorizationToken = tokenRepository.createToken(userReference, chargingSession.customerKeyId, chargePointId);
+        final ChargingSession chargingSession = chargingSessionRepository.fetchSession(sessionId);
+        final AuthorizationToken authorizationToken = tokenRepository.createToken(userReference, chargingSession.customerKeyId, chargePointId);
 
-      return chargingSessionRepository.stopSession(sessionId, authorizationToken);
+        return chargingSessionRepository.stopSession(sessionId, authorizationToken, chargePointId);
     }
 
     public ChargingSession fetchSession(final ChargingSessionId sessionId) {
-      return chargingSessionRepository.fetchSession(notNull(sessionId));
+        return chargingSessionRepository.fetchSession(notNull(sessionId));
     }
 }

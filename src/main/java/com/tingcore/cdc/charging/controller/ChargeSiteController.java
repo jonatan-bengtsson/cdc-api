@@ -16,9 +16,7 @@ import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 
 @RestController
-// TODO Readd when spring security is configured correctly/removed
-// @RequestMapping(value = "/v1")
-@RequestMapping(value = "/chargesites")
+@RequestMapping(value = "/v1/chargesites")
 public class ChargeSiteController {
 
     private final HashIdService hashIdService;
@@ -31,7 +29,7 @@ public class ChargeSiteController {
     }
 
     @RequestMapping(
-            value = ";context=map",
+            value = "/view/map",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
@@ -65,8 +63,6 @@ public class ChargeSiteController {
         if(decode.isPresent()) {
             return decode.get();
         } else {
-            if(1==1)
-            return 1;
             throw new EntityNotFoundException();
         }
     }

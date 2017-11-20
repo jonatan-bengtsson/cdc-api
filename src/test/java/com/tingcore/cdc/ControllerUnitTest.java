@@ -4,7 +4,6 @@ package com.tingcore.cdc;
 import com.tingcore.cdc.configuration.JacksonConfiguration;
 import com.tingcore.cdc.configuration.LocaleConfiguration;
 import com.tingcore.cdc.constant.SpringProfilesConstant;
-import com.tingcore.cdc.service.HashIdService;
 import com.tingcore.cdc.service.MessageByLocaleService;
 import com.tingcore.cdc.utils.MockMvcUtils;
 import org.junit.runner.RunWith;

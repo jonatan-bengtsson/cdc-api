@@ -1,8 +1,8 @@
 package com.tingcore.cdc.crm.service;
 
-import com.tingcore.cdc.constant.ErrorCode;
-import com.tingcore.cdc.service.ServiceException;
-import com.tingcore.cdc.utils.ErrorMessageUtils;
+import com.tingcore.commons.api.service.DefaultErrorCode;
+import com.tingcore.commons.api.service.ServiceException;
+import com.tingcore.commons.api.utils.ErrorMessageUtils;
 
 /**
  * @author palmithor
@@ -12,6 +12,6 @@ public class InvalidAttributeValueException extends ServiceException {
 
 
     InvalidAttributeValueException(final Long attributeValueId) {
-        super(ErrorMessageUtils.formatInvalidAttributeValue(attributeValueId), ErrorCode.DATA_PROCESSING_ERROR);
+        super(ErrorMessageUtils.formatInvalidAttributeValue(attributeValueId), DefaultErrorCode.DATA_PROCESSING_ERROR);
     }
 }

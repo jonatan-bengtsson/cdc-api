@@ -3,7 +3,7 @@ package com.tingcore.cdc.crm.controller;
 import com.tingcore.cdc.crm.response.CustomerKeyResponse;
 import com.tingcore.cdc.crm.service.CustomerKeyService;
 import com.tingcore.cdc.exception.EntityNotFoundException;
-import com.tingcore.cdc.service.HashIdService;
+import com.tingcore.commons.api.service.HashIdService;
 import com.tingcore.commons.rest.ErrorResponse;
 import com.tingcore.commons.rest.PageResponse;
 import com.tingcore.commons.rest.SwaggerDefaultConstant;

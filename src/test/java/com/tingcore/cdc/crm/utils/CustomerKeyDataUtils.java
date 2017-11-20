@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tingcore.cdc.crm.model.CustomerKey;
 import com.tingcore.cdc.crm.response.CustomerKeyResponse;
 import com.tingcore.cdc.utils.CommonDataUtils;
-import com.tingcore.cdc.utils.JsonUtils;
 import com.tingcore.users.model.AttributeResponse;
 import com.tingcore.users.model.AttributeValueResponse;
 

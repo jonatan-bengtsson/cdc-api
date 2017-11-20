@@ -28,8 +28,12 @@ info:
 app:
   user-service:
     base-url: https://${integration.user.hostname}
-security:
-  header: X-Authorization-Id
+    default-timeout: 20 # timeout in seconds
+  aws:
+    headers:
+      cognito-auth-provider: cognito-authentication-provider # api gateway forwarded headers are configured here:
+      cognito-identity-id: cognito-identity-id
+      cognito-user-id: cognito-user-id                       # when the cognito user id has been extracted from cognito-auth provider it is written to this header
 
 integration:
   payments:

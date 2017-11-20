@@ -1,10 +1,10 @@
 package com.tingcore.cdc.charging.controller;
 
-import com.tingcore.cdc.charging.model.ChargePointSite;
 import com.tingcore.cdc.charging.model.BasicChargeSite;
+import com.tingcore.cdc.charging.model.ChargePointSite;
 import com.tingcore.cdc.charging.service.ChargeSiteService;
 import com.tingcore.cdc.exception.EntityNotFoundException;
-import com.tingcore.cdc.service.HashIdService;
+import com.tingcore.commons.api.service.HashIdService;
 import com.tingcore.commons.rest.PageResponse;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

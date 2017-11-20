@@ -3,7 +3,6 @@ package com.tingcore.cdc.crm.repository;
 import com.tingcore.cdc.configuration.CacheConfiguration;
 import com.tingcore.users.api.AttributesApi;
 import com.tingcore.users.model.AttributeResponse;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.CacheEvict;
@@ -33,7 +32,7 @@ public class AttributeRepository {
     @Cacheable(CacheConfiguration.USER_SERVICE_ATTRIBUTES)
     public List<AttributeResponse> findAll() {
         try {
-            return attributesApi.getAttributesUsingGET(StringUtils.EMPTY).get();
+            return attributesApi.getAttributesUsingGET().get();
         } catch (InterruptedException | ExecutionException e) {
             logger.warn("Unable to get attributes", e);
             return new ArrayList<>();

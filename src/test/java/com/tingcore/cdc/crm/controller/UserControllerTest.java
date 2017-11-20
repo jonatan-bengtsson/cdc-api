@@ -4,7 +4,6 @@ import com.tingcore.cdc.ControllerUnitTest;
 import com.tingcore.cdc.crm.response.CustomerKeyResponse;
 import com.tingcore.cdc.crm.service.CustomerKeyService;
 import com.tingcore.cdc.crm.utils.CustomerKeyDataUtils;
-import com.tingcore.cdc.service.HashIdService;
 import com.tingcore.cdc.utils.CommonDataUtils;
 import com.tingcore.commons.rest.PageResponse;
 import org.junit.Test;

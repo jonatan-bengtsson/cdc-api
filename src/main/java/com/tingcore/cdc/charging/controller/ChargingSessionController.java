@@ -9,9 +9,11 @@ import com.tingcore.cdc.charging.model.ChargingSessionId;
 import com.tingcore.cdc.charging.model.ConnectorId;
 import com.tingcore.cdc.charging.model.CustomerKeyId;
 import com.tingcore.cdc.charging.service.ChargingSessionService;
+import com.tingcore.cdc.configuration.AuthorizedUser;
+import com.tingcore.cdc.configuration.WebMvcConfiguration;
 import com.tingcore.cdc.exception.EntityNotFoundException;
 import com.tingcore.cdc.exception.NoSessionFoundException;
-import com.tingcore.cdc.service.HashIdService;
+import com.tingcore.commons.api.service.HashIdService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -19,11 +21,11 @@ import io.swagger.annotations.ApiResponses;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.validation.Valid;
 
 import static com.tingcore.cdc.charging.controller.ChargingSessionController.SESSIONS;
 import static com.tingcore.cdc.charging.controller.ChargingSessionController.VERSION;
-import static com.tingcore.cdc.security.SecurityUtil.currentMetadata;
 import static org.apache.commons.lang3.Validate.notNull;
 
 @Api
@@ -32,6 +34,9 @@ import static org.apache.commons.lang3.Validate.notNull;
 public class ChargingSessionController {
     static final String VERSION = "v1";
     static final String SESSIONS = "chargingSessions";
+
+    @Resource(name = WebMvcConfiguration.AUTHORIZED_USER)
+    private AuthorizedUser authorizedUser;
 
     private final HashIdService hashIdService;
     private final ChargingSessionService chargingSessionService;

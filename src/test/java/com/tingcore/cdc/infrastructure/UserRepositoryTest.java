@@ -2,7 +2,6 @@ package com.tingcore.cdc.infrastructure;
 
 import com.google.common.collect.ImmutableList;
 import com.tingcore.cdc.model.AuthorizationId;
-import com.tingcore.cdc.model.User;
 import com.tingcore.cdc.model.UserId;
 import com.tingcore.users.api.UsersApi;
 import com.tingcore.users.model.AttributeResponse;

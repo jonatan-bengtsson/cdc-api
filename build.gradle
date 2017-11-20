@@ -77,7 +77,9 @@ configurations.all {
 
 ext {
     versionSwagger = "2.7.0"
-    okhttp_version = "3.9.0"
+    versionOkHttp = "3.9.0"
+    versionCommonsApi = "1.0.0"
+    versionUserServiceClient = "1.0.0.4-SNAPSHOT"
 }
 
 dependencies {
@@ -86,23 +88,22 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-web")
     compile("org.springframework.boot:spring-boot-starter-actuator")
     compile("org.springframework.boot:spring-boot-starter-log4j2")
-    compile("org.springframework.boot:spring-boot-starter-security")
     compile("org.springframework.boot:spring-boot-devtools")
     compileOnly('org.springframework.boot:spring-boot-configuration-processor')
     compile("org.springframework.cloud:spring-cloud-starter-config")
 
     // Tingcore
-    compile("com.tingcore.commons:commons-rest:1.0.4")
+    compile("com.tingcore.commons:commons-api:$versionCommonsApi")
     compile("com.tingcore.charging:asset-service-java-client:0.1.0-SNAPSHOT")
-    compile("com.tingcore:user-service-java-client:1.0.0.3-SNAPSHOT")
+    compile("com.tingcore:user-service-java-client:$versionUserServiceClient")
     compile('com.tingcore.payments:payments-emp-client:0.1.0-SNAPSHOT')
     compile "com.tingcore:library-eventprocessing:0.0.8"
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
     compile 'com.google.code.gson:gson:2.8.2'
 
     // Retrofit + OKHttp
-    compile("com.squareup.okhttp3:okhttp:$okhttp_version")
-    compile("com.squareup.okhttp3:logging-interceptor:$okhttp_version")
+    compile("com.squareup.okhttp3:okhttp:$versionOkHttp")
+    compile("com.squareup.okhttp3:logging-interceptor:$versionOkHttp")
 
     // Swagger
     compile("io.springfox:springfox-swagger2:$versionSwagger")

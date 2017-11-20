@@ -14,6 +14,8 @@ import static org.apache.commons.lang3.Validate.notNull;
 
 @Repository
 public class CustomerKeyRepository {
+
+    // TODO answer to the question below: Nope it is not certain. The name however is always the same so you can take a look at AttributeRepository.
     private final Long CUSTOMER_KEY_ATTRIBUTE_ID = 30L; // TODO is this static and same in all envs?
 
     private final UsersApi usersApi;

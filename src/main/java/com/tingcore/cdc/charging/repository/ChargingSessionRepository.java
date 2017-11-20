@@ -2,6 +2,7 @@ package com.tingcore.cdc.charging.repository;
 
 import com.google.common.collect.ImmutableMap;
 import com.tingcore.cdc.charging.model.*;
+import com.tingcore.cdc.exception.NoSessionFoundException;
 import com.tingcore.payments.emp.api.ChargesApi;
 import com.tingcore.payments.emp.model.*;
 import org.springframework.stereotype.Repository;
@@ -11,6 +12,7 @@ import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.time.Instant;
 
+import static java.util.Optional.ofNullable;
 import static org.apache.commons.lang3.Validate.notNull;
 
 @Repository
@@ -22,11 +24,15 @@ public class ChargingSessionRepository {
     }
 
     public ChargingSession fetchSession(final ChargingSessionId id) {
-        try {
-            return apiSessionToModel(chargesApi.getCharge(id.value).execute().body());
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
+      try {
+        Response<ApiCharge> response = chargesApi.getCharge(id.value).execute();
+        if(response.code() == 404) {
+          throw new NoSessionFoundException("Session not found");
         }
+        return apiSessionToModel(response.body());
+      } catch (IOException e) {
+        throw new UncheckedIOException(e);
+      }
     }
 
     public ChargingSession createSession(final CustomerKeyId targetUser) {
@@ -77,24 +83,27 @@ public class ChargingSessionRepository {
         }
     }
 
-    private ChargingSession apiSessionToModel(final ApiCharge apiCharge) {
+    static ChargingSession apiSessionToModel(final ApiCharge apiCharge) {
         return new ChargingSession(
-                new ChargingSessionId(apiCharge.getId()),
-                new CustomerKeyId(apiCharge.getUser()),
-                Instant.ofEpochMilli(apiCharge.getStartTime()),
-                Instant.ofEpochMilli(apiCharge.getStopTime()),
-                ChargingSessionStatus.valueOf(apiCharge.getState())
+                      new ChargingSessionId(apiCharge.getId()),
+                      new CustomerKeyId(apiCharge.getUser()),
+                      apiTimeToNullableInstant(apiCharge.getStartTime()),
+                      apiTimeToNullableInstant(apiCharge.getStopTime()),
+                      ChargingSessionStatus.valueOf(apiCharge.getState())
         );
     }
 
     private ChargingSessionEvent apiEventToModel(final ChargingSessionId sessionId,
                                                  final ApiChargeEvent apiEvent) {
         return new ChargingSessionEvent(
-                sessionId,
-                new ChargingSessionEventId(apiEvent.getId()),
-                Instant.ofEpochMilli(apiEvent.getTime()),
-                ChargingSessionEventNature.valueOf(apiEvent.getNature().name())
+                                   sessionId,
+                                   new ChargingSessionEventId(apiEvent.getId()),
+                                   apiTimeToNullableInstant(apiEvent.getTime()),
+                                   ChargingSessionEventNature.valueOf(apiEvent.getNature().name())
         );
     }
 
+    private static Instant apiTimeToNullableInstant(final Long time) {
+        return ofNullable(time).map(Instant::ofEpochMilli).orElse(null);
+    }
 }

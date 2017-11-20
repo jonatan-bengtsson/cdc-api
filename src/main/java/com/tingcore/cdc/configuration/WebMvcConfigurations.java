@@ -28,8 +28,8 @@ public class WebMvcConfigurations extends WebMvcConfigurerAdapter {
 
     @Override
     public void addCorsMappings(final CorsRegistry registry) {
-        registry.addMapping("/**")
-                .allowedOrigins(allowedOrigins.toArray(new String[allowedOrigins.size()]));
+        //registry.addMapping("/**")
+        //        .allowedOrigins(allowedOrigins.toArray(new String[allowedOrigins.size()]));
     }
 
 

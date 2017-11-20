@@ -4,6 +4,7 @@ import com.tingcore.cdc.model.AuthorizationId;
 import com.tingcore.cdc.model.User;
 import com.tingcore.cdc.model.UserId;
 import com.tingcore.users.api.UsersApi;
+import com.tingcore.users.model.OrganizationResponse;
 import com.tingcore.users.model.UserResponse;
 import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.http.HttpStatus;
@@ -15,12 +16,12 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+import static java.util.Arrays.asList;
 import static java.util.Collections.emptySet;
 import static org.apache.commons.lang3.Validate.notNull;
 
 @Repository
 public class UserRepository {
-
     private final UsersApi usersApi;
 
     public UserRepository(final UsersApi usersApi) {
@@ -30,7 +31,7 @@ public class UserRepository {
     public Optional<User> getUserIdForAuthorizationId(final AuthorizationId authorizationId) {
         try {
             //TODO: use circuit breaker here
-            return Optional.of(toDomain(usersApi.getSelfUsingGET(authorizationId.value).get(10, TimeUnit.SECONDS)));
+          return Optional.of(toDomain(usersApi.getSelfUsingGET(authorizationId.value).get(10, TimeUnit.SECONDS)));
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
             throw new RuntimeException("Thread interrupted while waiting for response from user service", e);

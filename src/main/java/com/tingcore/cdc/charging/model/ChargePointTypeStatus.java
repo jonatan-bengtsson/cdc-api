@@ -6,27 +6,21 @@ public class ChargePointTypeStatus {
 
     private Connector.ConnectorTypeEnum type;
     private AggregatedChargePointTypeStatus aggregatedStatus;
+    private boolean isQuickCharge;
     private int available = 0;
-    private int availableQuickcharge = 0;
     private int occupied = 0;
-    private int occupiedQuickcharge = 0;
     private int reserved = 0;
-    private int reservedQuickcharge = 0;
     private int outOfOrder = 0;
-    private int outOfOrderQuickcharge = 0;
 
     public ChargePointTypeStatus() {}
 
-    public ChargePointTypeStatus(AggregatedChargePointTypeStatus aggregatedStatus, int available, int availableQuickcharge, int occupied, int occupiedQuickcharge, int reserved, int reservedQuickcharge, int outOfOrder, int outOfOrderQuickcharge) {
+    public ChargePointTypeStatus(AggregatedChargePointTypeStatus aggregatedStatus, int available, int occupied, int reserved, int outOfOrder, boolean isQuickCharge) {
+        this.isQuickCharge = isQuickCharge;
         this.aggregatedStatus = aggregatedStatus;
         this.available = available;
-        this.availableQuickcharge = availableQuickcharge;
         this.occupied = occupied;
-        this.occupiedQuickcharge = occupiedQuickcharge;
         this.reserved = reserved;
-        this.reservedQuickcharge = reservedQuickcharge;
         this.outOfOrder = outOfOrder;
-        this.outOfOrderQuickcharge = outOfOrderQuickcharge;
     }
 
     public AggregatedChargePointTypeStatus getAggregatedStatus() {
@@ -45,13 +39,6 @@ public class ChargePointTypeStatus {
         this.available = available;
     }
 
-    public int getAvailableQuickcharge() {
-        return availableQuickcharge;
-    }
-
-    public void setAvailableQuickcharge(int availableQuickcharge) {
-        this.availableQuickcharge = availableQuickcharge;
-    }
 
     public int getOccupied() {
         return occupied;
@@ -61,13 +48,6 @@ public class ChargePointTypeStatus {
         this.occupied = occupied;
     }
 
-    public int getOccupiedQuickcharge() {
-        return occupiedQuickcharge;
-    }
-
-    public void setOccupiedQuickcharge(int occupiedQuickcharge) {
-        this.occupiedQuickcharge = occupiedQuickcharge;
-    }
 
     public int getReserved() {
         return reserved;
@@ -77,13 +57,6 @@ public class ChargePointTypeStatus {
         this.reserved = reserved;
     }
 
-    public int getReservedQuickcharge() {
-        return reservedQuickcharge;
-    }
-
-    public void setReservedQuickcharge(int reservedQuickcharge) {
-        this.reservedQuickcharge = reservedQuickcharge;
-    }
 
     public int getOutOfOrder() {
         return outOfOrder;
@@ -93,11 +66,19 @@ public class ChargePointTypeStatus {
         this.outOfOrder = outOfOrder;
     }
 
-    public int getOutOfOrderQuickcharge() {
-        return outOfOrderQuickcharge;
+    public Connector.ConnectorTypeEnum getType() {
+        return type;
     }
 
-    public void setOutOfOrderQuickcharge(int outOfOrderQuickcharge) {
-        this.outOfOrderQuickcharge = outOfOrderQuickcharge;
+    public void setType(Connector.ConnectorTypeEnum type) {
+        this.type = type;
+    }
+
+    public boolean isQuickCharge() {
+        return isQuickCharge;
+    }
+
+    public void setQuickCharge(boolean quickCharge) {
+        isQuickCharge = quickCharge;
     }
 }

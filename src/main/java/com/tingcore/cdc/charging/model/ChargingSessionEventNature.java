@@ -1,5 +1,6 @@
 package com.tingcore.cdc.charging.model;
 
 public enum ChargingSessionEventNature {
-    REQUEST_STOP;
+    START_REQUESTED,
+    STOP_REQUESTED
 }

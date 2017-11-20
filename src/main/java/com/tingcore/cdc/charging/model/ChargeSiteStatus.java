@@ -1,8 +1,8 @@
 package com.tingcore.cdc.charging.model;
 
-public enum AggregatedChargePointTypeStatus {
+public enum ChargeSiteStatus {
     AVAILABLE,
     OCCUPIED,
     OUT_OF_ORDER,
-    UNKNOWN
+    NONE
 }

@@ -4,5 +4,5 @@ import io.swagger.annotations.ApiModel;
 
 @ApiModel
 public enum ChargingSessionEventNature {
-    REQUEST_STOP;
+    STOP_REQUESTED
 }

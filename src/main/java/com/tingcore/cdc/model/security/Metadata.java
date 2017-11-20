@@ -11,7 +11,7 @@ import static org.apache.commons.lang3.Validate.notNull;
 public class Metadata {
 
     public final String clientAddress; //TODO: Specific type for this
-    public final UserReference userReference;
+    public final Optional<UserReference> userReference;
     public final Optional<String> originalRequestedHostname; //TODO: Specific type for this
     public final Optional<String> originalClientAddress; //TODO: Specific type for this
     public final Optional<String> email; //TODO: Specific type for this
@@ -21,11 +21,11 @@ public class Metadata {
                     final String originalRequestedHostname,
                     final String originalClientAddress,
                     final String email) {
-        this(clientAddress, userReference, ofNullable(originalRequestedHostname), ofNullable(originalClientAddress), ofNullable(email));
+        this(clientAddress, ofNullable(userReference), ofNullable(originalRequestedHostname), ofNullable(originalClientAddress), ofNullable(email));
     }
 
     private Metadata(final String clientAddress,
-                     final UserReference userReference,
+                     final Optional<UserReference> userReference,
                      final Optional<String> originalRequestedHostname,
                      final Optional<String> originalClientAddress,
                      final Optional<String> email) {

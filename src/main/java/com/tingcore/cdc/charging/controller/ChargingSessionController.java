@@ -5,20 +5,19 @@ import com.tingcore.cdc.charging.api.ChargingSessionStatus;
 import com.tingcore.cdc.charging.api.CreateChargingSessionRequest;
 import com.tingcore.cdc.charging.api.CustomerKey;
 import com.tingcore.cdc.charging.model.ChargePointId;
+import com.tingcore.cdc.charging.model.ChargingSessionId;
 import com.tingcore.cdc.charging.model.ConnectorId;
 import com.tingcore.cdc.charging.model.CustomerKeyId;
 import com.tingcore.cdc.charging.service.ChargingSessionService;
 import com.tingcore.cdc.exception.EntityNotFoundException;
+import com.tingcore.cdc.exception.NoSessionFoundException;
 import com.tingcore.cdc.service.HashIdService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -51,15 +50,37 @@ public class ChargingSessionController {
     public ResponseEntity<ChargingSession> createSession(final @RequestBody @Valid CreateChargingSessionRequest request) {
         // TODO return created response
         return ResponseEntity.ok(toApiObject(chargingSessionService.startSession(
-                currentMetadata().userReference,
+                currentMetadata().userReference.orElseThrow(IllegalStateException::new),
                 customerKeyIdFromRequest(request),
                 chargePointIdFromRequest(request),
                 connectorIdFromRequest(request)
         )));
     }
 
+    @GetMapping(value = "/{chargingSessionId}")
+    @ApiOperation(value = "Get a charge session.")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Get a charging session", response = ChargingSession.class),
+	@ApiResponse(code = 404, message = "Charging session not found", response = Error.class)
+    })
+    public ResponseEntity<ChargingSession> getChargeSession(@PathVariable("chargingSessionId") String chargingSessionId) {
+
+      try {
+        Long sessionId =
+            hashIdService.decode(chargingSessionId).get();
+
+        ChargingSession chargingSession =
+            toApiObject(chargingSessionService.fetchSession(new ChargingSessionId(sessionId)));
+
+        return ResponseEntity.ok(chargingSession);
+
+      } catch (NoSessionFoundException e) {
+          return ResponseEntity.notFound().build();
+      }
+    }
+
     private CustomerKeyId customerKeyIdFromRequest(final CreateChargingSessionRequest request) {
-        return new CustomerKeyId(669L);
+        return new CustomerKeyId(698L);
         /*return hashIdService.decode(request.getCustomerKey())
                 .map(CustomerKeyId::new)
                 .orElseThrow(() -> new EntityNotFoundException("Could not find the specified customer key."));*/

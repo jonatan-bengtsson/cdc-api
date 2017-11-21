@@ -1,10 +1,7 @@
 package com.tingcore.cdc.charging.mapper;
 
 import com.tingcore.cdc.charging.model.ConnectorStatus;
-import com.tingcore.charging.assets.model.AvailabilityRulesWithChargePointId;
-import com.tingcore.charging.assets.model.ChargePointSiteWithAvailabilityRules;
-import com.tingcore.charging.assets.model.CompleteChargePointSite;
-import com.tingcore.charging.assets.model.ConnectorModelAvailabilityRule;
+import com.tingcore.charging.assets.model.*;
 import com.tingcore.charging.operations.model.ChargePointStatusResponse;
 import com.tingcore.charging.operations.model.ConnectorStatusResponse;
 import com.tingcore.charging.operations.model.StatusBatchResponse;
@@ -18,6 +15,7 @@ import java.util.*;
 public class ConnectorStatusMapper {
 
     private static final Logger LOG = LoggerFactory.getLogger(ConnectorStatusMapper.class);
+
 
     public Map<Long, ConnectorStatus> getStatusMap(List<ChargePointSiteWithAvailabilityRules> sites, StatusBatchResponse statusBatchResponse) {
 
@@ -33,7 +31,9 @@ public class ConnectorStatusMapper {
         sites.forEach(cpswa -> {
             CompleteChargePointSite chargePointSite = cpswa.getChargePointSite();
             List<AvailabilityRulesWithChargePointId> availabilityRulesWithChargePointIds = cpswa.getAvailabilityRulesWithChargePointIds();
+
             Map<Long, List<ConnectorModelAvailabilityRule>> rulesByChargePointTypeId = new HashMap<>();
+            Map<Long, Long> connectorModelToConnector = new HashMap<>();
 
             availabilityRulesWithChargePointIds.forEach(
                     arwcpi -> rulesByChargePointTypeId.put(arwcpi.getChargePointId(), arwcpi.getRules())
@@ -43,15 +43,20 @@ public class ConnectorStatusMapper {
                 Long chargePointTypeId = ccp.getChargePointTypeId();
                 List<ConnectorModelAvailabilityRule> connectorModelAvailabilityRules = rulesByChargePointTypeId.getOrDefault(chargePointTypeId, new ArrayList<>());
 
+                if(!connectorModelAvailabilityRules.isEmpty()) {
+                    ccp.getConnectors().forEach(con -> connectorModelToConnector.put(con.getConnectorModelId(), con.getId()));
+                }
 
                 ccp.getConnectors().forEach(con -> {
                     ConnectorStatus connectorStatus = getConnectorStatus(
                             con,
+                            ccp,
                             connectorModelAvailabilityRules.stream().filter(r -> r.getChargePointTypeId().equals(chargePointTypeId) &&
                                     ruleContainsConnector(con, r)
                             ).findFirst(),
                             connectorStatusResponseMap,
-                            chargePointStatusMap);
+                            chargePointStatusMap,
+                            connectorModelToConnector);
 
                     connectorStatusMap.put(con.getId(), connectorStatus);
 
@@ -62,7 +67,11 @@ public class ConnectorStatusMapper {
         return connectorStatusMap;
     }
 
-    public ConnectorStatus getConnectorStatus(com.tingcore.charging.assets.model.Connector c, Optional<ConnectorModelAvailabilityRule> rule, Map<Long, ConnectorStatusResponse> connectorMap, Map<Long, ChargePointStatusResponse> chargePointStatusMap) {
+    public ConnectorStatus getConnectorStatus(Connector c, CompleteChargePoint ccp, Optional<ConnectorModelAvailabilityRule> rule, Map<Long, ConnectorStatusResponse> connectorMap, Map<Long, ChargePointStatusResponse> chargePointStatusMap, Map<Long, Long> connectorModelToConnector) {
+
+        if(ccp.getOperationalStatus() != CompleteChargePoint.OperationalStatusEnum.IN_OPERATION) {
+            return ConnectorStatus.OUT_OF_ORDER;
+        }
 
         if(c.getOperationalStatus() == com.tingcore.charging.assets.model.Connector.OperationalStatusEnum.OUT_OF_ORDER) {
             return ConnectorStatus.OUT_OF_ORDER;
@@ -77,12 +86,12 @@ public class ConnectorStatusMapper {
         // Connectors covered by the same rule shared busy/occupied status
         if(rule.isPresent()) {
             ConnectorModelAvailabilityRule availabilityRule = rule.get();
-            for(long id : availabilityRule.getConnectorModelIds()) {
-                if(id == c.getConnectorModelId()) {
+            for(long modelId : availabilityRule.getConnectorModelIds()) {
+                if(modelId == c.getConnectorModelId()) {
                     continue;
                 } else {
-                    ConnectorStatusResponse otherConnector = connectorMap.get(id);
-                    if(otherConnector.getBusy()) {
+                    ConnectorStatusResponse otherConnector = connectorMap.get(connectorModelToConnector.get(modelId));
+                    if(otherConnector.getReserved()) {
                         return ConnectorStatus.RESERVED;
                     }
                     if(otherConnector.getBusy()) {

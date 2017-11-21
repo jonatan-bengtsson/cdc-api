@@ -33,7 +33,7 @@ public class ChargePointSiteMapper {
                 StatusAccumelator statusAccumelator = statusByChargePointType.computeIfAbsent(con.getConnectorType(),
                         conType -> new StatusAccumelator());
 
-                updateStatusAccumelator(statusAccumelator, connectorStatusMap.get(con.getId()));
+                updateStatusAccumelator(statusAccumelator, con, connectorStatusMap.get(con.getId()));
             });
         });
 
@@ -42,35 +42,58 @@ public class ChargePointSiteMapper {
             StatusAccumelator status = e.getValue();
 
             return new ChargePointTypeStatus(toAggregatedStatus(status),
+                    type,
                     status.getAvailable(),
                     status.getOccupied(),
                     status.getReserved(),
                     status.getOutOfOrder(),
-                    isQuickCharger(type));
+                    status.getAvailableQuickcharge(),
+                    status.getOccupiedQuickcharge(),
+                    status.getReservedQuickcharge(),
+                    status.getOutOfOrderQuickcharge());
         }).collect(Collectors.toList());
 
     }
 
-    private boolean isQuickCharger(com.tingcore.charging.assets.model.Connector.ConnectorTypeEnum type) {
-        return (type == com.tingcore.charging.assets.model.Connector.ConnectorTypeEnum.CCS ||
-                type == com.tingcore.charging.assets.model.Connector.ConnectorTypeEnum.CHADEMO ||
-                type == com.tingcore.charging.assets.model.Connector.ConnectorTypeEnum.CHADEMO_AND_CCS);
+    private boolean isQuickCharger(com.tingcore.charging.assets.model.Connector c) {
+        return c.getPower() >= 40000 && c.getPower() <= 50000;
     }
 
 
-    private void updateStatusAccumelator(StatusAccumelator statusAccumelator, ConnectorStatus connectorStatus) {
+    private void updateStatusAccumelator(StatusAccumelator statusAccumelator, com.tingcore.charging.assets.model.Connector con, ConnectorStatus connectorStatus) {
+        boolean quickCharge = isQuickCharger(con);
         switch (connectorStatus) {
             case OUT_OF_ORDER:
-                statusAccumelator.incOutOfOrder();
+                if(quickCharge) {
+                    statusAccumelator.incOutOfOrderQuickcharge();
+                } else {
+
+                    statusAccumelator.incOutOfOrder();
+                }
                 break;
             case OCCUPIED:
-                statusAccumelator.incOccupied();
+                if(quickCharge) {
+                    statusAccumelator.incOccupiedQuickcharge();
+                } else {
+
+                    statusAccumelator.incOccupied();
+                }
                 break;
             case RESERVED:
-                statusAccumelator.incReserved();
+                if(quickCharge) {
+                    statusAccumelator.incReservedQuickcharge();
+                } else {
+
+                    statusAccumelator.incReserved();
+                }
                 break;
             case AVAILABLE:
-                statusAccumelator.incAvailable();
+                if(quickCharge) {
+                    statusAccumelator.incAvailableQuickcharge();
+                } else {
+
+                    statusAccumelator.incAvailable();
+                }
                 break;
         }
     }
@@ -101,7 +124,7 @@ public class ChargePointSiteMapper {
                 getLabel(c.getConnectorNumber()),
                 c.getConnectorNumber(),
                 c.getConnectorType(),
-                isQuickCharger(c.getConnectorType()),
+                isQuickCharger(c),
                 status,
                 "No price available");
     }
@@ -120,12 +143,12 @@ public class ChargePointSiteMapper {
     }
 
 
-    public ChargeSiteStatuses getAggergatedSitesStatues(List<com.tingcore.charging.assets.model.Connector> connectors, Map<Long, ConnectorStatus> connectorStatusMap) {
+    public ChargeSiteStatuses getAggregatedSitesStatues(List<com.tingcore.charging.assets.model.Connector> connectors, Map<Long, ConnectorStatus> connectorStatusMap) {
         ChargeSiteStatus quickStatus = null;
         ChargeSiteStatus siteStatus = null;
         for(com.tingcore.charging.assets.model.Connector c : connectors) {
             ConnectorStatus connectorStatus = connectorStatusMap.get(c.getId());
-            if(isQuickCharger(c.getConnectorType())) {
+            if(isQuickCharger(c)) {
                 quickStatus = getPrioritizedStatus(quickStatus, connectorStatus);
             } else {
                 siteStatus = getPrioritizedStatus(siteStatus, connectorStatus);

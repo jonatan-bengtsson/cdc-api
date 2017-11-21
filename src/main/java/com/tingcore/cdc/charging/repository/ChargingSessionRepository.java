@@ -61,7 +61,8 @@ public class ChargingSessionRepository {
             event.setData(ImmutableMap.of(
                     "authorization", token.value,
                     "chargePoint", chargePointId.value,
-                    "connector", connectorId.value));
+                    "connector", connectorId.value
+            ));
             startEvent.setEvent(event);
             return apiEventToModel(sessionId, chargesApi.createChargeEvent(sessionId.value, startEvent).execute().body());
         } catch (IOException e) {
@@ -93,7 +94,7 @@ public class ChargingSessionRepository {
                 new CustomerKeyId(apiCharge.getUser()),
                 apiTimeToNullableInstant(apiCharge.getStartTime()),
                 apiTimeToNullableInstant(apiCharge.getStopTime()),
-                ChargingSessionStatus.valueOf(apiCharge.getState())
+                ChargingSessionStatus.valueOf(apiCharge.getState().name())
         );
     }
 

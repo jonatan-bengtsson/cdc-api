@@ -2,13 +2,13 @@ package com.tingcore.cdc.charging.mapper;
 
 import com.tingcore.cdc.charging.model.ChargeSiteStatus;
 
-public class ChargeSiteStatuses {
+public class ChargePointSiteStatuses {
     private ChargeSiteStatus quickStatus;
     private ChargeSiteStatus status;
 
-    public ChargeSiteStatuses() {}
+    public ChargePointSiteStatuses() {}
 
-    public ChargeSiteStatuses(ChargeSiteStatus quickStatus, ChargeSiteStatus status) {
+    public ChargePointSiteStatuses(ChargeSiteStatus quickStatus, ChargeSiteStatus status) {
         this.quickStatus = quickStatus;
         this.status = status;
     }

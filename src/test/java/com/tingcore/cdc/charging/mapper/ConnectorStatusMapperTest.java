@@ -1,6 +1,5 @@
 package com.tingcore.cdc.charging.mapper;
 
-import com.tingcore.cdc.charging.mapper.mock.ChargePointFactory;
 import com.tingcore.cdc.charging.model.ConnectorStatus;
 import com.tingcore.cdc.constant.SpringProfilesConstant;
 import com.tingcore.charging.assets.model.*;
@@ -8,11 +7,7 @@ import com.tingcore.charging.operations.model.ChargePointStatusResponse;
 import com.tingcore.charging.operations.model.ConnectorStatusResponse;
 import com.tingcore.charging.operations.model.StatusBatchResponse;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.*;
 
@@ -23,14 +18,8 @@ import static com.tingcore.cdc.charging.mapper.mock.ConnectorFactory.createConne
 import static com.tingcore.cdc.charging.mapper.mock.ConnectorFactory.createConnectorStatus;
 import static org.junit.Assert.assertEquals;
 
-@RunWith(SpringRunner.class)
-@Import({ConnectorStatusMapper.class})
 @ActiveProfiles(SpringProfilesConstant.UNIT_TEST)
 public class ConnectorStatusMapperTest {
-
-    @Autowired
-    private ConnectorStatusMapper connectorStatusMapper;
-
 
     @Test
     public void getStatusMap() throws Exception {
@@ -126,7 +115,7 @@ public class ConnectorStatusMapperTest {
                 ));
 
 
-        Map<Long, ConnectorStatus> statusMap = connectorStatusMapper.getStatusMap(sites, statusBatchResponse);
+        Map<Long, ConnectorStatus> statusMap = ConnectorStatusMapper.getStatusMap(sites, statusBatchResponse);
 
         assertEquals(ConnectorStatus.OCCUPIED, statusMap.get(connector1Id));
         assertEquals(ConnectorStatus.OCCUPIED, statusMap.get(connector2Id));
@@ -181,8 +170,8 @@ public class ConnectorStatusMapperTest {
         connectorModelToConnector.put(connectorModel1Id, connector1Id);
         connectorModelToConnector.put(connectorModel2Id, connector2Id);
 
-        assertEquals(ConnectorStatus.OCCUPIED, connectorStatusMapper.getConnectorStatus(con1, cp, rule, conMap, cpMap, connectorModelToConnector));
-        assertEquals(ConnectorStatus.OCCUPIED, connectorStatusMapper.getConnectorStatus(con2, cp, rule, conMap, cpMap, connectorModelToConnector));
+        assertEquals(ConnectorStatus.OCCUPIED, ConnectorStatusMapper.calculateConnectorStatus(con1, cp, rule, conMap, cpMap, connectorModelToConnector));
+        assertEquals(ConnectorStatus.OCCUPIED, ConnectorStatusMapper.calculateConnectorStatus(con2, cp, rule, conMap, cpMap, connectorModelToConnector));
     }
 
     @Test
@@ -212,8 +201,8 @@ public class ConnectorStatusMapperTest {
         connectorModelToConnector.put(connectorModel1Id, connector1Id);
         connectorModelToConnector.put(connectorModel2Id, connector2Id);
 
-        assertEquals(ConnectorStatus.OUT_OF_ORDER, connectorStatusMapper.getConnectorStatus(con1, cp, rule, conMap, cpMap, connectorModelToConnector));
-        assertEquals(ConnectorStatus.OUT_OF_ORDER, connectorStatusMapper.getConnectorStatus(con2, cp, rule, conMap, cpMap, connectorModelToConnector));
+        assertEquals(ConnectorStatus.OUT_OF_ORDER, ConnectorStatusMapper.calculateConnectorStatus(con1, cp, rule, conMap, cpMap, connectorModelToConnector));
+        assertEquals(ConnectorStatus.OUT_OF_ORDER, ConnectorStatusMapper.calculateConnectorStatus(con2, cp, rule, conMap, cpMap, connectorModelToConnector));
     }
 
     @Test
@@ -243,8 +232,8 @@ public class ConnectorStatusMapperTest {
         connectorModelToConnector.put(connectorModel1Id, connector1Id);
         connectorModelToConnector.put(connectorModel2Id, connector2Id);
 
-        assertEquals(ConnectorStatus.OUT_OF_ORDER, connectorStatusMapper.getConnectorStatus(con1, cp, rule, conMap, cpMap, connectorModelToConnector));
-        assertEquals(ConnectorStatus.OUT_OF_ORDER, connectorStatusMapper.getConnectorStatus(con2, cp, rule, conMap, cpMap, connectorModelToConnector));
+        assertEquals(ConnectorStatus.OUT_OF_ORDER, ConnectorStatusMapper.calculateConnectorStatus(con1, cp, rule, conMap, cpMap, connectorModelToConnector));
+        assertEquals(ConnectorStatus.OUT_OF_ORDER, ConnectorStatusMapper.calculateConnectorStatus(con2, cp, rule, conMap, cpMap, connectorModelToConnector));
     }
 
 

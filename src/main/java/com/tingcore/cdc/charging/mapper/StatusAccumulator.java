@@ -1,6 +1,6 @@
 package com.tingcore.cdc.charging.mapper;
 
-public class StatusAccumelator {
+public class StatusAccumulator {
     private int available = 0;
     private int occupied = 0;
     private int reserved = 0;

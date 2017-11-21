@@ -7,11 +7,7 @@ import com.tingcore.cdc.constant.SpringProfilesConstant;
 import com.tingcore.charging.assets.model.*;
 import com.tingcore.charging.assets.model.Connector;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.*;
 
@@ -19,13 +15,9 @@ import static com.tingcore.cdc.charging.mapper.mock.ChargePointFactory.createCom
 import static com.tingcore.cdc.charging.mapper.mock.ConnectorFactory.createConnector;
 import static org.junit.Assert.assertEquals;
 
-@RunWith(SpringRunner.class)
-@Import({ConnectorStatusMapper.class, ChargePointSiteMapper.class})
 @ActiveProfiles(SpringProfilesConstant.UNIT_TEST)
 public class ChargePointSiteMapperTest {
 
-    @Autowired
-    private ChargePointSiteMapper chargePointSiteMapper;
 
     @Test
     public void getAggregatedSitesStatues() throws Exception {
@@ -64,7 +56,7 @@ public class ChargePointSiteMapperTest {
         conMap.put(con4.getId(), ConnectorStatus.RESERVED);
         conMap.put(con5.getId(), ConnectorStatus.AVAILABLE);
 
-        ChargeSiteStatuses aggergatedSitesStatues = chargePointSiteMapper.getAggregatedSitesStatues(Arrays.asList(con1, con2, con3, con4, con5), conMap);
+        ChargePointSiteStatuses aggergatedSitesStatues = ChargePointSiteMapper.getAggregatedSitesStatues(Arrays.asList(con1, con2, con3, con4, con5), conMap);
 
         assertEquals(ChargeSiteStatus.AVAILABLE, aggergatedSitesStatues.getStatus());
         assertEquals(ChargeSiteStatus.AVAILABLE, aggergatedSitesStatues.getQuickStatus());
@@ -77,7 +69,7 @@ public class ChargePointSiteMapperTest {
         conMap.put(con4.getId(), ConnectorStatus.RESERVED);
         conMap.put(con5.getId(), ConnectorStatus.AVAILABLE);
 
-        aggergatedSitesStatues = chargePointSiteMapper.getAggregatedSitesStatues(Arrays.asList(con1, con2, con3, con4, con5), conMap);
+        aggergatedSitesStatues = ChargePointSiteMapper.getAggregatedSitesStatues(Arrays.asList(con1, con2, con3, con4, con5), conMap);
 
         assertEquals(ChargeSiteStatus.OCCUPIED, aggergatedSitesStatues.getStatus());
         assertEquals(ChargeSiteStatus.AVAILABLE, aggergatedSitesStatues.getQuickStatus());
@@ -90,7 +82,7 @@ public class ChargePointSiteMapperTest {
         conMap.put(con4.getId(), ConnectorStatus.OUT_OF_ORDER);
         conMap.put(con5.getId(), ConnectorStatus.OCCUPIED);
 
-        aggergatedSitesStatues = chargePointSiteMapper.getAggregatedSitesStatues(Arrays.asList(con1, con2, con3, con4, con5), conMap);
+        aggergatedSitesStatues = ChargePointSiteMapper.getAggregatedSitesStatues(Arrays.asList(con1, con2, con3, con4, con5), conMap);
 
         assertEquals(ChargeSiteStatus.OUT_OF_ORDER, aggergatedSitesStatues.getStatus());
         assertEquals(ChargeSiteStatus.OCCUPIED, aggergatedSitesStatues.getQuickStatus());
@@ -126,7 +118,7 @@ public class ChargePointSiteMapperTest {
                 .operationalStatus(operationalStatus)
                 .voltage(voltage);
 
-        com.tingcore.cdc.charging.model.Connector nc = chargePointSiteMapper.toConnector(c, status);
+        com.tingcore.cdc.charging.model.Connector nc = ChargePointSiteMapper.toConnector(c, status);
 
         assertEquals(connectorId, nc.getId());
         assertEquals(number, nc.getNumber());
@@ -154,7 +146,7 @@ public class ChargePointSiteMapperTest {
         Map<Long, ConnectorStatus> conMap = new HashMap<>();
         conMap.put(connectorId, ConnectorStatus.AVAILABLE);
 
-        ChargePoint chargePoint = chargePointSiteMapper.toChargePoint(ccp, conMap);
+        ChargePoint chargePoint = ChargePointSiteMapper.toChargePoint(ccp, conMap);
 
         assertEquals(chargePointId, chargePoint.getId());
         assertEquals(String.format("ASSET%d", chargePointId), chargePoint.getAssetName());
@@ -205,7 +197,7 @@ public class ChargePointSiteMapperTest {
         Map<Long, ConnectorStatus> conStatusMap = new HashMap<>();
         conStatusMap.put(connectorId, ConnectorStatus.AVAILABLE);
 
-        com.tingcore.cdc.charging.model.ChargePointSite chargePointSite = chargePointSiteMapper.toChargePointSite(ccps, conStatusMap);
+        com.tingcore.cdc.charging.model.ChargePointSite chargePointSite = ChargePointSiteMapper.toChargePointSite(ccps, conStatusMap);
 
         assertEquals(siteId, chargePointSite.getId());
         assertEquals(chargePointId, chargePointSite.getChargePoints().get(0).getId());

@@ -9,6 +9,6 @@ public enum ChargingSessionStatus {
     WAITING_TO_COMPLETE,
     TIMEOUT_WAITING_TO_COMPLETE,
     COMPLETED,
-    CLEARED,
+    TRANSACTION_CLEARED,
     FAILED
 }

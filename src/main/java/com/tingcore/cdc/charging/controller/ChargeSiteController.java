@@ -41,7 +41,7 @@ public class ChargeSiteController {
             @RequestParam("latitude1") double latitude1,
             @RequestParam("longitude1") double longitude1,
             @RequestParam("latitude2") double latitude2,
-            @RequestParam("longitude2") double longitude2) throws ExecutionException, InterruptedException, IOException {
+            @RequestParam("longitude2") double longitude2) {
 
         return chargeSiteService.getChargeSiteByCoordinate(latitude1, longitude1, latitude2, longitude2);
     }
@@ -54,7 +54,7 @@ public class ChargeSiteController {
     @ApiOperation(value = "Get complete Charge Point Site",
             notes = "Get complete Charge Point Site including Charge Points with Connectors"
     )
-    public ChargePointSite getChargePointSite(@PathVariable("id") String id) throws ExecutionException, InterruptedException, IOException {
+    public ChargePointSite getChargePointSite(@PathVariable("id") String id) {
         return chargeSiteService.getChargeSite(getId(id));
     }
 

@@ -20,9 +20,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.*;
-import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 @Service
@@ -44,8 +42,6 @@ public class ChargePointSiteService {
         this.operationsRepository = operationsRepository;
     }
 
-    // TODO proper error handling overall
-
     /**
      * Given two coordinates representing a bounding box
      * returns basic versions of all charge point sites within the bounding box with some aggregated status
@@ -55,7 +51,7 @@ public class ChargePointSiteService {
      * @param lng2 longitude component of second coordinate
      * @return response with basic versions of sites within the bounding box represented by the first and second coordinates.
      */
-    public PageResponse<BasicChargeSite> getChargeSiteByCoordinate(double lat1, double lng1, double lat2, double lng2) throws ExecutionException, InterruptedException, IOException {
+    public PageResponse<BasicChargeSite> getChargeSiteByCoordinate(double lat1, double lng1, double lat2, double lng2) {
         List<ChargePointSiteWithAvailabilityRules> chargeSiteWithAvailabilityRules = Utils.getResponseOrThrowError(
                 assetRepository.execute(chargeSitesApi.chargeSiteByLocationUsingGET(lat1, lng1, lat2, lng2)),
                 AssetServiceException::new
@@ -76,10 +72,10 @@ public class ChargePointSiteService {
 
         return response.getResponseOptional()
                 .map(statusBatchResponse -> toChargeSiteWithStatus(chargeSiteWithAvailabilityRules, statusBatchResponse))
-                .orElse(toChargeSiteWithStatusUnkown(chargeSiteWithAvailabilityRules));
+                .orElse(toChargeSiteWithStatusUnknown(chargeSiteWithAvailabilityRules));
     }
 
-    private PageResponse<BasicChargeSite> toChargeSiteWithStatusUnkown(List<ChargePointSiteWithAvailabilityRules> chargeSiteWithAvailabilityRules) {
+    private PageResponse<BasicChargeSite> toChargeSiteWithStatusUnknown(List<ChargePointSiteWithAvailabilityRules> chargeSiteWithAvailabilityRules) {
         List<BasicChargeSite> previewChargeSites = chargeSiteWithAvailabilityRules.stream()
                 .map(cs -> {
                     CompleteChargePointSite ccps = cs.getChargePointSite();
@@ -123,11 +119,8 @@ public class ChargePointSiteService {
      * Fetch a detailed version of a charge point site
      * @param id the id of a charge point site
      * @return A detailed answer of the charge point site including statuses on charge points and connectors
-     * @throws ExecutionException
-     * @throws InterruptedException
-     * @throws IOException
      */
-    public com.tingcore.cdc.charging.model.ChargePointSite getChargeSite(long id) throws ExecutionException, InterruptedException, IOException {
+    public com.tingcore.cdc.charging.model.ChargePointSite getChargeSite(long id) {
         ChargePointSiteWithAvailabilityRules chargePointSiteWithAvailabilityRules = Utils.getResponseOrThrowError(
                 assetRepository.execute(chargeSitesApi.chargePointSiteWithAvailabilityRulesSiteUsingGET(id)),
                 AssetServiceException::new

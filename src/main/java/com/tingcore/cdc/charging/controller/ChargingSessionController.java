@@ -13,6 +13,7 @@ import com.tingcore.cdc.configuration.AuthorizedUser;
 import com.tingcore.cdc.configuration.WebMvcConfiguration;
 import com.tingcore.cdc.exception.EntityNotFoundException;
 import com.tingcore.cdc.exception.NoSessionFoundException;
+import com.tingcore.cdc.model.UserReference;
 import com.tingcore.commons.api.service.HashIdService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -55,7 +56,7 @@ public class ChargingSessionController {
     public ResponseEntity<ChargingSession> createSession(final @RequestBody @Valid CreateChargingSessionRequest request) {
         // TODO return created response
         return ResponseEntity.ok(toApiObject(chargingSessionService.startSession(
-                currentMetadata().userReference.orElseThrow(IllegalStateException::new),
+                new UserReference(Long.toString(authorizedUser.getUser().getId())),
                 customerKeyIdFromRequest(request),
                 chargePointIdFromRequest(request),
                 connectorIdFromRequest(request)

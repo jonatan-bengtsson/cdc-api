@@ -27,7 +27,7 @@ public class CustomerKeyRepository {
     public List<CustomerKey> fetchCustomerKeysForUser(final UserId userId,
                                                       final UserReference userReference) {
         try {
-            final AttributeResponse response = usersApi.getUserAttributeValueByIdUsingGET(userId.value, CUSTOMER_KEY_ATTRIBUTE_ID, userReference.value).get();
+            final AttributeResponse response = usersApi.getUserAttributeValueByIdUsingGET(userId.value, CUSTOMER_KEY_ATTRIBUTE_ID, Long.valueOf(userReference.value)).get();
 
             // TODO parse JSON array?
             // response.getProperties();

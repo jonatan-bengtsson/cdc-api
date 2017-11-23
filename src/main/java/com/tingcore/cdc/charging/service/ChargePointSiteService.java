@@ -7,7 +7,7 @@ import com.tingcore.cdc.charging.mapper.OperationsApiMapper;
 import com.tingcore.cdc.charging.model.*;
 import com.tingcore.cdc.charging.repository.AssetRepository;
 import com.tingcore.cdc.charging.repository.OperationsRepository;
-import com.tingcore.cdc.controller.Utils;
+import com.tingcore.cdc.controller.ApiUtils;
 import com.tingcore.charging.assets.api.ChargeSitesApi;
 import com.tingcore.charging.assets.model.ChargePointSiteWithAvailabilityRules;
 import com.tingcore.charging.assets.model.CompleteChargePointSite;
@@ -52,7 +52,7 @@ public class ChargePointSiteService {
      * @return response with basic versions of sites within the bounding box represented by the first and second coordinates.
      */
     public PageResponse<BasicChargeSite> getChargeSiteByCoordinate(double lat1, double lng1, double lat2, double lng2) {
-        List<ChargePointSiteWithAvailabilityRules> chargeSiteWithAvailabilityRules = Utils.getResponseOrThrowError(
+        List<ChargePointSiteWithAvailabilityRules> chargeSiteWithAvailabilityRules = ApiUtils.getResponseOrThrowError(
                 assetRepository.execute(chargeSitesApi.chargeSiteByLocationUsingGET(lat1, lng1, lat2, lng2)),
                 AssetServiceException::new
         );
@@ -121,7 +121,7 @@ public class ChargePointSiteService {
      * @return A detailed answer of the charge point site including statuses on charge points and connectors
      */
     public com.tingcore.cdc.charging.model.ChargePointSite getChargeSite(long id) {
-        ChargePointSiteWithAvailabilityRules chargePointSiteWithAvailabilityRules = Utils.getResponseOrThrowError(
+        ChargePointSiteWithAvailabilityRules chargePointSiteWithAvailabilityRules = ApiUtils.getResponseOrThrowError(
                 assetRepository.execute(chargeSitesApi.chargePointSiteWithAvailabilityRulesSiteUsingGET(id)),
                 AssetServiceException::new
         );

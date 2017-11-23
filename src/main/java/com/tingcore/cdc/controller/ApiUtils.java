@@ -7,7 +7,7 @@ import com.tingcore.commons.rest.ErrorResponse;
 
 import java.util.function.Function;
 
-public class Utils {
+public class ApiUtils {
     public static <T, E extends ExternalApiException> T getResponseOrThrowError(ApiResponse<T> response, Function<ErrorResponse, E> exceptionCreator) throws E {
         return response
                 .getResponseOptional()

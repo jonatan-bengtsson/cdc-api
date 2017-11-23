@@ -78,6 +78,7 @@ configurations.all {
 ext {
     versionSwagger = "2.7.0"
     okhttp_version = "3.9.0"
+    versionCommonsApi = "1.0.3-SNAPSHOT"
 }
 
 dependencies {
@@ -92,7 +93,7 @@ dependencies {
     compile("org.springframework.cloud:spring-cloud-starter-config")
 
     // Tingcore
-    compile("com.tingcore.commons:commons-rest:1.0.4")
+    compile("com.tingcore.commons:commons-api:$versionCommonsApi")
     compile("com.tingcore.charging:asset-service-java-client:0.1.0-SNAPSHOT")
     compile("com.tingcore.charging:charging-operations-java-client:0.1.0-SNAPSHOT")
     compile("com.tingcore:user-service-java-client:1.0.0.1-SNAPSHOT")

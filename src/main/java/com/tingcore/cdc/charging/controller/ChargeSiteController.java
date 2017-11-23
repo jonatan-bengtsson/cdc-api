@@ -2,7 +2,7 @@ package com.tingcore.cdc.charging.controller;
 
 import com.tingcore.cdc.charging.model.ChargePointSite;
 import com.tingcore.cdc.charging.model.BasicChargeSite;
-import com.tingcore.cdc.charging.service.ChargeSiteService;
+import com.tingcore.cdc.charging.service.ChargePointSiteService;
 import com.tingcore.cdc.exception.EntityNotFoundException;
 import com.tingcore.cdc.service.HashIdService;
 import com.tingcore.commons.rest.PageResponse;
@@ -20,10 +20,10 @@ import java.util.concurrent.ExecutionException;
 public class ChargeSiteController {
 
     private final HashIdService hashIdService;
-    private ChargeSiteService chargeSiteService;
+    private ChargePointSiteService chargeSiteService;
 
     @Autowired
-    public ChargeSiteController(ChargeSiteService chargeSiteService, HashIdService hashIdService) {
+    public ChargeSiteController(ChargePointSiteService chargeSiteService, HashIdService hashIdService) {
         this.chargeSiteService = chargeSiteService;
         this.hashIdService = hashIdService;
     }

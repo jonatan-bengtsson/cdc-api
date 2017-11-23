@@ -4,5 +4,5 @@ public enum ChargeSiteStatus {
     AVAILABLE,
     OCCUPIED,
     OUT_OF_ORDER,
-    NONE
+    NO_DATA, NONE
 }

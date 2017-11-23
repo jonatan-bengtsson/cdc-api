@@ -24,7 +24,7 @@ public class ChargingSessionRepositoryTests {
     apiCharge.setUser(456L);
     apiCharge.setStartTime(now.toEpochMilli());
     apiCharge.setStopTime(later.toEpochMilli());
-    apiCharge.setState(ChargingSessionStatus.STARTED.toString());
+    //apiCharge.setState(ChargingSessionStatus.STARTED);
 
 //    ChargingSession session = ChargingSessionRepository.apiSessionToModel(apiCharge);
 //

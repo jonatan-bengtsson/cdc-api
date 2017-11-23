@@ -1,6 +1,7 @@
 package com.tingcore.cdc.controller;
 
 
+import com.tingcore.cdc.charging.service.AssetServiceException;
 import com.tingcore.cdc.constant.ErrorCode;
 import com.tingcore.cdc.crm.service.InvalidAttributeValueException;
 import com.tingcore.cdc.exception.EntityNotFoundException;
@@ -136,6 +137,18 @@ public class GlobalExceptionHandler {
                         .message(messageByLocaleService.getMessage(errorCode.messageKey()))
                         .addFieldViolation(e.getParameterName(), null, "")
                         .build());
+    }
+
+    @ExceptionHandler(value = AssetServiceException.class)
+    public ResponseEntity<ErrorResponse> handleAssetServiceException(final AssetServiceException e) {
+        LOG.debug(e.getMessage(), e);
+        final ErrorCode errorCode = ErrorCode.INTERNAL_SERVER_ERROR;
+        return errorResponseToResponseEntity(
+                ErrorResponse.badRequest()
+                        .code(errorCode.value())
+                        .message(messageByLocaleService.getMessage(errorCode.messageKey()))
+                        .build()
+        );
     }
 
     @ExceptionHandler(value = EntityNotFoundException.class)

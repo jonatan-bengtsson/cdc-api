@@ -116,7 +116,7 @@ public class ConnectorStatusMapper {
             return ConnectorStatus.OUT_OF_ORDER;
         }
 
-        if(!chargePointStatusMap.get(c.getChargePointId()).getOnline()) {
+        if(!chargePointStatusMap.get(c.getChargePointId()).isOnline()) {
             return ConnectorStatus.OUT_OF_ORDER;
         }
 
@@ -130,21 +130,21 @@ public class ConnectorStatusMapper {
                     continue;
                 } else {
                     ConnectorStatusResponse otherConnector = connectorMap.get(connectorModelToConnector.get(modelId));
-                    if(otherConnector.getReserved()) {
+                    if(otherConnector.isReserved()) {
                         return ConnectorStatus.RESERVED;
                     }
-                    if(otherConnector.getBusy()) {
+                    if(otherConnector.isBusy()) {
                         return ConnectorStatus.OCCUPIED;
                     }
                 }
             }
         }
 
-        if(connectorStatus.getOutOfOrder()) {
+        if(connectorStatus.isOutOfOrder()) {
             return ConnectorStatus.OUT_OF_ORDER;
-        } else if(connectorStatus.getReserved()) {
+        } else if(connectorStatus.isReserved()) {
             return ConnectorStatus.RESERVED;
-        } else if (connectorStatus.getBusy()) {
+        } else if (connectorStatus.isBusy()) {
             return ConnectorStatus.OCCUPIED;
         } else {
             return ConnectorStatus.AVAILABLE;

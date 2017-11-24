@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.time.Instant;
 
+import static java.lang.String.format;
 import static java.util.Optional.ofNullable;
 import static org.apache.commons.lang3.Validate.notNull;
 
@@ -94,8 +95,33 @@ public class ChargingSessionRepository {
                 new CustomerKeyId(apiCharge.getUser()),
                 apiTimeToNullableInstant(apiCharge.getStartTime()),
                 apiTimeToNullableInstant(apiCharge.getStopTime()),
-                ChargingSessionStatus.valueOf(apiCharge.getState().name())
+                apiSessionStateToModel(apiCharge.getState())
         );
+    }
+
+    private static ChargingSessionStatus apiSessionStateToModel(final ApiCharge.StateEnum state) {
+        switch (state) {
+            case CREATED:
+                return ChargingSessionStatus.CREATED;
+            case WAITING_TO_START:
+                return ChargingSessionStatus.WAITING_TO_START;
+            case STARTED:
+                return ChargingSessionStatus.STARTED;
+            case WAITING_TO_COMPLETE:
+                return ChargingSessionStatus.WAITING_TO_COMPLETE;
+            case COMPLETED:
+                return ChargingSessionStatus.COMPLETED;
+            case TRANSACTION_CLEARED:
+                return ChargingSessionStatus.CLEARED;
+            case TIMEOUT_WAITING_TO_START:
+            case FAILED_TO_START:
+            case TIMEOUT_WAITING_TO_COMPLETE:
+            case FAILED_TO_COMPLETE:
+            case FAILED_TO_CLEAR_TRANSACTION:
+            case FAILED:
+                return ChargingSessionStatus.FAILED;
+        }
+        throw new IllegalStateException(format("No explicit mapping of charging session state %s was found.", state.name()));
     }
 
     private ChargingSessionEvent apiEventToModel(final ChargingSessionId sessionId,

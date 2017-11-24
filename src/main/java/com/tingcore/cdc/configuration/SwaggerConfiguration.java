@@ -44,6 +44,7 @@ public class SwaggerConfiguration {
                                 typeResolver.resolve(WildcardType.class)
                         )
                 )
+                .genericModelSubstitutes(Optional.class)
                 .useDefaultResponseMessages(false)
                 .globalResponseMessage(RequestMethod.GET, SwaggerDefaultConstant.getResponseMessages())
                 .globalResponseMessage(RequestMethod.POST, SwaggerDefaultConstant.postResponseMessages())

@@ -43,8 +43,7 @@ public class UserRepositoryTest {
     }
 
     private void givenAUserExists(String authorizationId) {
-        final boolean getUserAttributes = false;
-        when(usersApi.getSelfUsingGET(authorizationId, getUserAttributes)).thenReturn(createUserResponse());
+        when(usersApi.getSelfUsingGET(authorizationId)).thenReturn(createUserResponse());
     }
 
     private Optional<User> whenTheUserIsFetchedByAuthorizationId(String authorizationId) {

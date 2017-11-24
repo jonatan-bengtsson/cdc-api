@@ -3,6 +3,7 @@ package com.tingcore.cdc.charging.controller;
 import com.tingcore.cdc.charging.model.BasicChargeSite;
 import com.tingcore.cdc.charging.model.ChargePointSite;
 import com.tingcore.cdc.charging.service.ChargeSiteService;
+import com.tingcore.cdc.charging.service.ChargePointSiteService;
 import com.tingcore.cdc.exception.EntityNotFoundException;
 import com.tingcore.commons.api.service.HashIdService;
 import com.tingcore.commons.rest.PageResponse;
@@ -11,26 +12,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 
 @RestController
-// TODO Readd when spring security is configured correctly/removed
-// @RequestMapping(value = "/v1")
-@RequestMapping(value = "/chargesites")
+@RequestMapping(value = "/v1/chargesites")
 public class ChargeSiteController {
 
     private final HashIdService hashIdService;
-    private ChargeSiteService chargeSiteService;
+    private ChargePointSiteService chargeSiteService;
 
     @Autowired
-    public ChargeSiteController(ChargeSiteService chargeSiteService, HashIdService hashIdService) {
+    public ChargeSiteController(ChargePointSiteService chargeSiteService, HashIdService hashIdService) {
         this.chargeSiteService = chargeSiteService;
         this.hashIdService = hashIdService;
     }
 
     @RequestMapping(
-            value = ";context=map",
+            value = "/view/map",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
@@ -42,7 +42,7 @@ public class ChargeSiteController {
             @RequestParam("latitude1") double latitude1,
             @RequestParam("longitude1") double longitude1,
             @RequestParam("latitude2") double latitude2,
-            @RequestParam("longitude2") double longitude2) throws ExecutionException, InterruptedException {
+            @RequestParam("longitude2") double longitude2) {
 
         return chargeSiteService.getChargeSiteByCoordinate(latitude1, longitude1, latitude2, longitude2);
     }
@@ -55,7 +55,7 @@ public class ChargeSiteController {
     @ApiOperation(value = "Get complete Charge Point Site",
             notes = "Get complete Charge Point Site including Charge Points with Connectors"
     )
-    public ChargePointSite getChargePointSite(@PathVariable("id") String id) throws ExecutionException, InterruptedException {
+    public ChargePointSite getChargePointSite(@PathVariable("id") String id) {
         return chargeSiteService.getChargeSite(getId(id));
     }
 

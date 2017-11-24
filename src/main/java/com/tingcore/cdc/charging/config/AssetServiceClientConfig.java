@@ -19,12 +19,4 @@ public class AssetServiceClientConfig {
         return client.createService(ChargeSitesApi.class);
     }
 
-    @Bean
-    public ChargePointModelsApi createChargePointTypeControllerApi() {
-        ApiClient client = new ApiClient();
-
-        //client.setBasePath("http://localhost:8080");
-        client.getAdapterBuilder().baseUrl("https://asset-service-test.tingcore-infra.com");
-        return client.createService(ChargePointModelsApi.class);
-    }
 }

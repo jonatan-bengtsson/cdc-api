@@ -1,22 +1,24 @@
 package com.tingcore.cdc.charging.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tingcore.charging.assets.model.GeoCoordinate;
-import com.tingcore.charging.assets.model.Location;
 
 public class BasicChargeSite {
     private Long id;
     private String name;
     private GeoCoordinate coordinate;
+    private ChargeSiteStatus quickStatus;
     private ChargeSiteStatus status;
 
     BasicChargeSite() {
     }
 
-    public BasicChargeSite(Long id, String name, GeoCoordinate coordinate, ChargeSiteStatus chargeSiteStatus) {
+    public BasicChargeSite(Long id, String name, GeoCoordinate coordinate, ChargeSiteStatus chargeSiteStatus, ChargeSiteStatus quickChargeSiteStatus) {
         this.id = id;
         this.name = name;
         this.coordinate = coordinate;
         this.status = chargeSiteStatus;
+        this.quickStatus = quickChargeSiteStatus;
     }
 
     public Long getId() {
@@ -41,6 +43,14 @@ public class BasicChargeSite {
 
     public void setCoordinate(GeoCoordinate coordinate) {
         this.coordinate = coordinate;
+    }
+
+    public ChargeSiteStatus getQuickStatus() {
+        return quickStatus;
+    }
+
+    public void setQuickStatus(ChargeSiteStatus quickStatus) {
+        this.quickStatus = quickStatus;
     }
 
     public ChargeSiteStatus getStatus() {

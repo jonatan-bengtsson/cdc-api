@@ -24,15 +24,15 @@ public class ChargingSessionRepository {
     }
 
     public ChargingSession fetchSession(final ChargingSessionId id) {
-      try {
-        Response<ApiCharge> response = chargesApi.getCharge(id.value).execute();
-        if(response.code() == 404) {
-          throw new NoSessionFoundException("Session not found");
+        try {
+            Response<ApiCharge> response = chargesApi.getCharge(id.value).execute();
+            if (response.code() == 404) {
+                throw new NoSessionFoundException("Session not found");
+            }
+            return apiSessionToModel(response.body());
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
         }
-        return apiSessionToModel(response.body());
-      } catch (IOException e) {
-        throw new UncheckedIOException(e);
-      }
     }
 
     public ChargingSession createSession(final CustomerKeyId targetUser) {
@@ -61,7 +61,8 @@ public class ChargingSessionRepository {
             event.setData(ImmutableMap.of(
                     "authorization", token.value,
                     "chargePoint", chargePointId.value,
-                    "connector", connectorId.value));
+                    "connector", connectorId.value
+            ));
             startEvent.setEvent(event);
             return apiEventToModel(sessionId, chargesApi.createChargeEvent(sessionId.value, startEvent).execute().body());
         } catch (IOException e) {
@@ -70,12 +71,16 @@ public class ChargingSessionRepository {
     }
 
     public ChargingSessionEvent stopSession(final ChargingSessionId sessionId,
-                                            final AuthorizationToken token) {
+                                            final AuthorizationToken token,
+                                            final ChargePointId chargePointId) {
         try {
             final CreateChargeEventRequest stopEvent = new CreateChargeEventRequest();
             final Event event = new Event();
             event.setNature(Event.NatureEnum.STOP_REQUESTED);
-            event.setData(ImmutableMap.of("authorization", token.value));
+            event.setData(ImmutableMap.of(
+                    "authorization", token.value,
+                    "chargePoint", chargePointId.value
+            ));
             stopEvent.setEvent(event);
             return apiEventToModel(sessionId, chargesApi.createChargeEvent(sessionId.value, stopEvent).execute().body());
         } catch (IOException e) {
@@ -85,21 +90,21 @@ public class ChargingSessionRepository {
 
     static ChargingSession apiSessionToModel(final ApiCharge apiCharge) {
         return new ChargingSession(
-                      new ChargingSessionId(apiCharge.getId()),
-                      new CustomerKeyId(apiCharge.getUser()),
-                      apiTimeToNullableInstant(apiCharge.getStartTime()),
-                      apiTimeToNullableInstant(apiCharge.getStopTime()),
-                      ChargingSessionStatus.valueOf(apiCharge.getState())
+                new ChargingSessionId(apiCharge.getId()),
+                new CustomerKeyId(apiCharge.getUser()),
+                apiTimeToNullableInstant(apiCharge.getStartTime()),
+                apiTimeToNullableInstant(apiCharge.getStopTime()),
+                ChargingSessionStatus.valueOf(apiCharge.getState().name())
         );
     }
 
     private ChargingSessionEvent apiEventToModel(final ChargingSessionId sessionId,
                                                  final ApiChargeEvent apiEvent) {
         return new ChargingSessionEvent(
-                                   sessionId,
-                                   new ChargingSessionEventId(apiEvent.getId()),
-                                   apiTimeToNullableInstant(apiEvent.getTime()),
-                                   ChargingSessionEventNature.valueOf(apiEvent.getNature().name())
+                sessionId,
+                new ChargingSessionEventId(apiEvent.getId()),
+                apiTimeToNullableInstant(apiEvent.getTime()),
+                ChargingSessionEventNature.valueOf(apiEvent.getNature().name())
         );
     }
 

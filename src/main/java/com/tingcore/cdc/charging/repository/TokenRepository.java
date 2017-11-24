@@ -33,7 +33,7 @@ public class TokenRepository {
             authorization.setMethod(Authorization.MethodEnum.AWS_COGNITO_ID);
             authorization.setData(ImmutableMap.of("id", userReference.value));
             request.setAuthorization(authorization);
-            request.setUser(customerKeyId.value);
+            request.setAccount(customerKeyId.value);
             request.setChargePoint(chargePointId.value);
             return apiTokenToModel(tokensApi.createAuthorizationToken(request).execute().body());
         } catch (IOException e) {

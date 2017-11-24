@@ -3,7 +3,7 @@ package com.tingcore.cdc.crm.model;
 import java.time.Instant;
 
 /**
- * TODO refactor when payment information endpoint is ready at the payment service
+ * TODO this might completely change
  *
  * @author palmithor
  * @since 2017-11-10

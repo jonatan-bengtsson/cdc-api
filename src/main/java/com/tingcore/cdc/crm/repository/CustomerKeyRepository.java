@@ -30,7 +30,7 @@ public class CustomerKeyRepository {
     }
 
     public PageResponse<AttributeResponse> findByUserId(final Long decodedId) {
-        // TODO connect to service - this is mocked for now
+        // TODO this will completely change - customer keys won't even be of type attribute response
         final List<AttributeResponse> responseList = new ArrayList<>(5);
         for (int i = 0; i < 1 + (int) (Math.random() * 10); i++) {
             responseList.add(mockAttributeResponse());

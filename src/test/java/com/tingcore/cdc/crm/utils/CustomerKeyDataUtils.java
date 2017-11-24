@@ -3,8 +3,9 @@ package com.tingcore.cdc.crm.utils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tingcore.cdc.crm.model.CustomerKey;
-import com.tingcore.cdc.crm.response.CustomerKeyResponse;
+import com.tingcore.cdc.crm.model.PaymentInformation;
 import com.tingcore.cdc.utils.CommonDataUtils;
+import com.tingcore.commons.api.utils.JsonUtils;
 import com.tingcore.users.model.AttributeResponse;
 import com.tingcore.users.model.AttributeValueResponse;
 
@@ -13,6 +14,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * @author palmithor
@@ -32,8 +34,8 @@ public class CustomerKeyDataUtils {
     }
 
 
-    public static CustomerKeyResponse customerKeyResponse() {
-        return CustomerKeyResponse.createBuilder()
+    public static CustomerKey customerKeyResponse() {
+        return CustomerKey.createBuilder()
                 .id(CommonDataUtils.getNextId())
                 .keyNumber(CommonDataUtils.nextZeroPaddedId(10))
                 .type(TYPE_VIRTUAL)
@@ -41,7 +43,10 @@ public class CustomerKeyDataUtils {
                 .activeTo(getFutureInstant())
                 .defaultCurrency("sek")
                 .serviceKey(false)
-                .chargeGroupIds(new ArrayList<Long>() {{add(1l);add(2l);}})
+                .chargeGroupIds(new ArrayList<Long>() {{
+                    add(1L);
+                    add(2L);
+                }})
                 .name(CommonDataUtils.nextZeroPaddedId(5))
                 .organizationId(CommonDataUtils.getNextId())
                 .build();
@@ -66,14 +71,17 @@ public class CustomerKeyDataUtils {
 
     private static CustomerKey getCustomerKey() {
         return new CustomerKey(
+                CommonDataUtils.getNextId(),
                 CommonDataUtils.nextZeroPaddedId(10),
                 TYPE_VIRTUAL,
-                CommonDataUtils.nextZeroPaddedId(10),
+                UUID.randomUUID().toString(),
                 CommonDataUtils.getNextId(),
-                getFutureInstant(),
                 getPassedInstant(),
-                "SEK",
-                false
+                getFutureInstant(),
+                false,
+                new ArrayList<>(),
+                new PaymentInformation(),
+                "SEK"
         );
     }
 

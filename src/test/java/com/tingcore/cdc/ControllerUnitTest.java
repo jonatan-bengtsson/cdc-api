@@ -6,6 +6,7 @@ import com.tingcore.cdc.configuration.LocaleConfiguration;
 import com.tingcore.cdc.constant.SpringProfilesConstant;
 import com.tingcore.cdc.service.MessageByLocaleService;
 import com.tingcore.cdc.utils.MockMvcUtils;
+import com.tingcore.commons.api.service.HashIdService;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration;

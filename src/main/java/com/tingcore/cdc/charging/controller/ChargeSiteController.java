@@ -2,7 +2,6 @@ package com.tingcore.cdc.charging.controller;
 
 import com.tingcore.cdc.charging.model.BasicChargeSite;
 import com.tingcore.cdc.charging.model.ChargePointSite;
-import com.tingcore.cdc.charging.service.ChargeSiteService;
 import com.tingcore.cdc.charging.service.ChargePointSiteService;
 import com.tingcore.cdc.exception.EntityNotFoundException;
 import com.tingcore.commons.api.service.HashIdService;
@@ -12,9 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.util.Optional;
-import java.util.concurrent.ExecutionException;
 
 @RestController
 @RequestMapping(value = "/v1/chargesites")

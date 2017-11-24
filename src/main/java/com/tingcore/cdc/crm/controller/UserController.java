@@ -1,6 +1,6 @@
 package com.tingcore.cdc.crm.controller;
 
-import com.tingcore.cdc.crm.response.CustomerKeyResponse;
+import com.tingcore.cdc.crm.model.CustomerKey;
 import com.tingcore.cdc.crm.service.CustomerKeyService;
 import com.tingcore.cdc.exception.EntityNotFoundException;
 import com.tingcore.commons.api.service.HashIdService;
@@ -49,7 +49,7 @@ public class UserController {
     @ApiOperation(value = "Get customer keys by user id",
             notes = "Route allows fetching all customer keys that belong to a user.",
             tags = {SwaggerConstant.TAGS_CUSTOMER_KEYS, SwaggerConstant.TAGS_USERS})
-    public PageResponse<CustomerKeyResponse> getCustomerKeys(@PathVariable(PARAM_ID) final String id) {
+    public PageResponse<CustomerKey> getCustomerKeys(@PathVariable(PARAM_ID) final String id) {
         return hashIdService.decode(id)
                 .map(decodedId -> customerKeyService.findByUserId(decodedId))
                 .orElseThrow(() -> new EntityNotFoundException(EntityNameConstant.USER, id));

@@ -1,10 +1,11 @@
 package com.tingcore.cdc.crm.controller;
 
 import com.tingcore.cdc.ControllerUnitTest;
-import com.tingcore.cdc.crm.response.CustomerKeyResponse;
+import com.tingcore.cdc.crm.model.CustomerKey;
 import com.tingcore.cdc.crm.service.CustomerKeyService;
 import com.tingcore.cdc.crm.utils.CustomerKeyDataUtils;
 import com.tingcore.cdc.utils.CommonDataUtils;
+import com.tingcore.commons.api.service.HashIdService;
 import com.tingcore.commons.rest.PageResponse;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,8 +42,8 @@ public class UserControllerTest extends ControllerUnitTest {
     public void findByUserId() throws Exception {
         final Long userId = CommonDataUtils.getNextId();
         final String hashedId = hashIdService.encode(userId);
-        final List<CustomerKeyResponse> customerKeys = Arrays.asList(CustomerKeyDataUtils.customerKeyResponse(), CustomerKeyDataUtils.customerKeyResponse(), CustomerKeyDataUtils.customerKeyResponse());
-        PageResponse<CustomerKeyResponse> mockResponse = new PageResponse<>(customerKeys);
+        final List<CustomerKey> customerKeys = Arrays.asList(CustomerKeyDataUtils.customerKeyResponse(), CustomerKeyDataUtils.customerKeyResponse(), CustomerKeyDataUtils.customerKeyResponse());
+        PageResponse<CustomerKey> mockResponse = new PageResponse<>(customerKeys);
         given(customerKeyService.findByUserId(userId)).willReturn(mockResponse);
         MvcResult result = mockMvc.perform(get("/v1/users/{userId}/keys", hashedId))
                 .andExpect(status().isOk())
@@ -54,8 +55,8 @@ public class UserControllerTest extends ControllerUnitTest {
     @Test
     public void failFindByUserIdInvalidType() throws Exception {
         final Long userId = CommonDataUtils.getNextId();
-        final List<CustomerKeyResponse> customerKeys = Arrays.asList(CustomerKeyDataUtils.customerKeyResponse(), CustomerKeyDataUtils.customerKeyResponse(), CustomerKeyDataUtils.customerKeyResponse());
-        PageResponse<CustomerKeyResponse> mockResponse = new PageResponse<>(customerKeys);
+        final List<CustomerKey> customerKeys = Arrays.asList(CustomerKeyDataUtils.customerKeyResponse(), CustomerKeyDataUtils.customerKeyResponse(), CustomerKeyDataUtils.customerKeyResponse());
+        PageResponse<CustomerKey> mockResponse = new PageResponse<>(customerKeys);
         given(customerKeyService.findByUserId(userId)).willReturn(mockResponse);
         mockMvc.perform(get("/v1/users/{userId}/keys", userId))
                 .andExpect(status().isNotFound());

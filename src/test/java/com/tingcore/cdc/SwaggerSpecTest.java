@@ -1,5 +1,6 @@
 package com.tingcore.cdc;
 
+import com.tingcore.cdc.constant.SpringProfilesConstant;
 import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,7 +27,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
-@ActiveProfiles("dev")
+@ActiveProfiles(SpringProfilesConstant.FUNCTIONAL_TEST)
 public class SwaggerSpecTest {
 
     private static final Logger LOGGER = LoggerFactory

@@ -26,6 +26,7 @@ info:
     version: ${VERSION:unknown}
 
 app:
+  allowed-origins: http://localhost:3000
   user-service:
     base-url: https://${integration.user.hostname}
     default-timeout: 20 # timeout in seconds

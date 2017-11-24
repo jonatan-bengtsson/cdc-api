@@ -3,7 +3,6 @@ package com.tingcore.cdc.crm.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tingcore.cdc.crm.model.CustomerKey;
 import com.tingcore.cdc.crm.model.PaymentInformation;
-import com.tingcore.cdc.crm.response.CustomerKeyResponse;
 import com.tingcore.users.model.AttributeResponse;
 import org.springframework.stereotype.Component;
 
@@ -24,19 +23,19 @@ class CustomerKeyMapper {
         this.paymentInformationMapper = new PaymentInformationMapper();
     }
 
-    CustomerKeyResponse toResponse(final AttributeResponse attributeValue, final PaymentInformation paymentInformation) {
+    CustomerKey toResponse(final AttributeResponse attributeValue, final PaymentInformation paymentInformation) {
         CustomerKey customerKey;
         try {
             customerKey = objectMapper.readValue(attributeValue.getAttributeValue().getValue(), CustomerKey.class);
         } catch (IOException e) {
             throw new InvalidAttributeValueException(attributeValue.getAttributeValue().getId());
         }
-        return CustomerKeyResponse.createBuilder()
+        return CustomerKey.createBuilder()
                 .id(attributeValue.getId())
                 .keyNumber(customerKey.getKeyNumber())
                 .type(customerKey.getType())
-                .activeFrom(customerKey.getActivatedFrom())
-                .activeTo(customerKey.getActivatedTo())
+                .activeFrom(customerKey.getActiveFrom())
+                .activeTo(customerKey.getActiveTo())
                 .serviceKey(customerKey.getServiceKey())
                 .paymentInformation(paymentInformationMapper.toResponse(paymentInformation))
                 .defaultCurrency(customerKey.getDefaultCurrency())

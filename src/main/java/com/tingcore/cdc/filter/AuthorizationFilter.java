@@ -57,21 +57,31 @@ public class AuthorizationFilter implements Filter {
     public void doFilter(final ServletRequest servletRequest, final ServletResponse servletResponse, final FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
-        final String authorizationId = request.getHeader(cognitoUserIdHeaderName);
 
-        if (StringUtils.isBlank(authorizationId)) {
-            LOG.info("Cognito auth provider header missing for path {}", request.getRequestURI());
-            filterUtils.setError(response, ErrorResponse.unauthorized(), DefaultErrorCode.UNAUTHORIZED,
-                    "The cognito auth provider header from API Gateway did not include the required data",
-                    "cognitoAuthProviderHeaderName: " + request.getHeader(cognitoAuthProviderHeaderName));
+        // Unfortunately this needs to be done as filters can not be excluded for certain methods
+        // It will however be removed when we introduce spring security
+        if ("OPTIONS".equals(request.getMethod())) {
+            filterChain.doFilter(request, response);
         } else {
-            final ApiResponse<UserResponse> apiResponse = userRepository.getSelf(authorizationId, false);
-            if (apiResponse.hasError()) {
-                LOG.info("An error occurred fetching user from user service, {} ", apiResponse.getError().getMessage());
-                filterUtils.setError(response, apiResponse.getError());
+            final String authorizationId = request.getHeader(cognitoUserIdHeaderName);
+
+            if (StringUtils.isBlank(authorizationId)) {
+                LOG.info("Cognito auth provider header missing for path {}", request.getRequestURI());
+                final String header = request.getHeader(cognitoAuthProviderHeaderName);
+                LOG.debug("An error is created in a filter. {}: {}", cognitoAuthProviderHeaderName, header != null ? header : "isEmpty");
+                filterUtils.setError(response, ErrorResponse.unauthorized(), DefaultErrorCode.UNAUTHORIZED,
+                        "The cognito auth provider header from API Gateway did not include the required data",
+                        "cognitoAuthProviderHeaderName: " + header);
             } else {
-                authorizedUser.setUser(apiResponse.getResponse());
-                filterChain.doFilter(servletRequest, servletResponse);
+                final ApiResponse<UserResponse> apiResponse = userRepository.getSelf(authorizationId, false);
+                if (apiResponse.hasError()) {
+                    LOG.info("An error occurred fetching the authorized user from the user service. Authorization id: {}, error message: {}", authorizationId, apiResponse.getError().getMessage());
+                    LOG.debug("An error is created in a filter. Request origin: {}", request.getRemoteHost());
+                    filterUtils.setError(response, apiResponse.getError());
+                } else {
+                    authorizedUser.setUser(apiResponse.getResponse());
+                    filterChain.doFilter(servletRequest, servletResponse);
+                }
             }
         }
     }

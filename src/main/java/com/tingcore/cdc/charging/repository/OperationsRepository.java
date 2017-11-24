@@ -4,7 +4,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tingcore.charging.operations.api.OperationsApi;
 import com.tingcore.commons.api.repository.AbstractApiRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
+
+@Repository
 public class OperationsRepository extends AbstractApiRepository {
     private final OperationsApi operationsApi;
 

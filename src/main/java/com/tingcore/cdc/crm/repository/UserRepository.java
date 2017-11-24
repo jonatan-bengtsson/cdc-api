@@ -27,7 +27,7 @@ public class UserRepository extends AbstractApiRepository {
         return execute(usersApi.getSelfUsingGET(authorizationId, includeAttributes));
     }
 
-    @Value("${integration.user.default-timeout}")
+    @Value("${app.user-service.default-timeout}")
     public void setDefaultTimeOut(final Integer defaultTimeOut) {
         this.defaultTimeOut = defaultTimeOut;
     }

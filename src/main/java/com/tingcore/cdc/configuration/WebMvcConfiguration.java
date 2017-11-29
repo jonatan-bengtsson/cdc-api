@@ -18,6 +18,11 @@ import java.util.List;
 public class WebMvcConfiguration extends WebMvcConfigurerAdapter {
 
     public static final String AUTHORIZED_USER = "authorizedUser";
+    static final String HTTP_METHOD_GET = "GET";
+    static final String HTTP_METHOD_POST = "POST";
+    static final String HTTP_METHOD_PUT = "PUT";
+    static final String HTTP_METHOD_DELETE = "DELETE";
+    static final String HTTP_METHOD_PATCH = "PATCH";
     private List<String> allowedOrigins = new ArrayList<>();
 
 
@@ -40,7 +45,9 @@ public class WebMvcConfiguration extends WebMvcConfigurerAdapter {
     @Override
     public void addCorsMappings(final CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins(allowedOrigins.toArray(new String[allowedOrigins.size()]));
+                .allowedOrigins(allowedOrigins.toArray(new String[allowedOrigins.size()]))
+                .allowedMethods(HTTP_METHOD_GET, HTTP_METHOD_POST, HTTP_METHOD_PUT, HTTP_METHOD_DELETE, HTTP_METHOD_PATCH);
+        ;
     }
 
 

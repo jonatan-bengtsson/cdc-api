@@ -4,16 +4,12 @@ import com.tingcore.cdc.charging.api.ChargingSession;
 import com.tingcore.cdc.charging.api.ChargingSessionStatus;
 import com.tingcore.cdc.charging.api.CreateChargingSessionRequest;
 import com.tingcore.cdc.charging.api.CustomerKey;
-import com.tingcore.cdc.charging.model.ChargePointId;
-import com.tingcore.cdc.charging.model.ChargingSessionId;
-import com.tingcore.cdc.charging.model.ConnectorId;
-import com.tingcore.cdc.charging.model.CustomerKeyId;
+import com.tingcore.cdc.charging.model.*;
 import com.tingcore.cdc.charging.service.ChargingSessionService;
 import com.tingcore.cdc.configuration.AuthorizedUser;
 import com.tingcore.cdc.configuration.WebMvcConfiguration;
 import com.tingcore.cdc.exception.EntityNotFoundException;
 import com.tingcore.cdc.exception.NoSessionFoundException;
-import com.tingcore.cdc.model.UserReference;
 import com.tingcore.commons.api.service.HashIdService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -56,7 +52,7 @@ public class ChargingSessionController {
     public ResponseEntity<ChargingSession> createSession(final @RequestBody @Valid CreateChargingSessionRequest request) {
         // TODO return created response
         return ResponseEntity.ok(toApiObject(chargingSessionService.startSession(
-                new UserReference(Long.toString(authorizedUser.getUser().getId())),
+                new TrustedUserId(authorizedUser.getUser().getId()),
                 customerKeyIdFromRequest(request),
                 chargePointIdFromRequest(request),
                 connectorIdFromRequest(request)

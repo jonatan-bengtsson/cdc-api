@@ -5,11 +5,11 @@ import com.tingcore.cdc.charging.api.ChargingSessionEvent;
 import com.tingcore.cdc.charging.api.ChargingSessionEventNature;
 import com.tingcore.cdc.charging.model.ChargePointId;
 import com.tingcore.cdc.charging.model.ChargingSessionId;
+import com.tingcore.cdc.charging.model.TrustedUserId;
 import com.tingcore.cdc.charging.service.ChargingSessionService;
 import com.tingcore.cdc.configuration.AuthorizedUser;
 import com.tingcore.cdc.configuration.WebMvcConfiguration;
 import com.tingcore.cdc.exception.EntityNotFoundException;
-import com.tingcore.cdc.model.UserReference;
 import com.tingcore.commons.api.service.HashIdService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -63,7 +63,7 @@ public class ChargingSessionEventController {
                                                                  final String chargePointId) {
         // TODO return created response
         return ResponseEntity.ok(toApiObject(chargingSessionService.stopSession(
-                new UserReference(Long.toString(authorizedUser.getUser().getId())),
+                new TrustedUserId(authorizedUser.getUser().getId()),
                 sessionIdFromRequest(sessionId),
                 chargePointIdFromRequest(chargePointId)
         )));

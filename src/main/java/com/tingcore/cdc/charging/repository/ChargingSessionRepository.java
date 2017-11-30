@@ -36,10 +36,12 @@ public class ChargingSessionRepository {
         }
     }
 
-    public ChargingSession createSession(final CustomerKeyId targetUser) {
+    public ChargingSession createSession(final TrustedUserId trustedUserId,
+                                         final CustomerKeyId targetUser) {
         try {
             final CreateChargeRequest createChargeRequest = new CreateChargeRequest();
-            createChargeRequest.setUser(targetUser.value);
+            createChargeRequest.setUser(trustedUserId.value);
+            createChargeRequest.setAccount(targetUser.value);
             final Response<ApiCharge> charge = chargesApi.createCharge(createChargeRequest).execute();
             if (!charge.isSuccessful()) {
                 // TODO: handle errors

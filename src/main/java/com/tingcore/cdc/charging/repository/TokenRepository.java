@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import com.tingcore.cdc.charging.model.AuthorizationToken;
 import com.tingcore.cdc.charging.model.ChargePointId;
 import com.tingcore.cdc.charging.model.CustomerKeyId;
-import com.tingcore.cdc.model.UserReference;
+import com.tingcore.cdc.charging.model.TrustedUserId;
 import com.tingcore.payments.emp.api.TokensApi;
 import com.tingcore.payments.emp.model.ApiAuthorizationToken;
 import com.tingcore.payments.emp.model.Authorization;
@@ -24,14 +24,17 @@ public class TokenRepository {
         this.tokensApi = notNull(tokensApi);
     }
 
-    public AuthorizationToken createToken(final UserReference userReference,
+    public AuthorizationToken createToken(final TrustedUserId trustedUserId,
                                           final CustomerKeyId customerKeyId,
                                           final ChargePointId chargePointId) {
+        notNull(trustedUserId);
+        notNull(customerKeyId);
+        notNull(chargePointId);
         try {
             final CreateAuthorizationTokenRequest request = new CreateAuthorizationTokenRequest();
             final Authorization authorization = new Authorization();
-            authorization.setMethod(Authorization.MethodEnum.AWS_COGNITO_ID);
-            authorization.setData(ImmutableMap.of("id", userReference.value));
+            authorization.setMethod(Authorization.MethodEnum.TRUSTED_USER);
+            authorization.setData(ImmutableMap.of("id", trustedUserId.value));
             request.setAuthorization(authorization);
             request.setAccount(customerKeyId.value);
             request.setChargePoint(chargePointId.value);

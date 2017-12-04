@@ -1,18 +1,18 @@
-package com.tingcore.cdc.crm.model;
+package com.tingcore.cdc.crm.response;
 
 /**
  * @author moa.mackegard
  * @since 2017-11-14.
  */
-public class StringAttribute extends BaseAttribute {
+public class StringAttributeResponse extends BaseAttributeResponse {
     private String value;
 
-    public StringAttribute(Long valueId, String value) {
+    public StringAttributeResponse(Long valueId, String value) {
         this.id = valueId;
         this.value = value;
     }
 
-    public StringAttribute() {
+    public StringAttributeResponse() {
     }
 
     public String getValue() {

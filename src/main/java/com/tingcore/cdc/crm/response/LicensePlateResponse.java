@@ -1,4 +1,4 @@
-package com.tingcore.cdc.crm.model;
+package com.tingcore.cdc.crm.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -6,15 +6,18 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @author moa.mackegard
  * @since 2017-11-21.
  */
-public class LicensePlate extends BaseAttribute {
+public class LicensePlateResponse extends BaseAttributeResponse {
     private String licensePlate;
     private String formatter;
 
-    public LicensePlate(String licenseplate, String formatter) {
+    public LicensePlateResponse(String licenseplate, String formatter) {
         this.licensePlate = licenseplate;
         this.formatter = formatter;
     }
 
+    public LicensePlateResponse() {
+    }
+    
     @JsonProperty("licensePlate")
     public String getLicensePlate() {
         return licensePlate;

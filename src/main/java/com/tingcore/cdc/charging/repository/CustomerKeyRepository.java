@@ -1,6 +1,6 @@
 package com.tingcore.cdc.charging.repository;
 
-import com.tingcore.cdc.crm.model.CustomerKey;
+import com.tingcore.cdc.crm.response.CustomerKeyResponse;
 import com.tingcore.users.api.UsersApi;
 import org.springframework.stereotype.Repository;
 
@@ -18,7 +18,7 @@ public class CustomerKeyRepository {
         this.usersApi = notNull(usersApi);
     }
 
-    public List<CustomerKey> fetchCustomerKeysForUser(final Long userId, final Long authorizedUserId) {
+    public List<CustomerKeyResponse> fetchCustomerKeysForUser(final Long userId, final Long authorizedUserId) {
         // TODO implement when user service has the support
         return new ArrayList<>();
     }

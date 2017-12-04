@@ -1,4 +1,4 @@
-package com.tingcore.cdc.crm.model;
+package com.tingcore.cdc.crm.response;
 
 import java.time.Instant;
 
@@ -8,32 +8,32 @@ import java.time.Instant;
  * @author palmithor
  * @since 2017-11-10
  */
-public class PaymentInformation {
+public class PaymentInformationResponse {
 
     private final Boolean prePaid;
     private final Integer prePaidAmount;
     private final Integer balance;
     private final Instant prepaidExpiry;
-    private final PaymentMethod paymentMethodResponse;
+    private final PaymentMethodResponse paymentMethodResponseResponse;
 
-    public PaymentInformation() {
+    public PaymentInformationResponse() {
         this.prePaid = null;
         this.prePaidAmount = null;
         this.balance = null;
         this.prepaidExpiry = null;
-        this.paymentMethodResponse = null;
+        this.paymentMethodResponseResponse = null;
     }
 
-    public PaymentInformation(final Boolean prePaid,
-                              final Integer prePaidAmount,
-                              final Integer balance,
-                              final Instant prepaidExpiry,
-                              final PaymentMethod paymentMethodResponse) {
+    public PaymentInformationResponse(final Boolean prePaid,
+                                      final Integer prePaidAmount,
+                                      final Integer balance,
+                                      final Instant prepaidExpiry,
+                                      final PaymentMethodResponse paymentMethodResponseResponse) {
         this.prePaid = prePaid;
         this.prePaidAmount = prePaidAmount;
         this.balance = balance;
         this.prepaidExpiry = prepaidExpiry;
-        this.paymentMethodResponse = paymentMethodResponse;
+        this.paymentMethodResponseResponse = paymentMethodResponseResponse;
     }
 
     public Boolean getPrePaid() {
@@ -52,8 +52,8 @@ public class PaymentInformation {
         return prepaidExpiry;
     }
 
-    public PaymentMethod getPaymentMethodResponse() {
-        return paymentMethodResponse;
+    public PaymentMethodResponse getPaymentMethodResponseResponse() {
+        return paymentMethodResponseResponse;
     }
 
     public static Builder createBuilder() {
@@ -66,7 +66,7 @@ public class PaymentInformation {
         private Integer balance;
         private Instant prepaidExpiry;
 
-        private PaymentMethod paymentMethodResponse;
+        private PaymentMethodResponse paymentMethodResponseResponse;
 
         private Builder() {
         }
@@ -91,13 +91,13 @@ public class PaymentInformation {
             return this;
         }
 
-        public Builder paymentMethodResponse(PaymentMethod paymentMethodResponse) {
-            this.paymentMethodResponse = paymentMethodResponse;
+        public Builder paymentMethodResponse(PaymentMethodResponse paymentMethodResponseResponse) {
+            this.paymentMethodResponseResponse = paymentMethodResponseResponse;
             return this;
         }
 
-        public PaymentInformation build() {
-            return new PaymentInformation(prePaid, prePaidAmount, balance, prepaidExpiry, paymentMethodResponse);
+        public PaymentInformationResponse build() {
+            return new PaymentInformationResponse(prePaid, prePaidAmount, balance, prepaidExpiry, paymentMethodResponseResponse);
         }
     }
 }

@@ -1,8 +1,8 @@
 package com.tingcore.cdc.crm.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tingcore.cdc.crm.model.CustomerKey;
-import com.tingcore.cdc.crm.model.PaymentInformation;
+import com.tingcore.cdc.crm.response.CustomerKeyResponse;
+import com.tingcore.cdc.crm.response.PaymentInformationResponse;
 import com.tingcore.users.model.AttributeResponse;
 import org.springframework.stereotype.Component;
 
@@ -23,24 +23,26 @@ class CustomerKeyMapper {
         this.paymentInformationMapper = new PaymentInformationMapper();
     }
 
-    CustomerKey toResponse(final AttributeResponse attributeValue, final PaymentInformation paymentInformation) {
-        CustomerKey customerKey;
+
+    // TODO this will change when the final customer key implementation is finished
+    CustomerKeyResponse toResponse(final AttributeResponse attributeValue, final PaymentInformationResponse paymentInformationResponse) {
+        CustomerKeyResponse.Builder builder = CustomerKeyResponse.createBuilder();
         try {
-            customerKey = objectMapper.readValue(attributeValue.getAttributeValue().getValue(), CustomerKey.class);
+            CustomerKeyResponse customerKeyResponse = objectMapper.readValue(attributeValue.getAttributeValue().getValue(), CustomerKeyResponse.class);
+            builder.id(attributeValue.getId())
+                    .keyNumber(customerKeyResponse.getKeyNumber())
+                    .type(customerKeyResponse.getType())
+                    .activeFrom(customerKeyResponse.getActiveFrom())
+                    .activeTo(customerKeyResponse.getActiveTo())
+                    .serviceKey(customerKeyResponse.getServiceKey())
+                    .paymentInformation(paymentInformationMapper.toResponse(paymentInformationResponse))
+                    .defaultCurrency(customerKeyResponse.getDefaultCurrency())
+                    .name(attributeValue.getName())
+                    .organizationId(customerKeyResponse.getOrganizationId())
+                    .build();
         } catch (IOException e) {
             throw new InvalidAttributeValueException(attributeValue.getAttributeValue().getId());
         }
-        return CustomerKey.createBuilder()
-                .id(attributeValue.getId())
-                .keyNumber(customerKey.getKeyNumber())
-                .type(customerKey.getType())
-                .activeFrom(customerKey.getActiveFrom())
-                .activeTo(customerKey.getActiveTo())
-                .serviceKey(customerKey.getServiceKey())
-                .paymentInformation(paymentInformationMapper.toResponse(paymentInformation))
-                .defaultCurrency(customerKey.getDefaultCurrency())
-                .name(attributeValue.getName())
-                .organizationId(customerKey.getOrganizationId())
-                .build();
+        return builder.build();
     }
 }

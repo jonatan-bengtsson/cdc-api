@@ -1,20 +1,20 @@
-package com.tingcore.cdc.crm.model;
+package com.tingcore.cdc.crm.response;
 
 /**
  * @author moa.mackegard
  * @since 2017-11-14.
  */
-public class ApprovedMarketInfo extends BaseAttribute {
+public class ApprovedMarketInfoResponse extends BaseAttributeResponse {
     private String marketInfoId;
     private String formatter;
 
-    public ApprovedMarketInfo(Long valueId, String marketInfoId, String formatter) {
+    public ApprovedMarketInfoResponse(Long valueId, String marketInfoId, String formatter) {
         this.id = valueId;
         this.marketInfoId = marketInfoId;
         this.formatter = formatter;
     }
 
-    public ApprovedMarketInfo() {
+    public ApprovedMarketInfoResponse() {
     }
 
     public String getMarketInfoId() {

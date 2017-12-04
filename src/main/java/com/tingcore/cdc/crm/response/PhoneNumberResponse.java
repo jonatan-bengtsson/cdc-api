@@ -1,4 +1,4 @@
-package com.tingcore.cdc.crm.model;
+package com.tingcore.cdc.crm.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -6,20 +6,20 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @author moa.mackegard
  * @since 2017-11-13.
  */
-public class PhoneNumber extends BaseAttribute {
+public class PhoneNumberResponse extends BaseAttributeResponse {
 
     private String name;
     private String phoneNumber;
     private String formatter;
 
-    public PhoneNumber(Long valueId, String number, String formatter, String name) {
+    public PhoneNumberResponse(Long valueId, String number, String formatter, String name) {
         this.id = valueId;
         this.phoneNumber = number;
         this.formatter = formatter;
         this.name = name;
     }
 
-    public PhoneNumber() {
+    public PhoneNumberResponse() {
     }
 
     @JsonProperty("phoneNumber")

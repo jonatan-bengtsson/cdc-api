@@ -2,8 +2,8 @@ package com.tingcore.cdc.crm.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tingcore.cdc.crm.model.CustomerKey;
-import com.tingcore.cdc.crm.model.PaymentInformation;
+import com.tingcore.cdc.crm.response.CustomerKeyResponse;
+import com.tingcore.cdc.crm.response.PaymentInformationResponse;
 import com.tingcore.cdc.utils.CommonDataUtils;
 import com.tingcore.commons.api.utils.JsonUtils;
 import com.tingcore.users.model.AttributeResponse;
@@ -34,8 +34,8 @@ public class CustomerKeyDataUtils {
     }
 
 
-    public static CustomerKey customerKeyResponse() {
-        return CustomerKey.createBuilder()
+    public static CustomerKeyResponse customerKeyResponse() {
+        return CustomerKeyResponse.createBuilder()
                 .id(CommonDataUtils.getNextId())
                 .keyNumber(CommonDataUtils.nextZeroPaddedId(10))
                 .type(TYPE_VIRTUAL)
@@ -55,7 +55,7 @@ public class CustomerKeyDataUtils {
     public static AttributeResponse getAttributeResponse() throws JsonProcessingException {
         final AttributeResponse attributeResponse = new AttributeResponse();
         attributeResponse.setId(CommonDataUtils.getNextId());
-        attributeResponse.setName("CustomerKey");
+        attributeResponse.setName("CustomerKeyResponse");
         attributeResponse.setType(AttributeResponse.TypeEnum.JSON);
         Map<String, String> properties = new HashMap<>();
         properties.put("required", "[\"namePrefix\", \"provider\", \"activeFrom\", \"activeTo\", \"defaultCurrency\", \"credit\", \"creditLimitPerPurchase\", \"creditExpirationDate\"]");
@@ -69,8 +69,8 @@ public class CustomerKeyDataUtils {
         return attributeResponse;
     }
 
-    private static CustomerKey getCustomerKey() {
-        return new CustomerKey(
+    private static CustomerKeyResponse getCustomerKey() {
+        return new CustomerKeyResponse(
                 CommonDataUtils.getNextId(),
                 CommonDataUtils.nextZeroPaddedId(10),
                 TYPE_VIRTUAL,
@@ -80,7 +80,7 @@ public class CustomerKeyDataUtils {
                 getFutureInstant(),
                 false,
                 new ArrayList<>(),
-                new PaymentInformation(),
+                new PaymentInformationResponse(),
                 "SEK"
         );
     }

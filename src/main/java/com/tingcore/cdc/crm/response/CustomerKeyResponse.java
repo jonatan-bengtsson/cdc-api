@@ -1,4 +1,4 @@
-package com.tingcore.cdc.crm.model;
+package com.tingcore.cdc.crm.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -18,7 +18,7 @@ import java.util.List;
 @JsonPropertyOrder({FieldConstant.ID, FieldConstant.KEY_NUMBER, FieldConstant.TYPE, FieldConstant.NAME, FieldConstant.ORGANIZATION_ID,
         FieldConstant.ACTIVE_FROM, FieldConstant.ACTIVE_TO, FieldConstant.IS_SERVICE_KEY, FieldConstant.CHARGE_GROUP_IDS,
         FieldConstant.PAYMENT_INFORMATION, FieldConstant.PAYMENT_INFORMATION, FieldConstant.DEFAULT_CURRENCY})
-public class CustomerKey implements Serializable {
+public class CustomerKeyResponse implements Serializable {
 
     private static final long serialVersionUID = -6763921790222839944L;
 
@@ -31,10 +31,10 @@ public class CustomerKey implements Serializable {
     private final Instant activeTo;
     private final Boolean serviceKey;
     private final List<Long> chargeGroupIds;
-    private final PaymentInformation paymentInformation;
+    private final PaymentInformationResponse paymentInformationResponse;
     private final String defaultCurrency;
 
-    public CustomerKey() {
+    public CustomerKeyResponse() {
         this.id = null;
         this.keyNumber = null;
         this.type = null;
@@ -44,21 +44,21 @@ public class CustomerKey implements Serializable {
         this.activeTo = null;
         this.serviceKey = null;
         this.chargeGroupIds = null;
-        this.paymentInformation = null;
+        this.paymentInformationResponse = null;
         this.defaultCurrency = null;
     }
 
-    public CustomerKey(final Long id,
-                       final String keyNumber,
-                       final String type,
-                       final String name,
-                       final Long organizationId,
-                       final Instant activeFrom,
-                       final Instant activeTo,
-                       final Boolean serviceKey,
-                       final List<Long> chargeGroupIds,
-                       final PaymentInformation paymentInformation,
-                       final String defaultCurrency) {
+    public CustomerKeyResponse(final Long id,
+                               final String keyNumber,
+                               final String type,
+                               final String name,
+                               final Long organizationId,
+                               final Instant activeFrom,
+                               final Instant activeTo,
+                               final Boolean serviceKey,
+                               final List<Long> chargeGroupIds,
+                               final PaymentInformationResponse paymentInformationResponse,
+                               final String defaultCurrency) {
         this.id = id;
         this.keyNumber = keyNumber;
         this.type = type;
@@ -68,7 +68,7 @@ public class CustomerKey implements Serializable {
         this.activeTo = activeTo;
         this.serviceKey = serviceKey;
         this.chargeGroupIds = chargeGroupIds;
-        this.paymentInformation = paymentInformation;
+        this.paymentInformationResponse = paymentInformationResponse;
         this.defaultCurrency = defaultCurrency;
     }
 
@@ -128,8 +128,8 @@ public class CustomerKey implements Serializable {
 
     @JsonProperty(FieldConstant.PAYMENT_INFORMATION)
     @ApiModelProperty(position = 10, value = "The payment profile associated with this user key")
-    public PaymentInformation getPaymentInformation() {
-        return paymentInformation;
+    public PaymentInformationResponse getPaymentInformationResponse() {
+        return paymentInformationResponse;
     }
 
     @JsonProperty(FieldConstant.DEFAULT_CURRENCY)
@@ -153,7 +153,7 @@ public class CustomerKey implements Serializable {
         private Instant activeTo;
         private Boolean serviceKey;
         private List<Long> chargeGroupIds;
-        private PaymentInformation paymentInformation;
+        private PaymentInformationResponse paymentInformationResponse;
         private String defaultCurrency;
 
         private Builder() {
@@ -208,8 +208,8 @@ public class CustomerKey implements Serializable {
             return this;
         }
 
-        public Builder paymentInformation(final PaymentInformation paymentInformation) {
-            this.paymentInformation = paymentInformation;
+        public Builder paymentInformation(final PaymentInformationResponse paymentInformationResponse) {
+            this.paymentInformationResponse = paymentInformationResponse;
             return this;
         }
 
@@ -218,8 +218,8 @@ public class CustomerKey implements Serializable {
             return this;
         }
 
-        public CustomerKey build() {
-            return new CustomerKey(id, keyNumber, type, name, organizationId, activeFrom, activeTo, serviceKey, chargeGroupIds, paymentInformation, defaultCurrency);
+        public CustomerKeyResponse build() {
+            return new CustomerKeyResponse(id, keyNumber, type, name, organizationId, activeFrom, activeTo, serviceKey, chargeGroupIds, paymentInformationResponse, defaultCurrency);
         }
     }
 }

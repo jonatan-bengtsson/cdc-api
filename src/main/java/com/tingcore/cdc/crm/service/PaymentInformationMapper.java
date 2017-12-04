@@ -1,6 +1,6 @@
 package com.tingcore.cdc.crm.service;
 
-import com.tingcore.cdc.crm.model.PaymentInformation;
+import com.tingcore.cdc.crm.response.PaymentInformationResponse;
 
 /**
  * @author palmithor
@@ -12,8 +12,8 @@ class PaymentInformationMapper {
 
     }
 
-    PaymentInformation toResponse(final PaymentInformation paymentInformation) {
-        return PaymentInformation.createBuilder()
+    PaymentInformationResponse toResponse(final PaymentInformationResponse paymentInformationResponse) {
+        return PaymentInformationResponse.createBuilder()
                 .build();
     }
 }

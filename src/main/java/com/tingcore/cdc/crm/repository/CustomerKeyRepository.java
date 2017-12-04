@@ -41,7 +41,7 @@ public class CustomerKeyRepository {
     private AttributeResponse mockAttributeResponse() {
         final AttributeResponse attributeResponse = new AttributeResponse();
         attributeResponse.setId(ID_GENERATOR.incrementAndGet());
-        attributeResponse.setName("CustomerKey");
+        attributeResponse.setName("CustomerKeyResponse");
         attributeResponse.setType(AttributeResponse.TypeEnum.JSON);
         Map<String, String> properties = new HashMap<>();
         properties.put("required", "[\"namePrefix\", \"type\", \"organizationId\", \"activatedFrom\", \"activatedTo\", \"defaultCurrency\", \"credit\", \"creditLimitPerPurchase\", \"creditExpiration\"]");

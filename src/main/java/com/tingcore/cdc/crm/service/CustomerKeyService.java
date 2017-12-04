@@ -1,7 +1,7 @@
 package com.tingcore.cdc.crm.service;
 
-import com.tingcore.cdc.crm.model.CustomerKey;
 import com.tingcore.cdc.crm.repository.CustomerKeyRepository;
+import com.tingcore.cdc.crm.response.CustomerKeyResponse;
 import com.tingcore.commons.rest.PageResponse;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +22,8 @@ public class CustomerKeyService {
     }
 
 
-    public PageResponse<CustomerKey> findByUserId(final Long decodedId) {
+    // TODO Test and fix when customer key service is implemented
+    public PageResponse<CustomerKeyResponse> findByUserId(final Long decodedId) {
         return customerKeyRepository.findByUserId(decodedId)
                 .map(attributeResponse -> customerKeyMapper.toResponse(attributeResponse, null));
     }

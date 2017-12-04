@@ -1,7 +1,11 @@
 package com.tingcore.cdc.crm.controller;
 
-import com.tingcore.cdc.crm.model.CustomerKey;
+import com.tingcore.cdc.configuration.AuthorizedUser;
+import com.tingcore.cdc.configuration.WebMvcConfiguration;
+import com.tingcore.cdc.crm.response.CustomerKeyResponse;
+import com.tingcore.cdc.crm.response.GetUserResponse;
 import com.tingcore.cdc.crm.service.CustomerKeyService;
+import com.tingcore.cdc.crm.service.UserService;
 import com.tingcore.cdc.exception.EntityNotFoundException;
 import com.tingcore.commons.api.service.HashIdService;
 import com.tingcore.commons.rest.ErrorResponse;
@@ -10,11 +14,14 @@ import com.tingcore.commons.rest.SwaggerDefaultConstant;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
+
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 /**
  * @author palmithor
@@ -24,13 +31,20 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/v1/users")
 public class UserController {
 
+    private static final Logger LOG = LoggerFactory.getLogger(UserController.class);
     private static final String PARAM_ID = "userId";
     private static final String PATH_PARAM_ID = "/{" + PARAM_ID + "}";
 
+
+    private UserService userService;
     private CustomerKeyService customerKeyService;
     private HashIdService hashIdService;
 
-    public UserController(final CustomerKeyService customerKeyService, final HashIdService hashIdService) {
+    @Resource(name = WebMvcConfiguration.AUTHORIZED_USER)
+    private AuthorizedUser authorizedUser;
+
+    public UserController(final UserService userService, final CustomerKeyService customerKeyService, final HashIdService hashIdService) {
+        this.userService = userService;
         this.customerKeyService = customerKeyService;
         this.hashIdService = hashIdService;
     }
@@ -49,9 +63,23 @@ public class UserController {
     @ApiOperation(value = "Get customer keys by user id",
             notes = "Route allows fetching all customer keys that belong to a user.",
             tags = {SwaggerConstant.TAGS_CUSTOMER_KEYS, SwaggerConstant.TAGS_USERS})
-    public PageResponse<CustomerKey> getCustomerKeys(@PathVariable(PARAM_ID) final String id) {
+    public PageResponse<CustomerKeyResponse> getCustomerKeys(@PathVariable(PARAM_ID) final String id) {
         return hashIdService.decode(id)
                 .map(decodedId -> customerKeyService.findByUserId(decodedId))
                 .orElseThrow(() -> new EntityNotFoundException(EntityNameConstant.USER, id));
+    }
+
+
+    @RequestMapping(value = "/{id}", method = GET, produces = "application/json")
+    public GetUserResponse getUser(@PathVariable("id") String id, @RequestParam(value = "includeAttributes") Boolean includeAttributes) {
+        return hashIdService.decode(id)
+                .map(decodedId -> userService.getUserById(decodedId, authorizedUser.getUser().getId(), includeAttributes))
+                .orElseThrow(() -> new EntityNotFoundException("User", id));
+    }
+
+    @RequestMapping(value = "/self", method = GET, produces = "application/json")
+    public GetUserResponse getSelf(@RequestParam(value = "includeAttributes") Boolean includeAttributes) {
+        final Long authorizedUserId = authorizedUser.getUser().getId();
+        return userService.getUserById(authorizedUserId, authorizedUserId, includeAttributes);
     }
 }

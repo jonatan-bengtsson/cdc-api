@@ -1,4 +1,4 @@
-package com.tingcore.cdc.crm.model;
+package com.tingcore.cdc.crm.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -6,35 +6,47 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @author moa.mackegard
  * @since 2017-11-14.
  */
-public class Address extends BaseAttribute {
-    private String street;
+public class AddressResponse extends BaseAttributeResponse {
+
     private String address;
+    private String addressLine2;
     private String postalCode;
     private String city;
     private String country;
     private String formatter;
 
 
-    public Address(Long valueId, String street, String address, String postalCode, String city, String country, String formatter) {
+    public AddressResponse(final Long valueId, final String address, final String addressLine2,
+                           final String postalCode, final String city, final String country,
+                           final String formatter) {
         this.id = valueId;
         this.address = address;
-        this.street = street;
+        this.addressLine2 = addressLine2;
         this.postalCode = postalCode;
         this.city = city;
         this.country = country;
         this.formatter = formatter;
     }
 
-    public Address() {
+    public AddressResponse() {
     }
 
-    @JsonProperty("street")
-    public String getStreet() {
-        return street;
+    @JsonProperty("address")
+    public String getAddress() {
+        return address;
     }
 
-    public void setStreet(String street) {
-        this.street = street;
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    @JsonProperty("addressLine2")
+    public String getAddressLine2() {
+        return addressLine2;
+    }
+
+    public void setAddressLine2(final String addressLine2) {
+        this.addressLine2 = addressLine2;
     }
 
     @JsonProperty("postalCode")
@@ -73,12 +85,4 @@ public class Address extends BaseAttribute {
         this.formatter = formatter;
     }
 
-    @JsonProperty("address")
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
 }

@@ -51,7 +51,7 @@ public class SwaggerConfiguration {
                 .globalResponseMessage(RequestMethod.POST, SwaggerDefaultConstant.postResponseMessages())
                 .globalResponseMessage(RequestMethod.DELETE, SwaggerDefaultConstant.deleteResponseMessages())
                 .globalResponseMessage(RequestMethod.PUT, SwaggerDefaultConstant.putResponseMessages());
-        if (env.acceptsProfiles(SpringProfilesConstant.DEV)) {
+        if (env.acceptsProfiles(SpringProfilesConstant.DEV, SpringProfilesConstant.TEST)) {
             // Since the service is not deployed behind API Gateway when it runs in development mode
             // This allows adding the cognito auth header in dev
             docket.globalOperationParameters(Collections.singletonList(

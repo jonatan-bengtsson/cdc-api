@@ -1,4 +1,4 @@
-package com.tingcore.cdc.crm.model;
+package com.tingcore.cdc.crm.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -6,14 +6,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @author moa.mackegard
  * @since 2017-11-22.
  */
-public class SocialSecurityNumber extends BaseAttribute {
+public class SocialSecurityNumberResponse extends BaseAttributeResponse {
     private String socialSecurityNumber;
     private String formatter;
 
-    public SocialSecurityNumber() {
+    public SocialSecurityNumberResponse() {
     }
 
-    public SocialSecurityNumber(Long id, String socialSecurityNumber, String formatter) {
+    public SocialSecurityNumberResponse(Long id, String socialSecurityNumber, String formatter) {
         this.socialSecurityNumber = socialSecurityNumber;
         this.formatter = formatter;
     }

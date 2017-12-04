@@ -1,24 +1,24 @@
-package com.tingcore.cdc.crm.model;
+package com.tingcore.cdc.crm.response;
 
 /**
  * @author palmithor
  * @since 2017-11-10
  */
-public class PaymentMethod {
+public class PaymentMethodResponse {
 
     private final String type;
     private final String cardNumber;
     private final String expiryDate;
     private final String cardholder;
 
-    public PaymentMethod() {
+    public PaymentMethodResponse() {
         this.type = null;
         this.cardNumber = null;
         this.expiryDate = null;
         this.cardholder = null;
     }
 
-    public PaymentMethod(final String type, final String cardNumber, final String expiryDate, final String cardholder) {
+    public PaymentMethodResponse(final String type, final String cardNumber, final String expiryDate, final String cardholder) {
         this.type = type;
         this.cardNumber = cardNumber;
         this.expiryDate = expiryDate;
@@ -75,8 +75,8 @@ public class PaymentMethod {
             return this;
         }
 
-        public PaymentMethod build() {
-            return new PaymentMethod(type, cardNumber, expiryDate, cardholder);
+        public PaymentMethodResponse build() {
+            return new PaymentMethodResponse(type, cardNumber, expiryDate, cardholder);
         }
     }
 }

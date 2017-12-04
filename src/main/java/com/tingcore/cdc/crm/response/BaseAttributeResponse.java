@@ -1,4 +1,4 @@
-package com.tingcore.cdc.crm.model;
+package com.tingcore.cdc.crm.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -6,10 +6,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @author moa.mackegard
  * @since 2017-11-14.
  */
-public abstract class BaseAttribute {
+public abstract class BaseAttributeResponse {
     Long id;
 
-    public BaseAttribute() {
+    public BaseAttributeResponse() {
     }
 
     @JsonProperty("id")

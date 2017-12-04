@@ -45,16 +45,16 @@ public class ChargingSessionEventController {
         this.chargingSessionService = notNull(chargingSessionService);
     }
 
-    @PostMapping("/{sessionId}/" + EVENTS)
+    @PostMapping("/{chargingSessionId}/" + EVENTS)
     @ApiOperation(code = 201, value = "Create a session event.", response = ChargingSessionEvent.class, tags = {SESSIONS})
     @ApiResponses(value = {
             @ApiResponse(code = 404, message = "The session with the supplied id could not be found.", response = Error.class)
     })
-    public ResponseEntity<ChargingSessionEvent> addEvent(final @PathVariable("sessionId") String sessionId,
+    public ResponseEntity<ChargingSessionEvent> addEvent(final @PathVariable("chargingSessionId") String chargingSessionId,
                                                          final @RequestBody @Valid AddChargingSessionEventRequest request) {
         switch (request.nature) {
             case STOP_REQUESTED:
-                return handleStopEvent(sessionId, String.class.cast(request.data.get("chargePointId")));
+                return handleStopEvent(chargingSessionId, String.class.cast(request.data.get("chargePointId")));
         }
         throw new IllegalArgumentException("Only stop events are supported for now.");
     }

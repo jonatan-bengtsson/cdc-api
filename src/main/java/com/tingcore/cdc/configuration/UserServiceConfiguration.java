@@ -51,7 +51,7 @@ public class UserServiceConfiguration {
     }
 
     private void configureOkHttpClient(final ApiClient client) {
-        if (environment.acceptsProfiles(SpringProfilesConstant.DEV, SpringProfilesConstant.TEST)) {
+        if (environment.acceptsProfiles(SpringProfilesConstant.DEV)) {
             HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
             // set your desired log level
             logging.setLevel(HttpLoggingInterceptor.Level.BODY);

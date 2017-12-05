@@ -3,7 +3,9 @@ package com.tingcore.cdc.crm.service;
 import com.tingcore.cdc.crm.repository.UserRepository;
 import com.tingcore.cdc.crm.response.GetUserResponse;
 import com.tingcore.cdc.crm.utils.UserDataUtils;
+import com.tingcore.cdc.utils.CommonDataUtils;
 import com.tingcore.commons.api.repository.ApiResponse;
+import com.tingcore.commons.rest.ErrorResponse;
 import com.tingcore.users.model.UserResponse;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,6 +14,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.mockito.BDDMockito.given;
 
 
@@ -40,5 +43,14 @@ public class UserServiceTest {
         assertThat(response.getFirstName()).isEqualTo(mockResponse.getFirstName());
     }
 
-
+    @Test
+    public void failGetUserByIdNotFound() throws Exception {
+        final Long nextId = CommonDataUtils.getNextId();
+        final Long authorizedUserId = CommonDataUtils.getNextId();
+        ErrorResponse errorResponse = ErrorResponse.notFound().message("Not found").build();
+        ApiResponse<UserResponse> apiMockResponse = new ApiResponse<>(errorResponse);
+        given(userRepository.findById(nextId, authorizedUserId, true)).willReturn(apiMockResponse);
+        assertThatExceptionOfType(UsersApiException.class)
+                .isThrownBy(() -> userService.getUserById(nextId, authorizedUserId, true));
+    }
 }

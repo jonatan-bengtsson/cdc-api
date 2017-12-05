@@ -1,5 +1,8 @@
 package com.tingcore.cdc.crm.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.tingcore.cdc.crm.constant.JsonPropertyConstant;
+
 /**
  * @author moa.mackegard
  * @since 2017-11-14.
@@ -17,6 +20,7 @@ public class ApprovedMarketInfoResponse extends BaseAttributeResponse {
     public ApprovedMarketInfoResponse() {
     }
 
+    @JsonProperty("marketInfoId")
     public String getMarketInfoId() {
         return marketInfoId;
     }
@@ -25,6 +29,7 @@ public class ApprovedMarketInfoResponse extends BaseAttributeResponse {
         this.marketInfoId = marketInfoId;
     }
 
+    @JsonProperty(JsonPropertyConstant.FORMATTER)
     public String getFormatter() {
         return formatter;
     }

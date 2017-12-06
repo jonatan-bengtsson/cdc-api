@@ -29,4 +29,8 @@ public class AttributeConstant {
     public static final String CONTACT_NOTES = "contactNotes";
     public static final String ORGANIZATION_TYPE = "organizationType";
     public static final String VISITING_ADDRESS = "visitingAddress";
+    public static final String ORGANIZATION_PERMISSIONS = "organizationPermissions";
+    public static final String ROLES = "roles";
+    public static final String ACTIVATION_DATE = "activationDate";
+    public static final String HAS_CHARGING_ACCESS = "hasChargingAccess";
 }

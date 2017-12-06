@@ -71,6 +71,9 @@ public class UserController {
 
 
     @RequestMapping(value = "/{id}", method = GET, produces = "application/json")
+    @ApiOperation(value = "Get a user by id",
+            notes = "Route allows fetching a single user by its id",
+            tags = SwaggerConstant.TAGS_USERS)
     public GetUserResponse getUser(@PathVariable("id") String id, @RequestParam(value = "includeAttributes") Boolean includeAttributes) {
         return hashIdService.decode(id)
                 .map(decodedId -> userService.getUserById(decodedId, authorizedUser.getUser().getId(), includeAttributes))
@@ -78,6 +81,10 @@ public class UserController {
     }
 
     @RequestMapping(value = "/self", method = GET, produces = "application/json")
+    @ApiOperation(value = "Get the authorized user",
+            notes = "Route allows fetching the user that is currently logged in. " +
+                    "The endpoint uses the authorization id affiliated with the user.",
+            tags = SwaggerConstant.TAGS_USERS)
     public GetUserResponse getSelf(@RequestParam(value = "includeAttributes") Boolean includeAttributes) {
         final Long authorizedUserId = authorizedUser.getUser().getId();
         return userService.getUserById(authorizedUserId, authorizedUserId, includeAttributes);

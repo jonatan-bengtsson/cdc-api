@@ -20,7 +20,7 @@ import java.util.stream.IntStream;
  */
 public class AttributeMapper {
     
-    private static final Logger LOG = LoggerFactory.getLogger(UserMapper.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AttributeMapper.class);
     
     public static Optional<StringAttributeResponse> findStringAttribute(final List<AttributeResponse> attributes, final String attributeName) {
         return findStringAttributes(attributes, attributeName).stream().findAny();

@@ -109,16 +109,10 @@ public class ChargingSessionRepository {
                 return ChargingSessionStatus.WAITING_TO_START;
             case STARTED:
                 return ChargingSessionStatus.STARTED;
-            case WAITING_TO_COMPLETE:
-                return ChargingSessionStatus.WAITING_TO_COMPLETE;
-            case COMPLETED:
-                return ChargingSessionStatus.COMPLETED;
             case TRANSACTION_CLEARED:
                 return ChargingSessionStatus.CLEARED;
             case TIMEOUT_WAITING_TO_START:
             case FAILED_TO_START:
-            case TIMEOUT_WAITING_TO_COMPLETE:
-            case FAILED_TO_COMPLETE:
             case FAILED_TO_CLEAR_TRANSACTION:
             case FAILED:
                 return ChargingSessionStatus.FAILED;

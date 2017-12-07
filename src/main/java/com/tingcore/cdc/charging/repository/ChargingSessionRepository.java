@@ -11,6 +11,7 @@ import retrofit2.Response;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.time.Instant;
+import java.util.Optional;
 
 import static java.lang.String.format;
 import static java.util.Optional.ofNullable;
@@ -94,11 +95,20 @@ public class ChargingSessionRepository {
     static ChargingSession apiSessionToModel(final ApiCharge apiCharge) {
         return new ChargingSession(
                 new ChargingSessionId(apiCharge.getId()),
-                new CustomerKeyId(apiCharge.getUser()),
+                new CustomerKeyId(apiCharge.getAccount()),
+                apiSessionPriceToModel(apiCharge.getPrice()),
                 apiTimeToNullableInstant(apiCharge.getStartTime()),
                 apiTimeToNullableInstant(apiCharge.getStopTime()),
                 apiSessionStateToModel(apiCharge.getState())
         );
+    }
+
+    private static Price apiSessionPriceToModel(final ApiAmount apiPrice) {
+        return Optional.ofNullable(apiPrice).map(price -> new Price(
+                price.getExclVat().getCentAmount(),
+                price.getInclVat().getCentAmount(),
+                price.getCurrency()
+        )).orElse(null);
     }
 
     private static ChargingSessionStatus apiSessionStateToModel(final ApiCharge.StateEnum state) {
@@ -109,10 +119,18 @@ public class ChargingSessionRepository {
                 return ChargingSessionStatus.WAITING_TO_START;
             case STARTED:
                 return ChargingSessionStatus.STARTED;
+            case WAITING_TO_STOP:
+                return ChargingSessionStatus.WAITING_TO_STOP;
+            case STOPPED:
+                return ChargingSessionStatus.STOPPED;
+            case PRICE_ESTABLISHED:
             case TRANSACTION_CLEARED:
-                return ChargingSessionStatus.CLEARED;
+                return ChargingSessionStatus.COMPLETE;
             case TIMEOUT_WAITING_TO_START:
+            case TIMEOUT_WAITING_TO_STOP:
             case FAILED_TO_START:
+            case FAILED_TO_STOP:
+            case FAILED_TO_ESTABLISH_PRICE:
             case FAILED_TO_CLEAR_TRANSACTION:
             case FAILED:
                 return ChargingSessionStatus.FAILED;

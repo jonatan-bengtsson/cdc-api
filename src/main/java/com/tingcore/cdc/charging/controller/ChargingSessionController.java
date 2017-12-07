@@ -4,6 +4,7 @@ import com.tingcore.cdc.charging.api.ChargingSession;
 import com.tingcore.cdc.charging.api.ChargingSessionStatus;
 import com.tingcore.cdc.charging.api.CreateChargingSessionRequest;
 import com.tingcore.cdc.charging.api.CustomerKey;
+import com.tingcore.cdc.charging.api.Price.Amount;
 import com.tingcore.cdc.charging.model.*;
 import com.tingcore.cdc.charging.service.ChargingSessionService;
 import com.tingcore.cdc.configuration.AuthorizedUser;
@@ -15,11 +16,15 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.format.number.CurrencyStyleFormatter;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.util.Currency;
+import java.util.Optional;
 
 import static com.tingcore.cdc.charging.controller.ChargingSessionController.SESSIONS;
 import static com.tingcore.cdc.charging.controller.ChargingSessionController.VERSION;
@@ -62,30 +67,27 @@ public class ChargingSessionController {
     @GetMapping(value = "/{chargingSessionId}")
     @ApiOperation(value = "Get a charge session.")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Get a charging session", response = ChargingSession.class),
-	@ApiResponse(code = 404, message = "Charging session not found", response = Error.class)
+            @ApiResponse(code = 200, message = "Get a charging session", response = ChargingSession.class),
+            @ApiResponse(code = 404, message = "Charging session not found", response = Error.class)
     })
-    public ResponseEntity<ChargingSession> getChargeSession(@PathVariable("chargingSessionId") String chargingSessionId) {
+    public ResponseEntity<ChargingSession> getChargeSession(final @PathVariable("chargingSessionId") String chargingSessionId) {
+        try {
+            return ResponseEntity.ok(toApiObject(chargingSessionService.fetchSession(sessionIdFromHash(chargingSessionId))));
+        } catch (NoSessionFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
-      try {
-        Long sessionId =
-            hashIdService.decode(chargingSessionId).get();
-
-        ChargingSession chargingSession =
-            toApiObject(chargingSessionService.fetchSession(new ChargingSessionId(sessionId)));
-
-        return ResponseEntity.ok(chargingSession);
-
-      } catch (NoSessionFoundException e) {
-          return ResponseEntity.notFound().build();
-      }
+    private ChargingSessionId sessionIdFromHash(final String sessionIdHash) {
+        return hashIdService.decode(sessionIdHash)
+                .map(ChargingSessionId::new)
+                .orElseThrow(() -> new EntityNotFoundException("Could not find the specified session id."));
     }
 
     private CustomerKeyId customerKeyIdFromRequest(final CreateChargingSessionRequest request) {
-        return new CustomerKeyId(698L);
-        /*return hashIdService.decode(request.getCustomerKey())
+        return hashIdService.decode(request.getCustomerKey())
                 .map(CustomerKeyId::new)
-                .orElseThrow(() -> new EntityNotFoundException("Could not find the specified customer key."));*/
+                .orElseThrow(() -> new EntityNotFoundException("Could not find the specified customer key."));
     }
 
     private ChargePointId chargePointIdFromRequest(final CreateChargingSessionRequest request) {
@@ -104,9 +106,25 @@ public class ChargingSessionController {
         return new ChargingSession(
                 hashIdService.encode(chargingSession.id.value),
                 new CustomerKey(hashIdService.encode(chargingSession.customerKeyId.value), "********"), // TODO lookup value and mask
+                toApiObject(chargingSession.price),
                 chargingSession.startTime,
                 chargingSession.endTime,
                 ChargingSessionStatus.valueOf(chargingSession.status.name())
         );
+    }
+
+    private com.tingcore.cdc.charging.api.Price toApiObject(final Price price) {
+        return Optional.ofNullable(price).map(p -> new com.tingcore.cdc.charging.api.Price(
+                new Amount(p.inclVat, toFormattedAmount(p.inclVat, p.currency)),
+                new Amount(p.exclVat, toFormattedAmount(p.exclVat, p.currency)),
+                p.currency
+        )).orElse(null);
+    }
+
+    private String toFormattedAmount(final long cents,
+                                     final String currency) {
+        final CurrencyStyleFormatter formatter = new CurrencyStyleFormatter();
+        formatter.setCurrency(Currency.getInstance(currency));
+        return formatter.print(cents, LocaleContextHolder.getLocale());
     }
 }

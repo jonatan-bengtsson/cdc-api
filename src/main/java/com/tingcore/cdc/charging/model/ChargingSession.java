@@ -8,17 +8,20 @@ import static org.apache.commons.lang3.Validate.notNull;
 public class ChargingSession {
     public final ChargingSessionId id;
     public final CustomerKeyId customerKeyId;
+    public final Price price;
     public final Instant startTime;
     public final Instant endTime;
     public final ChargingSessionStatus status;
 
     public ChargingSession(final ChargingSessionId id,
                            final CustomerKeyId customerKeyId,
+                           final Price price,
                            final Instant startTime,
                            final Instant endTime,
                            final ChargingSessionStatus status) {
         this.id = notNull(id);
         this.customerKeyId = notNull(customerKeyId);
+        this.price = price;
         this.startTime = startTime;
         this.endTime = endTime;
         this.status = notNull(status);

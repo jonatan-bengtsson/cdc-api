@@ -4,11 +4,12 @@ import com.tingcore.cdc.charging.model.*;
 import com.tingcore.charging.assets.model.CompleteChargePoint;
 import com.tingcore.charging.assets.model.CompleteChargePointSite;
 
-import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import static java.util.Optional.ofNullable;
 
 public class ChargePointSiteMapper {
 
@@ -159,24 +160,24 @@ public class ChargePointSiteMapper {
     }
 
     /**
-     * Maps an Asset service Connector to an API friendly Connector with status included
+     * Maps an Asset service Connector to an API friendly Connector with connectorStatus included
      *
-     * @param c                Connector from Asset service
-     * @param status           status for the connector
-     * @param priceInformation price information for the connector
+     * @param c               Connector from Asset service
+     * @param connectorStatus connectorStatus for the connector
+     * @param connectorPrice  price information for the connector
      * @return An API friendly version of the Connector
      */
     public static Connector toConnector(com.tingcore.charging.assets.model.Connector c,
-                                        ConnectorStatus status,
-                                        PriceInformation priceInformation) {
+                                        ConnectorStatus connectorStatus,
+                                        ConnectorPrice connectorPrice) {
         return new Connector(
                 c.getId(),
                 getLabel(c.getConnectorNumber()),
                 c.getConnectorNumber(),
                 c.getConnectorType(),
                 isQuickCharger(c),
-                status,
-                priceInformation.price);
+                ofNullable(connectorStatus).orElse(ConnectorStatus.NO_DATA),
+                ofNullable(connectorPrice).map(price -> price.price).orElse("no price information available"));
     }
 
 
@@ -266,48 +267,12 @@ public class ChargePointSiteMapper {
         return status;
     }
 
-    /**
-     * Maps an asset service complete charge point site to an API friendly version of the ChargePointSite without status
-     *
-     * @param ccps site provided from the asset service as is
-     * @return an API friendly version of ChargePointSite
-     */
-    public static ChargePointSite toChargePointSite(CompleteChargePointSite ccps) {
-        return new ChargePointSite(
-                ccps.getId(),
-                ccps.getName(),
-                ccps.getLocation(),
-                "No description available", // TODO This should be part of CompleteChargeSite
-                new ArrayList<>(),
-                ccps.getChargePoints().stream().map(ChargePointSiteMapper::toChargePoint).collect(Collectors.toList()),
-                null
-        );
-    }
-
-    private static ChargePoint toChargePoint(CompleteChargePoint ccp) {
-        return new ChargePoint(
-                ccp.getId(),
-                ccp.getAssetName(),
-                ccp.getConnectors().stream().map(c -> toConnector(c)).collect(Collectors.toList()));
-    }
-
-    private static Connector toConnector(com.tingcore.charging.assets.model.Connector c) {
-        return new Connector(
-                c.getId(),
-                getLabel(c.getConnectorNumber()),
-                c.getConnectorNumber(),
-                c.getConnectorType(),
-                isQuickCharger(c),
-                ConnectorStatus.NO_DATA,
-                "No price available");
-    }
-
     public interface ConnectorStatusProvider {
         ConnectorStatus statusFor(final Long connectorId);
     }
 
     public interface ConnectorPriceProvider {
-        PriceInformation priceFor(final Long connectorId);
+        ConnectorPrice priceFor(final Long connectorId);
     }
 }
 

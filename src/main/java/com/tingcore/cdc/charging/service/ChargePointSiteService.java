@@ -24,7 +24,10 @@ import org.springframework.stereotype.Service;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
+
+import static java.util.function.Function.identity;
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toMap;
 
 @Service
 public class ChargePointSiteService {
@@ -93,7 +96,7 @@ public class ChargePointSiteService {
                             ChargeSiteStatus.NO_DATA,
                             ChargeSiteStatus.NO_DATA
                     );
-                }).collect(Collectors.toList());
+                }).collect(toList());
 
         return new PageResponse<>(previewChargeSites);
     }
@@ -105,7 +108,7 @@ public class ChargePointSiteService {
                 .map(cs -> {
                     CompleteChargePointSite ccps = cs.getChargePointSite();
                     ChargePointSiteStatuses aggergatedSitesStatues = ChargePointSiteMapper.getAggregatedSitesStatues(
-                            ccps.getChargePoints().stream().flatMap(cp -> cp.getConnectors().stream()).collect(Collectors.toList()),
+                            ccps.getChargePoints().stream().flatMap(cp -> cp.getConnectors().stream()).collect(toList()),
                             connectorStatusMap
                     );
 
@@ -116,7 +119,7 @@ public class ChargePointSiteService {
                             aggergatedSitesStatues.getStatus(),
                             aggergatedSitesStatues.getQuickStatus()
                     );
-                }).collect(Collectors.toList());
+                }).collect(toList());
 
         return new PageResponse<>(previewChargeSites);
     }
@@ -153,25 +156,23 @@ public class ChargePointSiteService {
     }
 
     private ChargePointSite toChargePointSiteWithUnknownStatus(ChargePointSiteWithAvailabilityRules chargePointSiteWithAvailabilityRules) {
-        return ChargePointSiteMapper.toChargePointSite(chargePointSiteWithAvailabilityRules.getChargePointSite());
+        return ChargePointSiteMapper.toChargePointSite(
+                chargePointSiteWithAvailabilityRules.getChargePointSite(),
+                id -> null,
+                id -> null
+        );
     }
 
     private ChargePointSite toChargePointSiteWithStatus(ChargePointSiteWithAvailabilityRules chargePointSiteWithAvailabilityRules, StatusBatchResponse statusBatchResponse) {
+        final List<ConnectorId> connectorIds = chargePointSiteWithAvailabilityRules.getChargePointSite().getChargePoints().stream().flatMap(chargePoint -> chargePoint.getConnectors().stream()).map(connector -> new ConnectorId(connector.getId())).collect(toList());
         final Map<Long, ConnectorStatus> connectorStatusMap = ConnectorStatusMapper.getStatusMap(Collections.singletonList(chargePointSiteWithAvailabilityRules), statusBatchResponse);
+        final Map<Long, ConnectorPrice> connectorPriceMap = priceRepository.priceForConnectors(connectorIds).stream().collect(toMap(price -> price.connectorId.value, identity()));
 
         return ChargePointSiteMapper.toChargePointSite(
                 chargePointSiteWithAvailabilityRules.getChargePointSite(),
                 connectorStatusMap::get,
-                this::priceForConnector
+                connectorPriceMap::get
         );
-    }
-
-    private PriceInformation priceForConnector(final Long connectorId) {
-        try {
-            return priceRepository.priceForConnector(new ConnectorId(connectorId));
-        } catch (final RuntimeException exception) {
-            return null;
-        }
     }
 
 

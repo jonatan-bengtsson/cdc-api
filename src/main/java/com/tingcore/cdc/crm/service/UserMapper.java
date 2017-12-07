@@ -35,7 +35,7 @@ class UserMapper {
                        .customerNumber(AttributeMapper.findStringAttribute(attributes, AttributeConstant.CUSTOMER_NUMBER).orElse(null))
                        .customerType(AttributeMapper.findStringAttribute(attributes, AttributeConstant.CUSTOMER_TYPE).orElse(null))
                        .language(AttributeMapper.findStringAttribute(attributes, AttributeConstant.LANGUAGE).orElse(null))
-                       .organizationPermissions(AttributeMapper.findOrganizationPermissions(attributes))
+                       .organizationPermissions(AttributeMapper.findOrganizationPermissions(userResponse.getOrganizationPermissions()))
                        .roles(AttributeMapper.findStringAttributes(attributes, AttributeConstant.ROLES)) // Todo when role structure is set
                        .activationDate(AttributeMapper.findDateResponse(attributes, AttributeConstant.ACTIVATION_DATE).orElse(null)) // Todo add to user-service database
                        .hasChargingAccess(AttributeMapper.findBooleanAttribute(attributes, AttributeConstant.HAS_CHARGING_ACCESS).orElse(null))

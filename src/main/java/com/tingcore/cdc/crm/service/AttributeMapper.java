@@ -9,6 +9,7 @@ import com.tingcore.users.model.OrganizationResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -178,16 +179,9 @@ public class AttributeMapper {
         return addAttributeIdToAttributeResponses(attributeResponses, addresses);
     }
     
-    public static List<GetOrganizationResponse> findOrganizationPermissions(List<AttributeResponse> attributes) {
-        List<AttributeResponse> attributeResponses = findAttributesFromList(attributes, AttributeConstant.ORGANIZATION_PERMISSIONS);
-        List<GetOrganizationResponse> organizationPermissions = attributeResponses.stream()
-                                                                        .map(attributeResponse -> parseAttributeValue(attributeResponse, GetOrganizationResponse.class))
-                                                                        .filter(Optional::isPresent)
-                                                                        .map(Optional::get)
-                                                                        .collect(Collectors.toList());
-        IntStream.range(0, attributeResponses.size())
-                .forEach(index -> organizationPermissions.get(index).setId(attributeResponses.get(index).getAttributeValue().getId()));
-        return organizationPermissions;
+    public static List<GetOrganizationResponse> findOrganizationPermissions(List<OrganizationResponse> organizations) {
+        // map OrganizationResponse to GetOrganizationResponse same way as in cdm
+        return Collections.emptyList();
     }
     
     public static Optional<BooleanAttributeResponse> findBooleanAttribute(List<AttributeResponse> attributes, final String attributeName) {
@@ -219,7 +213,7 @@ public class AttributeMapper {
     }
     
     public static Optional<GetOrganizationResponse> mapOrganization(final OrganizationResponse organization ) {
-        // mappa om OrganizationResponse till vad vi vill ha
+        // map OrganizationResponse to GetOrganizationResponse same way as in cdm
         return Optional.empty();
     }
 }

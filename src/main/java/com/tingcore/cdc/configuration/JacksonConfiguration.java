@@ -1,10 +1,10 @@
 package com.tingcore.cdc.configuration;
 
-import com.tingcore.cdc.constant.SuppressWarningConstant;
 import com.tingcore.commons.api.service.HashIdService;
 import com.tingcore.commons.api.utils.HashIdDeserializer;
 import com.tingcore.commons.api.utils.HashIdSerializer;
 import com.tingcore.commons.api.utils.JsonUtils;
+import com.tingcore.commons.constant.SuppressWarningConstant;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;

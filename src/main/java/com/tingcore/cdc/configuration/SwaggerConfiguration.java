@@ -2,7 +2,7 @@ package com.tingcore.cdc.configuration;
 
 import com.google.common.base.Predicate;
 import com.tingcore.cdc.constant.SpringProfilesConstant;
-import com.tingcore.cdc.constant.SuppressWarningConstant;
+import com.tingcore.commons.constant.SuppressWarningConstant;
 import com.tingcore.commons.rest.SwaggerDefaultConstant;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

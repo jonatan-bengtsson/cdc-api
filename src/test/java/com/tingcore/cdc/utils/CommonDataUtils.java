@@ -4,6 +4,8 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.Random;
+import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -13,6 +15,7 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 public class CommonDataUtils {
 
+    private static final Random rand = new Random();
     private final static AtomicLong ID_GENERATOR = new AtomicLong(2000);
 
     public static Long getNextId() {
@@ -25,5 +28,21 @@ public class CommonDataUtils {
 
     public static Long getRandomPastTimestamp() {
         return Instant.now().minus(ThreadLocalRandom.current().nextLong(100), ChronoUnit.DAYS).toEpochMilli();
+    }
+
+    public static String randomUUID() {
+        return UUID.randomUUID().toString();
+    }
+
+    public static String randomEmail() {
+        return String.format("%s@email.com", randomUUID());
+    }
+
+    public static String randomNumberStr(final int min, final int max) {
+        return String.valueOf(randomLong(min, max));
+    }
+
+    public static Long randomLong(final int min, final int max) {
+        return (long) (rand.nextInt((max - min) + 1) + min);
     }
 }

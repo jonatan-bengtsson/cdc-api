@@ -10,7 +10,6 @@ import com.tingcore.cdc.crm.service.UsersApiException;
 import com.tingcore.cdc.crm.utils.CustomerKeyDataUtils;
 import com.tingcore.cdc.crm.utils.UserDataUtils;
 import com.tingcore.cdc.utils.CommonDataUtils;
-import com.tingcore.cdc.utils.ErrorBodyMatcher;
 import com.tingcore.commons.api.service.HashIdService;
 import com.tingcore.commons.rest.ErrorResponse;
 import com.tingcore.commons.rest.PageResponse;
@@ -29,6 +28,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Matchers.anyLong;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -59,61 +59,13 @@ public class UserControllerTest extends ControllerUnitTest {
 
     @Test
     public void findKeysByUserId() throws Exception {
-        final Long userId = CommonDataUtils.getNextId();
-        final String hashedId = hashIdService.encode(userId);
         final List<CustomerKeyResponse> customerKeyResponses = Arrays.asList(CustomerKeyDataUtils.customerKeyResponse(), CustomerKeyDataUtils.customerKeyResponse(), CustomerKeyDataUtils.customerKeyResponse());
         PageResponse<CustomerKeyResponse> mockResponse = new PageResponse<>(customerKeyResponses);
-        given(customerKeyService.findByUserId(userId)).willReturn(mockResponse);
-        MvcResult result = mockMvc.perform(get("/v1/users/{userId}/keys", hashedId))
+        given(customerKeyService.findByUserId(anyLong())).willReturn(mockResponse);
+        MvcResult result = mockMvc.perform(get("/v1/users/self/customer-keys"))
                 .andExpect(status().isOk())
                 .andReturn();
 
-        assertThat(result.getResponse().getContentAsString()).isEqualTo(mockMvcUtils.toJson(mockResponse));
-    }
-
-    @Test
-    public void failFindKeysByUserIdInvalidType() throws Exception {
-        final Long userId = CommonDataUtils.getNextId();
-        final List<CustomerKeyResponse> customerKeyResponses = Arrays.asList(CustomerKeyDataUtils.customerKeyResponse(), CustomerKeyDataUtils.customerKeyResponse(), CustomerKeyDataUtils.customerKeyResponse());
-        PageResponse<CustomerKeyResponse> mockResponse = new PageResponse<>(customerKeyResponses);
-        given(customerKeyService.findByUserId(userId)).willReturn(mockResponse);
-        mockMvc.perform(get("/v1/users/{userId}/keys", userId))
-                .andExpect(status().isNotFound());
-    }
-
-    @Test
-    public void getById() throws Exception {
-        final Long userId = CommonDataUtils.getNextId();
-        final String hashedId = hashIdService.encode(userId);
-        final GetUserResponse mockResponse = UserDataUtils.createGetUserResponse();
-        given(userService.getUserById(userId, authorizedUser.getUser().getId(), true)).willReturn(mockResponse);
-        MvcResult result = mockMvc.perform(get("/v1/users/{id}", hashedId)
-                .param("includeAttributes", "true"))
-                .andExpect(status().isOk())
-                .andReturn();
-        assertThat(result.getResponse().getContentAsString()).isEqualTo(mockMvcUtils.toJson(mockResponse));
-    }
-
-    @Test
-    public void failGetByIdUserNonExisting() throws Exception {
-        final Long userId = CommonDataUtils.getNextId();
-        final String hashedId = hashIdService.encode(userId);
-        final GetUserResponse mockResponse = UserDataUtils.createGetUserResponse();
-        mockMvc.perform(get("/v1/users/{id}", hashedId)
-                .param("includeAttributes", "true"))
-                .andExpect(status().isNotFound())
-                .andExpect(ErrorBodyMatcher.entityNotFoundMatcher("User", hashedId));
-    }
-
-    @Test
-    public void getSelf() throws Exception {
-        final GetUserResponse mockResponse = UserDataUtils.createGetUserResponse();
-        given(userService.getUserById(authorizedUser.getUser().getId(), authorizedUser.getUser().getId(), true))
-                .willReturn(mockResponse);
-        MvcResult result = mockMvc.perform(get("/v1/users/self")
-                .param("includeAttributes", "true"))
-                .andExpect(status().isOk())
-                .andReturn();
         assertThat(result.getResponse().getContentAsString()).isEqualTo(mockMvcUtils.toJson(mockResponse));
     }
 

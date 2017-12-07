@@ -3,13 +3,11 @@ package com.tingcore.cdc.crm.utils;
 import com.tingcore.cdc.crm.response.GetUserResponse;
 import com.tingcore.cdc.crm.response.StringAttributeResponse;
 import com.tingcore.cdc.utils.CommonDataUtils;
-import com.tingcore.users.model.AttributeResponse;
-import com.tingcore.users.model.AttributeValueResponse;
-import com.tingcore.users.model.OrganizationResponse;
 import com.tingcore.users.model.UserResponse;
 
-import java.util.Collections;
-import java.util.UUID;
+import java.time.Instant;
+
+import static com.google.common.collect.Lists.newArrayList;
 
 /**
  * @author moa.mackegard
@@ -22,41 +20,29 @@ public class UserDataUtils {
 
     public static GetUserResponse createGetUserResponse() {
         return GetUserResponse.createBuilder()
-                .id(11L)
-                .firstName("firstname")
-                .lastName("lastname")
-                .email("email")
-                .customerNumber(new StringAttributeResponse(2222L, "12345"))
+                .id(CommonDataUtils.getNextId())
+                .email(CommonDataUtils.randomEmail())
+                .customerNumber(new StringAttributeResponse(CommonDataUtils.randomLong(1000, 5000), CommonDataUtils.randomNumberStr(1000, 5000)))
                 .build();
     }
 
     public static UserResponse createValidUserResponse() {
-        UserResponse userResponse = new UserResponse();
-        userResponse.setId(CommonDataUtils.getNextId());
-        userResponse.setFirstName("firstname");
-        userResponse.setLastName("lastname");
-        userResponse.setEmail("email");
-        String telephone = "{\"phoneNumber\":\"+467634512312\", \"formatter\":\"Swedish\"}";
-
-        final OrganizationResponse organizationResponse = new OrganizationResponse();
-        organizationResponse.setId(CommonDataUtils.getNextId());
-        organizationResponse.setName(UUID.randomUUID().toString());
-        organizationResponse.setCreated(CommonDataUtils.getRandomPastTimestamp());
-
-        userResponse.setOrganization(organizationResponse);
-
-        AttributeResponse telephoneAttribute = new AttributeResponse();
-        AttributeValueResponse attributeValueResponse = new AttributeValueResponse();
-        attributeValueResponse.setValue(telephone);
-        attributeValueResponse.setId(1L);
-
-        telephoneAttribute.setAttributeValue(attributeValueResponse);
-        telephoneAttribute.setId(11L);
-        telephoneAttribute.setType(AttributeResponse.TypeEnum.JSON);
-        telephoneAttribute.setName("phoneNumber");
-
-        userResponse.setAttributes(Collections.singletonList(telephoneAttribute));
-        return userResponse;
+        final UserResponse response = new UserResponse();
+        response.setOrganization(OrganizationDataUtils.createOrganizationResponse());
+        response.setOrganizationPermissions(newArrayList(OrganizationDataUtils.createOrganizationResponse()));
+        response.setEmail(CommonDataUtils.randomEmail());
+        response.setId(CommonDataUtils.getNextId());
+        response.setCreated(Instant.now().toEpochMilli());
+        response.setAttributes(newArrayList(
+                AttributeDataUtils.createFirstNameResponse(),
+                AttributeDataUtils.createLastNameResponse(),
+                AttributeDataUtils.createPhoneNumberResponse(),
+                AttributeDataUtils.createPhoneNumberResponse(),
+                AttributeDataUtils.createPhoneNumberResponse(),
+                AttributeDataUtils.createApprovedAgreementResponse()
+        ));
+        return response;
     }
 
 }
+

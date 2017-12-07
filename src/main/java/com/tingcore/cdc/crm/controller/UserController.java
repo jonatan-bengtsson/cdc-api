@@ -6,7 +6,6 @@ import com.tingcore.cdc.crm.response.CustomerKeyResponse;
 import com.tingcore.cdc.crm.response.GetUserResponse;
 import com.tingcore.cdc.crm.service.CustomerKeyService;
 import com.tingcore.cdc.crm.service.UserService;
-import com.tingcore.cdc.exception.EntityNotFoundException;
 import com.tingcore.commons.api.service.HashIdService;
 import com.tingcore.commons.rest.ErrorResponse;
 import com.tingcore.commons.rest.PageResponse;
@@ -17,7 +16,10 @@ import io.swagger.annotations.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 
@@ -49,36 +51,6 @@ public class UserController {
         this.hashIdService = hashIdService;
     }
 
-    @ApiResponses({
-            // In order for the Swagger configuration to pick up ErrorResponse.class.getSimpleName() and populate it with a
-            // certain class it has to be defined at least for one route. This route was chosen.
-            // https://github.com/springfox/springfox/issues/735
-            @ApiResponse(code = SwaggerDefaultConstant.HTTP_STATUS_NOT_FOUND, message = SwaggerDefaultConstant.MESSAGE_NOT_FOUND, response = ErrorResponse.class)
-    })
-    @RequestMapping(
-            value = PATH_PARAM_ID + "/keys",
-            method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_UTF8_VALUE
-    )
-    @ApiOperation(value = "Get customer keys by user id",
-            notes = "Route allows fetching all customer keys that belong to a user.",
-            tags = {SwaggerConstant.TAGS_CUSTOMER_KEYS, SwaggerConstant.TAGS_USERS})
-    public PageResponse<CustomerKeyResponse> getCustomerKeys(@PathVariable(PARAM_ID) final String id) {
-        return hashIdService.decode(id)
-                .map(decodedId -> customerKeyService.findByUserId(decodedId))
-                .orElseThrow(() -> new EntityNotFoundException(EntityNameConstant.USER, id));
-    }
-
-
-    @RequestMapping(value = "/{id}", method = GET, produces = "application/json")
-    @ApiOperation(value = "Get a user by id",
-            notes = "Route allows fetching a single user by its id",
-            tags = SwaggerConstant.TAGS_USERS)
-    public GetUserResponse getUser(@PathVariable("id") String id, @RequestParam(value = "includeAttributes") Boolean includeAttributes) {
-        return hashIdService.decode(id)
-                .map(decodedId -> userService.getUserById(decodedId, authorizedUser.getUser().getId(), includeAttributes))
-                .orElseThrow(() -> new EntityNotFoundException("User", id));
-    }
 
     @RequestMapping(value = "/self", method = GET, produces = "application/json")
     @ApiOperation(value = "Get the authorized user",
@@ -88,5 +60,23 @@ public class UserController {
     public GetUserResponse getSelf(@RequestParam(value = "includeAttributes") Boolean includeAttributes) {
         final Long authorizedUserId = authorizedUser.getUser().getId();
         return userService.getUserById(authorizedUserId, authorizedUserId, includeAttributes);
+    }
+
+    @ApiResponses({
+            // In order for the Swagger configuration to pick up ErrorResponse.class.getSimpleName() and populate it with a
+            // certain class it has to be defined at least for one route. This route was chosen.
+            // https://github.com/springfox/springfox/issues/735
+            @ApiResponse(code = SwaggerDefaultConstant.HTTP_STATUS_NOT_FOUND, message = SwaggerDefaultConstant.MESSAGE_NOT_FOUND, response = ErrorResponse.class)
+    })
+    @RequestMapping(
+            value = "/self/customer-keys",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE
+    )
+    @ApiOperation(value = "Get customer keys by user id",
+            notes = "Route allows fetching all customer keys that belong to a user.",
+            tags = {SwaggerConstant.TAGS_CUSTOMER_KEYS, SwaggerConstant.TAGS_USERS})
+    public PageResponse<CustomerKeyResponse> getCustomerKeys() {
+        return customerKeyService.findByUserId(authorizedUser.getUser().getId());
     }
 }

@@ -33,4 +33,6 @@ public class AttributeConstant {
     public static final String ROLES = "roles";
     public static final String ACTIVATION_DATE = "activationDate";
     public static final String HAS_CHARGING_ACCESS = "hasChargingAccess";
+    public static final String LAST_NAME = "lastName";
+    public static final String FIRST_NAME = "firstName";
 }

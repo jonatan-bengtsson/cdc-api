@@ -1,10 +1,12 @@
 package com.tingcore.cdc.crm.service;
 
+import com.tingcore.cdc.crm.constant.AttributeConstant;
 import com.tingcore.cdc.crm.repository.UserRepository;
 import com.tingcore.cdc.crm.response.GetUserResponse;
 import com.tingcore.cdc.crm.utils.UserDataUtils;
 import com.tingcore.cdc.utils.CommonDataUtils;
 import com.tingcore.commons.api.repository.ApiResponse;
+import com.tingcore.commons.constant.SuppressWarningConstant;
 import com.tingcore.commons.rest.ErrorResponse;
 import com.tingcore.users.model.UserResponse;
 import org.junit.Before;
@@ -22,6 +24,7 @@ import static org.mockito.BDDMockito.given;
  * @author moa.mackegard
  * @since 2017-11-12.
  */
+@SuppressWarnings(SuppressWarningConstant.CONSTANT_CONDITIONS)
 @RunWith(SpringRunner.class)
 public class UserServiceTest {
 
@@ -38,9 +41,10 @@ public class UserServiceTest {
     public void getUserById() throws Exception {
         UserResponse mockResponse = UserDataUtils.createValidUserResponse();
         ApiResponse<UserResponse> apiMockResponse = new ApiResponse<>(mockResponse);
-        given(userRepository.findById(mockResponse.getId(), 1L, true)).willReturn(apiMockResponse);
-        GetUserResponse response = userService.getUserById(mockResponse.getId(), 1L, true);
-        assertThat(response.getFirstName()).isEqualTo(mockResponse.getFirstName());
+        final Long authorizationId = CommonDataUtils.getNextId();
+        given(userRepository.findById(mockResponse.getId(), authorizationId, true)).willReturn(apiMockResponse);
+        GetUserResponse response = userService.getUserById(mockResponse.getId(), authorizationId, true);
+        assertThat(response.getFirstName().getValue()).isEqualTo(mockResponse.getAttributes().stream().filter(attributeResponse -> attributeResponse.getName().equals(AttributeConstant.FIRST_NAME)).findFirst().get().getAttributeValue().getValue());
     }
 
     @Test

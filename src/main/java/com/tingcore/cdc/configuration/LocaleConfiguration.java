@@ -1,6 +1,6 @@
 package com.tingcore.cdc.configuration;
 
-import com.tingcore.cdc.constant.SuppressWarningConstant;
+import com.tingcore.commons.constant.SuppressWarningConstant;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;

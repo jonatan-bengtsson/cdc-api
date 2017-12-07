@@ -1,6 +1,7 @@
 package com.tingcore.cdc.crm.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.tingcore.cdc.crm.constant.JsonPropertyConstant;
 
 /**
  * @author moa.mackegard
@@ -21,7 +22,7 @@ public class BooleanAttributeResponse extends BaseAttributeResponse {
     public BooleanAttributeResponse() {
     }
 
-    @JsonProperty("isValue")
+    @JsonProperty(JsonPropertyConstant.VALUE)
     public Boolean getValue() {
         return value;
     }

@@ -1,6 +1,7 @@
 package com.tingcore.cdc.configuration;
 
 import com.tingcore.cdc.configuration.IntegrationConfiguration.PaymentsServiceInformation;
+import com.tingcore.payments.cpo.api.PricesApi;
 import com.tingcore.payments.emp.ApiClient;
 import com.tingcore.payments.emp.api.ChargesApi;
 import com.tingcore.payments.emp.api.TokensApi;
@@ -26,5 +27,10 @@ public class PaymentsServiceConfiguration {
     @Bean
     public TokensApi tokensApi(final ApiClient paymentsClient) {
         return notNull(paymentsClient).createService(TokensApi.class);
+    }
+
+    @Bean
+    public PricesApi pricesApi(final ApiClient paymentsClient) {
+        return notNull(paymentsClient).createService(PricesApi.class);
     }
 }

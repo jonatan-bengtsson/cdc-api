@@ -98,6 +98,7 @@ dependencies {
     compile("com.tingcore.charging:charging-operations-java-client:0.1.0-SNAPSHOT")
     compile("com.tingcore:user-service-java-client:$versionUserServiceClient")
     compile('com.tingcore.payments:payments-emp-client:0.1.0-SNAPSHOT')
+    compile('com.tingcore.payments:payments-cpo-client:0.1.0-SNAPSHOT')
     compile "com.tingcore:library-eventprocessing:0.0.8"
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
     compile 'com.google.code.gson:gson:2.8.2'

@@ -25,6 +25,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import static java.util.Collections.emptyMap;
+import static java.util.Optional.ofNullable;
 import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
@@ -138,35 +140,31 @@ public class ChargePointSiteService {
 
         CompleteChargePointSite ccps = chargePointSiteWithAvailabilityRules.getChargePointSite();
 
-        ApiResponse<StatusBatchResponse> response = operationsRepository.execute(
+        ApiResponse<StatusBatchResponse> statusResponse = operationsRepository.execute(
                 operationsApi.getChargePointStatusUsingPOST(
                         OperationsApiMapper.toBatchStatusRequest(ccps)
                 )
         );
 
-        if (response.hasError()) {
+        if (statusResponse.hasError()) {
             // TODO update this according to logging guidelines
-            LOG.warn("Error from operations", response.getError());
+            LOG.warn("Error from operations", statusResponse.getError());
         }
 
-        return response.getResponseOptional()
-                .map(statusBatchResponse -> toChargePointSiteWithStatus(chargePointSiteWithAvailabilityRules, statusBatchResponse))
-                .orElse(toChargePointSiteWithUnknownStatus(chargePointSiteWithAvailabilityRules));
+        List<ConnectorPrice> connectorPrices = priceRepository.priceForConnectors(chargePointSiteWithAvailabilityRules.getChargePointSite().getChargePoints().stream().flatMap(chargePoint -> chargePoint.getConnectors().stream()).map(connector -> new ConnectorId(connector.getId())).collect(toList()));
 
-    }
-
-    private ChargePointSite toChargePointSiteWithUnknownStatus(ChargePointSiteWithAvailabilityRules chargePointSiteWithAvailabilityRules) {
-        return ChargePointSiteMapper.toChargePointSite(
-                chargePointSiteWithAvailabilityRules.getChargePointSite(),
-                id -> null,
-                id -> null
+        return toChargePointSite(
+                chargePointSiteWithAvailabilityRules,
+                statusResponse.getResponseOptional().orElse(null),
+                connectorPrices
         );
     }
 
-    private ChargePointSite toChargePointSiteWithStatus(ChargePointSiteWithAvailabilityRules chargePointSiteWithAvailabilityRules, StatusBatchResponse statusBatchResponse) {
-        final List<ConnectorId> connectorIds = chargePointSiteWithAvailabilityRules.getChargePointSite().getChargePoints().stream().flatMap(chargePoint -> chargePoint.getConnectors().stream()).map(connector -> new ConnectorId(connector.getId())).collect(toList());
-        final Map<Long, ConnectorStatus> connectorStatusMap = ConnectorStatusMapper.getStatusMap(Collections.singletonList(chargePointSiteWithAvailabilityRules), statusBatchResponse);
-        final Map<Long, ConnectorPrice> connectorPriceMap = priceRepository.priceForConnectors(connectorIds).stream().collect(toMap(price -> price.connectorId.value, identity()));
+    private ChargePointSite toChargePointSite(ChargePointSiteWithAvailabilityRules chargePointSiteWithAvailabilityRules,
+                                              StatusBatchResponse statusBatchResponse,
+                                              List<ConnectorPrice> connectorPrices) {
+        final Map<Long, ConnectorStatus> connectorStatusMap = ofNullable(statusBatchResponse).map(statuses -> ConnectorStatusMapper.getStatusMap(Collections.singletonList(chargePointSiteWithAvailabilityRules), statuses)).orElse(emptyMap());
+        final Map<Long, ConnectorPrice> connectorPriceMap = connectorPrices.stream().collect(toMap(price -> price.connectorId.value, identity()));
 
         return ChargePointSiteMapper.toChargePointSite(
                 chargePointSiteWithAvailabilityRules.getChargePointSite(),

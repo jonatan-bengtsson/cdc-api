@@ -62,30 +62,27 @@ public class ChargingSessionController {
     @GetMapping(value = "/{chargingSessionId}")
     @ApiOperation(value = "Get a charge session.")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Get a charging session", response = ChargingSession.class),
-	@ApiResponse(code = 404, message = "Charging session not found", response = Error.class)
+            @ApiResponse(code = 200, message = "Get a charging session", response = ChargingSession.class),
+            @ApiResponse(code = 404, message = "Charging session not found", response = Error.class)
     })
-    public ResponseEntity<ChargingSession> getChargeSession(@PathVariable("chargingSessionId") String chargingSessionId) {
+    public ResponseEntity<ChargingSession> getChargeSession(final @PathVariable("chargingSessionId") String chargingSessionId) {
+        try {
+            return ResponseEntity.ok(toApiObject(chargingSessionService.fetchSession(sessionIdFromHash(chargingSessionId))));
+        } catch (NoSessionFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
-      try {
-        Long sessionId =
-            hashIdService.decode(chargingSessionId).get();
-
-        ChargingSession chargingSession =
-            toApiObject(chargingSessionService.fetchSession(new ChargingSessionId(sessionId)));
-
-        return ResponseEntity.ok(chargingSession);
-
-      } catch (NoSessionFoundException e) {
-          return ResponseEntity.notFound().build();
-      }
+    private ChargingSessionId sessionIdFromHash(final String sessionIdHash) {
+        return hashIdService.decode(sessionIdHash)
+                .map(ChargingSessionId::new)
+                .orElseThrow(() -> new EntityNotFoundException("Could not find the specified session id."));
     }
 
     private CustomerKeyId customerKeyIdFromRequest(final CreateChargingSessionRequest request) {
-        return new CustomerKeyId(698L);
-        /*return hashIdService.decode(request.getCustomerKey())
+        return hashIdService.decode(request.getCustomerKey())
                 .map(CustomerKeyId::new)
-                .orElseThrow(() -> new EntityNotFoundException("Could not find the specified customer key."));*/
+                .orElseThrow(() -> new EntityNotFoundException("Could not find the specified customer key."));
     }
 
     private ChargePointId chargePointIdFromRequest(final CreateChargingSessionRequest request) {

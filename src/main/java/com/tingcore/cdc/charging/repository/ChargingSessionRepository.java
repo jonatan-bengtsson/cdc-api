@@ -94,7 +94,7 @@ public class ChargingSessionRepository {
     static ChargingSession apiSessionToModel(final ApiCharge apiCharge) {
         return new ChargingSession(
                 new ChargingSessionId(apiCharge.getId()),
-                new CustomerKeyId(apiCharge.getUser()),
+                new CustomerKeyId(apiCharge.getAccount()),
                 apiTimeToNullableInstant(apiCharge.getStartTime()),
                 apiTimeToNullableInstant(apiCharge.getStopTime()),
                 apiSessionStateToModel(apiCharge.getState())

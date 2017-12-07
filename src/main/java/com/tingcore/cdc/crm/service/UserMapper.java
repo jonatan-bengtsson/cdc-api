@@ -29,7 +29,7 @@ class UserMapper {
                        .approvedMarketInfo(AttributeMapper.findApprovedMarketInfo(attributes).orElse(null))
                        .address(AttributeMapper.findAddressResponse(attributes))
                        .timezone(AttributeMapper.findStringAttribute(attributes, AttributeConstant.TIMEZONE).orElse(null))
-                       .approvedAgreement(AttributeMapper.findApprovedTermsResponse(attributes))
+                .approvedAgreements(AttributeMapper.findApprovedAgreements(attributes))
                        .licensePlates(AttributeMapper.findLicensePlateResponse(attributes))
                        .socialSecurityNumber(AttributeMapper.findSocialSecurityNumber(attributes).orElse(null))
                        .customerNumber(AttributeMapper.findStringAttribute(attributes, AttributeConstant.CUSTOMER_NUMBER).orElse(null))

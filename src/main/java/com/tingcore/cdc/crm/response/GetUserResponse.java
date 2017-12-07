@@ -6,29 +6,29 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.List;
 
 public class GetUserResponse {
-    private Long id;
-    private GetOrganizationResponse organization;
-    private String firstName;
-    private String lastName;
-    private String email;
-    private List<AddressResponse> address;
-    private StringAttributeResponse timezone;
-    private List<ApprovedAgreementResponse> approvedAgreement;
-    private ApprovedMarketInfoResponse approvedMarketInfo;
-    private List<LicensePlateResponse> licensePlates;
-    private SocialSecurityNumberResponse socialSecurityNumber;
-    private StringAttributeResponse customerNumber;
-    private BooleanAttributeResponse hasChargingAccess;
-    private StringAttributeResponse customerType;
-    private List<PhoneNumberResponse> phoneNumbers;
-    private StringAttributeResponse organizationNumber;
-    private List<GetOrganizationResponse> organizationPermissions;
-    private List<StringAttributeResponse> roles;
-    private StringAttributeResponse language;
-    private InstantAttributeResponse activationDate;
-    private InstantAttributeResponse expirationDate;
-    
-    public GetUserResponse (Long id, GetOrganizationResponse organization, String firstName, String lastName, String email, List<AddressResponse> address, StringAttributeResponse timezone, List<ApprovedAgreementResponse> approvedAgreement, ApprovedMarketInfoResponse approvedMarketInfo, List<LicensePlateResponse> licensePlates, SocialSecurityNumberResponse socialSecurityNumber, StringAttributeResponse customerNumber, BooleanAttributeResponse hasChargingAccess, StringAttributeResponse customerType, List<PhoneNumberResponse> phoneNumbers, StringAttributeResponse organizationNumber, List<GetOrganizationResponse> organizationPermissions, List<StringAttributeResponse> roles, StringAttributeResponse language, InstantAttributeResponse activationDate, InstantAttributeResponse expirationDate) {
+    private final Long id;
+    private final GetOrganizationResponse organization;
+    private final String firstName;
+    private final String lastName;
+    private final String email;
+    private final List<AddressResponse> address;
+    private final StringAttributeResponse timezone;
+    private final List<ApprovedAgreementResponse> approvedAgreements;
+    private final ApprovedMarketInfoResponse approvedMarketInfo;
+    private final List<LicensePlateResponse> licensePlates;
+    private final SocialSecurityNumberResponse socialSecurityNumber;
+    private final StringAttributeResponse customerNumber;
+    private final BooleanAttributeResponse hasChargingAccess;
+    private final StringAttributeResponse customerType;
+    private final List<PhoneNumberResponse> phoneNumbers;
+    private final StringAttributeResponse organizationNumber;
+    private final List<GetOrganizationResponse> organizationPermissions;
+    private final List<StringAttributeResponse> roles;
+    private final StringAttributeResponse language;
+    private final InstantAttributeResponse activationDate;
+    private final InstantAttributeResponse expirationDate;
+
+    public GetUserResponse(Long id, GetOrganizationResponse organization, String firstName, String lastName, String email, List<AddressResponse> address, StringAttributeResponse timezone, List<ApprovedAgreementResponse> approvedAgreements, ApprovedMarketInfoResponse approvedMarketInfo, List<LicensePlateResponse> licensePlates, SocialSecurityNumberResponse socialSecurityNumber, StringAttributeResponse customerNumber, BooleanAttributeResponse hasChargingAccess, StringAttributeResponse customerType, List<PhoneNumberResponse> phoneNumbers, StringAttributeResponse organizationNumber, List<GetOrganizationResponse> organizationPermissions, List<StringAttributeResponse> roles, StringAttributeResponse language, InstantAttributeResponse activationDate, InstantAttributeResponse expirationDate) {
         this.id = id;
         this.organization = organization;
         this.firstName = firstName;
@@ -36,7 +36,7 @@ public class GetUserResponse {
         this.email = email;
         this.address = address;
         this.timezone = timezone;
-        this.approvedAgreement = approvedAgreement;
+        this.approvedAgreements = approvedAgreements;
         this.approvedMarketInfo = approvedMarketInfo;
         this.licensePlates = licensePlates;
         this.socialSecurityNumber = socialSecurityNumber;
@@ -50,6 +50,30 @@ public class GetUserResponse {
         this.language = language;
         this.activationDate = activationDate;
         this.expirationDate = expirationDate;
+    }
+
+    public GetUserResponse() {
+        this.id = null;
+        this.organization = null;
+        this.firstName = null;
+        this.lastName = null;
+        this.email = null;
+        this.address = null;
+        this.timezone = null;
+        this.approvedAgreements = null;
+        this.approvedMarketInfo = null;
+        this.licensePlates = null;
+        this.socialSecurityNumber = null;
+        this.customerNumber = null;
+        this.hasChargingAccess = null;
+        this.customerType = null;
+        this.phoneNumbers = null;
+        this.organizationNumber = null;
+        this.organizationPermissions = null;
+        this.roles = null;
+        this.language = null;
+        this.activationDate = null;
+        this.expirationDate = null;
     }
     
     
@@ -88,11 +112,11 @@ public class GetUserResponse {
     public StringAttributeResponse getTimezone() {
         return timezone;
     }
-    
-    @JsonProperty("approvedAgreement")
+
+    @JsonProperty("approvedAgreements")
     @ApiModelProperty(position = 7)
     public List<ApprovedAgreementResponse> getApprovedAgreements() {
-        return approvedAgreement;
+        return approvedAgreements;
     }
     
     @JsonProperty("approvedMarketInfo")
@@ -191,7 +215,7 @@ public class GetUserResponse {
         private String email;
         private List<AddressResponse> address;
         private StringAttributeResponse timezone;
-        private List<ApprovedAgreementResponse> approvedAgreement;
+        private List<ApprovedAgreementResponse> approvedAgreements;
         private ApprovedMarketInfoResponse approvedMarketInfo;
         private List<LicensePlateResponse> licensePlates;
         private SocialSecurityNumberResponse socialSecurityNumber;
@@ -243,9 +267,9 @@ public class GetUserResponse {
             this.timezone = timezone;
             return this;
         }
-        
-        public Builder approvedAgreement(final List<ApprovedAgreementResponse> approvedAgreement) {
-            this.approvedAgreement = approvedAgreement;
+
+        public Builder approvedAgreements(final List<ApprovedAgreementResponse> approvedAgreements) {
+            this.approvedAgreements = approvedAgreements;
             return this;
         }
         
@@ -317,7 +341,7 @@ public class GetUserResponse {
         
         
         public GetUserResponse build() {
-            return new GetUserResponse(id, organization, firstName, lastName, email, address, timezone, approvedAgreement, approvedMarketInfo, licensePlates,
+            return new GetUserResponse(id, organization, firstName, lastName, email, address, timezone, approvedAgreements, approvedMarketInfo, licensePlates,
                                               socialSecurityNumber, customerNumber, hasChargingAccess, customerType, phoneNumbers,
                                               organizationNumber, organizationPermissions, roles, language,
                                               activationDate, expirationDate);

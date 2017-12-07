@@ -55,10 +55,9 @@ public class AttributeMapper {
                            return Optional.empty();
                        });
     }
-    
-    
-    
-    static List<ApprovedAgreementResponse> findApprovedTermsResponse(final List<AttributeResponse> attributes) {
+
+
+    static List<ApprovedAgreementResponse> findApprovedAgreements(final List<AttributeResponse> attributes) {
         List<AttributeResponse> attributeResponses = findAttributesFromList(attributes, AttributeConstant.APPROVED_AGREEMENTS);
         List<ApprovedAgreementResponse> approvedTerms = attributeResponses.stream()
                                                                 .map(attributeResponse -> parseAttributeValue(attributeResponse, ApprovedAgreementResponse.class))

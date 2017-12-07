@@ -51,7 +51,7 @@ public class ChargePointSiteMapper {
                 StatusAccumulator statusAccumulator = statusByChargePointType.computeIfAbsent(con.getConnectorType(),
                         conType -> new StatusAccumulator());
 
-                updateStatusAccumulator(statusAccumulator, con, connectorStatusProvider.statusFor(con.getId()));
+                updateStatusAccumulator(statusAccumulator, con, ofNullable(connectorStatusProvider.statusFor(con.getId())).orElse(ConnectorStatus.NO_DATA));
             });
         });
 

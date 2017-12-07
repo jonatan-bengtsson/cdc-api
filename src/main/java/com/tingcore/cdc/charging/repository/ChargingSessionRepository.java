@@ -11,6 +11,7 @@ import retrofit2.Response;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.time.Instant;
+import java.util.Optional;
 
 import static java.lang.String.format;
 import static java.util.Optional.ofNullable;
@@ -95,10 +96,19 @@ public class ChargingSessionRepository {
         return new ChargingSession(
                 new ChargingSessionId(apiCharge.getId()),
                 new CustomerKeyId(apiCharge.getAccount()),
+                apiSessionPriceToModel(apiCharge.getPrice()),
                 apiTimeToNullableInstant(apiCharge.getStartTime()),
                 apiTimeToNullableInstant(apiCharge.getStopTime()),
                 apiSessionStateToModel(apiCharge.getState())
         );
+    }
+
+    private static Price apiSessionPriceToModel(final ApiAmount apiPrice) {
+        return Optional.ofNullable(apiPrice).map(price -> new Price(
+                price.getExclVat().getCentAmount(),
+                price.getInclVat().getCentAmount(),
+                price.getCurrency()
+        )).orElse(null);
     }
 
     private static ChargingSessionStatus apiSessionStateToModel(final ApiCharge.StateEnum state) {

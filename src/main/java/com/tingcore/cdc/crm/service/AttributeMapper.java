@@ -42,8 +42,8 @@ public class AttributeMapper {
                 .collect(Collectors.toList());
     }
 
-    static List<PhoneNumberResponse> findPhoneNumberResponses(final List<AttributeResponse> attributes) {
-        List<AttributeResponse> attributeResponses = findAttributesFromList(attributes, AttributeConstant.PHONE_NUMBER);
+    static List<PhoneNumberResponse> findPhoneNumberResponses(final List<AttributeResponse> attributes, final String phoneNumberAttributeName) {
+        List<AttributeResponse> attributeResponses = findAttributesFromList(attributes, phoneNumberAttributeName);
         return attributeResponses.stream()
                 .map(attributeResponse -> parseAttributeValue(attributeResponse, PhoneNumberResponse.class))
                 .filter(Optional::isPresent)

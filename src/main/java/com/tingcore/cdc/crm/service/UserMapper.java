@@ -25,7 +25,7 @@ class UserMapper {
                 .email(userResponse.getEmail())
                 .organization(OrganizationMapper.toResponse(userResponse.getOrganization()))
                 .organizationNumber(AttributeMapper.findStringAttribute(attributes, AttributeConstant.ORGANIZATION_NUMBER).orElse(null))
-                .phoneNumbers(AttributeMapper.findPhoneNumberResponses(attributes))
+                .phoneNumbers(AttributeMapper.findPhoneNumberResponses(attributes, AttributeConstant.PHONE_NUMBER))
                 .approvedMarketInfo(AttributeMapper.findApprovedMarketInfo(attributes).orElse(null))
                 .address(AttributeMapper.findAddressResponse(attributes))
                 .timezone(AttributeMapper.findStringAttribute(attributes, AttributeConstant.TIMEZONE).orElse(null))

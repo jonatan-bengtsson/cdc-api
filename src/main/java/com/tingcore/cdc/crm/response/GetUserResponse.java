@@ -323,5 +323,5 @@ public class GetUserResponse {
                                               activationDate, expirationDate);
         }
     }
-    
+
 }

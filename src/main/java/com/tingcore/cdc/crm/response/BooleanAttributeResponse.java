@@ -1,5 +1,7 @@
 package com.tingcore.cdc.crm.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * @author moa.mackegard
  * @since 2017-11-14.
@@ -11,10 +13,15 @@ public class BooleanAttributeResponse extends BaseAttributeResponse {
         this.id = valueId;
         this.value = value;
     }
+    
+    public BooleanAttributeResponse(final boolean value) {
+        this.value = value;
+    }
 
     public BooleanAttributeResponse() {
     }
 
+    @JsonProperty("isValue")
     public Boolean getValue() {
         return value;
     }

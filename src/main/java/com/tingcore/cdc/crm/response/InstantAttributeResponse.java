@@ -1,5 +1,8 @@
 package com.tingcore.cdc.crm.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.tingcore.cdc.crm.constant.JsonPropertyConstant;
+
 import java.time.Instant;
 
 /**
@@ -16,7 +19,8 @@ public class InstantAttributeResponse extends BaseAttributeResponse {
 
     public InstantAttributeResponse() {
     }
-
+    
+    @JsonProperty(JsonPropertyConstant.VALUE)
     public Instant getValue() {
         return value;
     }

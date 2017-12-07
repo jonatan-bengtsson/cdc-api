@@ -7,6 +7,7 @@ import com.tingcore.cdc.charging.mapper.OperationsApiMapper;
 import com.tingcore.cdc.charging.model.*;
 import com.tingcore.cdc.charging.repository.AssetRepository;
 import com.tingcore.cdc.charging.repository.OperationsRepository;
+import com.tingcore.cdc.charging.repository.PriceRepository;
 import com.tingcore.cdc.controller.ApiUtils;
 import com.tingcore.charging.assets.api.ChargeSitesApi;
 import com.tingcore.charging.assets.model.ChargePointSiteWithAvailabilityRules;
@@ -20,7 +21,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,18 +36,21 @@ public class ChargePointSiteService {
 
     private final AssetRepository assetRepository;
     private final OperationsRepository operationsRepository;
+    private final PriceRepository priceRepository;
 
     @Autowired
-    public ChargePointSiteService(AssetRepository assetRepository, OperationsRepository operationsRepository) {
+    public ChargePointSiteService(AssetRepository assetRepository, OperationsRepository operationsRepository, PriceRepository priceRepository) {
         this.chargeSitesApi = assetRepository.getChargeSitesApi();
         this.operationsApi = operationsRepository.getOperationsApi();
         this.assetRepository = assetRepository;
         this.operationsRepository = operationsRepository;
+        this.priceRepository = priceRepository;
     }
 
     /**
      * Given two coordinates representing a bounding box
      * returns basic versions of all charge point sites within the bounding box with some aggregated status
+     *
      * @param lat1 latitude component of first coordinate
      * @param lng1 longitude component of first coordinate
      * @param lat2 latitude component of second coordinate
@@ -65,7 +71,7 @@ public class ChargePointSiteService {
         );
 
 
-        if(response.hasError()) {
+        if (response.hasError()) {
             // TODO update this according to logging guidelines
             LOG.warn("Error from operations", response.getError());
         }
@@ -117,6 +123,7 @@ public class ChargePointSiteService {
 
     /**
      * Fetch a detailed version of a charge point site
+     *
      * @param id the id of a charge point site
      * @return A detailed answer of the charge point site including statuses on charge points and connectors
      */
@@ -134,7 +141,7 @@ public class ChargePointSiteService {
                 )
         );
 
-        if(response.hasError()) {
+        if (response.hasError()) {
             // TODO update this according to logging guidelines
             LOG.warn("Error from operations", response.getError());
         }
@@ -150,11 +157,21 @@ public class ChargePointSiteService {
     }
 
     private ChargePointSite toChargePointSiteWithStatus(ChargePointSiteWithAvailabilityRules chargePointSiteWithAvailabilityRules, StatusBatchResponse statusBatchResponse) {
-        Map<Long, ConnectorStatus> connectorStatusMap = ConnectorStatusMapper.getStatusMap(Collections.singletonList(chargePointSiteWithAvailabilityRules), statusBatchResponse);
+        final Map<Long, ConnectorStatus> connectorStatusMap = ConnectorStatusMapper.getStatusMap(Collections.singletonList(chargePointSiteWithAvailabilityRules), statusBatchResponse);
 
         return ChargePointSiteMapper.toChargePointSite(
                 chargePointSiteWithAvailabilityRules.getChargePointSite(),
-                connectorStatusMap);
+                connectorStatusMap::get,
+                this::priceForConnector
+        );
+    }
+
+    private PriceInformation priceForConnector(final Long connectorId) {
+        try {
+            return priceRepository.priceForConnector(new ConnectorId(connectorId));
+        } catch (final RuntimeException exception) {
+            return null;
+        }
     }
 
 

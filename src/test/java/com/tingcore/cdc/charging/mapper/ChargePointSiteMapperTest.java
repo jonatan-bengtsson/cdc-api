@@ -104,7 +104,7 @@ public class ChargePointSiteMapperTest {
         double voltage = 20;
         Connector.OperationalStatusEnum operationalStatus = Connector.OperationalStatusEnum.OPERATIONAL;
         ConnectorStatus status = ConnectorStatus.AVAILABLE;
-
+        PriceInformation price = new PriceInformation("123.45", "SEK");
 
         Connector c = new Connector()
                 .id(connectorId)
@@ -118,7 +118,7 @@ public class ChargePointSiteMapperTest {
                 .operationalStatus(operationalStatus)
                 .voltage(voltage);
 
-        com.tingcore.cdc.charging.model.Connector nc = ChargePointSiteMapper.toConnector(c, status);
+        com.tingcore.cdc.charging.model.Connector nc = ChargePointSiteMapper.toConnector(c, status, price);
 
         assertEquals(connectorId, nc.getId());
         assertEquals(number, nc.getNumber());
@@ -137,7 +137,7 @@ public class ChargePointSiteMapperTest {
         Long connectorModelId = 4L;
 
         List<Connector> connectors = Arrays.asList(
-            createConnector(chargePointId, connectorId, connectorModelId)
+                createConnector(chargePointId, connectorId, connectorModelId)
         );
         CompleteChargePoint.OperationalStatusEnum status = CompleteChargePoint.OperationalStatusEnum.IN_OPERATION;
 
@@ -146,7 +146,10 @@ public class ChargePointSiteMapperTest {
         Map<Long, ConnectorStatus> conMap = new HashMap<>();
         conMap.put(connectorId, ConnectorStatus.AVAILABLE);
 
-        ChargePoint chargePoint = ChargePointSiteMapper.toChargePoint(ccp, conMap);
+        Map<Long, PriceInformation> priMap = new HashMap<>();
+        priMap.put(connectorId, new PriceInformation("123.45", "SEK"));
+
+        ChargePoint chargePoint = ChargePointSiteMapper.toChargePoint(ccp, conMap::get, priMap::get);
 
         assertEquals(chargePointId, chargePoint.getId());
         assertEquals(String.format("ASSET%d", chargePointId), chargePoint.getAssetName());
@@ -197,7 +200,10 @@ public class ChargePointSiteMapperTest {
         Map<Long, ConnectorStatus> conStatusMap = new HashMap<>();
         conStatusMap.put(connectorId, ConnectorStatus.AVAILABLE);
 
-        com.tingcore.cdc.charging.model.ChargePointSite chargePointSite = ChargePointSiteMapper.toChargePointSite(ccps, conStatusMap);
+        Map<Long, PriceInformation> priceInfoMap = new HashMap<>();
+        priceInfoMap.put(connectorId, new PriceInformation("123.45", "SEK"));
+
+        com.tingcore.cdc.charging.model.ChargePointSite chargePointSite = ChargePointSiteMapper.toChargePointSite(ccps, conStatusMap::get, priceInfoMap::get);
 
         assertEquals(siteId, chargePointSite.getId());
         assertEquals(chargePointId, chargePointSite.getChargePoints().get(0).getId());

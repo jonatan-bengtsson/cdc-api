@@ -104,7 +104,7 @@ public class ChargePointSiteMapperTest {
         double voltage = 20;
         Connector.OperationalStatusEnum operationalStatus = Connector.OperationalStatusEnum.OPERATIONAL;
         ConnectorStatus status = ConnectorStatus.AVAILABLE;
-        ConnectorPrice price = new ConnectorPrice(new ConnectorId(connectorId), "123.45", "SEK");
+        ConnectorPrice price = new ConnectorPrice(new ConnectorId(connectorId), "123.45 SEK/min");
 
         Connector c = new Connector()
                 .id(connectorId)
@@ -147,7 +147,7 @@ public class ChargePointSiteMapperTest {
         conMap.put(connectorId, ConnectorStatus.AVAILABLE);
 
         Map<Long, ConnectorPrice> priMap = new HashMap<>();
-        priMap.put(connectorId, new ConnectorPrice(new ConnectorId(connectorId), "123.45", "SEK"));
+        priMap.put(connectorId, new ConnectorPrice(new ConnectorId(connectorId), "123.45 SEK/min"));
 
         ChargePoint chargePoint = ChargePointSiteMapper.toChargePoint(ccp, conMap::get, priMap::get);
 
@@ -201,7 +201,7 @@ public class ChargePointSiteMapperTest {
         conStatusMap.put(connectorId, ConnectorStatus.AVAILABLE);
 
         Map<Long, ConnectorPrice> priceInfoMap = new HashMap<>();
-        priceInfoMap.put(connectorId, new ConnectorPrice(new ConnectorId(connectorId), "123.45", "SEK"));
+        priceInfoMap.put(connectorId, new ConnectorPrice(new ConnectorId(connectorId), "123.45 SEK/min"));
 
         com.tingcore.cdc.charging.model.ChargePointSite chargePointSite = ChargePointSiteMapper.toChargePointSite(ccps, conStatusMap::get, priceInfoMap::get);
 

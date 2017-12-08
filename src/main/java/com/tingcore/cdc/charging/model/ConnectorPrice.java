@@ -6,13 +6,10 @@ import static org.apache.commons.lang3.Validate.notNull;
 public class ConnectorPrice {
     public final ConnectorId connectorId;
     public final String price;
-    public final String currency;
 
     public ConnectorPrice(final ConnectorId connectorId,
-                          final String price,
-                          final String currency) {
+                          final String price) {
         this.connectorId = notNull(connectorId);
         this.price = notBlank(price);
-        this.currency = notBlank(currency);
     }
 }

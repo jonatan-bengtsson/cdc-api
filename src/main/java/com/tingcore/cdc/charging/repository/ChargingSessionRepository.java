@@ -105,8 +105,8 @@ public class ChargingSessionRepository {
 
     private static Price apiSessionPriceToModel(final ApiAmount apiPrice) {
         return Optional.ofNullable(apiPrice).map(price -> new Price(
-                price.getExclVat().getCentAmount(),
-                price.getInclVat().getCentAmount(),
+                price.getExclVat(),
+                price.getInclVat(),
                 price.getCurrency()
         )).orElse(null);
     }

@@ -24,17 +24,23 @@ public class ConnectorStatusMapperTest {
     @Test
     public void getStatusMap() throws Exception {
 
-        Long chargePointTypeId = 5L;
+        Long chargePointModelId = 5L;
         Long chargePointId = 1L;
 
         Long connector1Id = 20L;
+        Integer connector1Number = 1;
         Long connector2Id = 30L;
+        Integer connector2Number = 2;
 
         Long connector3Id = 40L;
+        Integer connector3Number = 1;
         Long connector4Id = 50L;
+        Integer connector4Number = 2;
 
         Long connector5Id = 60L;
+        Integer connector5Number = 1;
         Long connector6Id = 70L;
+        Integer connector6Number = 2;
 
         Long connectorModel1Id = 1L;
         Long connectorModel2Id = 2L;
@@ -50,12 +56,19 @@ public class ConnectorStatusMapperTest {
         List<ChargePointSiteWithAvailabilityRules> sites = Collections.singletonList(
                 new ChargePointSiteWithAvailabilityRules()
                         .addAvailabilityRulesWithChargePointIdsItem(
-                                createAvailabilityRule(chargePointTypeId, Arrays.asList(connectorModel1Id, connectorModel2Id))
+                                createAvailabilityRule(chargePointModelId, Arrays.asList(connector1Number, connector2Number))
                         )
                         .chargePointSite(
                                 new CompleteChargePointSite()
-                                        .id(10L)
+                                        .chargePointSiteEntity(new ChargePointSiteEntity()
+                                                .metadata(new EntityMetadata()
+                                                        .id(10L)))
                                         .chargePoints(Arrays.asList(
+                                                createompleteChargePointWithTwoConnectors(chargePointId, BasicChargePoint.OperationalStatusEnum.IN_OPERATION, chargePointModelId,
+                                                        createConnector(chargePointId,connector1Id,connectorModel1Id,connector1Number),
+                                                        createConnector(chargePointId,connector2Id,connectorModel2Id,connector2Number)),
+
+// Work in progress....
                                                 new CompleteChargePoint()
                                                         .id(chargePointId)
                                                         .operationalStatus(CompleteChargePoint.OperationalStatusEnum.IN_OPERATION)
@@ -126,17 +139,46 @@ public class ConnectorStatusMapperTest {
 
     }
 
-    private AvailabilityRulesWithChargePointId createAvailabilityRule(Long chargePointTypeId, List<Long> connectorModelIds) {
+    private AvailabilityRulesWithChargePointId createAvailabilityRule(Long chargePointModelId, List<Integer> connectorNumbers) {
+
+
+        ConnectorModelAvailabilityRule r = new ConnectorModelAvailabilityRule()
+                .chargePointModelId(chargePointModelId)
+                .connectorNumbers(connectorNumbers);
+
+        ConnectorModelAvailabilityRuleEntity connectorModelAvailabilityRuleEntity = new ConnectorModelAvailabilityRuleEntity()
+                .data(r)
+                .metadata(new EntityMetadata());
+
         return new AvailabilityRulesWithChargePointId()
-                .chargePointId(chargePointTypeId)
+                .chargePointId(chargePointModelId)
                 .rules(
                         Collections.singletonList(
-                                new ConnectorModelAvailabilityRule()
-                                        .chargePointTypeId(chargePointTypeId)
-                                        .connectorModelIds(connectorModelIds)
+                            connectorModelAvailabilityRuleEntity
                         )
                 );
     }
+
+    private CompleteChargePoint createompleteChargePointWithTwoConnectors(Long chargePointId, BasicChargePoint.OperationalStatusEnum chargePointStatus, Long chargePointModelId, ConnectorEntity c1, ConnectorEntity c2){
+        BasicChargePoint basicChargePoint = new BasicChargePoint()
+                .operationalStatus(chargePointStatus)
+                .chargePointModelId(chargePointModelId);
+
+        ChargePoint chargePoint = new ChargePoint()
+                .basicChargePoint(basicChargePoint)
+                .chargePointConfiguration(new ChargePointConfiguration());
+
+        ChargePointEntity chargePointEntity = new ChargePointEntity()
+                .data(chargePoint)
+                .metadata(new EntityMetadata().id(chargePointId));
+
+        return new CompleteChargePoint()
+                .chargePointEntity(chargePointEntity)
+                .connectorEntities(Arrays.asList(c1,c2));
+
+    }
+
+
 
     @Test
     public void getConnectorStatusAvailabilityRuleTest() throws Exception {
@@ -186,7 +228,7 @@ public class ConnectorStatusMapperTest {
 
         Connector con1 = createConnector(chargePointId, connector1Id, connectorModel1Id);
         Connector con2 = createConnector(chargePointId, connector2Id, connectorModel2Id);
-        CompleteChargePoint cp = createCompleteChargePoint(chargePointId, chargePointTypeId, Arrays.asList(con1, con2), CompleteChargePoint.OperationalStatusEnum.IN_OPERATION);
+        CompleteChargePoint cp = createCompleteChargePoint(chargePointId, chargePointTypeId, Arrays.asList(con1, con2), BasicChargePoint.OperationalStatusEnum.IN_OPERATION);
 
         Optional<ConnectorModelAvailabilityRule> rule = Optional.empty();
 

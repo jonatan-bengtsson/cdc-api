@@ -29,8 +29,9 @@ public class OperationsApiMapper {
 
     public static ChargePointStatusRequest toChargePointStatusRequest(CompleteChargePoint cp) {
         return new ChargePointStatusRequest()
-                .chargePointId(cp.getId())
-                .connectorIds(cp.getConnectors().stream().map(Connector::getId).collect(Collectors.toList()));
+                .chargePointId(cp.getChargePointEntity().getMetadata().getId())
+                .connectorIds(cp.getConnectorEntities().stream()
+                        .map(ce -> ce.getMetadata().getId()).collect(Collectors.toList()));
     }
 
 }

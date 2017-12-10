@@ -1,6 +1,8 @@
 package com.tingcore.cdc.charging.mapper;
 
 import com.tingcore.cdc.charging.model.*;
+import com.tingcore.charging.assets.model.ChargePointEntity;
+import com.tingcore.charging.assets.model.ChargePointSiteEntity;
 import com.tingcore.charging.assets.model.CompleteChargePoint;
 import com.tingcore.charging.assets.model.CompleteChargePointSite;
 
@@ -24,10 +26,13 @@ public class ChargePointSiteMapper {
     public static ChargePointSite toChargePointSite(CompleteChargePointSite ccps,
                                                     ConnectorStatusProvider connectorStatusProvider,
                                                     ConnectorPriceProvider connectorPriceProvider) {
+        ChargePointSiteEntity chargePointSiteEntity = ccps.getChargePointSiteEntity();
+        long chargePointSiteId = chargePointSiteEntity.getMetadata().getId();
+        String chargePointSiteName = chargePointSiteEntity.getData().getName();
         return new ChargePointSite(
-                ccps.getId(),
-                ccps.getName(),
-                ccps.getLocation(),
+                chargePointSiteId,
+                chargePointSiteName,
+                ccps.getLocationEntity().getData(),
                 "No description available", // TODO This should be part of CompleteChargeSite
                 getStatusByType(ccps, connectorStatusProvider),
                 ccps.getChargePoints().stream().map(cp -> toChargePoint(cp, connectorStatusProvider, connectorPriceProvider)).collect(Collectors.toList()),
@@ -40,23 +45,23 @@ public class ChargePointSiteMapper {
      *
      * @param chargePointSite         site provided from the asset service as is
      * @param connectorStatusProvider a provider that must provide a status for all connectors present at the site
-     * @return a list which has aggreagated the status on connector type
+     * @return a list which has aggregated the status on connector type
      */
     private static List<ChargePointTypeStatus> getStatusByType(CompleteChargePointSite chargePointSite,
                                                                ConnectorStatusProvider connectorStatusProvider) {
-        Map<com.tingcore.charging.assets.model.Connector.ConnectorTypeEnum, StatusAccumulator> statusByChargePointType = new EnumMap<>(com.tingcore.charging.assets.model.Connector.ConnectorTypeEnum.class);
+        Map<com.tingcore.charging.assets.model.BasicConnector.ConnectorTypeEnum, StatusAccumulator> statusByChargePointType = new EnumMap<>(com.tingcore.charging.assets.model.BasicConnector.ConnectorTypeEnum.class);
 
         chargePointSite.getChargePoints().forEach(ccp -> {
-            ccp.getConnectors().forEach(con -> {
-                StatusAccumulator statusAccumulator = statusByChargePointType.computeIfAbsent(con.getConnectorType(),
+            ccp.getConnectorEntities().forEach(con -> {
+                StatusAccumulator statusAccumulator = statusByChargePointType.computeIfAbsent(con.getData().getBasicConnector().getConnectorType(),
                         conType -> new StatusAccumulator());
 
-                updateStatusAccumulator(statusAccumulator, con, ofNullable(connectorStatusProvider.statusFor(con.getId())).orElse(ConnectorStatus.NO_DATA));
+                updateStatusAccumulator(statusAccumulator, con, ofNullable(connectorStatusProvider.statusFor(con.getMetadata().getId())).orElse(ConnectorStatus.NO_DATA));
             });
         });
 
         return statusByChargePointType.entrySet().stream().map(e -> {
-            com.tingcore.charging.assets.model.Connector.ConnectorTypeEnum type = e.getKey();
+            com.tingcore.charging.assets.model.BasicConnector.ConnectorTypeEnum type = e.getKey();
             StatusAccumulator status = e.getValue();
 
             return new ChargePointTypeStatus(toAggregatedStatus(status),
@@ -80,15 +85,15 @@ public class ChargePointSiteMapper {
      * @param c an asset service connector
      * @return true if the connector can supply power withing range 40kW to 50kW
      */
-    private static boolean isQuickCharger(com.tingcore.charging.assets.model.Connector c) {
+    private static boolean isQuickCharger(com.tingcore.charging.assets.model.ConnectorCapability c) {
         return c.getPower() >= 40_000 && c.getPower() <= 50_000;
     }
 
     /**
      * Convenience method for updating StatusAccumulator
      */
-    private static void updateStatusAccumulator(StatusAccumulator statusAccumulator, com.tingcore.charging.assets.model.Connector con, ConnectorStatus connectorStatus) {
-        boolean quickCharge = isQuickCharger(con);
+    private static void updateStatusAccumulator(StatusAccumulator statusAccumulator, com.tingcore.charging.assets.model.ConnectorEntity con, ConnectorStatus connectorStatus) {
+        boolean quickCharge = isQuickCharger(con.getData().getConnectorCapability());
         switch (connectorStatus) {
             case OUT_OF_ORDER:
                 if (quickCharge) {
@@ -153,10 +158,13 @@ public class ChargePointSiteMapper {
     public static ChargePoint toChargePoint(CompleteChargePoint ccp,
                                             ConnectorStatusProvider connectorStatusProvider,
                                             ConnectorPriceProvider connectorPriceProvider) {
+        ChargePointEntity cpe = ccp.getChargePointEntity();
         return new ChargePoint(
-                ccp.getId(),
-                ccp.getAssetName(),
-                ccp.getConnectors().stream().map(c -> toConnector(c, connectorStatusProvider.statusFor(c.getId()), connectorPriceProvider.priceFor(c.getId()))).collect(Collectors.toList()));
+                cpe.getMetadata().getId(),
+                cpe.getData().getBasicChargePoint().getAssetName(),
+                ccp.getConnectorEntities().stream()
+                        .map(c -> toConnector(c, connectorStatusProvider.statusFor(c.getMetadata().getId()), connectorPriceProvider.priceFor(c.getMetadata().getId())))
+                        .collect(Collectors.toList()));
     }
 
     /**
@@ -167,15 +175,16 @@ public class ChargePointSiteMapper {
      * @param connectorPrice  price information for the connector
      * @return An API friendly version of the Connector
      */
-    public static Connector toConnector(com.tingcore.charging.assets.model.Connector c,
+    public static Connector toConnector(com.tingcore.charging.assets.model.ConnectorEntity c,
                                         ConnectorStatus connectorStatus,
                                         ConnectorPrice connectorPrice) {
+        int connectorNumber = c.getData().getBasicConnector().getConnectorNumber();
         return new Connector(
-                c.getId(),
-                getLabel(c.getConnectorNumber()),
-                c.getConnectorNumber(),
-                c.getConnectorType(),
-                isQuickCharger(c),
+                c.getMetadata().getId(),
+                getLabel(connectorNumber),
+                connectorNumber,
+                c.getData().getBasicConnector().getConnectorType(),
+                isQuickCharger(c.getData().getConnectorCapability()),
                 ofNullable(connectorStatus).orElse(ConnectorStatus.NO_DATA),
                 ofNullable(connectorPrice).map(price -> price.price).orElse("no price information available"));
     }
@@ -209,12 +218,12 @@ public class ChargePointSiteMapper {
      * @param connectorStatusMap a map that must contain a status for all connectors present at the site
      * @return an aggregated ChargePointSiteStatus object containing status for quick chargers and non-quick chargers
      */
-    public static ChargePointSiteStatuses getAggregatedSitesStatues(List<com.tingcore.charging.assets.model.Connector> connectors, Map<Long, ConnectorStatus> connectorStatusMap) {
+    public static ChargePointSiteStatuses getAggregatedSitesStatues(List<com.tingcore.charging.assets.model.ConnectorEntity> connectors, Map<Long, ConnectorStatus> connectorStatusMap) {
         ChargeSiteStatus quickStatus = null;
         ChargeSiteStatus siteStatus = null;
-        for (com.tingcore.charging.assets.model.Connector c : connectors) {
-            ConnectorStatus connectorStatus = connectorStatusMap.get(c.getId());
-            if (isQuickCharger(c)) {
+        for (com.tingcore.charging.assets.model.ConnectorEntity c : connectors) {
+            ConnectorStatus connectorStatus = connectorStatusMap.get(c.getMetadata().getId());
+            if (isQuickCharger(c.getData().getConnectorCapability())) {
                 quickStatus = getPrioritizedStatus(quickStatus, connectorStatus);
             } else {
                 siteStatus = getPrioritizedStatus(siteStatus, connectorStatus);

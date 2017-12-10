@@ -10,6 +10,7 @@ import com.tingcore.cdc.charging.repository.OperationsRepository;
 import com.tingcore.cdc.charging.repository.PriceRepository;
 import com.tingcore.cdc.controller.ApiUtils;
 import com.tingcore.charging.assets.api.ChargeSitesApi;
+import com.tingcore.charging.assets.model.ChargePointSiteEntity;
 import com.tingcore.charging.assets.model.ChargePointSiteWithAvailabilityRules;
 import com.tingcore.charging.assets.model.CompleteChargePointSite;
 import com.tingcore.charging.operations.api.OperationsApi;
@@ -64,7 +65,7 @@ public class ChargePointSiteService {
      */
     public PageResponse<BasicChargeSite> getChargeSiteByCoordinate(double lat1, double lng1, double lat2, double lng2) {
         List<ChargePointSiteWithAvailabilityRules> chargeSiteWithAvailabilityRules = ApiUtils.getResponseOrThrowError(
-                assetRepository.execute(chargeSitesApi.chargeSiteByLocationUsingGET(lat1, lng1, lat2, lng2)),
+                assetRepository.execute(chargeSitesApi.findChargePointSitesByLocationUsingGET(lat1, lng1, lat2, lng2)),
                 AssetServiceException::new
         );
 
@@ -90,11 +91,14 @@ public class ChargePointSiteService {
         List<BasicChargeSite> previewChargeSites = chargeSiteWithAvailabilityRules.stream()
                 .map(cs -> {
                     CompleteChargePointSite ccps = cs.getChargePointSite();
+                    ChargePointSiteEntity chargePointSiteEntity = ccps.getChargePointSiteEntity();
+                    long chargePointSiteId = chargePointSiteEntity.getMetadata().getId();
+                    String chargePointSiteName = chargePointSiteEntity.getData().getName();
 
                     return new BasicChargeSite(
-                            ccps.getId(),
-                            ccps.getName(),
-                            ccps.getLocation().getGeoCoordinate(),
+                            chargePointSiteId,
+                            chargePointSiteName,
+                            ccps.getLocation().getData().getGeoCoordinate(),
                             ChargeSiteStatus.NO_DATA,
                             ChargeSiteStatus.NO_DATA
                     );
@@ -110,14 +114,17 @@ public class ChargePointSiteService {
                 .map(cs -> {
                     CompleteChargePointSite ccps = cs.getChargePointSite();
                     ChargePointSiteStatuses aggergatedSitesStatues = ChargePointSiteMapper.getAggregatedSitesStatues(
-                            ccps.getChargePoints().stream().flatMap(cp -> cp.getConnectors().stream()).collect(toList()),
+                            ccps.getChargePoints().stream().flatMap(cp -> cp.getConnectorEntities().stream()).collect(toList()),
                             connectorStatusMap
                     );
 
+                    ChargePointSiteEntity chargePointSiteEntity = ccps.getChargePointSiteEntity();
+                    long chargePointSiteId = chargePointSiteEntity.getMetadata().getId();
+                    String chargePointSiteName = chargePointSiteEntity.getData().getName();
                     return new BasicChargeSite(
-                            ccps.getId(),
-                            ccps.getName(),
-                            ccps.getLocation().getGeoCoordinate(),
+                            chargePointSiteId,
+                            chargePointSiteName,
+                            ccps.getLocation().getData().getGeoCoordinate(),
                             aggergatedSitesStatues.getStatus(),
                             aggergatedSitesStatues.getQuickStatus()
                     );
@@ -134,7 +141,7 @@ public class ChargePointSiteService {
      */
     public com.tingcore.cdc.charging.model.ChargePointSite getChargeSite(long id) {
         ChargePointSiteWithAvailabilityRules chargePointSiteWithAvailabilityRules = ApiUtils.getResponseOrThrowError(
-                assetRepository.execute(chargeSitesApi.chargePointSiteWithAvailabilityRulesSiteUsingGET(id)),
+                assetRepository.execute(chargeSitesApi.findChargePointSiteWithAvailabilityRulesByIdUsingGET(id)),
                 AssetServiceException::new
         );
 
@@ -151,7 +158,11 @@ public class ChargePointSiteService {
             LOG.warn("Error from operations", statusResponse.getError());
         }
 
-        List<ConnectorPrice> connectorPrices = priceRepository.priceForConnectors(chargePointSiteWithAvailabilityRules.getChargePointSite().getChargePoints().stream().flatMap(chargePoint -> chargePoint.getConnectors().stream()).map(connector -> new ConnectorId(connector.getId())).collect(toList()));
+        List<ConnectorPrice> connectorPrices = priceRepository.priceForConnectors(chargePointSiteWithAvailabilityRules
+                .getChargePointSite()
+                .getChargePoints()
+                .stream()
+                .flatMap(chargePoint -> chargePoint.getConnectorEntities().stream()).map(connector -> new ConnectorId(connector.getMetadata().getId())).collect(toList()));
 
         return toChargePointSite(
                 chargePointSiteWithAvailabilityRules,

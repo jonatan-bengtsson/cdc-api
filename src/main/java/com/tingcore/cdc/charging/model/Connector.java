@@ -4,7 +4,7 @@ public class Connector {
 
     private Long id;
     private String label;
-    private com.tingcore.charging.assets.model.Connector.ConnectorTypeEnum type;
+    private com.tingcore.charging.assets.model.BasicConnector.ConnectorTypeEnum type;
     private boolean quick;
     private ConnectorStatus status;
     private String price;
@@ -12,7 +12,7 @@ public class Connector {
 
     public Connector() {}
 
-    public Connector(Long id, String label, int number, com.tingcore.charging.assets.model.Connector.ConnectorTypeEnum type, boolean quick, ConnectorStatus status, String price) {
+    public Connector(Long id, String label, int number, com.tingcore.charging.assets.model.BasicConnector.ConnectorTypeEnum type, boolean quick, ConnectorStatus status, String price) {
         this.id = id;
         this.label = label;
         this.number = number;
@@ -38,11 +38,11 @@ public class Connector {
         this.label = label;
     }
 
-    public com.tingcore.charging.assets.model.Connector.ConnectorTypeEnum getType() {
+    public com.tingcore.charging.assets.model.BasicConnector.ConnectorTypeEnum getType() {
         return type;
     }
 
-    public void setType(com.tingcore.charging.assets.model.Connector.ConnectorTypeEnum type) {
+    public void setType(com.tingcore.charging.assets.model.BasicConnector.ConnectorTypeEnum type) {
         this.type = type;
     }
 

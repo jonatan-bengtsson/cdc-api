@@ -98,7 +98,7 @@ public class ChargePointSiteService {
                     return new BasicChargeSite(
                             chargePointSiteId,
                             chargePointSiteName,
-                            ccps.getLocation().getData().getGeoCoordinate(),
+                            ccps.getLocationEntity().getData().getGeoCoordinate(),
                             ChargeSiteStatus.NO_DATA,
                             ChargeSiteStatus.NO_DATA
                     );
@@ -124,7 +124,7 @@ public class ChargePointSiteService {
                     return new BasicChargeSite(
                             chargePointSiteId,
                             chargePointSiteName,
-                            ccps.getLocation().getData().getGeoCoordinate(),
+                            ccps.getLocationEntity().getData().getGeoCoordinate(),
                             aggergatedSitesStatues.getStatus(),
                             aggergatedSitesStatues.getQuickStatus()
                     );

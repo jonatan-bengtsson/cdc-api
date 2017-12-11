@@ -31,8 +31,7 @@ public class ChargingSessionRepository {
             if (response.code() == 404) {
                 throw new NoSessionFoundException("Session not found");
             }
-            throw new RuntimeException("Commented out code below not up to date with api");
-            //return apiSessionToModel(response.body());
+            return apiSessionToModel(response.body());
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
@@ -49,9 +48,7 @@ public class ChargingSessionRepository {
                 // TODO: handle errors
                 return null;
             }
-
-            throw new RuntimeException("Commented out code below not up to date with api");
-            //return apiSessionToModel(charge.body());
+            return apiSessionToModel(charge.body());
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
@@ -95,7 +92,6 @@ public class ChargingSessionRepository {
         }
     }
 
-    /*
     static ChargingSession apiSessionToModel(final ApiCharge apiCharge) {
         return new ChargingSession(
                 new ChargingSessionId(apiCharge.getId()),
@@ -106,16 +102,14 @@ public class ChargingSessionRepository {
                 apiSessionStateToModel(apiCharge.getState())
         );
     }
-    */
 
-    /*
     private static Price apiSessionPriceToModel(final ApiAmount apiPrice) {
         return Optional.ofNullable(apiPrice).map(price -> new Price(
                 price.getExclVat(),
                 price.getInclVat(),
                 price.getCurrency()
         )).orElse(null);
-    }*/
+    }
 
     private static ChargingSessionStatus apiSessionStateToModel(final ApiCharge.StateEnum state) {
         switch (state) {

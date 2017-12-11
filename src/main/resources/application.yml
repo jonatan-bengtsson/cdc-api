@@ -30,6 +30,12 @@ app:
   user-service:
     base-url: https://${integration.user.hostname}
     default-timeout: 20 # timeout in seconds
+  asset-service:
+        base-url: https://${integration.asset.hostname}
+        default-timeout: 20
+  charging-operations-service:
+       base-url: http://${integration.charging-operations.hostname}
+       default-timeout: 20
   aws:
     headers:
       cognito-auth-provider: cognito-authentication-provider # api gateway forwarded headers are configured here:
@@ -42,4 +48,6 @@ integration:
   user:
     hostname: user-service-test.tingcore-infra.com
   asset:
-    hostname: asset-service.tingcore-infra.com
+    hostname: user-service-test.tingcore-infra.com
+  charging-operations:
+    hostname: charging-operations.tingcore-test.com

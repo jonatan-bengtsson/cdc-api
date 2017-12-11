@@ -42,6 +42,6 @@ public class PriceRepository {
     }
 
     private ConnectorPrice apiPriceToModel(final ApiPrice apiPrice) {
-        return new ConnectorPrice(new ConnectorId(apiPrice.getConnectorId()), apiPrice.getPrice(), "SEK");
+        return new ConnectorPrice(new ConnectorId(apiPrice.getConnectorId()), apiPrice.getPrice());
     }
 }

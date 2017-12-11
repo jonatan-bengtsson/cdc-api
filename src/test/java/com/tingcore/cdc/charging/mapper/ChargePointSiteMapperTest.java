@@ -5,6 +5,7 @@ import com.tingcore.cdc.charging.model.*;
 import com.tingcore.cdc.charging.model.ChargePoint;
 import com.tingcore.cdc.constant.SpringProfilesConstant;
 import com.tingcore.charging.assets.model.*;
+import com.tingcore.charging.assets.model.ChargePointSite;
 import com.tingcore.charging.assets.model.Connector;
 import org.junit.Test;
 import org.springframework.test.context.ActiveProfiles;
@@ -24,37 +25,42 @@ public class ChargePointSiteMapperTest {
 
         Long chargePoint1Id = 1L;
         Long connector1Id = 2L;
+        int connector1Number = 1;
         Long connector1ModelId = 3L;
 
         Long chargePoint2Id = 4L;
         Long connector2Id = 5L;
+        int connector2Number = 1;
         Long connector2ModelId = 6L;
 
         Long chargePoint3Id = 5L;
         Long connector3Id = 6L;
+        int connector3Number = 1;
         Long connector3ModelId = 7L;
 
         Long chargePoint4Id = 5L;
         Long connector4Id = 6L;
+        int connector4Number = 1;
         Long connector4ModelId = 7L;
 
         Long chargePoint5Id = 8L;
         Long connector5Id = 9L;
+        int connector5Number = 1;
         Long connector5ModelId = 10L;
 
-        Connector con1 = createConnector(chargePoint1Id, connector1Id, connector1ModelId, Connector.ConnectorTypeEnum.TYPE2, 20_000);
-        Connector con2 = createConnector(chargePoint2Id, connector2Id, connector2ModelId, Connector.ConnectorTypeEnum.TYPE2, 20_000);
-        Connector con3 = createConnector(chargePoint3Id, connector3Id, connector3ModelId, Connector.ConnectorTypeEnum.TYPE2, 30_000);
-        Connector con4 = createConnector(chargePoint4Id, connector4Id, connector4ModelId, Connector.ConnectorTypeEnum.TYPE2, 30_000);
-        Connector con5 = createConnector(chargePoint5Id, connector5Id, connector5ModelId, Connector.ConnectorTypeEnum.TYPE2, 45_000);
+        ConnectorEntity con1 = createConnector(chargePoint1Id, connector1Id, connector1ModelId, connector1Number, BasicConnector.ConnectorTypeEnum.TYPE2, 20_000);
+        ConnectorEntity con2 = createConnector(chargePoint2Id, connector2Id, connector2ModelId, connector2Number, BasicConnector.ConnectorTypeEnum.TYPE2, 20_000);
+        ConnectorEntity con3 = createConnector(chargePoint3Id, connector3Id, connector3ModelId, connector3Number, BasicConnector.ConnectorTypeEnum.TYPE2, 30_000);
+        ConnectorEntity con4 = createConnector(chargePoint4Id, connector4Id, connector4ModelId, connector4Number, BasicConnector.ConnectorTypeEnum.TYPE2, 30_000);
+        ConnectorEntity con5 = createConnector(chargePoint5Id, connector5Id, connector5ModelId, connector5Number, BasicConnector.ConnectorTypeEnum.TYPE2, 45_000);
 
 
         Map<Long, ConnectorStatus> conMap = new HashMap<>();
-        conMap.put(con1.getId(), ConnectorStatus.AVAILABLE);
-        conMap.put(con2.getId(), ConnectorStatus.OCCUPIED);
-        conMap.put(con3.getId(), ConnectorStatus.OUT_OF_ORDER);
-        conMap.put(con4.getId(), ConnectorStatus.RESERVED);
-        conMap.put(con5.getId(), ConnectorStatus.AVAILABLE);
+        conMap.put(con1.getMetadata().getId(), ConnectorStatus.AVAILABLE);
+        conMap.put(con2.getMetadata().getId(), ConnectorStatus.OCCUPIED);
+        conMap.put(con3.getMetadata().getId(), ConnectorStatus.OUT_OF_ORDER);
+        conMap.put(con4.getMetadata().getId(), ConnectorStatus.RESERVED);
+        conMap.put(con5.getMetadata().getId(), ConnectorStatus.AVAILABLE);
 
         ChargePointSiteStatuses aggergatedSitesStatues = ChargePointSiteMapper.getAggregatedSitesStatues(Arrays.asList(con1, con2, con3, con4, con5), conMap);
 
@@ -63,11 +69,11 @@ public class ChargePointSiteMapperTest {
 
 
         conMap = new HashMap<>();
-        conMap.put(con1.getId(), ConnectorStatus.OCCUPIED);
-        conMap.put(con2.getId(), ConnectorStatus.OCCUPIED);
-        conMap.put(con3.getId(), ConnectorStatus.OUT_OF_ORDER);
-        conMap.put(con4.getId(), ConnectorStatus.RESERVED);
-        conMap.put(con5.getId(), ConnectorStatus.AVAILABLE);
+        conMap.put(con1.getMetadata().getId(), ConnectorStatus.OCCUPIED);
+        conMap.put(con2.getMetadata().getId(), ConnectorStatus.OCCUPIED);
+        conMap.put(con3.getMetadata().getId(), ConnectorStatus.OUT_OF_ORDER);
+        conMap.put(con4.getMetadata().getId(), ConnectorStatus.RESERVED);
+        conMap.put(con5.getMetadata().getId(), ConnectorStatus.AVAILABLE);
 
         aggergatedSitesStatues = ChargePointSiteMapper.getAggregatedSitesStatues(Arrays.asList(con1, con2, con3, con4, con5), conMap);
 
@@ -76,11 +82,11 @@ public class ChargePointSiteMapperTest {
 
 
         conMap = new HashMap<>();
-        conMap.put(con1.getId(), ConnectorStatus.OUT_OF_ORDER);
-        conMap.put(con2.getId(), ConnectorStatus.OUT_OF_ORDER);
-        conMap.put(con3.getId(), ConnectorStatus.OUT_OF_ORDER);
-        conMap.put(con4.getId(), ConnectorStatus.OUT_OF_ORDER);
-        conMap.put(con5.getId(), ConnectorStatus.OCCUPIED);
+        conMap.put(con1.getMetadata().getId(), ConnectorStatus.OUT_OF_ORDER);
+        conMap.put(con2.getMetadata().getId(), ConnectorStatus.OUT_OF_ORDER);
+        conMap.put(con3.getMetadata().getId(), ConnectorStatus.OUT_OF_ORDER);
+        conMap.put(con4.getMetadata().getId(), ConnectorStatus.OUT_OF_ORDER);
+        conMap.put(con5.getMetadata().getId(), ConnectorStatus.OCCUPIED);
 
         aggergatedSitesStatues = ChargePointSiteMapper.getAggregatedSitesStatues(Arrays.asList(con1, con2, con3, con4, con5), conMap);
 
@@ -94,31 +100,37 @@ public class ChargePointSiteMapperTest {
         Long chargePointId = 1L;
         Long connectorId = 2L;
         Long connectorModelId = 3L;
-        Connector.ConnectorTypeEnum connectorType = Connector.ConnectorTypeEnum.TYPE2;
+        BasicConnector.ConnectorTypeEnum connectorType = BasicConnector.ConnectorTypeEnum.TYPE2;
         double power = 20_000;
         boolean isQuick = false;
         int number = 2;
         String label = "B";
         double current = 120;
-        Connector.ModeEnum mode = Connector.ModeEnum.MODE1;
+        ConnectorCapability.ModeEnum mode = ConnectorCapability.ModeEnum.MODE1;
         double voltage = 20;
-        Connector.OperationalStatusEnum operationalStatus = Connector.OperationalStatusEnum.OPERATIONAL;
+        BasicConnector.OperationalStatusEnum operationalStatus = BasicConnector.OperationalStatusEnum.OPERATIONAL;
         ConnectorStatus status = ConnectorStatus.AVAILABLE;
         ConnectorPrice price = new ConnectorPrice(new ConnectorId(connectorId), "123.45", "SEK");
 
-        Connector c = new Connector()
-                .id(connectorId)
-                .chargePointId(chargePointId)
-                .connectorModelId(connectorModelId)
-                .connectorType(connectorType)
-                .power(power)
-                .connectorNumber(number)
-                .current(current)
-                .mode(mode)
-                .operationalStatus(operationalStatus)
-                .voltage(voltage);
 
-        com.tingcore.cdc.charging.model.Connector nc = ChargePointSiteMapper.toConnector(c, status, price);
+        ConnectorEntity ce = new ConnectorEntity()
+                .metadata(new EntityMetadata()
+                .id(connectorId))
+                .data(new Connector()
+                .basicConnector(new BasicConnector()
+                        .chargePointId(chargePointId)
+                        .connectorModelId(connectorModelId)
+                        .connectorNumber(number)
+                        .connectorType(connectorType)
+                        .operationalStatus(operationalStatus)
+                )
+                .connectorCapability(new ConnectorCapability()
+                .current(current)
+                .power(power)
+                .mode(mode)
+                .voltage(voltage)));
+
+        com.tingcore.cdc.charging.model.Connector nc = ChargePointSiteMapper.toConnector(ce, status, price);
 
         assertEquals(connectorId, nc.getId());
         assertEquals(number, nc.getNumber());
@@ -134,12 +146,13 @@ public class ChargePointSiteMapperTest {
         Long chargePointId = 1L;
         Long chargePointTypeId = 2L;
         Long connectorId = 3L;
+        int connectorNumber = 1;
         Long connectorModelId = 4L;
 
-        List<Connector> connectors = Arrays.asList(
-                createConnector(chargePointId, connectorId, connectorModelId)
+        List<ConnectorEntity> connectors = Arrays.asList(
+                createConnector(chargePointId, connectorId, connectorModelId, connectorNumber)
         );
-        CompleteChargePoint.OperationalStatusEnum status = CompleteChargePoint.OperationalStatusEnum.IN_OPERATION;
+        BasicChargePoint.OperationalStatusEnum status = BasicChargePoint.OperationalStatusEnum.IN_OPERATION;
 
         CompleteChargePoint ccp = createCompleteChargePoint(chargePointId, chargePointTypeId, connectors, status);
 
@@ -166,7 +179,7 @@ public class ChargePointSiteMapperTest {
         Long locationId = 6L;
         String siteName = "Tingcore HQ";
 
-        CompleteChargePoint.OperationalStatusEnum chargePointOperationalStatus = CompleteChargePoint.OperationalStatusEnum.IN_OPERATION;
+        BasicChargePoint.OperationalStatusEnum chargePointOperationalStatus = BasicChargePoint.OperationalStatusEnum.IN_OPERATION;
         Address address = new Address()
                 .city("City")
                 .country("Country")
@@ -180,22 +193,27 @@ public class ChargePointSiteMapperTest {
                 .latitude(6.44)
                 .longitude(5.22);
 
-        Location location = new Location()
-                .address(address)
-                .geoCoordinate(geoCoordinate)
-                .id(locationId);
+        LocationEntity location = new LocationEntity()
+                .metadata(new EntityMetadata().id(locationId))
+                .data(new Location()
+                        .address(address)
+                        .geoCoordinate(geoCoordinate));
 
-        List<Connector> connectors = Arrays.asList(
-                createConnector(chargePointId, connectorId, connectorModelId, Connector.ConnectorTypeEnum.TYPE2, 20_000)
+        List<ConnectorEntity> connectors = Arrays.asList(
+                createConnector(chargePointId, connectorId, connectorModelId,1, BasicConnector.ConnectorTypeEnum.TYPE2, 20_000)
         );
 
         CompleteChargePointSite ccps = new CompleteChargePointSite()
-                .id(siteId)
+                .chargePointSiteEntity(new ChargePointSiteEntity()
+                        .data(new ChargePointSite()
+                        .name(siteName)
+                        .locationId(locationId))
+                .metadata(new EntityMetadata().id(siteId)))
                 .chargePoints(Collections.singletonList(
                         createCompleteChargePoint(chargePointId, chargePointTypeId, connectors, chargePointOperationalStatus))
                 )
-                .location(location)
-                .name(siteName);
+                .locationEntity(location);
+
 
         Map<Long, ConnectorStatus> conStatusMap = new HashMap<>();
         conStatusMap.put(connectorId, ConnectorStatus.AVAILABLE);
@@ -207,12 +225,12 @@ public class ChargePointSiteMapperTest {
 
         assertEquals(siteId, chargePointSite.getId());
         assertEquals(chargePointId, chargePointSite.getChargePoints().get(0).getId());
-        assertEquals(location, chargePointSite.getLocation());
+        assertEquals(location.getData(), chargePointSite.getLocation());
         assertEquals(siteName, chargePointSite.getName());
 
         ChargePointTypeStatus chargePointTypeStatus = chargePointSite.getChargePointTypeStatuses().get(0);
         assertEquals(1, chargePointTypeStatus.getAvailable());
-        assertEquals(Connector.ConnectorTypeEnum.TYPE2, chargePointTypeStatus.getType());
+        assertEquals(BasicConnector.ConnectorTypeEnum.TYPE2, chargePointTypeStatus.getType());
         assertEquals(AggregatedChargePointTypeStatus.AVAILABLE, chargePointTypeStatus.getAggregatedStatus());
 
     }

@@ -25,6 +25,7 @@ public class ConnectorStatusMapperTest {
     public void getStatusMap() throws Exception {
 
         Long chargePointModelId = 5L;
+        Long chargePointModel2Id = 10L;
         Long chargePointId = 1L;
 
         Long connector1Id = 20L;
@@ -74,7 +75,7 @@ public class ConnectorStatusMapperTest {
                                                 createCompleteChargePointWithTwoConnectors(
                                                         chargePoint2Id,
                                                         BasicChargePoint.OperationalStatusEnum.IN_OPERATION,
-                                                        chargePointModelId,
+                                                        chargePointModel2Id,
                                                         createConnector(chargePoint2Id, connector3Id, connectorModel3Id, connector1Number),
                                                         createConnector(chargePoint2Id, connector4Id, connectorModel4Id, connector2Number)
                                                 ),
@@ -100,7 +101,7 @@ public class ConnectorStatusMapperTest {
                         ),
                         createChargePointStatus(chargePoint2Id, true,
                                 Arrays.asList(
-                                        createConnectorStatus(connector3Id, false, false, false),
+                                        createConnectorStatus(connector3Id, true, false, false),
                                         createConnectorStatus(connector4Id, false, false, false)
                                 )
                         ),
@@ -117,7 +118,7 @@ public class ConnectorStatusMapperTest {
 
         assertEquals(ConnectorStatus.OCCUPIED, statusMap.get(connector1Id));
         assertEquals(ConnectorStatus.OCCUPIED, statusMap.get(connector2Id));
-        assertEquals(ConnectorStatus.AVAILABLE, statusMap.get(connector3Id));
+        assertEquals(ConnectorStatus.OCCUPIED, statusMap.get(connector3Id));
         assertEquals(ConnectorStatus.AVAILABLE, statusMap.get(connector4Id));
         assertEquals(ConnectorStatus.OUT_OF_ORDER, statusMap.get(connector5Id));
         assertEquals(ConnectorStatus.OUT_OF_ORDER, statusMap.get(connector6Id));

@@ -28,7 +28,7 @@ apply plugin: "org.springframework.boot"
 apply plugin: "org.sonarqube"
 apply plugin: "jacoco"
 
-version = '0.1.3-SNAPSHOT'
+version = '0.1.4-SNAPSHOT'
 group = "com.tingcore"
 
 

@@ -65,10 +65,6 @@ public class AuthorizationFilter implements Filter {
         } else {
             final String authorizationId = request.getHeader(cognitoUserIdHeaderName);
 
-            if(1==1) {
-                filterChain.doFilter(request, response);
-                return;
-            }
             if (StringUtils.isBlank(authorizationId)) {
                 LOG.info("Cognito auth provider header missing for path {}", request.getRequestURI());
                 final String header = request.getHeader(cognitoAuthProviderHeaderName);

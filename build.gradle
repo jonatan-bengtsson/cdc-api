@@ -80,6 +80,8 @@ ext {
     versionOkHttp = "3.9.0"
     versionCommonsApi = "1.0.2"
     versionUserServiceClient = "1.0.0.5-SNAPSHOT"
+    versionAssetServiceClient = "0.1.3"
+    versionOperationServiceClient = "0.1.4"
 }
 
 dependencies {
@@ -94,8 +96,8 @@ dependencies {
 
     // Tingcore
     compile("com.tingcore.commons:commons-api:$versionCommonsApi")
-    compile("com.tingcore.charging:asset-service-java-client:0.1.2-SNAPSHOT")
-    compile("com.tingcore.charging:charging-operations-java-client:0.1.0-SNAPSHOT")
+    compile("com.tingcore.charging:asset-service-java-client:$versionAssetServiceClient")
+    compile("com.tingcore.charging:charging-operations-java-client:$versionOperationServiceClient")
     compile("com.tingcore:user-service-java-client:$versionUserServiceClient")
     compile('com.tingcore.payments:payments-emp-client:0.1.0-SNAPSHOT')
     compile('com.tingcore.payments:payments-cpo-client:0.1.0-SNAPSHOT')

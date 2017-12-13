@@ -6,4 +6,4 @@ integration:
   asset:
     hostname: asset-service-stage.tingcore-infra.com
   charging-operations:
-      hostname: charging-operations.tingcore-stage.com
+    hostname: charging-operations.tingcore-stage.com

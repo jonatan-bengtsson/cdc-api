@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
+import java.time.Instant;
 
 import static org.apache.commons.lang3.Validate.notNull;
 
@@ -38,6 +39,7 @@ public class TokenRepository {
             request.setAuthorization(authorization);
             request.setAccount(customerKeyId.value);
             request.setChargePoint(chargePointId.value);
+            request.setTime(Instant.now().toEpochMilli());
             return apiTokenToModel(tokensApi.createAuthorizationToken(request).execute().body());
         } catch (IOException e) {
             throw new UncheckedIOException(e);

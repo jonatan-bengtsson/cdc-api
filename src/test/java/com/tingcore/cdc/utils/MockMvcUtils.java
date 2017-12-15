@@ -18,7 +18,6 @@ public class MockMvcUtils {
     private final ObjectMapper mapper;
 
     private MockMvcUtils(final ObjectMapper mapper) {
-
         this.mapper = mapper;
     }
 

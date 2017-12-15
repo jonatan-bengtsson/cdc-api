@@ -21,8 +21,8 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public GetUserResponse getUserById(final Long virtualId, final Long authorizedUserId, final Boolean includeAttributes) {
-        final ApiResponse<UserResponse> apiResponse = userRepository.findById(virtualId, authorizedUserId, includeAttributes);
+    public GetUserResponse getUserById(final Long authorizedUserId, final Boolean includeAttributes) {
+        final ApiResponse<UserResponse> apiResponse = userRepository.findById(authorizedUserId, includeAttributes);
         return apiResponse.getResponseOptional()
                 .map(UserMapper::toResponse)
                 .orElseThrow(() -> new UsersApiException(apiResponse.getError()));

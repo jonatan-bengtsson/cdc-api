@@ -10,6 +10,7 @@ class SwaggerConstant {
     static final String TAGS_ORGANIZATIONS = "Organizations";
     static final String TAGS_USERS = "Users";
     static final String TAGS_CUSTOMER_KEYS = "Users";
+    public static final String TAGS_PAYMENT_OPTIONS = "Payment Options";
 
     private SwaggerConstant() {
 

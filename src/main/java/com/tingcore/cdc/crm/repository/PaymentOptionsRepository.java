@@ -23,6 +23,6 @@ public class PaymentOptionsRepository extends AbstractUserServiceRepository {
     }
 
     public ApiResponse<List<PaymentOptionResponse>> findSupportedPaymentOptions(final Long userId) {
-        return execute(paymentOptionsApi.getAllowedPaymentOptionsUsingGET()); // TODO Fix
+        return execute(paymentOptionsApi.getSupportedPaymentOptionsUsingGET(userId, userId));
     }
 }

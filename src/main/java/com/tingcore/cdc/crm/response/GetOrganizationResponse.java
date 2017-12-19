@@ -1,6 +1,7 @@
 package com.tingcore.cdc.crm.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.tingcore.cdc.crm.constant.FieldConstant;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -33,104 +34,100 @@ public class GetOrganizationResponse {
 
     public GetOrganizationResponse() {
     }
-
-    @JsonProperty("id")
+    
+    @JsonProperty(FieldConstant.ID)
     @ApiModelProperty(position = 1)
-    public Long getId() {
+    public Long getId () {
         return id;
     }
-
-    @JsonProperty("name")
+    
+    @JsonProperty(FieldConstant.NAME)
     @ApiModelProperty(position = 2)
     public String getName() {
         return name;
     }
-
-    @JsonProperty("organizationNumber")
+    
+    @JsonProperty(FieldConstant.ORGANIZATION_NUMBER)
     @ApiModelProperty(position = 3)
     public OrganizationNumberResponse getOrganizationNumber() {
         return organizationNumber;
     }
-
-    @JsonProperty("email")
+    
+    @JsonProperty(FieldConstant.EMAIL)
     @ApiModelProperty(position = 4)
-    public StringAttributeResponse getEmail() {
+    public StringAttributeResponse getEmail () {
         return email;
     }
-
-    @JsonProperty("phoneNumbers")
+    
+    @JsonProperty(FieldConstant.PHONE_NUMBERS)
     @ApiModelProperty(position = 5)
     public List<PhoneNumberResponse> getPhoneNumbers() {
         return phoneNumbers;
     }
-
-    @JsonProperty("diagnosticsUploadLink")
+    
+    @JsonProperty(FieldConstant.DIAGNOSTICS_UPLOAD_LINK)
     @ApiModelProperty(position = 6)
-    public StringAttributeResponse getDiagnosticsUploadLink() {
+    public StringAttributeResponse getDiagnosticsUploadLink () {
         return diagnosticsUploadLink;
     }
-
-    @JsonProperty("contactFirstName")
+    
+    @JsonProperty(FieldConstant.CONTACT_FIRST_NAME)
     @ApiModelProperty(position = 7)
     public StringAttributeResponse getContactFirstName() {
         return contactFirstName;
     }
-
-    @JsonProperty("contactLastName")
+    
+    @JsonProperty(FieldConstant.CONTACT_LAST_NAME)
     @ApiModelProperty(position = 8)
-    public StringAttributeResponse getContactLastName() {
-        return contactLastName;
-    }
-
-    @JsonProperty("contactPhoneNumber")
+    public StringAttributeResponse getContactLastName() { return contactLastName; }
+    
+    @JsonProperty(FieldConstant.CONTACT_PHONE_NUMBER)
     @ApiModelProperty(position = 9)
-    public List<PhoneNumberResponse> getContactPhoneNumber() {
-        return contactPhoneNumber;
-    }
-
-    @JsonProperty("contactEmail")
+    public List<PhoneNumberResponse> getContactPhoneNumber() { return contactPhoneNumber; }
+    
+    @JsonProperty(FieldConstant.CONTACT_EMAIL)
     @ApiModelProperty(position = 10)
     public StringAttributeResponse getContactEmail() {
         return contactEmail;
     }
-
-    @JsonProperty("contactNotes")
+    
+    @JsonProperty(FieldConstant.CONTACT_NOTES)
     @ApiModelProperty(position = 11)
     public StringAttributeResponse getContactNotes() {
         return contactNotes;
     }
-
-    @JsonProperty("vat")
+    
+    @JsonProperty(FieldConstant.VAT)
     @ApiModelProperty(position = 12)
     public VatResponse getVat() {
         return vat;
     }
-
-    @JsonProperty("defaultCurrency")
+    
+    @JsonProperty(FieldConstant.DEFAULT_CURRENCY)
     @ApiModelProperty(position = 13)
-    public StringAttributeResponse getDefaultCurrency() {
+    public StringAttributeResponse getDefaultCurrency () {
         return defaultCurrency;
     }
-
-    @JsonProperty("billingAddress")
+    
+    @JsonProperty(FieldConstant.BILLING_ADDRESS)
     @ApiModelProperty(position = 14)
-    public AddressResponse getBillingAddress() {
+    public AddressResponse getBillingAddress () {
         return billingAddress;
     }
-
-    @JsonProperty("billingTelephone")
+    
+    @JsonProperty(FieldConstant.BILLING_TELEPHONE)
     @ApiModelProperty(position = 15)
-    public List<PhoneNumberResponse> getBillingTelephone() {
+    public List<PhoneNumberResponse> getBillingTelephone () {
         return billingTelephone;
     }
-
-    @JsonProperty("visitingAddresses")
+    
+    @JsonProperty(FieldConstant.VISITING_ADDRESS)
     @ApiModelProperty(position = 16)
-    public List<AddressResponse> getVisitingAddresses() {
+    public List<AddressResponse> getVisitingAddresses () {
         return visitingAddresses;
     }
-
-    @JsonProperty("organizationType")
+    
+    @JsonProperty(FieldConstant.ORGANIZATION_TYPE)
     @ApiModelProperty(position = 17)
     public StringAttributeResponse getOrganizationType() {
         return organizationType;

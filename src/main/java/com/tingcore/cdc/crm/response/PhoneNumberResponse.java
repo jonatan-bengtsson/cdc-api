@@ -1,6 +1,7 @@
 package com.tingcore.cdc.crm.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.tingcore.cdc.crm.constant.FieldConstant;
 
 /**
  * @author moa.mackegard
@@ -22,7 +23,7 @@ public class PhoneNumberResponse extends BaseAttributeResponse {
     public PhoneNumberResponse() {
     }
 
-    @JsonProperty("phoneNumber")
+    @JsonProperty(FieldConstant.PHONE_NUMBER)
     public String getPhoneNumber() {
         return phoneNumber;
     }
@@ -31,7 +32,7 @@ public class PhoneNumberResponse extends BaseAttributeResponse {
         this.phoneNumber = phoneNumber;
     }
 
-    @JsonProperty("formatter")
+    @JsonProperty(FieldConstant.FORMATTER)
     public String getFormatter() {
         return formatter;
     }
@@ -40,7 +41,7 @@ public class PhoneNumberResponse extends BaseAttributeResponse {
         this.formatter = formatter;
     }
 
-    @JsonProperty("name")
+    @JsonProperty(FieldConstant.NAME)
     public String getName() {
         return name;
     }

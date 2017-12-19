@@ -1,6 +1,7 @@
 package com.tingcore.cdc.crm.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.tingcore.cdc.crm.constant.FieldConstant;
 
 /**
  * @author moa.mackegard
@@ -12,7 +13,7 @@ public abstract class BaseAttributeResponse {
     public BaseAttributeResponse() {
     }
 
-    @JsonProperty("id")
+    @JsonProperty(FieldConstant.ID)
     public Long getId() {
         return id;
     }

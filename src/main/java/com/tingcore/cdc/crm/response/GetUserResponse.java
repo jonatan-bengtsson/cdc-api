@@ -1,6 +1,7 @@
 package com.tingcore.cdc.crm.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.tingcore.cdc.crm.constant.FieldConstant;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.util.List;
@@ -72,124 +73,124 @@ public class GetUserResponse {
         this.activationDate = null;
         this.expirationDate = null;
     }
-
     
-    @JsonProperty("id")
+    
+    @JsonProperty(FieldConstant.ID)
     @ApiModelProperty(position = 1)
     public Long getId() {
         return id;
     }
-
-    @JsonProperty("firstName")
+    
+    @JsonProperty(FieldConstant.FIRST_NAME)
     @ApiModelProperty(position = 2)
     public StringAttributeResponse getFirstName() {
         return firstName;
     }
-
-    @JsonProperty("lastName")
+    
+    @JsonProperty(FieldConstant.LAST_NAME)
     @ApiModelProperty(position = 3)
     public StringAttributeResponse getLastName() {
         return lastName;
     }
     
-    @JsonProperty("email")
+    @JsonProperty(FieldConstant.EMAIL)
     @ApiModelProperty(position = 4)
     public String getEmail() {
         return email;
     }
     
-    @JsonProperty("address")
+    @JsonProperty(FieldConstant.ADDRESS)
     @ApiModelProperty(position = 5)
     public List<AddressResponse> getAddress() {
         return address;
     }
     
-    @JsonProperty("timeZone")
+    @JsonProperty(FieldConstant.TIME_ZONE)
     @ApiModelProperty(position = 6)
     public StringAttributeResponse getTimezone() {
         return timezone;
     }
-
-    @JsonProperty("approvedAgreements")
+    
+    @JsonProperty(FieldConstant.APPROVED_AGREEMENT)
     @ApiModelProperty(position = 7)
     public List<ApprovedAgreementResponse> getApprovedAgreements() {
         return approvedAgreements;
     }
     
-    @JsonProperty("approvedMarketInfo")
+    @JsonProperty(FieldConstant.APPROVES_MARKET_INFO)
     @ApiModelProperty(position = 8)
     public ApprovedMarketInfoResponse getApprovedMarketInfo() {
         return approvedMarketInfo;
     }
     
-    @JsonProperty("licensePlates")
+    @JsonProperty(FieldConstant.LICENSE_PLATES)
     @ApiModelProperty(position = 9)
     public List<LicensePlateResponse> getLicensePlates() {
         return licensePlates;
     }
     
-    @JsonProperty("socialSecurityNumber")
+    @JsonProperty(FieldConstant.SOCIAL_SECURITY_NUMBER)
     @ApiModelProperty(position = 10)
     public SocialSecurityNumberResponse getSocialSecurityNumber() {
         return socialSecurityNumber;
     }
     
-    @JsonProperty("customerNumber")
+    @JsonProperty(FieldConstant.CUSTOMER_NUMBER)
     @ApiModelProperty(position = 11)
     public StringAttributeResponse getCustomerNumber() {
         return customerNumber;
     }
     
-    @JsonProperty("hasChargingAccess")
+    @JsonProperty(FieldConstant.HAS_CHARGING_ACCESS)
     @ApiModelProperty(position = 12)
     public BooleanAttributeResponse getHasChargingAccess() {
         return hasChargingAccess;
     }
     
-    @JsonProperty("customerType")
+    @JsonProperty(FieldConstant.CUSTOMER_TYPE)
     @ApiModelProperty(position = 13)
     public StringAttributeResponse getCustomerType() {
         return customerType;
     }
     
-    @JsonProperty("phoneNumbers")
+    @JsonProperty(FieldConstant.PHONE_NUMBERS)
     @ApiModelProperty(position = 14)
     public List<PhoneNumberResponse> getPhoneNumbers() {
         return phoneNumbers;
     }
     
-    @JsonProperty("provider")
+    @JsonProperty(FieldConstant.PROVIDER)
     @ApiModelProperty(position = 15)
     public GetOrganizationResponse getOrganization() {
         return organization;
     }
     
-    @JsonProperty("organizationNumber")
+    @JsonProperty(FieldConstant.ORGANIZATION_NUMBER)
     @ApiModelProperty(position = 16)
     public StringAttributeResponse getOrganizationNumber() {
         return organizationNumber;
     }
-
-    @JsonProperty("roles")
-    @ApiModelProperty(position = 18)
+   
+    @JsonProperty(FieldConstant.ROLES)
+    @ApiModelProperty(position = 17)
     public List<StringAttributeResponse> getRoles() {
         return roles;
     }
     
-    @JsonProperty("language")
-    @ApiModelProperty(position = 19)
+    @JsonProperty(FieldConstant.LANGUAGE)
+    @ApiModelProperty(position = 18)
     public StringAttributeResponse getLanguage() {
         return language;
     }
     
-    @JsonProperty("activationDate")
-    @ApiModelProperty(position = 20)
+    @JsonProperty(FieldConstant.ACTIVATION_DATE)
+    @ApiModelProperty(position = 19)
     public InstantAttributeResponse getActivationDate() {
         return activationDate;
     }
     
-    @JsonProperty("expirationDate")
-    @ApiModelProperty(position = 21)
+    @JsonProperty(FieldConstant.EXPIRATION_DATE)
+    @ApiModelProperty(position = 20)
     public InstantAttributeResponse getExpirationDate() {
         return expirationDate;
     }

@@ -1,6 +1,7 @@
 package com.tingcore.cdc.crm.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.tingcore.cdc.crm.constant.FieldConstant;
 
 /**
  * @author moa.mackegard
@@ -31,7 +32,7 @@ public class AddressResponse extends BaseAttributeResponse {
     public AddressResponse() {
     }
 
-    @JsonProperty("address")
+    @JsonProperty(FieldConstant.ADDRESS)
     public String getAddress() {
         return address;
     }
@@ -40,7 +41,7 @@ public class AddressResponse extends BaseAttributeResponse {
         this.address = address;
     }
 
-    @JsonProperty("addressLine2")
+    @JsonProperty(FieldConstant.ADDRESS_LINE_2)
     public String getAddressLine2() {
         return addressLine2;
     }
@@ -49,7 +50,7 @@ public class AddressResponse extends BaseAttributeResponse {
         this.addressLine2 = addressLine2;
     }
 
-    @JsonProperty("postalCode")
+    @JsonProperty(FieldConstant.POSTAL_CODE)
     public String getPostalCode() {
         return postalCode;
     }
@@ -58,7 +59,7 @@ public class AddressResponse extends BaseAttributeResponse {
         this.postalCode = postalCode;
     }
 
-    @JsonProperty("city")
+    @JsonProperty(FieldConstant.CITY)
     public String getCity() {
         return city;
     }
@@ -67,7 +68,7 @@ public class AddressResponse extends BaseAttributeResponse {
         this.city = city;
     }
 
-    @JsonProperty("country")
+    @JsonProperty(FieldConstant.COUNTRY)
     public String getCountry() {
         return country;
     }
@@ -76,7 +77,7 @@ public class AddressResponse extends BaseAttributeResponse {
         this.country = country;
     }
 
-    @JsonProperty("formatter")
+    @JsonProperty(FieldConstant.FORMATTER)
     public String getFormatter() {
         return formatter;
     }

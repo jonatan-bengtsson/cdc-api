@@ -1,6 +1,7 @@
 package com.tingcore.cdc.crm.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.tingcore.cdc.crm.constant.FieldConstant;
 
 /**
  * @author moa.mackegard
@@ -19,7 +20,7 @@ public class VatResponse extends BaseAttributeResponse {
     public VatResponse() {
     }
 
-    @JsonProperty("VAT")
+    @JsonProperty(FieldConstant.VAT)
     public String getVat() {
         return vat;
     }
@@ -28,7 +29,7 @@ public class VatResponse extends BaseAttributeResponse {
         this.vat = vat;
     }
 
-    @JsonProperty("formatter")
+    @JsonProperty(FieldConstant.FORMATTER)
     public String getFormatter() {
         return formatter;
     }

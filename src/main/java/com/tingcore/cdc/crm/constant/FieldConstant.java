@@ -32,7 +32,47 @@ public class FieldConstant {
     public static final String USER_PAYMENT_OPTIONS = "userPaymentOptions";
     public static final String IS_ENABLED = "isEnabled";
     public static final String PAYMENT_OPTION = "paymentOption";
-
+    public static final String ORGANIZATION_NUMBER = "organizationNumber";
+    public static final String EMAIL = "email";
+    public static final String PHONE_NUMBERS = "phoneNumbers";
+    public static final String DIAGNOSTICS_UPLOAD_LINK = "diagnosticsUploadLink";
+    public static final String CONTACT_FIRST_NAME = "contactFirstName";
+    public static final String CONTACT_LAST_NAME = "contactLastName";
+    public static final String CONTACT_PHONE_NUMBER = "contactPhoneNumber";
+    public static final String CONTACT_EMAIL = "contactEmail";
+    public static final String CONTACT_NOTES = "contactNotes";
+    public static final String VAT = "VAT";
+    public static final String BILLING_ADDRESS = "billingAddress";
+    public static final String BILLING_TELEPHONE = "billingTelephone";
+    public static final String VISITING_ADDRESS = "visitingAddresses";
+    public static final String ORGANIZATION_TYPE = "organizationType";
+    public static final String FIRST_NAME = "firstName";
+    public static final String LAST_NAME = "lastName";
+    public static final String ADDRESS = "address";
+    public static final String TIME_ZONE = "timeZone";
+    public static final String APPROVED_AGREEMENT = "approvedAgreements";
+    public static final String APPROVES_MARKET_INFO = "approvedMarketInfo";
+    public static final String LICENSE_PLATES = "licensePlates";
+    public static final String SOCIAL_SECURITY_NUMBER = "socialSecurityNumber";
+    public static final String CUSTOMER_NUMBER = "customerNumber";
+    public static final String HAS_CHARGING_ACCESS = "hasChargingAccess";
+    public static final String CUSTOMER_TYPE = "customerType";
+    public static final String PROVIDER = "provider";
+    public static final String ROLES = "roles";
+    public static final String LANGUAGE = "language";
+    public static final String ACTIVATION_DATE = "activationDate";
+    public static final String EXPIRATION_DATE = "expirationDate";
+    public static final String ADDRESS_LINE_2 = "addressLine2";
+    public static final String POSTAL_CODE = "postalCode";
+    public static final String CITY = "city";
+    public static final String COUNTRY = "country";
+    public static final String AGREEMENT_ID = "agreementId";
+    public static final String MARKET_INFO_ID = "marketInfoId";
+    public static final String VALUE_ID = "valueId";
+    public static final String LICENSE_PLATE = "licensePlate";
+    public static final String PHONE_NUMBER = "phoneNumber";
+    public static final String FORMATTER = "formatter";
+    
     private FieldConstant() {
     }
 }

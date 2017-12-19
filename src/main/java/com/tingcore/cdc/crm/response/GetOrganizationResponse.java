@@ -79,11 +79,15 @@ public class GetOrganizationResponse {
     
     @JsonProperty(FieldConstant.CONTACT_LAST_NAME)
     @ApiModelProperty(position = 8)
-    public StringAttributeResponse getContactLastName() { return contactLastName; }
+    public StringAttributeResponse getContactLastName() {
+        return contactLastName;
+    }
     
     @JsonProperty(FieldConstant.CONTACT_PHONE_NUMBER)
     @ApiModelProperty(position = 9)
-    public List<PhoneNumberResponse> getContactPhoneNumber() { return contactPhoneNumber; }
+    public List<PhoneNumberResponse> getContactPhoneNumber() {
+        return contactPhoneNumber;
+    }
     
     @JsonProperty(FieldConstant.CONTACT_EMAIL)
     @ApiModelProperty(position = 10)

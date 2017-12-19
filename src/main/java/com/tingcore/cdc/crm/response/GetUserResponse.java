@@ -73,7 +73,7 @@ public class GetUserResponse {
         this.activationDate = null;
         this.expirationDate = null;
     }
-    
+
     
     @JsonProperty(FieldConstant.ID)
     @ApiModelProperty(position = 1)

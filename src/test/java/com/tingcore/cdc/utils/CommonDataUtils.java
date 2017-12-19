@@ -6,7 +6,6 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Random;
 import java.util.UUID;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
@@ -26,8 +25,16 @@ public class CommonDataUtils {
         return StringUtils.leftPad(String.valueOf(CommonDataUtils.getNextId()), length, '0');
     }
 
-    public static Long getRandomPastTimestamp() {
-        return Instant.now().minus(ThreadLocalRandom.current().nextLong(100), ChronoUnit.DAYS).toEpochMilli();
+    public static Long randomTimestamp(final boolean isFuture) {
+        return randomInstant(isFuture).toEpochMilli();
+    }
+
+    public static Instant randomInstant(final boolean isFuture) {
+        final Instant now = Instant.now();
+        if (isFuture) {
+            return now.plus(randomLong(1, 10), ChronoUnit.DAYS);
+        }
+        return now.minus(randomLong(1, 10), ChronoUnit.DAYS);
     }
 
     public static String randomUUID() {

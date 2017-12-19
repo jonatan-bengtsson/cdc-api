@@ -73,7 +73,7 @@ public class GetUserResponse {
         this.expirationDate = null;
     }
 
-    
+
     @JsonProperty("id")
     @ApiModelProperty(position = 1)
     public Long getId() {

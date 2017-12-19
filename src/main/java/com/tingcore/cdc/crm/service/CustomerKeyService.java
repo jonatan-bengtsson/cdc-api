@@ -1,9 +1,13 @@
 package com.tingcore.cdc.crm.service;
 
 import com.tingcore.cdc.crm.repository.CustomerKeyRepository;
+import com.tingcore.cdc.crm.response.CustomerKey;
 import com.tingcore.commons.api.repository.ApiResponse;
+import com.tingcore.commons.rest.PageResponse;
 import com.tingcore.users.model.PageResponseCustomerKeyResponse;
 import org.springframework.stereotype.Service;
+
+import java.util.stream.Collectors;
 
 /**
  * @author palmithor
@@ -18,11 +22,14 @@ public class CustomerKeyService {
         this.customerKeyRepository = customerKeyRepository;
     }
 
-    // TODO Include something from payments?
-    public PageResponseCustomerKeyResponse findByUserId(final Long decodedId) {
-        final ApiResponse<PageResponseCustomerKeyResponse> apiResponse = customerKeyRepository.findByUserId(decodedId);
+    public PageResponse<CustomerKey> findByUserId(final Long userId) {
+        final ApiResponse<PageResponseCustomerKeyResponse> apiResponse = customerKeyRepository.findByUserId(userId);
         return apiResponse
                 .getResponseOptional()
+                .map(apiPageResponse -> new PageResponse<>(apiPageResponse.getContent()
+                        .stream()
+                        .map(CustomerKeyMapper::toModel)
+                        .collect(Collectors.toList())))
                 .orElseThrow(() -> new UsersApiException(apiResponse.getError()));
     }
 }

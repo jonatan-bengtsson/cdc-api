@@ -32,6 +32,7 @@ public class FieldConstant {
     public static final String USER_PAYMENT_OPTIONS = "userPaymentOptions";
     public static final String IS_ENABLED = "isEnabled";
     public static final String PAYMENT_OPTION = "paymentOption";
+    public static final String PAYMENT_OPTIONS = "paymentOptions";
 
     private FieldConstant() {
     }

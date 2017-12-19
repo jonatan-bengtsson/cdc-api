@@ -1,11 +1,12 @@
 package com.tingcore.cdc.crm.controller;
 
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.tingcore.cdc.ControllerUnitTest;
+import com.tingcore.cdc.crm.response.CustomerKey;
 import com.tingcore.cdc.crm.service.CustomerKeyService;
-import com.tingcore.cdc.utils.CommonDataUtils;
-import com.tingcore.users.model.CustomerKeyResponse;
-import com.tingcore.users.model.PageResponseCustomerKeyResponse;
+import com.tingcore.cdc.crm.utils.CustomerKeyDataUtils;
+import com.tingcore.commons.rest.PageResponse;
 import org.junit.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -13,9 +14,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.test.web.servlet.MvcResult;
 
-import java.util.Collections;
-
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -34,19 +34,15 @@ public class CustomerKeyControllerTest extends ControllerUnitTest {
     @MockBean private CustomerKeyService customerKeyService;
 
 
-    // TODO rewrite when customer keys have been finalized
     @Test
     public void getCustomerKeys() throws Exception {
-        final PageResponseCustomerKeyResponse pageResponseCustomerKeyResponse = new PageResponseCustomerKeyResponse();
-        final CustomerKeyResponse o = new CustomerKeyResponse();
-        o.setId(CommonDataUtils.getNextId());
-        pageResponseCustomerKeyResponse.setContent(Collections.singletonList(o));
-        given(customerKeyService.findByUserId(authorizedUser.getUser().getId()))
-                .willReturn(pageResponseCustomerKeyResponse);
+        final PageResponse<CustomerKey> mockResponse = new PageResponse<>(
+                newArrayList(CustomerKeyDataUtils.randomCustomerKey().build(), CustomerKeyDataUtils.randomCustomerKey().build()));
+        given(customerKeyService.findByUserId(authorizedUser.getUser().getId())).willReturn(mockResponse);
         MvcResult result = mockMvc.perform(get("/v1/customer-keys"))
                 .andExpect(status().isOk())
                 .andReturn();
-        assertThat(mockMvcUtils.fromJson(result.getResponse().getContentAsString(), PageResponseCustomerKeyResponse.class))
-                .isEqualToComparingFieldByFieldRecursively(pageResponseCustomerKeyResponse);
+        assertThat(mockMvcUtils.pageFromJson(result.getResponse().getContentAsString(), new TypeReference<PageResponse<CustomerKey>>() {
+        })).isEqualToComparingFieldByFieldRecursively(mockResponse);
     }
 }

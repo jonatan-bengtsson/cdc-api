@@ -2,10 +2,11 @@ package com.tingcore.cdc.crm.controller;
 
 import com.tingcore.cdc.configuration.AuthorizedUser;
 import com.tingcore.cdc.configuration.WebMvcConfiguration;
+import com.tingcore.cdc.crm.response.CustomerKey;
 import com.tingcore.cdc.crm.service.CustomerKeyService;
 import com.tingcore.commons.rest.ErrorResponse;
+import com.tingcore.commons.rest.PageResponse;
 import com.tingcore.commons.rest.SwaggerDefaultConstant;
-import com.tingcore.users.model.PageResponseCustomerKeyResponse;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -46,7 +47,7 @@ public class CustomerKeyController {
     @ApiOperation(value = "Get customer keys",
             notes = "Route allows fetching the authorized user's customer keys",
             tags = {SwaggerConstant.TAGS_CUSTOMER_KEYS, SwaggerConstant.TAGS_USERS})
-    public PageResponseCustomerKeyResponse getCustomerKeys() {
+    public PageResponse<CustomerKey> getCustomerKeys() {
         return customerKeyService.findByUserId(authorizedUser.getUser().getId());
     }
 }

@@ -1,6 +1,13 @@
 package com.tingcore.cdc.crm.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tingcore.cdc.crm.response.CustomerKey;
+import com.tingcore.cdc.crm.response.UserPaymentOption;
+import com.tingcore.users.model.CustomerKeyResponse;
+
+import java.time.Instant;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * @author palmithor
@@ -8,9 +15,26 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 class CustomerKeyMapper {
 
-    CustomerKeyMapper(final ObjectMapper objectMapper) {
+    CustomerKeyMapper() {
 
     }
 
-    // TODO implement mapping to CDM customer key response
+    public static CustomerKey toModel(final CustomerKeyResponse response) {
+        final List<UserPaymentOption> userPaymentOptions = Optional.ofNullable(response.getUserPaymentOptions())
+                .map(userPaymentOptionResponses -> userPaymentOptionResponses.stream()
+                        .map(UserPaymentOptionMapper::toModel).collect(Collectors.toList()))
+                .orElse(null);
+        return CustomerKey.createBuilder()
+                .id(response.getId())
+                .created(Instant.ofEpochMilli(response.getCreated()))
+                .updated(Instant.ofEpochMilli(response.getUpdated()))
+                .name(response.getName())
+                .validFrom(Instant.ofEpochMilli(response.getValidFrom()))
+                .validTo(Instant.ofEpochMilli(response.getValidTo()))
+                .isEnabled(response.isIsEnabled())
+                .keyIdentifier(response.getKeyIdentifier())
+                .bookkeepingAccountId(response.getBookkeepingAccountId())
+                .userPaymentOptions(userPaymentOptions)
+                .build();
+    }
 }

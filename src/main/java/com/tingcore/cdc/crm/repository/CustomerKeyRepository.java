@@ -14,7 +14,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class CustomerKeyRepository extends AbstractUserServiceRepository {
 
-    private Integer defaultTimeOut;
     private final CustomerKeysApi customerKeysApi;
     private final UsersApi usersApi;
 

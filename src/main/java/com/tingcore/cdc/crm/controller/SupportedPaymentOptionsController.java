@@ -35,7 +35,7 @@ public class SupportedPaymentOptionsController {
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
     @ApiOperation(value = "Get supported payment options",
-            notes = "Route allows fetching the users's supported payment options.",
+            notes = "Route allows fetching the payment options that the user's organization supports.",
             tags = {SwaggerConstant.TAGS_CUSTOMER_KEYS, SwaggerConstant.TAGS_PAYMENT_OPTIONS})
     public List<PaymentOptionResponse> getSupportedPaymentOptions() {
         return paymentOptionService.findSupportedPaymentOptions(authorizedUser.getUser().getId());

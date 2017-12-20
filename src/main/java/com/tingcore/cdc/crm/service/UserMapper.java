@@ -1,7 +1,7 @@
 package com.tingcore.cdc.crm.service;
 
 import com.tingcore.cdc.crm.constant.AttributeConstant;
-import com.tingcore.cdc.crm.response.GetUserResponse;
+import com.tingcore.cdc.crm.model.User;
 import com.tingcore.users.model.AttributeResponse;
 import com.tingcore.users.model.UserResponse;
 
@@ -16,9 +16,9 @@ class UserMapper {
     private UserMapper() {
     }
 
-    static GetUserResponse toResponse(final UserResponse userResponse) {
+    static User toResponse(final UserResponse userResponse) {
         final List<AttributeResponse> attributes = userResponse.getAttributes();
-        return GetUserResponse.createBuilder()
+        return User.createBuilder()
                 .id(userResponse.getId())
                 .firstName(AttributeMapper.findStringAttribute(attributes, AttributeConstant.FIRST_NAME).orElse(null))
                 .lastName(AttributeMapper.findStringAttribute(attributes, AttributeConstant.LAST_NAME).orElse(null))

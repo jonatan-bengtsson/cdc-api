@@ -1,7 +1,7 @@
 package com.tingcore.cdc.crm.service;
 
+import com.tingcore.cdc.crm.model.CustomerKey;
 import com.tingcore.cdc.crm.repository.CustomerKeyRepository;
-import com.tingcore.cdc.crm.response.CustomerKey;
 import com.tingcore.commons.api.repository.ApiResponse;
 import com.tingcore.commons.rest.PageResponse;
 import com.tingcore.users.model.CustomerKeyResponse;

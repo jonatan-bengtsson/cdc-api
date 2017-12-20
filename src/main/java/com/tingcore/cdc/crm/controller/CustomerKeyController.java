@@ -2,7 +2,7 @@ package com.tingcore.cdc.crm.controller;
 
 import com.tingcore.cdc.configuration.AuthorizedUser;
 import com.tingcore.cdc.configuration.WebMvcConfiguration;
-import com.tingcore.cdc.crm.response.CustomerKey;
+import com.tingcore.cdc.crm.model.CustomerKey;
 import com.tingcore.cdc.crm.service.CustomerKeyService;
 import com.tingcore.cdc.exception.EntityNotFoundException;
 import com.tingcore.commons.api.service.HashIdService;

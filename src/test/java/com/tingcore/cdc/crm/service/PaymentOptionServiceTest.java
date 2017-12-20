@@ -1,7 +1,7 @@
 package com.tingcore.cdc.crm.service;
 
+import com.tingcore.cdc.crm.model.UserPaymentOption;
 import com.tingcore.cdc.crm.repository.PaymentOptionsRepository;
-import com.tingcore.cdc.crm.response.UserPaymentOption;
 import com.tingcore.cdc.crm.utils.PaymentOptionDataUtils;
 import com.tingcore.cdc.utils.CommonDataUtils;
 import com.tingcore.commons.api.repository.ApiResponse;

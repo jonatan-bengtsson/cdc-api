@@ -1,6 +1,6 @@
 package com.tingcore.cdc.crm.service;
 
-import com.tingcore.cdc.crm.response.UserPaymentOption;
+import com.tingcore.cdc.crm.model.UserPaymentOption;
 import com.tingcore.users.model.UserPaymentOptionResponse;
 
 import java.time.Instant;

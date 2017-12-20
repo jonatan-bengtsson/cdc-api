@@ -1,7 +1,7 @@
 package com.tingcore.cdc.crm.service;
 
 import com.tingcore.cdc.crm.constant.AttributeConstant;
-import com.tingcore.cdc.crm.response.GetOrganizationResponse;
+import com.tingcore.cdc.crm.model.Organization;
 import com.tingcore.users.model.AttributeResponse;
 import com.tingcore.users.model.OrganizationResponse;
 
@@ -9,9 +9,9 @@ import java.util.List;
 
 class OrganizationMapper {
 
-    static GetOrganizationResponse toResponse(final OrganizationResponse organizationResponse) {
+    static Organization toResponse(final OrganizationResponse organizationResponse) {
         final List<AttributeResponse> attributes = organizationResponse.getAttributes();
-        return GetOrganizationResponse.createBuilder()
+        return Organization.createBuilder()
                 .id(organizationResponse.getId())
                 .name(organizationResponse.getName())
                 .email(AttributeMapper.findStringAttribute(attributes, AttributeConstant.EMAIL).orElse(null))

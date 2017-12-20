@@ -3,7 +3,7 @@ package com.tingcore.cdc.crm.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.tingcore.cdc.ControllerUnitTest;
-import com.tingcore.cdc.crm.response.CustomerKey;
+import com.tingcore.cdc.crm.model.CustomerKey;
 import com.tingcore.cdc.crm.service.CustomerKeyService;
 import com.tingcore.cdc.crm.service.UsersApiException;
 import com.tingcore.cdc.crm.utils.CustomerKeyDataUtils;

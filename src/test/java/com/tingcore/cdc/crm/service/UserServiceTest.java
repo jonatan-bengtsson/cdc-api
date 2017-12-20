@@ -1,8 +1,8 @@
 package com.tingcore.cdc.crm.service;
 
 import com.tingcore.cdc.crm.constant.AttributeConstant;
+import com.tingcore.cdc.crm.model.User;
 import com.tingcore.cdc.crm.repository.UserRepository;
-import com.tingcore.cdc.crm.response.GetUserResponse;
 import com.tingcore.cdc.crm.utils.UserDataUtils;
 import com.tingcore.cdc.utils.CommonDataUtils;
 import com.tingcore.commons.api.repository.ApiResponse;
@@ -43,7 +43,7 @@ public class UserServiceTest {
         ApiResponse<UserResponse> apiMockResponse = new ApiResponse<>(mockResponse);
         final Long authorizationId = CommonDataUtils.getNextId();
         given(userRepository.findById(authorizationId, true)).willReturn(apiMockResponse);
-        GetUserResponse response = userService.getUserById(authorizationId, true);
+        User response = userService.getUserById(authorizationId, true);
         assertThat(response.getFirstName().getValue()).isEqualTo(mockResponse.getAttributes().stream().filter(attributeResponse -> attributeResponse.getName().equals(AttributeConstant.FIRST_NAME)).findFirst().get().getAttributeValue().getValue());
     }
 

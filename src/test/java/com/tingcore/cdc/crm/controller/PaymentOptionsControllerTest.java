@@ -2,7 +2,7 @@ package com.tingcore.cdc.crm.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.tingcore.cdc.ControllerUnitTest;
-import com.tingcore.cdc.crm.response.UserPaymentOption;
+import com.tingcore.cdc.crm.model.UserPaymentOption;
 import com.tingcore.cdc.crm.service.PaymentOptionService;
 import com.tingcore.cdc.crm.service.UsersApiException;
 import com.tingcore.cdc.crm.utils.PaymentOptionDataUtils;

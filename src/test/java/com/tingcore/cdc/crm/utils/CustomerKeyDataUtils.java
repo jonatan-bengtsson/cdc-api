@@ -1,6 +1,6 @@
 package com.tingcore.cdc.crm.utils;
 
-import com.tingcore.cdc.crm.response.CustomerKey;
+import com.tingcore.cdc.crm.model.CustomerKey;
 import com.tingcore.cdc.utils.CommonDataUtils;
 import com.tingcore.users.model.CustomerKeyResponse;
 import com.tingcore.users.model.PageResponseCustomerKeyResponse;

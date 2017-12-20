@@ -2,7 +2,7 @@ package com.tingcore.cdc.crm.controller;
 
 import com.tingcore.cdc.configuration.AuthorizedUser;
 import com.tingcore.cdc.configuration.WebMvcConfiguration;
-import com.tingcore.cdc.crm.response.UserPaymentOption;
+import com.tingcore.cdc.crm.model.UserPaymentOption;
 import com.tingcore.cdc.crm.service.PaymentOptionService;
 import com.tingcore.commons.rest.PageResponse;
 import io.swagger.annotations.ApiOperation;

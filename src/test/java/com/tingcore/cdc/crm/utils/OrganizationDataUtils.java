@@ -1,7 +1,7 @@
 package com.tingcore.cdc.crm.utils;
 
 import com.google.common.collect.Lists;
-import com.tingcore.cdc.crm.response.GetOrganizationResponse;
+import com.tingcore.cdc.crm.model.Organization;
 import com.tingcore.cdc.utils.CommonDataUtils;
 import com.tingcore.users.model.OrganizationResponse;
 
@@ -9,8 +9,8 @@ import java.time.Instant;
 
 
 public class OrganizationDataUtils {
-    public static GetOrganizationResponse createGetOrganizationResponse() {
-        return GetOrganizationResponse.createBuilder()
+    public static Organization createGetOrganizationResponse() {
+        return Organization.createBuilder()
                 .name(CommonDataUtils.randomUUID())
                 .id(CommonDataUtils.getNextId())
                 .build();

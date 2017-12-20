@@ -1,4 +1,4 @@
-package com.tingcore.cdc.crm.response;
+package com.tingcore.cdc.crm.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tingcore.cdc.crm.constant.FieldConstant;
@@ -11,7 +11,7 @@ import java.util.List;
  * @author palmithor
  * @since 2017-12-19
  */
-public class CustomerKey extends BaseResponse {
+public class CustomerKey extends BaseModel {
 
     private final String name;
     private final String keyIdentifier;

@@ -1,11 +1,16 @@
 package com.tingcore.cdc.crm.service;
 
 import com.tingcore.cdc.crm.repository.PaymentOptionsRepository;
+import com.tingcore.cdc.crm.response.UserPaymentOption;
 import com.tingcore.cdc.crm.utils.PaymentOptionDataUtils;
 import com.tingcore.cdc.utils.CommonDataUtils;
 import com.tingcore.commons.api.repository.ApiResponse;
 import com.tingcore.commons.rest.ErrorResponse;
+import com.tingcore.commons.rest.PageResponse;
+import com.tingcore.users.model.PageResponseUserPaymentOptionResponse;
 import com.tingcore.users.model.PaymentOptionResponse;
+import com.tingcore.users.model.UserPaymentOptionResponse;
+import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -49,6 +54,26 @@ public class PaymentOptionServiceTest {
         given(paymentOptionRepository.findSupportedPaymentOptions(id)).willReturn(new ApiResponse<>(ErrorResponse.forbidden().build()));
         assertThatExceptionOfType(UsersApiException.class)
                 .isThrownBy(() -> service.findSupportedPaymentOptions(id))
+                .withNoCause();
+    }
+
+    @Test
+    public void findUserPaymentOptions() {
+        final Long userId = CommonDataUtils.getNextId();
+        final UserPaymentOptionResponse mockResponse = PaymentOptionDataUtils.randomUserPaymentOptionResponse();
+        final PageResponseUserPaymentOptionResponse mockPageResponse = new PageResponseUserPaymentOptionResponse();
+        mockPageResponse.setContent(Collections.singletonList(mockResponse));
+        given(paymentOptionRepository.findUserPaymentOptions(userId)).willReturn(new ApiResponse<>(mockPageResponse));
+        final PageResponse<UserPaymentOption> results = service.findUserPaymentOptions(userId);
+        Assertions.assertThat(results).hasNoNullFieldsOrProperties();
+    }
+
+    @Test
+    public void failFindUserPaymentOptionsApiError() {
+        final Long userId = CommonDataUtils.getNextId();
+        given(paymentOptionRepository.findUserPaymentOptions(userId)).willReturn(new ApiResponse<>(ErrorResponse.notFound().build()));
+        Assertions.assertThatExceptionOfType(UsersApiException.class)
+                .isThrownBy(() -> service.findUserPaymentOptions(userId))
                 .withNoCause();
     }
 }

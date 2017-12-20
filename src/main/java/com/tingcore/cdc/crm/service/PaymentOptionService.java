@@ -1,11 +1,15 @@
 package com.tingcore.cdc.crm.service;
 
 import com.tingcore.cdc.crm.repository.PaymentOptionsRepository;
+import com.tingcore.cdc.crm.response.UserPaymentOption;
 import com.tingcore.commons.api.repository.ApiResponse;
+import com.tingcore.commons.rest.PageResponse;
+import com.tingcore.users.model.PageResponseUserPaymentOptionResponse;
 import com.tingcore.users.model.PaymentOptionResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 /**
@@ -28,4 +32,13 @@ public class PaymentOptionService {
                 .orElseThrow(() -> new UsersApiException(apiResponse.getError()));
     }
 
+    public PageResponse<UserPaymentOption> findUserPaymentOptions(final Long userId) {
+        final ApiResponse<PageResponseUserPaymentOptionResponse> apiResponse = paymentOptionsRepository.findUserPaymentOptions(userId);
+        return apiResponse.getResponseOptional()
+                .map(apiPageResponse -> new PageResponse<>(apiPageResponse.getContent()
+                        .stream()
+                        .map(UserPaymentOptionMapper::toModel)
+                        .collect(Collectors.toList())))
+                .orElseThrow(() -> new UsersApiException(apiResponse.getError()));
+    }
 }

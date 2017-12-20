@@ -91,6 +91,7 @@ public class User {
     }
     
     
+    
     @JsonProperty(FieldConstant.ID)
     @ApiModelProperty(position = 1)
     public Long getId() {
@@ -188,19 +189,19 @@ public class User {
     }
     
     @JsonProperty(FieldConstant.LANGUAGE)
-    @ApiModelProperty(position = 18)
+    @ApiModelProperty(position = 17)
     public StringAttribute getLanguage() {
         return language;
     }
     
     @JsonProperty(FieldConstant.ACTIVATION_DATE)
-    @ApiModelProperty(position = 19)
+    @ApiModelProperty(position = 18)
     public InstantAttribute getActivationDate() {
         return activationDate;
     }
     
     @JsonProperty(FieldConstant.EXPIRATION_DATE)
-    @ApiModelProperty(position = 20)
+    @ApiModelProperty(position = 19)
     public InstantAttribute getExpirationDate() {
         return expirationDate;
     }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tingcore.commons.api.repository.ApiResponse;
 import com.tingcore.users.api.CustomerKeysApi;
 import com.tingcore.users.api.UsersApi;
+import com.tingcore.users.model.CustomerKeyResponse;
 import com.tingcore.users.model.PageResponseCustomerKeyResponse;
 import org.springframework.stereotype.Repository;
 
@@ -27,6 +28,10 @@ public class CustomerKeyRepository extends AbstractUserServiceRepository {
 
     public ApiResponse<PageResponseCustomerKeyResponse> findByUserId(final Long authorizedUserId) {
         return execute(usersApi.getUsingGET(authorizedUserId, authorizedUserId));
+    }
+
+    public ApiResponse<CustomerKeyResponse> findById(final Long authorizedUserId, final Long customerKeyId) {
+        return execute(customerKeysApi.getByIdUsingGET3(authorizedUserId, customerKeyId, authorizedUserId));
     }
 
 }

@@ -7,6 +7,7 @@ import com.tingcore.cdc.utils.CommonDataUtils;
 import com.tingcore.commons.api.repository.ApiResponse;
 import com.tingcore.commons.rest.ErrorResponse;
 import com.tingcore.commons.rest.PageResponse;
+import com.tingcore.users.model.CustomerKeyResponse;
 import com.tingcore.users.model.PageResponseCustomerKeyResponse;
 import org.junit.Before;
 import org.junit.Test;
@@ -56,5 +57,38 @@ public class CustomerKeyServiceTest {
         assertThatExceptionOfType(UsersApiException.class)
                 .isThrownBy(() -> customerKeyService.findByUserId(userId))
                 .withNoCause();
+    }
+
+    @Test
+    public void findByCustomerKeyId() {
+        final Long userId = CommonDataUtils.getNextId();
+        final Long customerKeyId = CommonDataUtils.getNextId();
+        final CustomerKeyResponse mockResponse = CustomerKeyDataUtils.randomCustomerKeyResponse();
+        given(customerKeyRepository.findById(userId, customerKeyId)).willReturn(new ApiResponse<>(mockResponse));
+        final CustomerKey customerKey = customerKeyService.findByCustomerKeyId(userId, customerKeyId);
+        assertThat(customerKey).hasNoNullFieldsOrProperties();
+        assertMapping(mockResponse, customerKey);
+    }
+
+    @Test
+    public void failFindByCustomerKeyIdApiError() {
+        final Long userId = CommonDataUtils.getNextId();
+        final Long customerKeyId = CommonDataUtils.getNextId();
+        given(customerKeyRepository.findById(userId, customerKeyId)).willReturn(new ApiResponse<>(ErrorResponse.notFound().build()));
+        assertThatExceptionOfType(UsersApiException.class)
+                .isThrownBy(() -> customerKeyService.findByCustomerKeyId(userId, customerKeyId))
+                .withNoCause();
+    }
+
+    private void assertMapping(final CustomerKeyResponse mockResponse, final CustomerKey customerKey) {
+        assertThat(customerKey.getId()).isEqualTo(mockResponse.getId());
+        assertThat(customerKey.getCreated().toEpochMilli()).isEqualTo(mockResponse.getCreated());
+        assertThat(customerKey.getUpdated().toEpochMilli()).isEqualTo(mockResponse.getUpdated());
+        assertThat(customerKey.getValidFrom().toEpochMilli()).isEqualTo(mockResponse.getValidFrom());
+        assertThat(customerKey.getValidTo().toEpochMilli()).isEqualTo(mockResponse.getValidTo());
+        assertThat(customerKey.getBookkeepingAccountId()).isEqualTo(mockResponse.getBookkeepingAccountId());
+        assertThat(customerKey.getEnabled()).isEqualTo(mockResponse.isIsEnabled());
+        assertThat(customerKey.getKeyIdentifier()).isEqualTo(mockResponse.getKeyIdentifier());
+        assertThat(customerKey.getName()).isEqualTo(mockResponse.getName());
     }
 }

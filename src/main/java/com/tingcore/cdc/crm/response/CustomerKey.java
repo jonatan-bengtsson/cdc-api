@@ -88,7 +88,7 @@ public class CustomerKey extends BaseResponse {
         return validTo;
     }
 
-    @JsonProperty(FieldConstant.PAYMENT_OPTIONS)
+    @JsonProperty(FieldConstant.USER_PAYMENT_OPTIONS)
     @ApiModelProperty(value = "A list of the affiliated user payment options")
     public List<UserPaymentOption> getUserPaymentOptions() {
         return userPaymentOptions;

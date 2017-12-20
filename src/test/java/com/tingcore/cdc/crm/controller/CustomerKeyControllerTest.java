@@ -47,6 +47,16 @@ public class CustomerKeyControllerTest extends ControllerUnitTest {
 
 
     @Test
+    public void failGetCustomerKeyByIdExternalGatewayTimeout() throws Exception {
+        final Long id = CommonDataUtils.getNextId();
+        final String encodedId = hashIdService.encode(id);
+        given(customerKeyService.findByCustomerKeyId(authorizedUser.getUser().getId(), id)).willThrow(new UsersApiException(ErrorResponse.gatewayTimeout().build()));
+        mockMvc.perform(get("/v1/customer-keys/{id}", encodedId))
+                .andExpect(status().isGatewayTimeout())
+                .andExpect(content().string("{\"statusCode\":504,\"status\":\"Gateway Timeout\"}"));
+    }
+
+    @Test
     public void getCustomerKeyById() throws Exception {
         final CustomerKey mockResponse = CustomerKeyDataUtils.randomCustomerKey().build();
         final Long id = CommonDataUtils.getNextId();
@@ -56,16 +66,6 @@ public class CustomerKeyControllerTest extends ControllerUnitTest {
                 .andExpect(status().isOk())
                 .andReturn();
         assertThat(mockMvcUtils.fromJson(result.getResponse().getContentAsString(), CustomerKey.class)).isEqualToComparingFieldByFieldRecursively(mockResponse);
-    }
-
-    @Test
-    public void failGetCustomerKeyByIdExternalServerError() throws Exception {
-        final Long id = CommonDataUtils.getNextId();
-        final String encodedId = hashIdService.encode(id);
-        given(customerKeyService.findByCustomerKeyId(authorizedUser.getUser().getId(), id)).willThrow(new UsersApiException(ErrorResponse.gatewayTimeout().build()));
-        mockMvc.perform(get("/v1/customer-keys/{id}", encodedId))
-                .andExpect(status().isGatewayTimeout())
-                .andExpect(content().string("{\"statusCode\":504,\"status\":\"Gateway Timeout\"}"));
     }
 
     @Test

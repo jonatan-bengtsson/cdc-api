@@ -22,12 +22,30 @@ public class User {
     private final StringAttribute customerType;
     private final List<PhoneNumber> phoneNumbers;
     private final StringAttribute organizationNumber;
-    private final List<StringAttribute> roles;
     private final StringAttribute language;
     private final InstantAttribute activationDate;
     private final InstantAttribute expirationDate;
 
-    public User(Long id, Organization organization, StringAttribute firstName, StringAttribute lastName, String email, List<Address> address, StringAttribute timezone, List<ApprovedAgreement> approvedAgreements, ApprovedMarketInfo approvedMarketInfo, List<LicensePlate> licensePlates, SocialSecurityNumber socialSecurityNumber, StringAttribute customerNumber, BooleanAttribute hasChargingAccess, StringAttribute customerType, List<PhoneNumber> phoneNumbers, StringAttribute organizationNumber, List<Organization> organizationPermissions, List<StringAttribute> roles, StringAttribute language, InstantAttribute activationDate, InstantAttribute expirationDate) {
+    public User(final Long id,
+                final Organization organization,
+                final StringAttribute firstName,
+                final StringAttribute lastName,
+                final String email,
+                final List<Address> address,
+                final StringAttribute timezone,
+                final List<ApprovedAgreement> approvedAgreements,
+                final ApprovedMarketInfo approvedMarketInfo,
+                final List<LicensePlate> licensePlates,
+                final SocialSecurityNumber socialSecurityNumber,
+                final StringAttribute customerNumber,
+                final BooleanAttribute hasChargingAccess,
+                final StringAttribute customerType,
+                final List<PhoneNumber> phoneNumbers,
+                final StringAttribute organizationNumber,
+                final List<StringAttribute> roles,
+                final StringAttribute language,
+                final InstantAttribute activationDate,
+                final InstantAttribute expirationDate) {
         this.id = id;
         this.organization = organization;
         this.firstName = firstName;
@@ -44,7 +62,6 @@ public class User {
         this.customerType = customerType;
         this.phoneNumbers = phoneNumbers;
         this.organizationNumber = organizationNumber;
-        this.roles = roles;
         this.language = language;
         this.activationDate = activationDate;
         this.expirationDate = expirationDate;
@@ -67,7 +84,6 @@ public class User {
         this.customerType = null;
         this.phoneNumbers = null;
         this.organizationNumber = null;
-        this.roles = null;
         this.language = null;
         this.activationDate = null;
         this.expirationDate = null;
@@ -170,12 +186,6 @@ public class User {
         return organizationNumber;
     }
 
-    @JsonProperty("roles")
-    @ApiModelProperty(position = 18)
-    public List<StringAttribute> getRoles() {
-        return roles;
-    }
-
     @JsonProperty("language")
     @ApiModelProperty(position = 19)
     public StringAttribute getLanguage() {
@@ -215,7 +225,6 @@ public class User {
         private StringAttribute customerType;
         private List<PhoneNumber> phoneNumbers;
         private StringAttribute organizationNumber;
-        private List<Organization> organizationPermissions;
         private List<StringAttribute> roles;
         private StringAttribute language;
         private InstantAttribute activationDate;
@@ -301,11 +310,6 @@ public class User {
             return this;
         }
 
-        public Builder organizationPermissions(final List<Organization> organizationPermissions) {
-            this.organizationPermissions = organizationPermissions;
-            return this;
-        }
-
         public Builder roles(final List<StringAttribute> roles) {
             this.roles = roles;
             return this;
@@ -335,7 +339,7 @@ public class User {
         public User build() {
             return new User(id, organization, firstName, lastName, email, address, timezone, approvedAgreements, approvedMarketInfo, licensePlates,
                     socialSecurityNumber, customerNumber, hasChargingAccess, customerType, phoneNumbers,
-                    organizationNumber, organizationPermissions, roles, language,
+                    organizationNumber, roles, language,
                     activationDate, expirationDate);
         }
     }

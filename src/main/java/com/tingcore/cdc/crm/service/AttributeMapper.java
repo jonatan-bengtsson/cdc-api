@@ -5,11 +5,9 @@ import com.tingcore.cdc.crm.constant.AttributeConstant;
 import com.tingcore.cdc.crm.model.*;
 import com.tingcore.commons.api.utils.JsonUtils;
 import com.tingcore.users.model.AttributeResponse;
-import com.tingcore.users.model.OrganizationResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -24,12 +22,6 @@ public class AttributeMapper {
 
     static Optional<StringAttribute> findStringAttribute(final List<AttributeResponse> attributes, final String attributeName) {
         return findStringAttributes(attributes, attributeName).stream().findAny();
-    }
-
-    static List<StringAttribute> findStringAttributes(final List<AttributeResponse> attributes, final String attributeName) {
-        return findAttributesFromList(attributes, attributeName).stream()
-                .map(attributeResponse -> new StringAttribute(attributeResponse.getAttributeValue().getId(), attributeResponse.getAttributeValue().getValue()))
-                .collect(Collectors.toList());
     }
 
 
@@ -139,11 +131,6 @@ public class AttributeMapper {
                 .collect(Collectors.toList());
     }
 
-    static List<Organization> findOrganizationPermissions(List<OrganizationResponse> organizations) {
-        //todo  map OrganizationResponse to Organization same way as in cdm
-        return Collections.emptyList();
-    }
-
     static Optional<BooleanAttribute> findBooleanAttribute(List<AttributeResponse> attributes, final String attributeName) {
         Optional<AttributeResponse> attributeResponse = findAttributeFromList(attributes, attributeName);
 
@@ -166,6 +153,12 @@ public class AttributeMapper {
         } else {
             return Optional.empty();
         }
+    }
+
+    private static List<StringAttribute> findStringAttributes(final List<AttributeResponse> attributes, final String attributeName) {
+        return findAttributesFromList(attributes, attributeName).stream()
+                .map(attributeResponse -> new StringAttribute(attributeResponse.getAttributeValue().getId(), attributeResponse.getAttributeValue().getValue()))
+                .collect(Collectors.toList());
     }
 
     private static List<AttributeResponse> findAttributesFromList(final List<AttributeResponse> attributes, final String attributeName) {

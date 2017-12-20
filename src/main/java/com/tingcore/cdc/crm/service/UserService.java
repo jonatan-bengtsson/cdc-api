@@ -1,7 +1,7 @@
 package com.tingcore.cdc.crm.service;
 
+import com.tingcore.cdc.crm.model.User;
 import com.tingcore.cdc.crm.repository.UserRepository;
-import com.tingcore.cdc.crm.response.GetUserResponse;
 import com.tingcore.commons.api.repository.ApiResponse;
 import com.tingcore.users.model.UserResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public GetUserResponse getUserById(final Long authorizedUserId, final Boolean includeAttributes) {
+    public User getUserById(final Long authorizedUserId, final Boolean includeAttributes) {
         final ApiResponse<UserResponse> apiResponse = userRepository.findById(authorizedUserId, includeAttributes);
         return apiResponse.getResponseOptional()
                 .map(UserMapper::toResponse)

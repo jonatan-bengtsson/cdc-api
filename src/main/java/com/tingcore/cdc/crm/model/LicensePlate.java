@@ -1,4 +1,4 @@
-package com.tingcore.cdc.crm.response;
+package com.tingcore.cdc.crm.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tingcore.cdc.crm.constant.FieldConstant;
@@ -7,18 +7,18 @@ import com.tingcore.cdc.crm.constant.FieldConstant;
  * @author moa.mackegard
  * @since 2017-11-21.
  */
-public class LicensePlateResponse extends BaseAttributeResponse {
+public class LicensePlate extends BaseAttributeModel {
     private String licensePlate;
     private String formatter;
 
-    public LicensePlateResponse(String licenseplate, String formatter) {
+    public LicensePlate(String licenseplate, String formatter) {
         this.licensePlate = licenseplate;
         this.formatter = formatter;
     }
 
-    public LicensePlateResponse() {
+    public LicensePlate() {
     }
-    
+
     @JsonProperty(FieldConstant.LICENSE_PLATE)
     public String getLicensePlate() {
         return licensePlate;

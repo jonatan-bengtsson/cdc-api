@@ -2,7 +2,7 @@ package com.tingcore.cdc.crm.controller;
 
 import com.tingcore.cdc.configuration.AuthorizedUser;
 import com.tingcore.cdc.configuration.WebMvcConfiguration;
-import com.tingcore.cdc.crm.response.GetUserResponse;
+import com.tingcore.cdc.crm.model.User;
 import com.tingcore.cdc.crm.service.UserService;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
@@ -40,7 +40,7 @@ public class UserController {
             notes = "Route allows fetching the user that is currently logged in. " +
                     "The endpoint uses the authorization id affiliated with the user.",
             tags = SwaggerConstant.TAGS_USERS)
-    public GetUserResponse getSelf(@RequestParam(value = "includeAttributes") Boolean includeAttributes) {
+    public User getSelf(@RequestParam(value = "includeAttributes") Boolean includeAttributes) {
         return userService.getUserById(authorizedUser.getUser().getId(), includeAttributes);
     }
 

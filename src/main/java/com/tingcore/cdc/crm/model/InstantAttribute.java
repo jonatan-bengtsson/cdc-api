@@ -1,29 +1,31 @@
-package com.tingcore.cdc.crm.response;
+package com.tingcore.cdc.crm.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tingcore.cdc.crm.constant.JsonPropertyConstant;
+
+import java.time.Instant;
 
 /**
  * @author moa.mackegard
  * @since 2017-11-14.
  */
-public class StringAttributeResponse extends BaseAttributeResponse {
-    private String value;
+public class InstantAttribute extends BaseAttributeModel {
+    private Instant value;
 
-    public StringAttributeResponse(Long valueId, String value) {
+    public InstantAttribute(final Long valueId, final Instant value) {
         this.id = valueId;
         this.value = value;
     }
 
-    public StringAttributeResponse() {
+    public InstantAttribute() {
     }
-    
+
     @JsonProperty(JsonPropertyConstant.VALUE)
-    public String getValue() {
+    public Instant getValue() {
         return value;
     }
 
-    public void setValue(String value) {
+    public void setValue(final Instant value) {
         this.value = value;
     }
 }

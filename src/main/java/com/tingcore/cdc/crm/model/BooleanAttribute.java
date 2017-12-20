@@ -1,4 +1,4 @@
-package com.tingcore.cdc.crm.response;
+package com.tingcore.cdc.crm.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tingcore.cdc.crm.constant.JsonPropertyConstant;
@@ -7,19 +7,19 @@ import com.tingcore.cdc.crm.constant.JsonPropertyConstant;
  * @author moa.mackegard
  * @since 2017-11-14.
  */
-public class BooleanAttributeResponse extends BaseAttributeResponse {
+public class BooleanAttribute extends BaseAttributeModel {
     private Boolean value;
 
-    public BooleanAttributeResponse(final Long valueId, final Boolean value) {
+    public BooleanAttribute(final Long valueId, final Boolean value) {
         this.id = valueId;
         this.value = value;
     }
-    
-    public BooleanAttributeResponse(final boolean value) {
+
+    public BooleanAttribute(final boolean value) {
         this.value = value;
     }
 
-    public BooleanAttributeResponse() {
+    public BooleanAttribute() {
     }
 
     @JsonProperty(JsonPropertyConstant.VALUE)

@@ -36,6 +36,7 @@ public abstract class ControllerUnitTest {
 
     @Autowired protected MockMvc mockMvc;
     @Autowired protected MockMvcUtils mockMvcUtils;
+    @Autowired protected HashIdService hashIdService;
     @MockBean protected AuthorizedUser authorizedUser;
 
     @Before

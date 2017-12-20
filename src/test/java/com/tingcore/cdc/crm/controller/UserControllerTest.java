@@ -1,7 +1,7 @@
 package com.tingcore.cdc.crm.controller;
 
 import com.tingcore.cdc.ControllerUnitTest;
-import com.tingcore.cdc.crm.response.GetUserResponse;
+import com.tingcore.cdc.crm.model.User;
 import com.tingcore.cdc.crm.service.UserService;
 import com.tingcore.cdc.crm.service.UsersApiException;
 import com.tingcore.cdc.crm.utils.UserDataUtils;
@@ -37,14 +37,14 @@ public class UserControllerTest extends ControllerUnitTest {
 
     @Test
     public void getSelf() throws Exception {
-        final GetUserResponse mockResponse = UserDataUtils.createGetUserResponse();
+        final User mockResponse = UserDataUtils.createGetUserResponse();
         given(userService.getUserById(authorizedUser.getUser().getId(), true))
                 .willReturn(mockResponse);
         MvcResult result = mockMvc.perform(get("/v1/users/self")
                 .param("includeAttributes", "true"))
                 .andExpect(status().isOk())
                 .andReturn();
-        assertThat(mockMvcUtils.fromJson(result.getResponse().getContentAsString(), GetUserResponse.class)).isEqualToComparingFieldByFieldRecursively(mockResponse);
+        assertThat(mockMvcUtils.fromJson(result.getResponse().getContentAsString(), User.class)).isEqualToComparingFieldByFieldRecursively(mockResponse);
     }
 
     @Test

@@ -15,6 +15,7 @@ import java.util.List;
 
 import static java.lang.String.format;
 import static java.util.Collections.emptyList;
+import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
 import static org.apache.commons.lang3.Validate.notNull;
 
@@ -43,6 +44,6 @@ public class PriceRepository {
     }
 
     private ConnectorPrice apiPriceToModel(final ApiPrice apiPrice) {
-        return new ConnectorPrice(new ConnectorId(apiPrice.getConnectorId()), format("%s\u00A0%s/%s", apiPrice.getPricePerUnit(), apiPrice.getCurrency(), apiPrice.getUnit().getValue()));
+        return new ConnectorPrice(new ConnectorId(apiPrice.getConnectorId()), format("%s\u00A0%s/%s", apiPrice.getPricePerUnit(), apiPrice.getCurrency(), ofNullable(apiPrice.getUnit()).map(ApiPrice.UnitEnum::getValue).orElse("min")));
     }
 }

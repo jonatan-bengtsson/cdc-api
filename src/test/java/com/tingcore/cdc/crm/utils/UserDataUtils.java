@@ -1,7 +1,7 @@
 package com.tingcore.cdc.crm.utils;
 
-import com.tingcore.cdc.crm.response.GetUserResponse;
-import com.tingcore.cdc.crm.response.StringAttributeResponse;
+import com.tingcore.cdc.crm.model.StringAttribute;
+import com.tingcore.cdc.crm.model.User;
 import com.tingcore.cdc.utils.CommonDataUtils;
 import com.tingcore.users.model.UserResponse;
 
@@ -18,11 +18,11 @@ public class UserDataUtils {
     public UserDataUtils() {
     }
 
-    public static GetUserResponse createGetUserResponse() {
-        return GetUserResponse.createBuilder()
+    public static User createGetUserResponse() {
+        return User.createBuilder()
                 .id(CommonDataUtils.getNextId())
                 .email(CommonDataUtils.randomEmail())
-                .customerNumber(new StringAttributeResponse(CommonDataUtils.randomLong(1000, 5000), CommonDataUtils.randomNumberStr(1000, 5000)))
+                .customerNumber(new StringAttribute(CommonDataUtils.randomLong(1000, 5000), CommonDataUtils.randomNumberStr(1000, 5000)))
                 .build();
     }
 

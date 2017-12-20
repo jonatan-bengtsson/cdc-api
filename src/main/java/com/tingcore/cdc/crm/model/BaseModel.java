@@ -1,4 +1,4 @@
-package com.tingcore.cdc.crm.response;
+package com.tingcore.cdc.crm.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tingcore.cdc.crm.constant.FieldConstant;
@@ -6,19 +6,19 @@ import io.swagger.annotations.ApiModelProperty;
 
 import java.time.Instant;
 
-abstract class BaseResponse {
+abstract class BaseModel {
 
     private final Long id;
     private final Instant created;
     private final Instant updated;
 
-    public BaseResponse(final Long id, final Instant created, final Instant updated) {
+    public BaseModel(final Long id, final Instant created, final Instant updated) {
         this.id = id;
         this.created = created;
         this.updated = updated;
     }
 
-    public BaseResponse() {
+    public BaseModel() {
         this.id = null;
         this.created = null;
         this.updated = null;

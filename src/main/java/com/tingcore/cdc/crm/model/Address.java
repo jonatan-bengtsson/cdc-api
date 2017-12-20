@@ -1,4 +1,4 @@
-package com.tingcore.cdc.crm.response;
+package com.tingcore.cdc.crm.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tingcore.cdc.crm.constant.FieldConstant;
@@ -7,7 +7,7 @@ import com.tingcore.cdc.crm.constant.FieldConstant;
  * @author moa.mackegard
  * @since 2017-11-14.
  */
-public class AddressResponse extends BaseAttributeResponse {
+public class Address extends BaseAttributeModel {
 
     private String address;
     private String addressLine2;
@@ -17,9 +17,9 @@ public class AddressResponse extends BaseAttributeResponse {
     private String formatter;
 
 
-    public AddressResponse(final Long valueId, final String address, final String addressLine2,
-                           final String postalCode, final String city, final String country,
-                           final String formatter) {
+    public Address(final Long valueId, final String address, final String addressLine2,
+                   final String postalCode, final String city, final String country,
+                   final String formatter) {
         this.id = valueId;
         this.address = address;
         this.addressLine2 = addressLine2;
@@ -29,7 +29,7 @@ public class AddressResponse extends BaseAttributeResponse {
         this.formatter = formatter;
     }
 
-    public AddressResponse() {
+    public Address() {
     }
 
     @JsonProperty(FieldConstant.ADDRESS)

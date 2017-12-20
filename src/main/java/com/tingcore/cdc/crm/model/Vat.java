@@ -1,4 +1,4 @@
-package com.tingcore.cdc.crm.response;
+package com.tingcore.cdc.crm.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tingcore.cdc.crm.constant.FieldConstant;
@@ -7,17 +7,17 @@ import com.tingcore.cdc.crm.constant.FieldConstant;
  * @author moa.mackegard
  * @since 2017-11-30.
  */
-public class VatResponse extends BaseAttributeResponse {
+public class Vat extends BaseAttributeModel {
     private String vat;
     private String formatter;
 
-    public VatResponse(final Long attributeValueId, final String vat, final String formatter) {
+    public Vat(final Long attributeValueId, final String vat, final String formatter) {
         this.id = attributeValueId;
         this.vat = vat;
         this.formatter = formatter;
     }
 
-    public VatResponse() {
+    public Vat() {
     }
 
     @JsonProperty(FieldConstant.VAT)

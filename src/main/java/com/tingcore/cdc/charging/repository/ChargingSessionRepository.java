@@ -6,16 +6,16 @@ import com.tingcore.cdc.exception.NoSessionFoundException;
 import com.tingcore.payments.emp.api.ChargesApi;
 import com.tingcore.payments.emp.model.*;
 import org.springframework.stereotype.Repository;
-import retrofit2.Response;
+import org.springframework.web.client.HttpStatusCodeException;
+import org.springframework.web.client.RestClientException;
 
-import java.io.IOException;
-import java.io.UncheckedIOException;
 import java.time.Instant;
 import java.util.Optional;
 
 import static java.lang.String.format;
 import static java.util.Optional.ofNullable;
 import static org.apache.commons.lang3.Validate.notNull;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @Repository
 public class ChargingSessionRepository {
@@ -27,13 +27,16 @@ public class ChargingSessionRepository {
 
     public ChargingSession fetchSession(final ChargingSessionId id) {
         try {
-            Response<ApiCharge> response = chargesApi.getCharge(id.value).execute();
-            if (response.code() == 404) {
-                throw new NoSessionFoundException("Session not found");
+            final ApiCharge charge = chargesApi.getCharge(id.value);
+            return apiSessionToModel(charge);
+        } catch (final RestClientException exception) {
+            if (exception instanceof HttpStatusCodeException) {
+                final HttpStatusCodeException statusCodeException = HttpStatusCodeException.class.cast(exception);
+                if (statusCodeException.getStatusCode().equals(NOT_FOUND)) {
+                    throw new NoSessionFoundException("Session not found");
+                }
             }
-            return apiSessionToModel(response.body());
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
+            throw new RuntimeException(exception); // TODO better error handling
         }
     }
 
@@ -43,14 +46,10 @@ public class ChargingSessionRepository {
             final CreateChargeRequest createChargeRequest = new CreateChargeRequest();
             createChargeRequest.setUser(trustedUserId.value);
             createChargeRequest.setAccount(targetUser.value);
-            final Response<ApiCharge> charge = chargesApi.createCharge(createChargeRequest).execute();
-            if (!charge.isSuccessful()) {
-                // TODO: handle errors
-                return null;
-            }
-            return apiSessionToModel(charge.body());
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
+            final ApiCharge charge = chargesApi.createCharge(createChargeRequest);
+            return apiSessionToModel(charge);
+        } catch (final RestClientException exception) {
+            throw new RuntimeException(exception); // TODO better error handling
         }
     }
 
@@ -68,9 +67,9 @@ public class ChargingSessionRepository {
                     "connector", connectorId.value
             ));
             startEvent.setEvent(event);
-            return apiEventToModel(sessionId, chargesApi.createChargeEvent(sessionId.value, startEvent).execute().body());
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
+            return apiEventToModel(sessionId, chargesApi.createChargeEvent(sessionId.value, startEvent));
+        } catch (final RestClientException exception) {
+            throw new RuntimeException(exception); // TODO better error handling
         }
     }
 
@@ -86,9 +85,9 @@ public class ChargingSessionRepository {
                     "chargePoint", chargePointId.value
             ));
             stopEvent.setEvent(event);
-            return apiEventToModel(sessionId, chargesApi.createChargeEvent(sessionId.value, stopEvent).execute().body());
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
+            return apiEventToModel(sessionId, chargesApi.createChargeEvent(sessionId.value, stopEvent));
+        } catch (final RestClientException exception) {
+            throw new RuntimeException(exception); // TODO better error handling
         }
     }
 

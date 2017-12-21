@@ -6,16 +6,13 @@ import com.tingcore.cdc.charging.model.ConnectorPrice;
 import com.tingcore.payments.cpo.api.PricesApi;
 import com.tingcore.payments.cpo.model.ApiPrice;
 import org.springframework.stereotype.Repository;
-import retrofit2.Response;
+import org.springframework.web.client.RestClientException;
 
-import java.io.IOException;
-import java.io.UncheckedIOException;
 import java.time.Instant;
 import java.util.List;
 
 import static java.lang.String.format;
 import static java.util.Collections.emptyList;
-import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
 import static org.apache.commons.lang3.Validate.notNull;
 
@@ -33,17 +30,14 @@ public class PriceRepository {
 
     public List<ConnectorPrice> priceForConnectors(final List<ConnectorId> connectorIds) {
         try {
-            final Response<List<ApiPrice>> response = pricesApi.getPrices(connectorIds.stream().map(connectorId -> connectorId.value).collect(toList()), Instant.now().toEpochMilli()).execute();
-            if (!response.isSuccessful()) {
-                return emptyList();
-            }
-            return response.body().stream().map(this::apiPriceToModel).collect(toList());
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
+            final List<ApiPrice> response = pricesApi.getPrices(connectorIds.stream().map(connectorId -> connectorId.value).collect(toList()), Instant.now().toEpochMilli());
+            return response.stream().map(this::apiPriceToModel).collect(toList());
+        } catch (final RestClientException exception) {
+            return emptyList(); // TODO better error handling
         }
     }
 
     private ConnectorPrice apiPriceToModel(final ApiPrice apiPrice) {
-        return new ConnectorPrice(new ConnectorId(apiPrice.getConnectorId()), format("%s\u00A0%s/%s", apiPrice.getPricePerUnit(), apiPrice.getCurrency(), ofNullable(apiPrice.getUnit()).map(ApiPrice.UnitEnum::getValue).orElse("min")));
+        return new ConnectorPrice(new ConnectorId(apiPrice.getConnectorId()), format("%s\u00A0%s/%s", apiPrice.getPricePerUnit(), apiPrice.getCurrency(), apiPrice.getUnit().getValue()));
     }
 }

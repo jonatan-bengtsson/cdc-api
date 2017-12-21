@@ -10,9 +10,8 @@ import com.tingcore.payments.emp.model.ApiAuthorizationToken;
 import com.tingcore.payments.emp.model.Authorization;
 import com.tingcore.payments.emp.model.CreateAuthorizationTokenRequest;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.client.RestClientException;
 
-import java.io.IOException;
-import java.io.UncheckedIOException;
 import java.time.Instant;
 
 import static org.apache.commons.lang3.Validate.notNull;
@@ -40,9 +39,9 @@ public class TokenRepository {
             request.setAccount(customerKeyId.value);
             request.setChargePoint(chargePointId.value);
             request.setTime(Instant.now().toEpochMilli());
-            return apiTokenToModel(tokensApi.createAuthorizationToken(request).execute().body());
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
+            return apiTokenToModel(tokensApi.createAuthorizationToken(request));
+        } catch (final RestClientException exception) {
+            throw new RuntimeException(exception); // TODO better error handling
         }
     }
 

@@ -16,7 +16,7 @@ public class Organization {
     private Long id;
     private String name;
     private OrganizationNumber organizationNumber;
-    private List<Address> visitingAddresses;
+    private List<AddressCRM> visitingAddresses;
     private StringAttribute email;
     private List<PhoneNumber> phoneNumbers;
     private StringAttribute diagnosticsUploadLink;
@@ -27,7 +27,7 @@ public class Organization {
     private StringAttribute contactNotes;
     private Vat vat;
     private StringAttribute defaultCurrency;
-    private Address billingAddress;
+    private AddressCRM billingAddress;
     private List<PhoneNumber> billingTelephone;
     private StringAttribute organizationType;
 
@@ -115,7 +115,7 @@ public class Organization {
     
     @JsonProperty(FieldConstant.BILLING_ADDRESS)
     @ApiModelProperty(position = 14)
-    public Address getBillingAddress () {
+    public AddressCRM getBillingAddress() {
         return billingAddress;
     }
     
@@ -127,7 +127,7 @@ public class Organization {
     
     @JsonProperty(FieldConstant.VISITING_ADDRESS)
     @ApiModelProperty(position = 16)
-    public List<Address> getVisitingAddresses () {
+    public List<AddressCRM> getVisitingAddresses() {
         return visitingAddresses;
     }
     
@@ -169,7 +169,7 @@ public class Organization {
         this.defaultCurrency = defaultCurrency;
     }
 
-    public void setBillingAddress(Address billingAddress) {
+    public void setBillingAddress(AddressCRM billingAddress) {
         this.billingAddress = billingAddress;
     }
 
@@ -197,7 +197,7 @@ public class Organization {
         this.contactNotes = contactNotes;
     }
 
-    public void setVisitingAddresses(List<Address> visitingAddresses) {
+    public void setVisitingAddresses(List<AddressCRM> visitingAddresses) {
         this.visitingAddresses = visitingAddresses;
     }
 
@@ -215,7 +215,7 @@ public class Organization {
         private Long id;
         private String name;
         private OrganizationNumber organizationNumber;
-        private List<Address> visitingAddress;
+        private List<AddressCRM> visitingAddress;
         private StringAttribute email;
         private List<PhoneNumber> phoneNumbers;
         private StringAttribute diagnosticsUploadLink;
@@ -226,7 +226,7 @@ public class Organization {
         private StringAttribute contactNotes;
         private Vat vat;
         private StringAttribute defaultCurrency;
-        private Address billingAddress;
+        private AddressCRM billingAddress;
         private List<PhoneNumber> billingTelephone;
         private StringAttribute organizationType;
 
@@ -249,7 +249,7 @@ public class Organization {
             return this;
         }
 
-        public Builder visitingAddress(List<Address> visitingAddress) {
+        public Builder visitingAddress(List<AddressCRM> visitingAddress) {
             this.visitingAddress = visitingAddress;
             return this;
         }
@@ -304,7 +304,7 @@ public class Organization {
             return this;
         }
 
-        public Builder billingAddress(Address billingAddress) {
+        public Builder billingAddress(AddressCRM billingAddress) {
             this.billingAddress = billingAddress;
             return this;
         }

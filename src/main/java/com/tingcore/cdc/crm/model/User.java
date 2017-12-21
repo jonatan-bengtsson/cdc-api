@@ -12,7 +12,7 @@ public class User {
     private final StringAttribute firstName;
     private final StringAttribute lastName;
     private final String email;
-    private final List<Address> address;
+    private final List<AddressCRM> address;
     private final StringAttribute timezone;
     private final List<ApprovedAgreement> approvedAgreements;
     private final ApprovedMarketInfo approvedMarketInfo;
@@ -32,7 +32,7 @@ public class User {
                 final StringAttribute firstName,
                 final StringAttribute lastName,
                 final String email,
-                final List<Address> address,
+                final List<AddressCRM> address,
                 final StringAttribute timezone,
                 final List<ApprovedAgreement> approvedAgreements,
                 final ApprovedMarketInfo approvedMarketInfo,
@@ -118,7 +118,7 @@ public class User {
     
     @JsonProperty(FieldConstant.ADDRESS)
     @ApiModelProperty(position = 5)
-    public List<Address> getAddress() {
+    public List<AddressCRM> getAddress() {
         return address;
     }
     
@@ -217,7 +217,7 @@ public class User {
         private String email;
         private StringAttribute firstName;
         private StringAttribute lastName;
-        private List<Address> address;
+        private List<AddressCRM> address;
         private StringAttribute timezone;
         private List<ApprovedAgreement> approvedAgreements;
         private ApprovedMarketInfo approvedMarketInfo;
@@ -262,7 +262,7 @@ public class User {
             return this;
         }
 
-        public Builder address(final List<Address> address) {
+        public Builder address(final List<AddressCRM> address) {
             this.address = address;
             return this;
         }

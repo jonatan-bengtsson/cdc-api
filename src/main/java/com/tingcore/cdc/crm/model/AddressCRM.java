@@ -7,7 +7,7 @@ import com.tingcore.cdc.crm.constant.FieldConstant;
  * @author moa.mackegard
  * @since 2017-11-14.
  */
-public class Address extends BaseAttributeModel {
+public class AddressCRM extends BaseAttributeModel {
 
     private String address;
     private String addressLine2;
@@ -17,9 +17,9 @@ public class Address extends BaseAttributeModel {
     private String formatter;
 
 
-    public Address(final Long valueId, final String address, final String addressLine2,
-                   final String postalCode, final String city, final String country,
-                   final String formatter) {
+    public AddressCRM(final Long valueId, final String address, final String addressLine2,
+                      final String postalCode, final String city, final String country,
+                      final String formatter) {
         this.id = valueId;
         this.address = address;
         this.addressLine2 = addressLine2;
@@ -29,7 +29,7 @@ public class Address extends BaseAttributeModel {
         this.formatter = formatter;
     }
 
-    public Address() {
+    public AddressCRM() {
     }
 
     @JsonProperty(FieldConstant.ADDRESS)

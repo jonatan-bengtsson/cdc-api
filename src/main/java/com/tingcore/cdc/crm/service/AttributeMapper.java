@@ -43,11 +43,11 @@ public class AttributeMapper {
                 .collect(Collectors.toList());
     }
 
-    static Optional<Address> findBillingAddressResponse(final List<AttributeResponse> attributes) {
+    static Optional<AddressCRM> findBillingAddressResponse(final List<AttributeResponse> attributes) {
         Optional<AttributeResponse> attributeResponse = findAttributeFromList(attributes, AttributeConstant.ADDRESS);
 
         if (attributeResponse.isPresent()) {
-            Optional<Address> addressResponse = parseAttributeValue(attributeResponse.get(), Address.class);
+            Optional<AddressCRM> addressResponse = parseAttributeValue(attributeResponse.get(), AddressCRM.class);
             addressResponse.ifPresent(address1 -> address1.setId(attributeResponse.get().getAttributeValue().getId()));
             return addressResponse;
         } else {
@@ -68,10 +68,10 @@ public class AttributeMapper {
     }
 
 
-    static List<Address> findAddressResponse(final List<AttributeResponse> attributes) {
+    static List<AddressCRM> findAddressResponse(final List<AttributeResponse> attributes) {
         List<AttributeResponse> attributeResponses = findAttributesFromList(attributes, AttributeConstant.ADDRESS);
         return attributeResponses.stream()
-                .map(attributeResponse -> parseAttributeValue(attributeResponse, Address.class))
+                .map(attributeResponse -> parseAttributeValue(attributeResponse, AddressCRM.class))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .collect(Collectors.toList());
@@ -122,10 +122,10 @@ public class AttributeMapper {
         }
     }
 
-    static List<Address> findVisitingAddressResponse(final List<AttributeResponse> attributes) {
+    static List<AddressCRM> findVisitingAddressResponse(final List<AttributeResponse> attributes) {
         List<AttributeResponse> attributeResponses = findAttributesFromList(attributes, AttributeConstant.VISITING_ADDRESS);
         return attributeResponses.stream()
-                .map(attributeResponse -> parseAttributeValue(attributeResponse, Address.class))
+                .map(attributeResponse -> parseAttributeValue(attributeResponse, AddressCRM.class))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .collect(Collectors.toList());

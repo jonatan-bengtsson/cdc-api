@@ -28,7 +28,7 @@ info:
 app:
   allowed-origins: http://localhost:3000
   user-service:
-    base-url: https://${integration.user.hostname}
+    base-url: http://${integration.user.hostname}
     default-timeout: 20 # timeout in seconds
   asset-service:
     base-url: http://${integration.asset.hostname}
@@ -46,8 +46,8 @@ integration:
   payments:
     hostname: payments-service.tingcore-prod.com
   user:
-    hostname: user-service-test.tingcore-infra.com
+    hostname: user-service.tingcore-test.com
   asset:
-    hostname: user-service-test.tingcore-infra.com
+    hostname: asset-service.tingcore-test.com
   charging-operations:
     hostname: charging-operations.tingcore-test.com

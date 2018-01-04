@@ -24,7 +24,7 @@ public class PaymentsServiceConfiguration {
 
     @Bean
     public PricesApi pricesApi(final com.tingcore.payments.cpo.ApiClient paymentsClient) {
-        return new PricesApi(notNull(paymentsClient));
+        return notNull(paymentsClient).createService(PricesApi.class);
     }
 
     @Bean
@@ -37,11 +37,10 @@ public class PaymentsServiceConfiguration {
     }
 
     @Bean
-    public com.tingcore.payments.cpo.ApiClient paymentsOperatorClient(final RestTemplate restTemplate,
-                                                                      final PaymentsServiceInformation paymentsServiceInformation) {
-        final com.tingcore.payments.cpo.ApiClient paymentsClient = new com.tingcore.payments.cpo.ApiClient(restTemplate);
-        paymentsClient.setBasePath("http://" + notNull(paymentsServiceInformation).getHostname());
-        paymentsClient.setUserAgent("cdc/1");
+    public com.tingcore.payments.cpo.ApiClient paymentsOperatorClient(final PaymentsServiceInformation paymentsServiceInformation) {
+        final com.tingcore.payments.cpo.ApiClient paymentsClient = new com.tingcore.payments.cpo.ApiClient();
+        String baseUrl = ("http://" + notNull(paymentsServiceInformation).getHostname());
+        paymentsClient.getAdapterBuilder().baseUrl(baseUrl);
         return paymentsClient;
     }
 }

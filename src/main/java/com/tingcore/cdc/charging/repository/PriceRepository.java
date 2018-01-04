@@ -7,6 +7,7 @@ import com.tingcore.commons.api.repository.AbstractApiRepository;
 import com.tingcore.commons.external.ExternalApiException;
 import com.tingcore.payments.cpo.api.PricesApi;
 import com.tingcore.payments.cpo.model.ApiPrice;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 import java.time.Instant;
@@ -21,9 +22,9 @@ import static org.apache.commons.lang3.Validate.notNull;
 @Repository
 public class PriceRepository extends AbstractApiRepository {
 
-    private static final Integer DEFAULT_TIME_OUT = 60;
-
     private final PricesApi pricesApi;
+
+    private Integer defaultTimeOut;
 
     public PriceRepository(final ObjectMapper objectMapper, final PricesApi pricesApi) {
         super(notNull(objectMapper));
@@ -48,8 +49,13 @@ public class PriceRepository extends AbstractApiRepository {
         return new ConnectorPrice(new ConnectorId(apiPrice.getConnectorId()), format("%s\u00A0%s/%s", apiPrice.getPricePerUnit(), apiPrice.getCurrency(), apiPrice.getUnit().getValue()));
     }
 
+    @Value("${app.payments-service.default-timeout}")
+    public void setDefaultTimeOut(final Integer defaultTimeOut) {
+        this.defaultTimeOut = defaultTimeOut;
+    }
+
     @Override
     public Integer getTimeout() {
-        return DEFAULT_TIME_OUT;
+        return defaultTimeOut;
     }
 }

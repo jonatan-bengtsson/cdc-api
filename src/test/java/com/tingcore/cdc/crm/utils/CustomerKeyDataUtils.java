@@ -1,6 +1,7 @@
 package com.tingcore.cdc.crm.utils;
 
 import com.tingcore.cdc.crm.model.CustomerKey;
+import com.tingcore.cdc.crm.request.CustomerKeyPostRequest;
 import com.tingcore.cdc.utils.CommonDataUtils;
 import com.tingcore.users.model.CustomerKeyResponse;
 import com.tingcore.users.model.PageResponseCustomerKeyResponse;
@@ -58,5 +59,13 @@ public class CustomerKeyDataUtils {
                 .bookkeepingAccountId(CommonDataUtils.getNextId())
                 .userPaymentOptions(Collections.singletonList(PaymentOptionDataUtils.randomUserPaymentOption().build()));
 
+    }
+
+    public static CustomerKeyPostRequest.Builder getRequestAllValid() {
+        return CustomerKeyPostRequest
+                .createBuilder()
+                .name(CommonDataUtils.randomUUID())
+                .keyIdentifier(CommonDataUtils.randomUUID())
+                .addUserPaymentOption(CommonDataUtils.getNextId());
     }
 }

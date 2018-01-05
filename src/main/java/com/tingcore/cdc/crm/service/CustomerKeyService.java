@@ -2,12 +2,14 @@ package com.tingcore.cdc.crm.service;
 
 import com.tingcore.cdc.crm.model.CustomerKey;
 import com.tingcore.cdc.crm.repository.CustomerKeyRepository;
+import com.tingcore.cdc.crm.request.CustomerKeyPostRequest;
 import com.tingcore.commons.api.repository.ApiResponse;
 import com.tingcore.commons.rest.PageResponse;
 import com.tingcore.users.model.CustomerKeyResponse;
 import com.tingcore.users.model.PageResponseCustomerKeyResponse;
 import org.springframework.stereotype.Service;
 
+import java.util.Random;
 import java.util.stream.Collectors;
 
 /**
@@ -40,5 +42,16 @@ public class CustomerKeyService {
                 .getResponseOptional()
                 .map(CustomerKeyMapper::toModel)
                 .orElseThrow(() -> new UsersApiException(apiResponse.getError()));
+    }
+
+    public CustomerKey create(final Long authorizedUserId, final CustomerKeyPostRequest customerKeyRequest) {
+        // TODO create book keeping account id using some payments repository
+        final Long bookkeepingAccountId = new Random().nextLong();
+
+        final ApiResponse<CustomerKeyResponse> apiResponse = customerKeyRepository.post(authorizedUserId, CustomerKeyMapper.toApiRequest(customerKeyRequest, bookkeepingAccountId));
+        return apiResponse
+                .getResponseOptional()
+                .map(CustomerKeyMapper::toModel)
+                .orElseThrow(() -> new PaymentsApiException(apiResponse.getError()));
     }
 }

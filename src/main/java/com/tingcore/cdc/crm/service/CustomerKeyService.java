@@ -49,6 +49,6 @@ public class CustomerKeyService {
         return apiResponse
                 .getResponseOptional()
                 .map(CustomerKeyMapper::toModel)
-                .orElseThrow(() -> new PaymentsApiException(apiResponse.getError()));
+                .orElseThrow(() -> new UsersApiException(apiResponse.getError()));
     }
 }

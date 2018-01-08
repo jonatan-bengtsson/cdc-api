@@ -34,19 +34,17 @@ class CustomerKeyMapper {
                 .validTo(Instant.ofEpochMilli(response.getValidTo()))
                 .isEnabled(response.isIsEnabled())
                 .keyIdentifier(response.getKeyIdentifier())
-                .bookkeepingAccountId(response.getBookkeepingAccountId())
                 .userPaymentOptions(userPaymentOptions)
                 .build();
     }
 
-    public static com.tingcore.users.model.CustomerKeyRequest toApiRequest(final CustomerKeyPostRequest incomingRequest, final Long bookkeepingAccountId) {
+    public static com.tingcore.users.model.CustomerKeyRequest toApiRequest(final CustomerKeyPostRequest incomingRequest) {
         com.tingcore.users.model.CustomerKeyRequest apiRequest = new com.tingcore.users.model.CustomerKeyRequest();
         apiRequest.setName(incomingRequest.getName());
         apiRequest.setKeyIdentifier(incomingRequest.getKeyIdentifier());
         apiRequest.setUserPaymentOptions(incomingRequest.getUserPaymentOptions());
         apiRequest.setIsEnabled(true);
         apiRequest.setValidFrom(Instant.now().toEpochMilli());
-        apiRequest.setBookkeepingAccountId(bookkeepingAccountId);
         return apiRequest;
     }
 }

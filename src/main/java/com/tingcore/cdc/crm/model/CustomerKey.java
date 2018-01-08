@@ -15,7 +15,6 @@ public class CustomerKey extends BaseModel {
 
     private final String name;
     private final String keyIdentifier;
-    private final Long bookkeepingAccountId;
     private final Boolean enabled;
     private final Instant validFrom;
     private final Instant validTo;
@@ -26,7 +25,6 @@ public class CustomerKey extends BaseModel {
                        final Instant updated,
                        final String name,
                        final String keyIdentifier,
-                       final Long bookkeepingAccountId,
                        final Boolean enabled,
                        final Instant validFrom,
                        final Instant validTo,
@@ -34,7 +32,6 @@ public class CustomerKey extends BaseModel {
         super(id, created, updated);
         this.name = name;
         this.keyIdentifier = keyIdentifier;
-        this.bookkeepingAccountId = bookkeepingAccountId;
         this.enabled = enabled;
         this.validFrom = validFrom;
         this.validTo = validTo;
@@ -45,7 +42,6 @@ public class CustomerKey extends BaseModel {
     public CustomerKey() {
         this.name = null;
         this.keyIdentifier = null;
-        this.bookkeepingAccountId = null;
         this.enabled = null;
         this.validFrom = null;
         this.validTo = null;
@@ -62,12 +58,6 @@ public class CustomerKey extends BaseModel {
     @ApiModelProperty(value = "The key identifier of the customer key. RFID for example.")
     public String getKeyIdentifier() {
         return keyIdentifier;
-    }
-
-    @JsonProperty(FieldConstant.BOOKKEEPING_ACCOUNT_ID)
-    @ApiModelProperty(value = "The bookkeeping account id.")
-    public Long getBookkeepingAccountId() {
-        return bookkeepingAccountId;
     }
 
     @JsonProperty(FieldConstant.IS_ENABLED)
@@ -104,7 +94,6 @@ public class CustomerKey extends BaseModel {
         private Instant updated;
         private String name;
         private String keyIdentifier;
-        private Long bookkeepingAccountId;
         private Boolean isEnabled;
         private Instant validFrom;
         private Instant validTo;
@@ -139,11 +128,6 @@ public class CustomerKey extends BaseModel {
             return this;
         }
 
-        public Builder bookkeepingAccountId(final Long bookkeepingAccountId) {
-            this.bookkeepingAccountId = bookkeepingAccountId;
-            return this;
-        }
-
         public Builder isEnabled(final Boolean isEnabled) {
             this.isEnabled = isEnabled;
             return this;
@@ -165,7 +149,7 @@ public class CustomerKey extends BaseModel {
         }
 
         public CustomerKey build() {
-            return new CustomerKey(id, created, updated, name, keyIdentifier, bookkeepingAccountId, isEnabled, validFrom, validTo, userPaymentOptions);
+            return new CustomerKey(id, created, updated, name, keyIdentifier, isEnabled, validFrom, validTo, userPaymentOptions);
         }
     }
 }

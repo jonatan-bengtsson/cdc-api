@@ -35,7 +35,6 @@ public class CustomerKeyDataUtils {
         c.setCreated(CommonDataUtils.randomTimestamp(false));
         c.setName(CommonDataUtils.randomUUID());
         c.setUserId(CommonDataUtils.getNextId());
-        c.setBookkeepingAccountId(CommonDataUtils.getNextId());
         c.setKeyIdentifier(CommonDataUtils.randomUUID());
         c.setValidTo(CommonDataUtils.randomTimestamp(true));
         c.setValidFrom(CommonDataUtils.randomTimestamp(false));
@@ -56,7 +55,6 @@ public class CustomerKeyDataUtils {
                 .validTo(CommonDataUtils.randomInstant(true))
                 .isEnabled(true)
                 .keyIdentifier(CommonDataUtils.randomUUID())
-                .bookkeepingAccountId(CommonDataUtils.getNextId())
                 .userPaymentOptions(Collections.singletonList(PaymentOptionDataUtils.randomUserPaymentOption().build()));
 
     }

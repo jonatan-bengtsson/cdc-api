@@ -79,7 +79,7 @@ ext {
     versionSwagger = "2.7.0"
     versionOkHttp = "3.9.0"
     versionCommonsApi = "1.0.2"
-    versionUserServiceClient = "1.0.1.3-SNAPSHOT"
+    versionUserServiceClient = "1.0.1.4-SNAPSHOT"
     versionAssetServiceClient = "0.1.3"
     versionOperationServiceClient = "0.1.4"
 }

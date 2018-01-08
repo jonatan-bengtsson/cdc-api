@@ -19,7 +19,6 @@ public class FieldConstant {
     public static final String KEY_IDENTIFIER = "keyIdentifier";
     public static final String VALID_TO = "validTo";
     public static final String VALID_FROM = "validFrom";
-    public static final String BOOKKEEPING_ACCOUNT_ID = "bookkeepingAccountId";
     public static final String PAYMENT_OPTION_REFERENCE = "paymentOptionReference";
     public static final String USER_PAYMENT_OPTIONS = "userPaymentOptions";
     public static final String IS_ENABLED = "isEnabled";

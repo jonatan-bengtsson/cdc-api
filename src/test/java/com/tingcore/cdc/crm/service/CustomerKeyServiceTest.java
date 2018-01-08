@@ -86,7 +86,6 @@ public class CustomerKeyServiceTest {
         assertThat(customerKey.getUpdated().toEpochMilli()).isEqualTo(mockResponse.getUpdated());
         assertThat(customerKey.getValidFrom().toEpochMilli()).isEqualTo(mockResponse.getValidFrom());
         assertThat(customerKey.getValidTo().toEpochMilli()).isEqualTo(mockResponse.getValidTo());
-        assertThat(customerKey.getBookkeepingAccountId()).isEqualTo(mockResponse.getBookkeepingAccountId());
         assertThat(customerKey.getEnabled()).isEqualTo(mockResponse.isIsEnabled());
         assertThat(customerKey.getKeyIdentifier()).isEqualTo(mockResponse.getKeyIdentifier());
         assertThat(customerKey.getName()).isEqualTo(mockResponse.getName());

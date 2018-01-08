@@ -9,7 +9,6 @@ import com.tingcore.users.model.CustomerKeyResponse;
 import com.tingcore.users.model.PageResponseCustomerKeyResponse;
 import org.springframework.stereotype.Service;
 
-import java.util.Random;
 import java.util.stream.Collectors;
 
 /**
@@ -20,6 +19,7 @@ import java.util.stream.Collectors;
 public class CustomerKeyService {
 
     private final CustomerKeyRepository customerKeyRepository;
+
 
     public CustomerKeyService(final CustomerKeyRepository customerKeyRepository) {
         this.customerKeyRepository = customerKeyRepository;
@@ -45,10 +45,7 @@ public class CustomerKeyService {
     }
 
     public CustomerKey create(final Long authorizedUserId, final CustomerKeyPostRequest customerKeyRequest) {
-        // TODO create book keeping account id using some payments repository
-        final Long bookkeepingAccountId = new Random().nextLong();
-
-        final ApiResponse<CustomerKeyResponse> apiResponse = customerKeyRepository.post(authorizedUserId, CustomerKeyMapper.toApiRequest(customerKeyRequest, bookkeepingAccountId));
+        final ApiResponse<CustomerKeyResponse> apiResponse = customerKeyRepository.post(authorizedUserId, CustomerKeyMapper.toApiRequest(customerKeyRequest));
         return apiResponse
                 .getResponseOptional()
                 .map(CustomerKeyMapper::toModel)

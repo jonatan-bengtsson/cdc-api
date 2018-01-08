@@ -101,7 +101,6 @@ public class CustomerKeyControllerTest extends ControllerUnitTest {
 
     @Test
     public void failCreateCustomerKey() throws Exception {
-        final Long id = CommonDataUtils.getNextId();
         final CustomerKeyPostRequest request = CustomerKeyDataUtils.randomRequestAllValid().build();
         given(customerKeyService.create(anyLong(), any(CustomerKeyPostRequest.class)))
                 .willThrow(new EntityNotFoundException(User.class.getSimpleName()));

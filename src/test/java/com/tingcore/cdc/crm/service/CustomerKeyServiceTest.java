@@ -7,6 +7,7 @@ import com.tingcore.cdc.utils.CommonDataUtils;
 import com.tingcore.commons.api.repository.ApiResponse;
 import com.tingcore.commons.rest.ErrorResponse;
 import com.tingcore.commons.rest.PageResponse;
+import com.tingcore.users.model.CustomerKeyRequest;
 import com.tingcore.users.model.CustomerKeyResponse;
 import com.tingcore.users.model.PageResponseCustomerKeyResponse;
 import org.junit.Before;
@@ -18,6 +19,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyLong;
 
 /**
  * @author palmithor
@@ -79,6 +82,25 @@ public class CustomerKeyServiceTest {
                 .isThrownBy(() -> customerKeyService.findByCustomerKeyId(userId, customerKeyId))
                 .withNoCause();
     }
+
+    @Test
+    public void create() {
+        final CustomerKeyResponse expectedResponse = CustomerKeyDataUtils.randomCustomerKeyResponse();
+        given(customerKeyRepository.post(anyLong(), any(CustomerKeyRequest.class)))
+                .willReturn(new ApiResponse<>(expectedResponse));
+        final CustomerKey customerKey = customerKeyService.create(CommonDataUtils.getNextId(), CustomerKeyDataUtils.getRequestAllValid().build());
+        assertMapping(expectedResponse, customerKey);
+    }
+
+    @Test
+    public void failCreateApiError() {
+        given(customerKeyRepository.post(anyLong(), any(CustomerKeyRequest.class)))
+                .willReturn(new ApiResponse<>(ErrorResponse.forbidden().build()));
+        assertThatExceptionOfType(UsersApiException.class)
+                .isThrownBy(() -> customerKeyService.create(CommonDataUtils.getNextId(), CustomerKeyDataUtils.getRequestAllValid().build()))
+                .withNoCause();
+    }
+
 
     private void assertMapping(final CustomerKeyResponse mockResponse, final CustomerKey customerKey) {
         assertThat(customerKey.getId()).isEqualTo(mockResponse.getId());

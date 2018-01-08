@@ -84,7 +84,7 @@ public class CustomerKeyControllerTest extends ControllerUnitTest {
 
     @Test
     public void createCustomerKeySuccess() throws Exception {
-        final CustomerKeyPostRequest request = CustomerKeyDataUtils.getRequestAllValid().build();
+        final CustomerKeyPostRequest request = CustomerKeyDataUtils.randomRequestAllValid().build();
         final CustomerKey response = CustomerKeyDataUtils.randomCustomerKey().build();
         given(customerKeyService.create(anyLong(), any(CustomerKeyPostRequest.class))).willReturn(response);
 
@@ -102,7 +102,7 @@ public class CustomerKeyControllerTest extends ControllerUnitTest {
     @Test
     public void failCreateCustomerKey() throws Exception {
         final Long id = CommonDataUtils.getNextId();
-        final CustomerKeyPostRequest request = CustomerKeyDataUtils.getRequestAllValid().build();
+        final CustomerKeyPostRequest request = CustomerKeyDataUtils.randomRequestAllValid().build();
         given(customerKeyService.create(anyLong(), any(CustomerKeyPostRequest.class)))
                 .willThrow(new EntityNotFoundException(User.class.getSimpleName()));
 

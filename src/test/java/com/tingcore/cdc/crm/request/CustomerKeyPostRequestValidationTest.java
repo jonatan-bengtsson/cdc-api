@@ -23,7 +23,7 @@ public class CustomerKeyPostRequestValidationTest extends ValidationTest {
     @Test
     public void failNameNull() {
         ConstraintViolation<CustomerKeyPostRequest> constraintViolation = validateAndGetSingleViolation(
-                CustomerKeyDataUtils.getRequestAllValid().name(null).build()
+                CustomerKeyDataUtils.randomRequestAllValid().name(null).build()
         );
         assertThat(constraintViolation.getInvalidValue()).isNull();
         assertThat(constraintViolation.getMessage()).isEqualTo("may not be null");
@@ -33,7 +33,7 @@ public class CustomerKeyPostRequestValidationTest extends ValidationTest {
     @Test
     public void failNameEmpty() {
         ConstraintViolation<CustomerKeyPostRequest> constraintViolation = validateAndGetSingleViolation(
-                CustomerKeyDataUtils.getRequestAllValid().name(StringUtils.EMPTY).build()
+                CustomerKeyDataUtils.randomRequestAllValid().name(StringUtils.EMPTY).build()
         );
         assertThat(constraintViolation.getInvalidValue()).isEqualTo(StringUtils.EMPTY);
         assertThat(constraintViolation.getMessage()).isEqualTo("size must be between 1 and 40");
@@ -43,7 +43,7 @@ public class CustomerKeyPostRequestValidationTest extends ValidationTest {
 
     @Test
     public void failNameTooLong() {
-        final CustomerKeyPostRequest request = CustomerKeyDataUtils.getRequestAllValid()
+        final CustomerKeyPostRequest request = CustomerKeyDataUtils.randomRequestAllValid()
                 .name(StringUtils.leftPad(StringUtils.EMPTY, 41, "*")).build();
         ConstraintViolation<CustomerKeyPostRequest> constraintViolation = validateAndGetSingleViolation(request);
         assertThat(constraintViolation.getInvalidValue()).isEqualTo(request.getName());
@@ -54,7 +54,7 @@ public class CustomerKeyPostRequestValidationTest extends ValidationTest {
     @Test
     public void failKeyIdentifierNull() {
         ConstraintViolation<CustomerKeyPostRequest> constraintViolation = validateAndGetSingleViolation(
-                CustomerKeyDataUtils.getRequestAllValid().keyIdentifier(null).build()
+                CustomerKeyDataUtils.randomRequestAllValid().keyIdentifier(null).build()
         );
         assertThat(constraintViolation.getInvalidValue()).isNull();
         assertThat(constraintViolation.getMessage()).isEqualTo("may not be null");
@@ -64,7 +64,7 @@ public class CustomerKeyPostRequestValidationTest extends ValidationTest {
     @Test
     public void failKeyIdentifierEmpty() {
         ConstraintViolation<CustomerKeyPostRequest> constraintViolation = validateAndGetSingleViolation(
-                CustomerKeyDataUtils.getRequestAllValid().keyIdentifier(StringUtils.EMPTY).build()
+                CustomerKeyDataUtils.randomRequestAllValid().keyIdentifier(StringUtils.EMPTY).build()
         );
         assertThat(constraintViolation.getInvalidValue()).isEqualTo(StringUtils.EMPTY);
         assertThat(constraintViolation.getMessage()).isEqualTo("size must be between 1 and 255");
@@ -74,7 +74,7 @@ public class CustomerKeyPostRequestValidationTest extends ValidationTest {
 
     @Test
     public void failKeyIdentifierTooLong() {
-        final CustomerKeyPostRequest request = CustomerKeyDataUtils.getRequestAllValid()
+        final CustomerKeyPostRequest request = CustomerKeyDataUtils.randomRequestAllValid()
                 .keyIdentifier(StringUtils.leftPad(StringUtils.EMPTY, 256, "*")).build();
         ConstraintViolation<CustomerKeyPostRequest> constraintViolation = validateAndGetSingleViolation(request);
         assertThat(constraintViolation.getInvalidValue()).isEqualTo(request.getKeyIdentifier());

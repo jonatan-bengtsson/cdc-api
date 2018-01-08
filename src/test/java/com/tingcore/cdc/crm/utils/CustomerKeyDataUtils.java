@@ -59,7 +59,7 @@ public class CustomerKeyDataUtils {
 
     }
 
-    public static CustomerKeyPostRequest.Builder getRequestAllValid() {
+    public static CustomerKeyPostRequest.Builder randomRequestAllValid() {
         return CustomerKeyPostRequest
                 .createBuilder()
                 .name(CommonDataUtils.randomUUID())

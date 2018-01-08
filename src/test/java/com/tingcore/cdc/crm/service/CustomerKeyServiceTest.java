@@ -88,7 +88,7 @@ public class CustomerKeyServiceTest {
         final CustomerKeyResponse expectedResponse = CustomerKeyDataUtils.randomCustomerKeyResponse();
         given(customerKeyRepository.post(anyLong(), any(CustomerKeyRequest.class)))
                 .willReturn(new ApiResponse<>(expectedResponse));
-        final CustomerKey customerKey = customerKeyService.create(CommonDataUtils.getNextId(), CustomerKeyDataUtils.getRequestAllValid().build());
+        final CustomerKey customerKey = customerKeyService.create(CommonDataUtils.getNextId(), CustomerKeyDataUtils.randomRequestAllValid().build());
         assertMapping(expectedResponse, customerKey);
     }
 
@@ -97,7 +97,7 @@ public class CustomerKeyServiceTest {
         given(customerKeyRepository.post(anyLong(), any(CustomerKeyRequest.class)))
                 .willReturn(new ApiResponse<>(ErrorResponse.forbidden().build()));
         assertThatExceptionOfType(UsersApiException.class)
-                .isThrownBy(() -> customerKeyService.create(CommonDataUtils.getNextId(), CustomerKeyDataUtils.getRequestAllValid().build()))
+                .isThrownBy(() -> customerKeyService.create(CommonDataUtils.getNextId(), CustomerKeyDataUtils.randomRequestAllValid().build()))
                 .withNoCause();
     }
 

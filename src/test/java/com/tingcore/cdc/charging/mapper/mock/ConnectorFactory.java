@@ -5,17 +5,9 @@ import com.tingcore.charging.assets.model.Connector;
 import com.tingcore.charging.assets.model.ConnectorCapability;
 import com.tingcore.charging.assets.model.ConnectorEntity;
 import com.tingcore.charging.assets.model.EntityMetadata;
-import com.tingcore.charging.operations.model.ConnectorStatusResponse;
 
 public class ConnectorFactory {
 
-    public static ConnectorStatusResponse createConnectorStatus(Long connectorId, boolean busy, boolean outOfOrder, boolean reserved) {
-        return new ConnectorStatusResponse()
-                .connectorId(connectorId)
-                .busy(busy)
-                .outOfOrder(outOfOrder)
-                .reserved(reserved);
-    }
 
 
     public static ConnectorEntity createConnector(Long chargePointId, Long connectorId, Long connectorModelId, int connectorNumber) {

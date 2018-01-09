@@ -14,6 +14,7 @@ import com.tingcore.charging.assets.model.ChargePointSiteEntity;
 import com.tingcore.charging.assets.model.ChargePointSiteWithAvailabilityRules;
 import com.tingcore.charging.assets.model.CompleteChargePointSite;
 import com.tingcore.charging.operations.api.OperationsApi;
+import com.tingcore.charging.operations.model.ConnectorStatusResponse;
 import com.tingcore.charging.operations.model.StatusBatchResponse;
 import com.tingcore.commons.api.repository.ApiResponse;
 import com.tingcore.commons.rest.PageResponse;
@@ -108,7 +109,7 @@ public class ChargePointSiteService {
     }
 
     private PageResponse<BasicChargeSite> toChargeSiteWithStatus(List<ChargePointSiteWithAvailabilityRules> chargeSiteWithAvailabilityRules, StatusBatchResponse statusBatchResponse) {
-        Map<Long, ConnectorStatus> connectorStatusMap = ConnectorStatusMapper.getStatusMap(chargeSiteWithAvailabilityRules, statusBatchResponse);
+        Map<Long, ConnectorStatusResponse> connectorStatusMap = ConnectorStatusMapper.getStatusMap(chargeSiteWithAvailabilityRules, statusBatchResponse);
 
         List<BasicChargeSite> previewChargeSites = chargeSiteWithAvailabilityRules.stream()
                 .map(cs -> {
@@ -174,7 +175,7 @@ public class ChargePointSiteService {
     private ChargePointSite toChargePointSite(ChargePointSiteWithAvailabilityRules chargePointSiteWithAvailabilityRules,
                                               StatusBatchResponse statusBatchResponse,
                                               List<ConnectorPrice> connectorPrices) {
-        final Map<Long, ConnectorStatus> connectorStatusMap = ofNullable(statusBatchResponse).map(statuses -> ConnectorStatusMapper.getStatusMap(Collections.singletonList(chargePointSiteWithAvailabilityRules), statuses)).orElse(emptyMap());
+        final Map<Long, ConnectorStatusResponse> connectorStatusMap = ofNullable(statusBatchResponse).map(statuses -> ConnectorStatusMapper.getStatusMap(Collections.singletonList(chargePointSiteWithAvailabilityRules), statuses)).orElse(emptyMap());
         final Map<Long, ConnectorPrice> connectorPriceMap = connectorPrices.stream().collect(toMap(price -> price.connectorId.value, identity()));
 
         return ChargePointSiteMapper.toChargePointSite(

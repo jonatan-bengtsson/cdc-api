@@ -3,6 +3,7 @@ package com.tingcore.cdc.crm.service;
 import com.tingcore.cdc.crm.model.CustomerKey;
 import com.tingcore.cdc.crm.model.UserPaymentOption;
 import com.tingcore.cdc.crm.request.CustomerKeyPostRequest;
+import com.tingcore.users.model.CustomerKeyRequest;
 import com.tingcore.users.model.CustomerKeyResponse;
 
 import java.time.Instant;
@@ -38,8 +39,8 @@ class CustomerKeyMapper {
                 .build();
     }
 
-    public static com.tingcore.users.model.CustomerKeyRequest toApiRequest(final CustomerKeyPostRequest incomingRequest) {
-        com.tingcore.users.model.CustomerKeyRequest apiRequest = new com.tingcore.users.model.CustomerKeyRequest();
+    public static CustomerKeyRequest toApiRequest(final CustomerKeyPostRequest incomingRequest) {
+        final CustomerKeyRequest apiRequest = new CustomerKeyRequest();
         apiRequest.setName(incomingRequest.getName());
         apiRequest.setKeyIdentifier(incomingRequest.getKeyIdentifier());
         apiRequest.setUserPaymentOptions(incomingRequest.getUserPaymentOptions());

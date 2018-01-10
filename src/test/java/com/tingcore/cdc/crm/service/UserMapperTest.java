@@ -1,9 +1,10 @@
 package com.tingcore.cdc.crm.service;
 
 import com.tingcore.cdc.crm.constant.AttributeConstant;
-import com.tingcore.cdc.crm.response.GetUserResponse;
+import com.tingcore.cdc.crm.model.User;
 import com.tingcore.cdc.crm.utils.UserDataUtils;
 import com.tingcore.cdc.utils.CommonDataUtils;
+import com.tingcore.commons.constant.SuppressWarningConstant;
 import com.tingcore.users.model.AttributeResponse;
 import com.tingcore.users.model.AttributeValueResponse;
 import com.tingcore.users.model.UserResponse;
@@ -18,12 +19,13 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author moa.mackegard
  * @since 2017-11-14.
  */
+@SuppressWarnings(SuppressWarningConstant.CONSTANT_CONDITIONS)
 public class UserMapperTest {
 
     @Test
     public void mapToGetUserResponse() {
         UserResponse userResponse = UserDataUtils.createValidUserResponse();
-        GetUserResponse response = UserMapper.toResponse(userResponse);
+        User response = UserMapper.toResponse(userResponse);
         AttributeResponse phoneNumber = userResponse.getAttributes().stream()
                 .filter(attributeResponse -> attributeResponse.getName().equals(AttributeConstant.PHONE_NUMBER))
                 .findFirst().get();
@@ -58,7 +60,7 @@ public class UserMapperTest {
         invalidAttributeResponse.setAttributeValue(failedJsonAttributeValue);
         userResponse.setAttributes(Collections.singletonList(invalidAttributeResponse));
 
-        GetUserResponse response = UserMapper.toResponse(userResponse);
+        User response = UserMapper.toResponse(userResponse);
         assertThat(response.getPhoneNumbers()).hasSize(0);
     }
 

@@ -1,21 +1,29 @@
 package com.tingcore.cdc.charging.mapper;
 
-import com.tingcore.cdc.charging.model.ConnectorStatus;
+import com.tingcore.cdc.charging.utils.ConnectorDataUtils;
 import com.tingcore.cdc.constant.SpringProfilesConstant;
-import com.tingcore.charging.assets.model.*;
-import com.tingcore.charging.operations.model.ChargePointStatusResponse;
+import com.tingcore.charging.assets.model.BasicChargePoint;
+import com.tingcore.charging.assets.model.ChargePoint;
+import com.tingcore.charging.assets.model.ChargePointConfiguration;
+import com.tingcore.charging.assets.model.ChargePointEntity;
+import com.tingcore.charging.assets.model.ChargePointSiteEntity;
+import com.tingcore.charging.assets.model.ChargePointSiteWithAvailabilityRules;
+import com.tingcore.charging.assets.model.CompleteChargePoint;
+import com.tingcore.charging.assets.model.CompleteChargePointSite;
+import com.tingcore.charging.assets.model.ConnectorEntity;
+import com.tingcore.charging.assets.model.EntityMetadata;
 import com.tingcore.charging.operations.model.ConnectorStatusResponse;
 import com.tingcore.charging.operations.model.StatusBatchResponse;
 import org.junit.Test;
 import org.springframework.test.context.ActiveProfiles;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
-import static com.tingcore.cdc.charging.mapper.mock.ChargePointFactory.createBasicChargePointStatus;
-import static com.tingcore.cdc.charging.mapper.mock.ChargePointFactory.createChargePointStatus;
-import static com.tingcore.cdc.charging.mapper.mock.ChargePointFactory.createCompleteChargePoint;
-import static com.tingcore.cdc.charging.mapper.mock.ConnectorFactory.createConnector;
-import static com.tingcore.cdc.charging.mapper.mock.ConnectorFactory.createConnectorStatus;
+import static com.tingcore.cdc.charging.utils.ChargePointDataUtils.createChargePointStatus;
+import static com.tingcore.cdc.charging.utils.ConnectorDataUtils.createConnector;
 import static org.junit.Assert.assertEquals;
 
 @ActiveProfiles(SpringProfilesConstant.UNIT_TEST)
@@ -56,9 +64,6 @@ public class ConnectorStatusMapperTest {
 
         List<ChargePointSiteWithAvailabilityRules> sites = Collections.singletonList(
                 new ChargePointSiteWithAvailabilityRules()
-                        .addAvailabilityRulesWithChargePointIdsItem(
-                                createAvailabilityRule(chargePointModelId, Arrays.asList(connector1Number, connector2Number))
-                        )
                         .chargePointSite(
                                 new CompleteChargePointSite()
                                         .chargePointSiteEntity(new ChargePointSiteEntity()
@@ -95,55 +100,36 @@ public class ConnectorStatusMapperTest {
                 .statusResponses(Arrays.asList(
                         createChargePointStatus(chargePointId, true,
                                 Arrays.asList(
-                                        createConnectorStatus(connector1Id, true, false, false),
-                                        createConnectorStatus(connector2Id, false, false, false)
+                                        ConnectorDataUtils.createConnectorStatusResponse(connector1Id, ConnectorStatusResponse.ConnectorStatusEnum.IN_USE),
+                                        ConnectorDataUtils.createConnectorStatusResponse(connector2Id, ConnectorStatusResponse.ConnectorStatusEnum.IN_USE)
                                 )
                         ),
                         createChargePointStatus(chargePoint2Id, true,
                                 Arrays.asList(
-                                        createConnectorStatus(connector3Id, true, false, false),
-                                        createConnectorStatus(connector4Id, false, false, false)
+                                        ConnectorDataUtils.createConnectorStatusResponse(connector3Id, ConnectorStatusResponse.ConnectorStatusEnum.IN_USE),
+                                        ConnectorDataUtils.createConnectorStatusResponse(connector4Id, ConnectorStatusResponse.ConnectorStatusEnum.AVAILABLE)
                                 )
                         ),
                         createChargePointStatus(chargePoint3Id, false,
                                 Arrays.asList(
-                                        createConnectorStatus(connector5Id, false, false, false),
-                                        createConnectorStatus(connector6Id, false, false, false)
+                                        ConnectorDataUtils.createConnectorStatusResponse(connector5Id, ConnectorStatusResponse.ConnectorStatusEnum.OUT_OF_ORDER),
+                                        ConnectorDataUtils.createConnectorStatusResponse(connector6Id, ConnectorStatusResponse.ConnectorStatusEnum.OUT_OF_ORDER)
                                 )
                         )
                 ));
 
 
-        Map<Long, ConnectorStatus> statusMap = ConnectorStatusMapper.getStatusMap(sites, statusBatchResponse);
+        Map<Long, ConnectorStatusResponse> statusMap = ConnectorStatusMapper.getStatusMap(sites, statusBatchResponse);
 
-        assertEquals(ConnectorStatus.OCCUPIED, statusMap.get(connector1Id));
-        assertEquals(ConnectorStatus.OCCUPIED, statusMap.get(connector2Id));
-        assertEquals(ConnectorStatus.OCCUPIED, statusMap.get(connector3Id));
-        assertEquals(ConnectorStatus.AVAILABLE, statusMap.get(connector4Id));
-        assertEquals(ConnectorStatus.OUT_OF_ORDER, statusMap.get(connector5Id));
-        assertEquals(ConnectorStatus.OUT_OF_ORDER, statusMap.get(connector6Id));
+        assertEquals(ConnectorStatusResponse.ConnectorStatusEnum.IN_USE, statusMap.get(connector1Id).getConnectorStatus());
+        assertEquals(ConnectorStatusResponse.ConnectorStatusEnum.IN_USE, statusMap.get(connector2Id).getConnectorStatus());
+        assertEquals(ConnectorStatusResponse.ConnectorStatusEnum.IN_USE, statusMap.get(connector3Id).getConnectorStatus());
+        assertEquals(ConnectorStatusResponse.ConnectorStatusEnum.AVAILABLE, statusMap.get(connector4Id).getConnectorStatus());
+        assertEquals(ConnectorStatusResponse.ConnectorStatusEnum.OUT_OF_ORDER, statusMap.get(connector5Id).getConnectorStatus());
+        assertEquals(ConnectorStatusResponse.ConnectorStatusEnum.OUT_OF_ORDER, statusMap.get(connector6Id).getConnectorStatus());
 
     }
 
-    private AvailabilityRulesWithChargePointId createAvailabilityRule(Long chargePointModelId, List<Integer> connectorNumbers) {
-
-
-        ConnectorModelAvailabilityRule r = new ConnectorModelAvailabilityRule()
-                .chargePointModelId(chargePointModelId)
-                .connectorNumbers(connectorNumbers);
-
-        ConnectorModelAvailabilityRuleEntity connectorModelAvailabilityRuleEntity = new ConnectorModelAvailabilityRuleEntity()
-                .data(r)
-                .metadata(new EntityMetadata());
-
-        return new AvailabilityRulesWithChargePointId()
-                .chargePointId(chargePointModelId)
-                .rules(
-                        Collections.singletonList(
-                            connectorModelAvailabilityRuleEntity
-                        )
-                );
-    }
 
     private CompleteChargePoint createCompleteChargePointWithTwoConnectors(Long chargePointId, BasicChargePoint.OperationalStatusEnum chargePointStatus, Long chargePointModelId, ConnectorEntity c1, ConnectorEntity c2){
         BasicChargePoint basicChargePoint = new BasicChargePoint()
@@ -163,119 +149,4 @@ public class ConnectorStatusMapperTest {
                 .connectorEntities(Arrays.asList(c1,c2));
 
     }
-
-
-
-    @Test
-    public void getConnectorStatusAvailabilityRuleTest() throws Exception {
-        // Verifies if 1 out of 2 connectors in the same group is busy the other one is considered OCCUPIED as well
-        Long chargePointId = 1L;
-        Long connector1Id = 123L;
-        Long connector2Id = 234L;
-        Long connectorModel1Id = 5L;
-        Long connectorModel2Id = 15L;
-        Long chargePointTypeId = 3L;
-        int connectorNumber1 = 1;
-        int connectorNumber2 = 2;
-
-        ConnectorEntity con1 = createConnector(chargePointId, connector1Id, connectorModel1Id, connectorNumber1);
-        ConnectorEntity con2 = createConnector(chargePointId, connector2Id, connectorModel2Id, connectorNumber2);
-        CompleteChargePoint cp = createCompleteChargePoint(chargePointId, chargePointTypeId, Arrays.asList(con1, con2), BasicChargePoint.OperationalStatusEnum.IN_OPERATION);
-
-        Optional<ConnectorModelAvailabilityRule> rule = Optional.of(
-                new ConnectorModelAvailabilityRule()
-                        .chargePointModelId(chargePointTypeId)
-                        .connectorNumbers(Arrays.asList(connectorNumber1, connectorNumber2))
-        );
-
-
-        Map<Long, ConnectorStatusResponse> conMap = new HashMap<>();
-        conMap.put(connector1Id, createConnectorStatus(connector1Id, true, false, false));
-        conMap.put(connector2Id, createConnectorStatus(connector2Id, false, false, false));
-
-
-        Map<Long, ChargePointStatusResponse> cpMap = new HashMap<>();
-        cpMap.put(chargePointId, createBasicChargePointStatus(chargePointId, true));
-
-        Map<Integer, Long> connectorNumberToConnector = new HashMap<>();
-        connectorNumberToConnector.put(connectorNumber1, connector1Id);
-        connectorNumberToConnector.put(connectorNumber2, connector2Id);
-
-        assertEquals(ConnectorStatus.OCCUPIED, ConnectorStatusMapper.calculateConnectorStatus(con1, cp, rule, conMap, cpMap, connectorNumberToConnector));
-        assertEquals(ConnectorStatus.OCCUPIED, ConnectorStatusMapper.calculateConnectorStatus(con2, cp, rule, conMap, cpMap, connectorNumberToConnector));
-    }
-
-    @Test
-    public void getConnectorStatusAvailabilityChargePointOfflineTest() throws Exception {
-        // Verifies that if ChargePoint is offline the connectors on it is considered OUT_OF_ORDER
-        Long chargePointId = 1L;
-        Long connector1Id = 123L;
-        Long connector2Id = 234L;
-        Long connectorModel1Id = 5L;
-        Long connectorModel2Id = 15L;
-        Long chargePointTypeId = 3L;
-        int connectorNumber1 = 1;
-        int connectorNumber2 = 2;
-
-        ConnectorEntity con1 = createConnector(chargePointId, connector1Id, connectorModel1Id, connectorNumber1);
-        ConnectorEntity con2 = createConnector(chargePointId, connector2Id, connectorModel2Id, connectorNumber2);
-        CompleteChargePoint cp = createCompleteChargePoint(chargePointId, chargePointTypeId, Arrays.asList(con1, con2), BasicChargePoint.OperationalStatusEnum.IN_OPERATION);
-
-        Optional<ConnectorModelAvailabilityRule> rule = Optional.empty();
-
-        Map<Long, ConnectorStatusResponse> conMap = new HashMap<>();
-        conMap.put(connector1Id, createConnectorStatus(connector1Id, true, false, false));
-        conMap.put(connector1Id, createConnectorStatus(connector2Id, false, false, false));
-
-        Map<Long, ChargePointStatusResponse> cpMap = new HashMap<>();
-        cpMap.put(chargePointId, createBasicChargePointStatus(chargePointId, false));
-
-        Map<Integer, Long> connectorNumberToConnector = new HashMap<>();
-        connectorNumberToConnector.put(connectorNumber1, connector1Id);
-        connectorNumberToConnector.put(connectorNumber2, connector2Id);
-
-        assertEquals(ConnectorStatus.OUT_OF_ORDER, ConnectorStatusMapper.calculateConnectorStatus(con1, cp, rule, conMap, cpMap, connectorNumberToConnector));
-        assertEquals(ConnectorStatus.OUT_OF_ORDER, ConnectorStatusMapper.calculateConnectorStatus(con2, cp, rule, conMap, cpMap, connectorNumberToConnector));
-    }
-
-    @Test
-    public void getConnectorStatusAvailabilityChargePointNotInOperation() throws Exception {
-        // Verifies that if ChargePoint is set to be non-operational the connectors on it is considered OUT_OF_ORDER
-        Long chargePointId = 1L;
-        Long connector1Id = 123L;
-        Long connector2Id = 234L;
-        Long connectorModel1Id = 5L;
-        Long connectorModel2Id = 15L;
-        Long chargePointTypeId = 3L;
-        int connectorNumber1 = 1;
-        int connectorNumber2 = 2;
-
-
-        ConnectorEntity con1 = createConnector(chargePointId, connector1Id, connectorModel1Id, connectorNumber1);
-        ConnectorEntity con2 = createConnector(chargePointId, connector2Id, connectorModel2Id, connectorNumber2);
-        CompleteChargePoint cp = createCompleteChargePoint(chargePointId, chargePointTypeId, Arrays.asList(con1, con2), BasicChargePoint.OperationalStatusEnum.DISABLED);
-
-        Optional<ConnectorModelAvailabilityRule> rule = Optional.empty();
-
-        Map<Long, ConnectorStatusResponse> conMap = new HashMap<>();
-        conMap.put(connector1Id, createConnectorStatus(connector1Id, true, false, false));
-        conMap.put(connector1Id, createConnectorStatus(connector2Id, false, false, false));
-
-        Map<Long, ChargePointStatusResponse> cpMap = new HashMap<>();
-        cpMap.put(chargePointId, createBasicChargePointStatus(chargePointId, true));
-
-        Map<Integer, Long> connectorNumberToConnector = new HashMap<>();
-        connectorNumberToConnector.put(connectorNumber1, connector1Id);
-        connectorNumberToConnector.put(connectorNumber2, connector2Id);
-
-        assertEquals(ConnectorStatus.OUT_OF_ORDER, ConnectorStatusMapper.calculateConnectorStatus(con1, cp, rule, conMap, cpMap, connectorNumberToConnector));
-        assertEquals(ConnectorStatus.OUT_OF_ORDER, ConnectorStatusMapper.calculateConnectorStatus(con2, cp, rule, conMap, cpMap, connectorNumberToConnector));
-    }
-
-
-
-
-
-
-
 }

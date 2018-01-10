@@ -1,95 +1,91 @@
 package com.tingcore.cdc.crm.utils;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tingcore.cdc.crm.response.CustomerKeyResponse;
-import com.tingcore.cdc.crm.response.PaymentInformationResponse;
+import com.tingcore.cdc.crm.model.CustomerKey;
+import com.tingcore.cdc.crm.model.CustomerKeyType;
+import com.tingcore.cdc.crm.request.CustomerKeyPostRequest;
 import com.tingcore.cdc.utils.CommonDataUtils;
-import com.tingcore.commons.api.utils.JsonUtils;
-import com.tingcore.users.model.AttributeResponse;
-import com.tingcore.users.model.AttributeValueResponse;
+import com.tingcore.users.model.CustomerKeyResponse;
+import com.tingcore.users.model.CustomerKeyTypeResponse;
+import com.tingcore.users.model.PageResponseCustomerKeyResponse;
 
 import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.Collections;
+
+import static org.assertj.core.util.Lists.newArrayList;
 
 /**
  * @author palmithor
- * @since 2017-11-09
+ * @since 2017-12-19
  */
 public class CustomerKeyDataUtils {
-
-    private static final String TYPE_VIRTUAL = "virtual";
-    private static ObjectMapper objectMapper;
 
     private CustomerKeyDataUtils() {
 
     }
 
-    static {
-        objectMapper = JsonUtils.getObjectMapperBuilder().build();
+
+    public static PageResponseCustomerKeyResponse randomPageResponse() {
+        final PageResponseCustomerKeyResponse r = new PageResponseCustomerKeyResponse();
+        r.setContent(newArrayList(randomCustomerKeyResponse(), randomCustomerKeyResponse()));
+        return r;
     }
 
+    public static CustomerKeyResponse randomCustomerKeyResponse() {
+        final Long now = Instant.now().toEpochMilli();
+        final CustomerKeyResponse c = new CustomerKeyResponse();
+        c.setId(CommonDataUtils.getNextId());
+        c.setUpdated(now);
+        c.setCreated(now);
+        c.setName(CommonDataUtils.randomUUID());
+        c.setUserId(CommonDataUtils.getNextId());
+        c.setKeyIdentifier(CommonDataUtils.randomUUID().substring(0, 20));
+        c.setValidTo(CommonDataUtils.randomTimestamp(true));
+        c.setValidFrom(CommonDataUtils.randomTimestamp(false));
+        c.setUserPaymentOptions(Collections.singletonList(
+                PaymentOptionDataUtils.randomUserPaymentOptionResponse()
+        ));
+        c.setIsEnabled(true);
 
-    public static CustomerKeyResponse customerKeyResponse() {
-        return CustomerKeyResponse.createBuilder()
+        final CustomerKeyTypeResponse type = new CustomerKeyTypeResponse();
+        type.setId(CommonDataUtils.getNextId());
+        type.setName(CommonDataUtils.randomUUID());
+        type.setDescription(CommonDataUtils.randomUUID());
+        type.setCreated(now);
+        type.setUpdated(now);
+        c.setType(type);
+        return c;
+    }
+
+    public static CustomerKey.Builder randomCustomerKey() {
+        return CustomerKey.createBuilder()
                 .id(CommonDataUtils.getNextId())
-                .keyNumber(CommonDataUtils.nextZeroPaddedId(10))
-                .type(TYPE_VIRTUAL)
-                .activeFrom(getPassedInstant())
-                .activeTo(getFutureInstant())
-                .defaultCurrency("sek")
-                .serviceKey(false)
-                .chargeGroupIds(new ArrayList<Long>() {{
-                    add(1L);
-                    add(2L);
-                }})
-                .name(CommonDataUtils.nextZeroPaddedId(5))
-                .organizationId(CommonDataUtils.getNextId())
-                .build();
+                .created(Instant.now())
+                .updated(Instant.now())
+                .type(randomCustomerKeyType().build())
+                .name(CommonDataUtils.randomUUID())
+                .validFrom(CommonDataUtils.randomInstant(false))
+                .validTo(CommonDataUtils.randomInstant(true))
+                .isEnabled(true)
+                .keyIdentifier(CommonDataUtils.randomUUID().substring(0, 20))
+                .userPaymentOptions(Collections.singletonList(PaymentOptionDataUtils.randomUserPaymentOption().build()));
     }
 
-    public static AttributeResponse getAttributeResponse() throws JsonProcessingException {
-        final AttributeResponse attributeResponse = new AttributeResponse();
-        attributeResponse.setId(CommonDataUtils.getNextId());
-        attributeResponse.setName("CustomerKeyResponse");
-        attributeResponse.setType(AttributeResponse.TypeEnum.JSON);
-        Map<String, String> properties = new HashMap<>();
-        properties.put("required", "[\"namePrefix\", \"provider\", \"activeFrom\", \"activeTo\", \"defaultCurrency\", \"credit\", \"creditLimitPerPurchase\", \"creditExpirationDate\"]");
-        properties.put("allowMultiple", "true");
-        attributeResponse.setProperties(properties);
-
-        AttributeValueResponse attributeValueResponse = new AttributeValueResponse();
-        attributeValueResponse.setId(CommonDataUtils.getNextId());
-        attributeValueResponse.setValue(objectMapper.writeValueAsString(getCustomerKey()));
-        attributeResponse.setAttributeValue(attributeValueResponse);
-        return attributeResponse;
+    public static CustomerKeyType.Builder randomCustomerKeyType() {
+        final Instant now = Instant.now();
+        return CustomerKeyType.createBuilder()
+                .id(CommonDataUtils.getNextId())
+                .name(CommonDataUtils.randomUUID())
+                .description(CommonDataUtils.randomUUID())
+                .created(Instant.now())
+                .updated(now);
     }
 
-    private static CustomerKeyResponse getCustomerKey() {
-        return new CustomerKeyResponse(
-                CommonDataUtils.getNextId(),
-                CommonDataUtils.nextZeroPaddedId(10),
-                TYPE_VIRTUAL,
-                UUID.randomUUID().toString(),
-                CommonDataUtils.getNextId(),
-                getPassedInstant(),
-                getFutureInstant(),
-                false,
-                new ArrayList<>(),
-                new PaymentInformationResponse(),
-                "SEK"
-        );
-    }
-
-    private static Instant getPassedInstant() {
-        return Instant.now().plus(10, ChronoUnit.DAYS);
-    }
-
-    private static Instant getFutureInstant() {
-        return Instant.now().minus(10, ChronoUnit.DAYS);
+    public static CustomerKeyPostRequest.Builder randomRequestAllValid() {
+        return CustomerKeyPostRequest
+                .createBuilder()
+                .typeId(CommonDataUtils.getNextId())
+                .name(CommonDataUtils.randomUUID())
+                .keyIdentifier(CommonDataUtils.randomUUID().substring(0, 20))
+                .addUserPaymentOption(CommonDataUtils.getNextId());
     }
 }

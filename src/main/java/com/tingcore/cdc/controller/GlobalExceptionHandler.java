@@ -1,13 +1,14 @@
 package com.tingcore.cdc.controller;
 
 
+import com.tingcore.cdc.charging.repository.PriceApiException;
 import com.tingcore.cdc.charging.service.AssetServiceException;
 import com.tingcore.cdc.constant.ErrorCode;
 import com.tingcore.cdc.crm.service.InvalidAttributeValueException;
-import com.tingcore.cdc.crm.service.UsersApiException;
 import com.tingcore.cdc.exception.EntityNotFoundException;
 import com.tingcore.cdc.service.MessageByLocaleService;
 import com.tingcore.commons.api.service.ServiceException;
+import com.tingcore.commons.external.ExternalApiException;
 import com.tingcore.commons.rest.ErrorResponse;
 import com.tingcore.commons.utils.StreamUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -158,8 +159,14 @@ public class GlobalExceptionHandler {
         return handleServiceException(e, ErrorResponse.notFound());
     }
 
-    @ExceptionHandler(value = UsersApiException.class)
-    public ResponseEntity<ErrorResponse> handleUsersApiException(final UsersApiException e) {
+    @ExceptionHandler(value = ExternalApiException.class)
+    public ResponseEntity<ErrorResponse> handleExternalApiException(final ExternalApiException e) {
+        LOG.debug(e.getMessage(), e);
+        return errorResponseToResponseEntity(e.getErrorResponse());
+    }
+
+    @ExceptionHandler(value = PriceApiException.class)
+    public ResponseEntity<ErrorResponse> handlePriceApiException(final PriceApiException e) {
         LOG.debug(e.getMessage(), e);
         return errorResponseToResponseEntity(e.getErrorResponse());
     }

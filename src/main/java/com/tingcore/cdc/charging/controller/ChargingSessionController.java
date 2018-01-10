@@ -3,11 +3,11 @@ package com.tingcore.cdc.charging.controller;
 import com.tingcore.cdc.charging.api.ChargingSession;
 import com.tingcore.cdc.charging.api.ChargingSessionStatus;
 import com.tingcore.cdc.charging.api.CreateChargingSessionRequest;
-import com.tingcore.cdc.charging.api.CustomerKey;
 import com.tingcore.cdc.charging.model.*;
 import com.tingcore.cdc.charging.service.ChargingSessionService;
 import com.tingcore.cdc.configuration.AuthorizedUser;
 import com.tingcore.cdc.configuration.WebMvcConfiguration;
+import com.tingcore.cdc.crm.model.CustomerKey;
 import com.tingcore.cdc.exception.EntityNotFoundException;
 import com.tingcore.cdc.exception.NoSessionFoundException;
 import com.tingcore.commons.api.service.HashIdService;
@@ -101,7 +101,7 @@ public class ChargingSessionController {
     private ChargingSession toApiObject(final com.tingcore.cdc.charging.model.ChargingSession chargingSession) {
         return new ChargingSession(
                 hashIdService.encode(chargingSession.id.value),
-                new CustomerKey(hashIdService.encode(chargingSession.customerKeyId.value), "********"), // TODO lookup value and mask
+                CustomerKey.createBuilder().id(chargingSession.customerKeyId.value).build(), // TODO lookup value and mask
                 toApiObject(chargingSession.price),
                 chargingSession.startTime,
                 chargingSession.endTime,

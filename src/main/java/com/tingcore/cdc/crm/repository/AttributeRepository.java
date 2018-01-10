@@ -1,5 +1,6 @@
 package com.tingcore.cdc.crm.repository;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tingcore.cdc.configuration.CacheConfiguration;
 import com.tingcore.users.api.AttributesApi;
 import com.tingcore.users.model.AttributeResponse;
@@ -18,13 +19,14 @@ import java.util.concurrent.ExecutionException;
  * @since 2017-11-10
  */
 @Repository
-public class AttributeRepository {
+public class AttributeRepository extends AbstractUserServiceRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(AttributeRepository.class);
 
     private final AttributesApi attributesApi;
 
-    public AttributeRepository(final AttributesApi attributesApi) {
+    public AttributeRepository(final ObjectMapper objectMapper, final AttributesApi attributesApi) {
+        super(objectMapper);
         this.attributesApi = attributesApi;
     }
 

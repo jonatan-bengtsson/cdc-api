@@ -1,7 +1,7 @@
 package com.tingcore.cdc.crm.service;
 
 import com.tingcore.cdc.crm.constant.AttributeConstant;
-import com.tingcore.cdc.crm.response.GetUserResponse;
+import com.tingcore.cdc.crm.model.User;
 import com.tingcore.users.model.AttributeResponse;
 import com.tingcore.users.model.UserResponse;
 
@@ -16,9 +16,9 @@ class UserMapper {
     private UserMapper() {
     }
 
-    static GetUserResponse toResponse(final UserResponse userResponse) {
+    static User toResponse(final UserResponse userResponse) {
         final List<AttributeResponse> attributes = userResponse.getAttributes();
-        return GetUserResponse.createBuilder()
+        return User.createBuilder()
                 .id(userResponse.getId())
                 .firstName(AttributeMapper.findStringAttribute(attributes, AttributeConstant.FIRST_NAME).orElse(null))
                 .lastName(AttributeMapper.findStringAttribute(attributes, AttributeConstant.LAST_NAME).orElse(null))
@@ -35,8 +35,6 @@ class UserMapper {
                 .customerNumber(AttributeMapper.findStringAttribute(attributes, AttributeConstant.CUSTOMER_NUMBER).orElse(null))
                 .customerType(AttributeMapper.findStringAttribute(attributes, AttributeConstant.CUSTOMER_TYPE).orElse(null))
                 .language(AttributeMapper.findStringAttribute(attributes, AttributeConstant.LANGUAGE).orElse(null))
-                .organizationPermissions(AttributeMapper.findOrganizationPermissions(userResponse.getOrganizationPermissions()))
-                .roles(AttributeMapper.findStringAttributes(attributes, AttributeConstant.ROLES)) // Todo when role structure is set
                 .activationDate(AttributeMapper.findDateResponse(attributes, AttributeConstant.ACTIVATION_DATE).orElse(null)) // Todo add to user-service database
                 .hasChargingAccess(AttributeMapper.findBooleanAttribute(attributes, AttributeConstant.HAS_CHARGING_ACCESS).orElse(null))
                 .build();

@@ -15,7 +15,7 @@ logging:
 
 app:
   user-service:
-    base-url: https://${integration.user.hostname}
+    base-url: http://${integration.user.hostname}
 
 integration:
   payments:

@@ -15,7 +15,7 @@ public class ErrorBodyMatcher {
     }
 
     public static ResultMatcher entityNotFoundMatcher(final String entitySimpleName) {
-        return content().string("{\"statusCode\":404,\"status\":\"Not Found\",\"code\":40401,\"message\":\"Entity not found\",\"details\":[\"" + entitySimpleName + " not found\"]}");
+        return content().string("{\"statusCode\":404,\"status\":\"Not Found\",\"code\":40401,\"message\":\"Entity not found\",\"details\":[\"" + entitySimpleName + "\"]}");
     }
 
     public static ResultMatcher entityNotFoundMatcher(final String entitySimpleName, final String id) {

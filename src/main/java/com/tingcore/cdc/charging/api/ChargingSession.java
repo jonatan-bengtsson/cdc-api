@@ -1,5 +1,6 @@
 package com.tingcore.cdc.charging.api;
 
+import com.tingcore.cdc.crm.model.CustomerKey;
 import io.swagger.annotations.ApiModel;
 
 import java.time.Instant;

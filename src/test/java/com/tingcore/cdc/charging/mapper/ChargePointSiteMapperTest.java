@@ -1,19 +1,41 @@
 package com.tingcore.cdc.charging.mapper;
 
 
-import com.tingcore.cdc.charging.model.*;
+import com.tingcore.cdc.charging.utils.ConnectorDataUtils;
+import com.tingcore.cdc.charging.model.AggregatedChargePointTypeStatus;
 import com.tingcore.cdc.charging.model.ChargePoint;
+import com.tingcore.cdc.charging.model.ChargePointTypeStatus;
+import com.tingcore.cdc.charging.model.ChargeSiteStatus;
+import com.tingcore.cdc.charging.model.ConnectorId;
+import com.tingcore.cdc.charging.model.ConnectorPrice;
+import com.tingcore.cdc.charging.model.ConnectorStatus;
 import com.tingcore.cdc.constant.SpringProfilesConstant;
-import com.tingcore.charging.assets.model.*;
+import com.tingcore.charging.assets.model.Address;
+import com.tingcore.charging.assets.model.BasicChargePoint;
+import com.tingcore.charging.assets.model.BasicConnector;
 import com.tingcore.charging.assets.model.ChargePointSite;
+import com.tingcore.charging.assets.model.ChargePointSiteEntity;
+import com.tingcore.charging.assets.model.CompleteChargePoint;
+import com.tingcore.charging.assets.model.CompleteChargePointSite;
 import com.tingcore.charging.assets.model.Connector;
+import com.tingcore.charging.assets.model.ConnectorCapability;
+import com.tingcore.charging.assets.model.ConnectorEntity;
+import com.tingcore.charging.assets.model.EntityMetadata;
+import com.tingcore.charging.assets.model.GeoCoordinate;
+import com.tingcore.charging.assets.model.Location;
+import com.tingcore.charging.assets.model.LocationEntity;
+import com.tingcore.charging.operations.model.ConnectorStatusResponse;
 import org.junit.Test;
 import org.springframework.test.context.ActiveProfiles;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import static com.tingcore.cdc.charging.mapper.mock.ChargePointFactory.createCompleteChargePoint;
-import static com.tingcore.cdc.charging.mapper.mock.ConnectorFactory.createConnector;
+import static com.tingcore.cdc.charging.utils.ChargePointDataUtils.createCompleteChargePoint;
+import static com.tingcore.cdc.charging.utils.ConnectorDataUtils.createConnector;
 import static org.junit.Assert.assertEquals;
 
 @ActiveProfiles(SpringProfilesConstant.UNIT_TEST)
@@ -55,12 +77,12 @@ public class ChargePointSiteMapperTest {
         ConnectorEntity con5 = createConnector(chargePoint5Id, connector5Id, connector5ModelId, connector5Number, BasicConnector.ConnectorTypeEnum.TYPE2, 45_000);
 
 
-        Map<Long, ConnectorStatus> conMap = new HashMap<>();
-        conMap.put(con1.getMetadata().getId(), ConnectorStatus.AVAILABLE);
-        conMap.put(con2.getMetadata().getId(), ConnectorStatus.OCCUPIED);
-        conMap.put(con3.getMetadata().getId(), ConnectorStatus.OUT_OF_ORDER);
-        conMap.put(con4.getMetadata().getId(), ConnectorStatus.RESERVED);
-        conMap.put(con5.getMetadata().getId(), ConnectorStatus.AVAILABLE);
+        Map<Long, ConnectorStatusResponse> conMap = new HashMap<>();
+        conMap.put(con1.getMetadata().getId(), ConnectorDataUtils.createConnectorStatusResponse(con1.getMetadata().getId(), ConnectorStatusResponse.ConnectorStatusEnum.AVAILABLE));
+        conMap.put(con2.getMetadata().getId(), ConnectorDataUtils.createConnectorStatusResponse(con2.getMetadata().getId(), ConnectorStatusResponse.ConnectorStatusEnum.IN_USE));
+        conMap.put(con3.getMetadata().getId(), ConnectorDataUtils.createConnectorStatusResponse(con3.getMetadata().getId(), ConnectorStatusResponse.ConnectorStatusEnum.OUT_OF_ORDER));
+        conMap.put(con4.getMetadata().getId(), ConnectorDataUtils.createConnectorStatusResponse(con4.getMetadata().getId(), ConnectorStatusResponse.ConnectorStatusEnum.RESERVED));
+        conMap.put(con5.getMetadata().getId(), ConnectorDataUtils.createConnectorStatusResponse(con5.getMetadata().getId(), ConnectorStatusResponse.ConnectorStatusEnum.AVAILABLE));
 
         ChargePointSiteStatuses aggergatedSitesStatues = ChargePointSiteMapper.getAggregatedSitesStatues(Arrays.asList(con1, con2, con3, con4, con5), conMap);
 
@@ -69,11 +91,12 @@ public class ChargePointSiteMapperTest {
 
 
         conMap = new HashMap<>();
-        conMap.put(con1.getMetadata().getId(), ConnectorStatus.OCCUPIED);
-        conMap.put(con2.getMetadata().getId(), ConnectorStatus.OCCUPIED);
-        conMap.put(con3.getMetadata().getId(), ConnectorStatus.OUT_OF_ORDER);
-        conMap.put(con4.getMetadata().getId(), ConnectorStatus.RESERVED);
-        conMap.put(con5.getMetadata().getId(), ConnectorStatus.AVAILABLE);
+        conMap.put(con1.getMetadata().getId(), ConnectorDataUtils.createConnectorStatusResponse(con1.getMetadata().getId(), ConnectorStatusResponse.ConnectorStatusEnum.IN_USE));
+        conMap.put(con2.getMetadata().getId(), ConnectorDataUtils.createConnectorStatusResponse(con2.getMetadata().getId(), ConnectorStatusResponse.ConnectorStatusEnum.IN_USE));
+        conMap.put(con3.getMetadata().getId(), ConnectorDataUtils.createConnectorStatusResponse(con3.getMetadata().getId(), ConnectorStatusResponse.ConnectorStatusEnum.OUT_OF_ORDER));
+        conMap.put(con4.getMetadata().getId(), ConnectorDataUtils.createConnectorStatusResponse(con4.getMetadata().getId(), ConnectorStatusResponse.ConnectorStatusEnum.RESERVED));
+        conMap.put(con5.getMetadata().getId(), ConnectorDataUtils.createConnectorStatusResponse(con5.getMetadata().getId(), ConnectorStatusResponse.ConnectorStatusEnum.AVAILABLE));
+
 
         aggergatedSitesStatues = ChargePointSiteMapper.getAggregatedSitesStatues(Arrays.asList(con1, con2, con3, con4, con5), conMap);
 
@@ -82,11 +105,11 @@ public class ChargePointSiteMapperTest {
 
 
         conMap = new HashMap<>();
-        conMap.put(con1.getMetadata().getId(), ConnectorStatus.OUT_OF_ORDER);
-        conMap.put(con2.getMetadata().getId(), ConnectorStatus.OUT_OF_ORDER);
-        conMap.put(con3.getMetadata().getId(), ConnectorStatus.OUT_OF_ORDER);
-        conMap.put(con4.getMetadata().getId(), ConnectorStatus.OUT_OF_ORDER);
-        conMap.put(con5.getMetadata().getId(), ConnectorStatus.OCCUPIED);
+        conMap.put(con1.getMetadata().getId(), ConnectorDataUtils.createConnectorStatusResponse(con1.getMetadata().getId(), ConnectorStatusResponse.ConnectorStatusEnum.OUT_OF_ORDER));
+        conMap.put(con2.getMetadata().getId(), ConnectorDataUtils.createConnectorStatusResponse(con2.getMetadata().getId(), ConnectorStatusResponse.ConnectorStatusEnum.OUT_OF_ORDER));
+        conMap.put(con3.getMetadata().getId(), ConnectorDataUtils.createConnectorStatusResponse(con3.getMetadata().getId(), ConnectorStatusResponse.ConnectorStatusEnum.OUT_OF_ORDER));
+        conMap.put(con4.getMetadata().getId(), ConnectorDataUtils.createConnectorStatusResponse(con4.getMetadata().getId(), ConnectorStatusResponse.ConnectorStatusEnum.OUT_OF_ORDER));
+        conMap.put(con5.getMetadata().getId(), ConnectorDataUtils.createConnectorStatusResponse(con5.getMetadata().getId(), ConnectorStatusResponse.ConnectorStatusEnum.IN_USE));
 
         aggergatedSitesStatues = ChargePointSiteMapper.getAggregatedSitesStatues(Arrays.asList(con1, con2, con3, con4, con5), conMap);
 
@@ -109,7 +132,7 @@ public class ChargePointSiteMapperTest {
         ConnectorCapability.ModeEnum mode = ConnectorCapability.ModeEnum.MODE1;
         double voltage = 20;
         BasicConnector.OperationalStatusEnum operationalStatus = BasicConnector.OperationalStatusEnum.OPERATIONAL;
-        ConnectorStatus status = ConnectorStatus.AVAILABLE;
+        ConnectorStatusResponse status = ConnectorDataUtils.createConnectorStatusResponse(connectorId, ConnectorStatusResponse.ConnectorStatusEnum.AVAILABLE);
         ConnectorPrice price = new ConnectorPrice(new ConnectorId(connectorId), "123.45 SEK/min");
 
 
@@ -135,7 +158,7 @@ public class ChargePointSiteMapperTest {
         assertEquals(connectorId, nc.getId());
         assertEquals(number, nc.getNumber());
         assertEquals(label, nc.getLabel());
-        assertEquals(status, nc.getStatus());
+        assertEquals(ConnectorStatus.AVAILABLE, nc.getStatus());
         assertEquals(connectorType, nc.getType());
         assertEquals(isQuick, nc.isQuick());
 
@@ -156,8 +179,8 @@ public class ChargePointSiteMapperTest {
 
         CompleteChargePoint ccp = createCompleteChargePoint(chargePointId, chargePointTypeId, connectors, status);
 
-        Map<Long, ConnectorStatus> conMap = new HashMap<>();
-        conMap.put(connectorId, ConnectorStatus.AVAILABLE);
+        Map<Long, ConnectorStatusResponse> conMap = new HashMap<>();
+        conMap.put(connectorId, ConnectorDataUtils.createConnectorStatusResponse(connectorId, ConnectorStatusResponse.ConnectorStatusEnum.AVAILABLE));
 
         Map<Long, ConnectorPrice> priMap = new HashMap<>();
         priMap.put(connectorId, new ConnectorPrice(new ConnectorId(connectorId), "123.45 SEK/min"));
@@ -182,11 +205,11 @@ public class ChargePointSiteMapperTest {
         BasicChargePoint.OperationalStatusEnum chargePointOperationalStatus = BasicChargePoint.OperationalStatusEnum.IN_OPERATION;
         Address address = new Address()
                 .city("City")
-                .country("Country")
+                .countryIsoCode("SE")
                 .floor("2 vån")
                 .number("23")
                 .postalCode("123 42")
-                .state("Stockholm Län")
+                .region("Stockholm Län")
                 .street("Eventgatan");
 
         GeoCoordinate geoCoordinate = new GeoCoordinate()
@@ -215,8 +238,8 @@ public class ChargePointSiteMapperTest {
                 .locationEntity(location);
 
 
-        Map<Long, ConnectorStatus> conStatusMap = new HashMap<>();
-        conStatusMap.put(connectorId, ConnectorStatus.AVAILABLE);
+        Map<Long, ConnectorStatusResponse> conStatusMap = new HashMap<>();
+        conStatusMap.put(connectorId, ConnectorDataUtils.createConnectorStatusResponse(connectorId, ConnectorStatusResponse.ConnectorStatusEnum.AVAILABLE));
 
         Map<Long, ConnectorPrice> priceInfoMap = new HashMap<>();
         priceInfoMap.put(connectorId, new ConnectorPrice(new ConnectorId(connectorId), "123.45 SEK/min"));

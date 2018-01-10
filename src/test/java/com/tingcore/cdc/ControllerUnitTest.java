@@ -1,19 +1,28 @@
 package com.tingcore.cdc;
 
 
+import com.tingcore.cdc.configuration.AuthorizedUser;
 import com.tingcore.cdc.configuration.JacksonConfiguration;
 import com.tingcore.cdc.configuration.LocaleConfiguration;
 import com.tingcore.cdc.constant.SpringProfilesConstant;
 import com.tingcore.cdc.service.MessageByLocaleService;
+import com.tingcore.cdc.utils.CommonDataUtils;
 import com.tingcore.cdc.utils.MockMvcUtils;
 import com.tingcore.commons.api.service.HashIdService;
+import com.tingcore.users.model.UserResponse;
+import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * @author palmithor
@@ -27,5 +36,14 @@ public abstract class ControllerUnitTest {
 
     @Autowired protected MockMvc mockMvc;
     @Autowired protected MockMvcUtils mockMvcUtils;
+    @Autowired protected HashIdService hashIdService;
+    @MockBean protected AuthorizedUser authorizedUser;
 
+    @Before
+    public void setUp() {
+        final UserResponse authorizedUserMock = mock(UserResponse.class);
+        when(authorizedUserMock.getId()).thenReturn(CommonDataUtils.getNextId());
+        given(authorizedUser.getUser()).willReturn(authorizedUserMock);
+    }
 }
+

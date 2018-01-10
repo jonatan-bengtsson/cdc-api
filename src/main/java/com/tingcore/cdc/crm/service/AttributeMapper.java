@@ -2,14 +2,12 @@ package com.tingcore.cdc.crm.service;
 
 
 import com.tingcore.cdc.crm.constant.AttributeConstant;
-import com.tingcore.cdc.crm.response.*;
+import com.tingcore.cdc.crm.model.*;
 import com.tingcore.commons.api.utils.JsonUtils;
 import com.tingcore.users.model.AttributeResponse;
-import com.tingcore.users.model.OrganizationResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -22,53 +20,47 @@ public class AttributeMapper {
 
     private static final Logger LOG = LoggerFactory.getLogger(AttributeMapper.class);
 
-    static Optional<StringAttributeResponse> findStringAttribute(final List<AttributeResponse> attributes, final String attributeName) {
+    static Optional<StringAttribute> findStringAttribute(final List<AttributeResponse> attributes, final String attributeName) {
         return findStringAttributes(attributes, attributeName).stream().findAny();
     }
 
-    static List<StringAttributeResponse> findStringAttributes(final List<AttributeResponse> attributes, final String attributeName) {
-        return findAttributesFromList(attributes, attributeName).stream()
-                .map(attributeResponse -> new StringAttributeResponse(attributeResponse.getAttributeValue().getId(), attributeResponse.getAttributeValue().getValue()))
-                .collect(Collectors.toList());
-    }
 
-
-    static List<ApprovedAgreementResponse> findApprovedAgreements(final List<AttributeResponse> attributes) {
+    static List<ApprovedAgreement> findApprovedAgreements(final List<AttributeResponse> attributes) {
         List<AttributeResponse> attributeResponses = findAttributesFromList(attributes, AttributeConstant.APPROVED_AGREEMENTS);
         return attributeResponses.stream()
-                .map(attributeResponse -> parseAttributeValue(attributeResponse, ApprovedAgreementResponse.class))
+                .map(attributeResponse -> parseAttributeValue(attributeResponse, ApprovedAgreement.class))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .collect(Collectors.toList());
     }
 
-    static List<PhoneNumberResponse> findPhoneNumberResponses(final List<AttributeResponse> attributes, final String phoneNumberAttributeName) {
+    static List<PhoneNumber> findPhoneNumberResponses(final List<AttributeResponse> attributes, final String phoneNumberAttributeName) {
         List<AttributeResponse> attributeResponses = findAttributesFromList(attributes, phoneNumberAttributeName);
         return attributeResponses.stream()
-                .map(attributeResponse -> parseAttributeValue(attributeResponse, PhoneNumberResponse.class))
+                .map(attributeResponse -> parseAttributeValue(attributeResponse, PhoneNumber.class))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .collect(Collectors.toList());
     }
 
-    static Optional<AddressResponse> findBillingAddressResponse(final List<AttributeResponse> attributes) {
+    static Optional<AddressCRM> findBillingAddressResponse(final List<AttributeResponse> attributes) {
         Optional<AttributeResponse> attributeResponse = findAttributeFromList(attributes, AttributeConstant.ADDRESS);
 
         if (attributeResponse.isPresent()) {
-            Optional<AddressResponse> addressResponse = parseAttributeValue(attributeResponse.get(), AddressResponse.class);
-            addressResponse.ifPresent(addressResponse1 -> addressResponse1.setId(attributeResponse.get().getAttributeValue().getId()));
+            Optional<AddressCRM> addressResponse = parseAttributeValue(attributeResponse.get(), AddressCRM.class);
+            addressResponse.ifPresent(address1 -> address1.setId(attributeResponse.get().getAttributeValue().getId()));
             return addressResponse;
         } else {
             return Optional.empty();
         }
     }
 
-    static Optional<ApprovedMarketInfoResponse> findApprovedMarketInfo(final List<AttributeResponse> attributes) {
+    static Optional<ApprovedMarketInfo> findApprovedMarketInfo(final List<AttributeResponse> attributes) {
         Optional<AttributeResponse> attributeResponse = findAttributeFromList(attributes, AttributeConstant.APPROVED_MARKET_INFO);
 
         if (attributeResponse.isPresent()) {
-            Optional<ApprovedMarketInfoResponse> approvedMarketInfoResponse = parseAttributeValue(attributeResponse.get(), ApprovedMarketInfoResponse.class);
-            approvedMarketInfoResponse.ifPresent(approvedMarketInfoResponse1 -> approvedMarketInfoResponse1.setId(attributeResponse.get().getAttributeValue().getId()));
+            Optional<ApprovedMarketInfo> approvedMarketInfoResponse = parseAttributeValue(attributeResponse.get(), ApprovedMarketInfo.class);
+            approvedMarketInfoResponse.ifPresent(approvedMarketInfo1 -> approvedMarketInfo1.setId(attributeResponse.get().getAttributeValue().getId()));
             return approvedMarketInfoResponse;
         } else {
             return Optional.empty();
@@ -76,96 +68,97 @@ public class AttributeMapper {
     }
 
 
-    static List<AddressResponse> findAddressResponse(final List<AttributeResponse> attributes) {
+    static List<AddressCRM> findAddressResponse(final List<AttributeResponse> attributes) {
         List<AttributeResponse> attributeResponses = findAttributesFromList(attributes, AttributeConstant.ADDRESS);
         return attributeResponses.stream()
-                .map(attributeResponse -> parseAttributeValue(attributeResponse, AddressResponse.class))
+                .map(attributeResponse -> parseAttributeValue(attributeResponse, AddressCRM.class))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .collect(Collectors.toList());
     }
 
-    static List<LicensePlateResponse> findLicensePlateResponse(final List<AttributeResponse> attributes) {
+    static List<LicensePlate> findLicensePlateResponse(final List<AttributeResponse> attributes) {
         List<AttributeResponse> attributeResponses = findAttributesFromList(attributes, AttributeConstant.LICENSE_PLATES);
         return attributeResponses.stream()
-                .map(attributeResponse -> parseAttributeValue(attributeResponse, LicensePlateResponse.class))
+                .map(attributeResponse -> parseAttributeValue(attributeResponse, LicensePlate.class))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .collect(Collectors.toList());
     }
 
-    static Optional<SocialSecurityNumberResponse> findSocialSecurityNumber(final List<AttributeResponse> attributes) {
+    static Optional<SocialSecurityNumber> findSocialSecurityNumber(final List<AttributeResponse> attributes) {
         Optional<AttributeResponse> attributeResponse = findAttributeFromList(attributes, AttributeConstant.SOCIAL_SECURITY_NUMBER);
 
         if (attributeResponse.isPresent()) {
-            Optional<SocialSecurityNumberResponse> socialSecurityNumberResponse = parseAttributeValue(attributeResponse.get(), SocialSecurityNumberResponse.class);
-            socialSecurityNumberResponse.ifPresent(socialSecurityNumberResponse1 -> socialSecurityNumberResponse1.setId(attributeResponse.get().getAttributeValue().getId()));
+            Optional<SocialSecurityNumber> socialSecurityNumberResponse = parseAttributeValue(attributeResponse.get(), SocialSecurityNumber.class);
+            socialSecurityNumberResponse.ifPresent(socialSecurityNumber1 -> socialSecurityNumber1.setId(attributeResponse.get().getAttributeValue().getId()));
             return socialSecurityNumberResponse;
         } else {
             return Optional.empty();
         }
     }
 
-    public static Optional<OrganizationNumberResponse> findOrganizationNumber(final List<AttributeResponse> attributes) {
+    public static Optional<OrganizationNumber> findOrganizationNumber(final List<AttributeResponse> attributes) {
         Optional<AttributeResponse> attributeResponse = findAttributeFromList(attributes, AttributeConstant.ORGANIZATION_NUMBER);
 
         if (attributeResponse.isPresent()) {
-            Optional<OrganizationNumberResponse> organizationNumberResponse = parseAttributeValue(attributeResponse.get(), OrganizationNumberResponse.class);
-            organizationNumberResponse.ifPresent(organizationNumberResponse1 -> organizationNumberResponse1.setId(attributeResponse.get().getAttributeValue().getId()));
+            Optional<OrganizationNumber> organizationNumberResponse = parseAttributeValue(attributeResponse.get(), OrganizationNumber.class);
+            organizationNumberResponse.ifPresent(organizationNumber1 -> organizationNumber1.setId(attributeResponse.get().getAttributeValue().getId()));
             return organizationNumberResponse;
         } else {
             return Optional.empty();
         }
     }
 
-    static Optional<VatResponse> findVat(final List<AttributeResponse> attributes) {
+    static Optional<Vat> findVat(final List<AttributeResponse> attributes) {
         Optional<AttributeResponse> attributeResponse = findAttributeFromList(attributes, AttributeConstant.VAT);
 
         if (attributeResponse.isPresent()) {
-            Optional<VatResponse> vatResponse = parseAttributeValue(attributeResponse.get(), VatResponse.class);
-            vatResponse.ifPresent(vatResponse1 -> vatResponse1.setId(attributeResponse.get().getAttributeValue().getId()));
+            Optional<Vat> vatResponse = parseAttributeValue(attributeResponse.get(), Vat.class);
+            vatResponse.ifPresent(vat1 -> vat1.setId(attributeResponse.get().getAttributeValue().getId()));
             return vatResponse;
         } else {
             return Optional.empty();
         }
     }
 
-    static List<AddressResponse> findVisitingAddressResponse(final List<AttributeResponse> attributes) {
+    static List<AddressCRM> findVisitingAddressResponse(final List<AttributeResponse> attributes) {
         List<AttributeResponse> attributeResponses = findAttributesFromList(attributes, AttributeConstant.VISITING_ADDRESS);
         return attributeResponses.stream()
-                .map(attributeResponse -> parseAttributeValue(attributeResponse, AddressResponse.class))
+                .map(attributeResponse -> parseAttributeValue(attributeResponse, AddressCRM.class))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .collect(Collectors.toList());
     }
 
-    static List<GetOrganizationResponse> findOrganizationPermissions(List<OrganizationResponse> organizations) {
-        // map OrganizationResponse to GetOrganizationResponse same way as in cdm
-        return Collections.emptyList();
-    }
-
-    static Optional<BooleanAttributeResponse> findBooleanAttribute(List<AttributeResponse> attributes, final String attributeName) {
+    static Optional<BooleanAttribute> findBooleanAttribute(List<AttributeResponse> attributes, final String attributeName) {
         Optional<AttributeResponse> attributeResponse = findAttributeFromList(attributes, attributeName);
 
         if (attributeResponse.isPresent()) {
-            Optional<BooleanAttributeResponse> booleanAttributeResponse = parseAttributeValue(attributeResponse.get(), BooleanAttributeResponse.class);
-            booleanAttributeResponse.ifPresent(booleanAttributeResponse1 -> booleanAttributeResponse1.setId(attributeResponse.get().getAttributeValue().getId()));
+            Optional<BooleanAttribute> booleanAttributeResponse = parseAttributeValue(attributeResponse.get(), BooleanAttribute.class);
+            booleanAttributeResponse.ifPresent(booleanAttribute1 -> booleanAttribute1.setId(attributeResponse.get().getAttributeValue().getId()));
             return booleanAttributeResponse;
         } else {
             return Optional.empty();
         }
     }
 
-    static Optional<InstantAttributeResponse> findDateResponse(List<AttributeResponse> attributes, String attributeName) {
+    static Optional<InstantAttribute> findDateResponse(List<AttributeResponse> attributes, String attributeName) {
         Optional<AttributeResponse> attributeResponse = findAttributeFromList(attributes, attributeName);
 
         if (attributeResponse.isPresent()) {
-            Optional<InstantAttributeResponse> instantAttributeResponse = parseAttributeValue(attributeResponse.get(), InstantAttributeResponse.class);
-            instantAttributeResponse.ifPresent(instantAttributeResponse1 -> instantAttributeResponse1.setId(attributeResponse.get().getAttributeValue().getId()));
+            Optional<InstantAttribute> instantAttributeResponse = parseAttributeValue(attributeResponse.get(), InstantAttribute.class);
+            instantAttributeResponse.ifPresent(instantAttribute1 -> instantAttribute1.setId(attributeResponse.get().getAttributeValue().getId()));
             return instantAttributeResponse;
         } else {
             return Optional.empty();
         }
+    }
+
+    private static List<StringAttribute> findStringAttributes(final List<AttributeResponse> attributes, final String attributeName) {
+        return findAttributesFromList(attributes, attributeName).stream()
+                .map(attributeResponse -> new StringAttribute(attributeResponse.getAttributeValue().getId(), attributeResponse.getAttributeValue().getValue()))
+                .collect(Collectors.toList());
     }
 
     private static List<AttributeResponse> findAttributesFromList(final List<AttributeResponse> attributes, final String attributeName) {
@@ -176,7 +169,7 @@ public class AttributeMapper {
         return attributes.stream().filter(attribute -> attribute.getName().equals(attributeName)).findAny();
     }
 
-    private static <T extends BaseAttributeResponse> Optional<T> parseAttributeValue(final AttributeResponse attributeResponse, final Class<T> clazz) {
+    private static <T extends BaseAttributeModel> Optional<T> parseAttributeValue(final AttributeResponse attributeResponse, final Class<T> clazz) {
         return JsonUtils.fromJson(attributeResponse.getAttributeValue().getValue(), clazz)
                 .map(t -> {
                     t.setId(attributeResponse.getAttributeValue().getId());

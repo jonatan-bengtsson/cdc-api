@@ -18,23 +18,23 @@ public class CustomerKeyPostRequest {
     private final String name;
     private final String keyIdentifier; // TODO we might have to add more detailed validation constraints for this field
     private final Long typeId;
-    private final List<Long> userPaymentOptions;
+    private final List<Long> userPaymentOptionIds;
 
     public CustomerKeyPostRequest(final String name,
                                   final String keyIdentifier,
                                   final Long typeId,
-                                  final List<Long> userPaymentOptions) {
+                                  final List<Long> userPaymentOptionIds) {
         this.name = name;
         this.keyIdentifier = keyIdentifier;
         this.typeId = typeId;
-        this.userPaymentOptions = userPaymentOptions;
+        this.userPaymentOptionIds = userPaymentOptionIds;
     }
 
     public CustomerKeyPostRequest() {
         this.name = null;
         this.keyIdentifier = null;
         this.typeId = null;
-        this.userPaymentOptions = null;
+        this.userPaymentOptionIds = null;
     }
 
     @JsonProperty(FieldConstant.NAME)
@@ -60,10 +60,10 @@ public class CustomerKeyPostRequest {
         return typeId;
     }
 
-    @JsonProperty(FieldConstant.USER_PAYMENT_OPTIONS)
+    @JsonProperty(FieldConstant.USER_PAYMENT_OPTION_IDS)
     @ApiModelProperty(value = "A list of the user payment option IDs that can be used with the customer key")
-    public List<Long> getUserPaymentOptions() {
-        return userPaymentOptions;
+    public List<Long> getUserPaymentOptionIds() {
+        return userPaymentOptionIds;
     }
 
     public static Builder createBuilder() {

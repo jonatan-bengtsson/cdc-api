@@ -45,7 +45,7 @@ class CustomerKeyMapper {
         final CustomerKeyRequest apiRequest = new CustomerKeyRequest();
         apiRequest.setName(incomingRequest.getName());
         apiRequest.setKeyIdentifier(incomingRequest.getKeyIdentifier());
-        apiRequest.setUserPaymentOptions(incomingRequest.getUserPaymentOptions());
+        apiRequest.setUserPaymentOptions(incomingRequest.getUserPaymentOptionIds());
         apiRequest.setTypeId(incomingRequest.getTypeId());
         apiRequest.setIsEnabled(true);
         apiRequest.setValidFrom(Instant.now().toEpochMilli());

@@ -1,4 +1,4 @@
-package com.tingcore.cdc.charging.mapper.mock;
+package com.tingcore.cdc.charging.utils;
 
 import com.tingcore.charging.assets.model.BasicChargePoint;
 import com.tingcore.charging.assets.model.ChargePoint;
@@ -12,7 +12,7 @@ import com.tingcore.charging.operations.model.ConnectorStatusResponse;
 
 import java.util.List;
 
-public class ChargePointFactory {
+public class ChargePointDataUtils {
 
     public static CompleteChargePoint createCompleteChargePoint(Long chargePointId, Long chargePointModelId, List<ConnectorEntity> connectors, BasicChargePoint.OperationalStatusEnum status) {
 
@@ -38,11 +38,7 @@ public class ChargePointFactory {
                 .chargePointEntity( chargePointEntity)
                 .connectorEntities(connectors);
     }
-
-    public static ChargePointStatusResponse createBasicChargePointStatus(Long chargePointId, boolean online) {
-        return new ChargePointStatusResponse().chargePointId(chargePointId).online(online);
-    }
-
+    
     public static ChargePointStatusResponse createChargePointStatus(Long chargePointId, boolean online, List<ConnectorStatusResponse> connectorStatuses) {
         return new ChargePointStatusResponse()
                 .chargePointId(chargePointId)

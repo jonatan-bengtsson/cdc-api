@@ -67,7 +67,7 @@ public class CustomerKeyPostRequestValidationTest extends ValidationTest {
                 CustomerKeyDataUtils.randomRequestAllValid().keyIdentifier(StringUtils.EMPTY).build()
         );
         assertThat(constraintViolation.getInvalidValue()).isEqualTo(StringUtils.EMPTY);
-        assertThat(constraintViolation.getMessage()).isEqualTo("size must be between 1 and 255");
+        assertThat(constraintViolation.getMessage()).isEqualTo("size must be between 1 and 20");
         assertThat(StreamUtils.asStream(constraintViolation.getPropertyPath().iterator()).reduce((first, second) -> second).get().toString()).isEqualTo(FieldConstant.KEY_IDENTIFIER);
     }
 
@@ -75,10 +75,10 @@ public class CustomerKeyPostRequestValidationTest extends ValidationTest {
     @Test
     public void failKeyIdentifierTooLong() {
         final CustomerKeyPostRequest request = CustomerKeyDataUtils.randomRequestAllValid()
-                .keyIdentifier(StringUtils.leftPad(StringUtils.EMPTY, 256, "*")).build();
+                .keyIdentifier(StringUtils.leftPad(StringUtils.EMPTY, 21, "*")).build();
         ConstraintViolation<CustomerKeyPostRequest> constraintViolation = validateAndGetSingleViolation(request);
         assertThat(constraintViolation.getInvalidValue()).isEqualTo(request.getKeyIdentifier());
-        assertThat(constraintViolation.getMessage()).isEqualTo("size must be between 1 and 255");
+        assertThat(constraintViolation.getMessage()).isEqualTo("size must be between 1 and 20");
         assertThat(StreamUtils.asStream(constraintViolation.getPropertyPath().iterator()).reduce((first, second) -> second).get().toString()).isEqualTo(FieldConstant.KEY_IDENTIFIER);
     }
 

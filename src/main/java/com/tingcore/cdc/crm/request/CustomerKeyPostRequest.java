@@ -17,20 +17,24 @@ public class CustomerKeyPostRequest {
 
     private final String name;
     private final String keyIdentifier; // TODO we might have to add more detailed validation constraints for this field
-    private final List<Long> userPaymentOptions;
+    private final Long typeId;
+    private final List<Long> userPaymentOptionIds;
 
     public CustomerKeyPostRequest(final String name,
                                   final String keyIdentifier,
-                                  final List<Long> userPaymentOptions) {
+                                  final Long typeId,
+                                  final List<Long> userPaymentOptionIds) {
         this.name = name;
         this.keyIdentifier = keyIdentifier;
-        this.userPaymentOptions = userPaymentOptions;
+        this.typeId = typeId;
+        this.userPaymentOptionIds = userPaymentOptionIds;
     }
 
     public CustomerKeyPostRequest() {
         this.name = null;
         this.keyIdentifier = null;
-        this.userPaymentOptions = null;
+        this.typeId = null;
+        this.userPaymentOptionIds = null;
     }
 
     @JsonProperty(FieldConstant.NAME)
@@ -43,16 +47,23 @@ public class CustomerKeyPostRequest {
 
     @JsonProperty(FieldConstant.KEY_IDENTIFIER)
     @NotNull
-    @Size(min = 1, max = 255)
+    @Size(min = 1, max = 20) // The maximum size of a key identifier is 20 according to OCP
     @ApiModelProperty(position = 2, value = "The key identifier (often rfid) of the customer key", example = "0123456789", required = true)
     public String getKeyIdentifier() {
         return keyIdentifier;
     }
 
-    @JsonProperty(FieldConstant.USER_PAYMENT_OPTIONS)
+    @JsonProperty(FieldConstant.TYPE_ID)
+    @NotNull
+    @ApiModelProperty(position = 3, value = "The customer key type id", example = "1", required = true)
+    public Long getTypeId() {
+        return typeId;
+    }
+
+    @JsonProperty(FieldConstant.USER_PAYMENT_OPTION_IDS)
     @ApiModelProperty(value = "A list of the user payment option IDs that can be used with the customer key")
-    public List<Long> getUserPaymentOptions() {
-        return userPaymentOptions;
+    public List<Long> getUserPaymentOptionIds() {
+        return userPaymentOptionIds;
     }
 
     public static Builder createBuilder() {
@@ -62,6 +73,7 @@ public class CustomerKeyPostRequest {
     public static final class Builder {
         private String name;
         private String keyIdentifier;
+        private Long typeId;
         private List<Long> userPaymentOptions;
 
         private Builder() {
@@ -78,6 +90,11 @@ public class CustomerKeyPostRequest {
             return this;
         }
 
+        public Builder typeId(final Long typeId) {
+            this.typeId = typeId;
+            return this;
+        }
+
         public Builder addUserPaymentOption(final Long userPaymentOptionId) {
             this.userPaymentOptions.add(userPaymentOptionId);
             return this;
@@ -89,7 +106,7 @@ public class CustomerKeyPostRequest {
         }
 
         public CustomerKeyPostRequest build() {
-            return new CustomerKeyPostRequest(name, keyIdentifier, userPaymentOptions);
+            return new CustomerKeyPostRequest(name, keyIdentifier, typeId, userPaymentOptions);
         }
     }
 }

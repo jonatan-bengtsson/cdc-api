@@ -1,8 +1,7 @@
 package com.tingcore.cdc.charging.mapper;
 
-import com.tingcore.cdc.charging.mapper.mock.ConnectorStatusResponseFactory;
+import com.tingcore.cdc.charging.utils.ConnectorDataUtils;
 import com.tingcore.cdc.constant.SpringProfilesConstant;
-import com.tingcore.charging.assets.model.AvailabilityRulesWithChargePointId;
 import com.tingcore.charging.assets.model.BasicChargePoint;
 import com.tingcore.charging.assets.model.ChargePoint;
 import com.tingcore.charging.assets.model.ChargePointConfiguration;
@@ -12,8 +11,6 @@ import com.tingcore.charging.assets.model.ChargePointSiteWithAvailabilityRules;
 import com.tingcore.charging.assets.model.CompleteChargePoint;
 import com.tingcore.charging.assets.model.CompleteChargePointSite;
 import com.tingcore.charging.assets.model.ConnectorEntity;
-import com.tingcore.charging.assets.model.ConnectorModelAvailabilityRule;
-import com.tingcore.charging.assets.model.ConnectorModelAvailabilityRuleEntity;
 import com.tingcore.charging.assets.model.EntityMetadata;
 import com.tingcore.charging.operations.model.ConnectorStatusResponse;
 import com.tingcore.charging.operations.model.StatusBatchResponse;
@@ -25,8 +22,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import static com.tingcore.cdc.charging.mapper.mock.ChargePointFactory.createChargePointStatus;
-import static com.tingcore.cdc.charging.mapper.mock.ConnectorFactory.createConnector;
+import static com.tingcore.cdc.charging.utils.ChargePointDataUtils.createChargePointStatus;
+import static com.tingcore.cdc.charging.utils.ConnectorDataUtils.createConnector;
 import static org.junit.Assert.assertEquals;
 
 @ActiveProfiles(SpringProfilesConstant.UNIT_TEST)
@@ -103,20 +100,20 @@ public class ConnectorStatusMapperTest {
                 .statusResponses(Arrays.asList(
                         createChargePointStatus(chargePointId, true,
                                 Arrays.asList(
-                                        ConnectorStatusResponseFactory.create(connector1Id, ConnectorStatusResponse.ConnectorStatusEnum.IN_USE),
-                                        ConnectorStatusResponseFactory.create(connector2Id, ConnectorStatusResponse.ConnectorStatusEnum.IN_USE)
+                                        ConnectorDataUtils.createConnectorStatusResponse(connector1Id, ConnectorStatusResponse.ConnectorStatusEnum.IN_USE),
+                                        ConnectorDataUtils.createConnectorStatusResponse(connector2Id, ConnectorStatusResponse.ConnectorStatusEnum.IN_USE)
                                 )
                         ),
                         createChargePointStatus(chargePoint2Id, true,
                                 Arrays.asList(
-                                        ConnectorStatusResponseFactory.create(connector3Id, ConnectorStatusResponse.ConnectorStatusEnum.IN_USE),
-                                        ConnectorStatusResponseFactory.create(connector4Id, ConnectorStatusResponse.ConnectorStatusEnum.AVAILABLE)
+                                        ConnectorDataUtils.createConnectorStatusResponse(connector3Id, ConnectorStatusResponse.ConnectorStatusEnum.IN_USE),
+                                        ConnectorDataUtils.createConnectorStatusResponse(connector4Id, ConnectorStatusResponse.ConnectorStatusEnum.AVAILABLE)
                                 )
                         ),
                         createChargePointStatus(chargePoint3Id, false,
                                 Arrays.asList(
-                                        ConnectorStatusResponseFactory.create(connector5Id, ConnectorStatusResponse.ConnectorStatusEnum.OUT_OF_ORDER),
-                                        ConnectorStatusResponseFactory.create(connector6Id, ConnectorStatusResponse.ConnectorStatusEnum.OUT_OF_ORDER)
+                                        ConnectorDataUtils.createConnectorStatusResponse(connector5Id, ConnectorStatusResponse.ConnectorStatusEnum.OUT_OF_ORDER),
+                                        ConnectorDataUtils.createConnectorStatusResponse(connector6Id, ConnectorStatusResponse.ConnectorStatusEnum.OUT_OF_ORDER)
                                 )
                         )
                 ));

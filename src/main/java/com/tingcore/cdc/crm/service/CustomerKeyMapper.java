@@ -26,6 +26,7 @@ class CustomerKeyMapper {
                 .map(userPaymentOptionResponses -> userPaymentOptionResponses.stream()
                         .map(UserPaymentOptionMapper::toModel).collect(Collectors.toList()))
                 .orElse(null);
+
         return CustomerKey.createBuilder()
                 .id(response.getId())
                 .created(Instant.ofEpochMilli(response.getCreated()))
@@ -35,6 +36,7 @@ class CustomerKeyMapper {
                 .validTo(Instant.ofEpochMilli(response.getValidTo()))
                 .isEnabled(response.isIsEnabled())
                 .keyIdentifier(response.getKeyIdentifier())
+                .type(CustomerKeyTypeMapper.toModel(response.getType()))
                 .userPaymentOptions(userPaymentOptions)
                 .build();
     }
@@ -43,7 +45,8 @@ class CustomerKeyMapper {
         final CustomerKeyRequest apiRequest = new CustomerKeyRequest();
         apiRequest.setName(incomingRequest.getName());
         apiRequest.setKeyIdentifier(incomingRequest.getKeyIdentifier());
-        apiRequest.setUserPaymentOptions(incomingRequest.getUserPaymentOptions());
+        apiRequest.setUserPaymentOptions(incomingRequest.getUserPaymentOptionIds());
+        apiRequest.setTypeId(incomingRequest.getTypeId());
         apiRequest.setIsEnabled(true);
         apiRequest.setValidFrom(Instant.now().toEpochMilli());
         return apiRequest;

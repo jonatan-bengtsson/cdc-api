@@ -21,6 +21,7 @@ public class FieldConstant {
     public static final String VALID_FROM = "validFrom";
     public static final String PAYMENT_OPTION_REFERENCE = "paymentOptionReference";
     public static final String USER_PAYMENT_OPTIONS = "userPaymentOptions";
+    public static final String USER_PAYMENT_OPTION_IDS = "userPaymentOptionIds";
     public static final String IS_ENABLED = "isEnabled";
     public static final String PAYMENT_OPTION = "paymentOption";
     public static final String ORGANIZATION_NUMBER = "organizationNumber";
@@ -65,7 +66,8 @@ public class FieldConstant {
     public static final String FORMATTER = "formatter";
     public static final String DEFAULT_CURRENCY = "defaultCurrency";
     public static final String APPROVED_PRIVACY = "approvedPrivacy";
-    
+    public static final String TYPE_ID = "typeId";
+
     private FieldConstant() {
     }
 }

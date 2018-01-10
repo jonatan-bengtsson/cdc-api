@@ -1,9 +1,11 @@
 package com.tingcore.cdc.crm.utils;
 
 import com.tingcore.cdc.crm.model.CustomerKey;
+import com.tingcore.cdc.crm.model.CustomerKeyType;
 import com.tingcore.cdc.crm.request.CustomerKeyPostRequest;
 import com.tingcore.cdc.utils.CommonDataUtils;
 import com.tingcore.users.model.CustomerKeyResponse;
+import com.tingcore.users.model.CustomerKeyTypeResponse;
 import com.tingcore.users.model.PageResponseCustomerKeyResponse;
 
 import java.time.Instant;
@@ -29,19 +31,28 @@ public class CustomerKeyDataUtils {
     }
 
     public static CustomerKeyResponse randomCustomerKeyResponse() {
+        final Long now = Instant.now().toEpochMilli();
         final CustomerKeyResponse c = new CustomerKeyResponse();
         c.setId(CommonDataUtils.getNextId());
-        c.setUpdated(CommonDataUtils.randomTimestamp(false));
-        c.setCreated(CommonDataUtils.randomTimestamp(false));
+        c.setUpdated(now);
+        c.setCreated(now);
         c.setName(CommonDataUtils.randomUUID());
         c.setUserId(CommonDataUtils.getNextId());
-        c.setKeyIdentifier(CommonDataUtils.randomUUID());
+        c.setKeyIdentifier(CommonDataUtils.randomUUID().substring(0, 20));
         c.setValidTo(CommonDataUtils.randomTimestamp(true));
         c.setValidFrom(CommonDataUtils.randomTimestamp(false));
         c.setUserPaymentOptions(Collections.singletonList(
                 PaymentOptionDataUtils.randomUserPaymentOptionResponse()
         ));
         c.setIsEnabled(true);
+
+        final CustomerKeyTypeResponse type = new CustomerKeyTypeResponse();
+        type.setId(CommonDataUtils.getNextId());
+        type.setName(CommonDataUtils.randomUUID());
+        type.setDescription(CommonDataUtils.randomUUID());
+        type.setCreated(now);
+        type.setUpdated(now);
+        c.setType(type);
         return c;
     }
 
@@ -50,20 +61,31 @@ public class CustomerKeyDataUtils {
                 .id(CommonDataUtils.getNextId())
                 .created(Instant.now())
                 .updated(Instant.now())
+                .type(randomCustomerKeyType().build())
                 .name(CommonDataUtils.randomUUID())
                 .validFrom(CommonDataUtils.randomInstant(false))
                 .validTo(CommonDataUtils.randomInstant(true))
                 .isEnabled(true)
-                .keyIdentifier(CommonDataUtils.randomUUID())
+                .keyIdentifier(CommonDataUtils.randomUUID().substring(0, 20))
                 .userPaymentOptions(Collections.singletonList(PaymentOptionDataUtils.randomUserPaymentOption().build()));
+    }
 
+    public static CustomerKeyType.Builder randomCustomerKeyType() {
+        final Instant now = Instant.now();
+        return CustomerKeyType.createBuilder()
+                .id(CommonDataUtils.getNextId())
+                .name(CommonDataUtils.randomUUID())
+                .description(CommonDataUtils.randomUUID())
+                .created(Instant.now())
+                .updated(now);
     }
 
     public static CustomerKeyPostRequest.Builder randomRequestAllValid() {
         return CustomerKeyPostRequest
                 .createBuilder()
+                .typeId(CommonDataUtils.getNextId())
                 .name(CommonDataUtils.randomUUID())
-                .keyIdentifier(CommonDataUtils.randomUUID())
+                .keyIdentifier(CommonDataUtils.randomUUID().substring(0, 20))
                 .addUserPaymentOption(CommonDataUtils.getNextId());
     }
 }

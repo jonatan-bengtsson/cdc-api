@@ -18,6 +18,7 @@ public class CustomerKey extends BaseModel {
     private final Boolean enabled;
     private final Instant validFrom;
     private final Instant validTo;
+    private final CustomerKeyType type;
     private final List<UserPaymentOption> userPaymentOptions;
 
     public CustomerKey(final Long id,
@@ -28,6 +29,7 @@ public class CustomerKey extends BaseModel {
                        final Boolean enabled,
                        final Instant validFrom,
                        final Instant validTo,
+                       final CustomerKeyType type,
                        final List<UserPaymentOption> userPaymentOptions) {
         super(id, created, updated);
         this.name = name;
@@ -35,6 +37,7 @@ public class CustomerKey extends BaseModel {
         this.enabled = enabled;
         this.validFrom = validFrom;
         this.validTo = validTo;
+        this.type = type;
         this.userPaymentOptions = userPaymentOptions;
     }
 
@@ -45,6 +48,7 @@ public class CustomerKey extends BaseModel {
         this.enabled = null;
         this.validFrom = null;
         this.validTo = null;
+        this.type = null;
         this.userPaymentOptions = null;
     }
 
@@ -78,6 +82,12 @@ public class CustomerKey extends BaseModel {
         return validTo;
     }
 
+    @JsonProperty(FieldConstant.TYPE)
+    @ApiModelProperty(value = "The customer key type")
+    public CustomerKeyType getType() {
+        return type;
+    }
+
     @JsonProperty(FieldConstant.USER_PAYMENT_OPTIONS)
     @ApiModelProperty(value = "A list of the affiliated user payment options")
     public List<UserPaymentOption> getUserPaymentOptions() {
@@ -97,7 +107,7 @@ public class CustomerKey extends BaseModel {
         private Boolean isEnabled;
         private Instant validFrom;
         private Instant validTo;
-
+        private CustomerKeyType type;
         private List<UserPaymentOption> userPaymentOptions;
 
         private Builder() {
@@ -143,13 +153,18 @@ public class CustomerKey extends BaseModel {
             return this;
         }
 
+        public Builder type(final CustomerKeyType type) {
+            this.type = type;
+            return this;
+        }
+
         public Builder userPaymentOptions(final List<UserPaymentOption> userPaymentOptions) {
             this.userPaymentOptions = userPaymentOptions;
             return this;
         }
 
         public CustomerKey build() {
-            return new CustomerKey(id, created, updated, name, keyIdentifier, isEnabled, validFrom, validTo, userPaymentOptions);
+            return new CustomerKey(id, created, updated, name, keyIdentifier, isEnabled, validFrom, validTo, type, userPaymentOptions);
         }
     }
 }

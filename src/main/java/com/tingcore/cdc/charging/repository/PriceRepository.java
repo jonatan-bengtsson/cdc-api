@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 import java.time.Instant;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -32,6 +33,10 @@ public class PriceRepository extends AbstractApiRepository {
     }
 
     public List<ConnectorPrice> priceForConnectors(final List<ConnectorId> connectorIds) {
+        if(connectorIds.isEmpty()) {
+            return Collections.emptyList();
+        }
+
         final List<ApiPrice> response = getResponseOrPriceError(
                 pricesApi.getPrices(connectorIdsAsLong(connectorIds), Instant.now().toEpochMilli()));
         return response.stream().map(this::apiPriceToModel).collect(toList());

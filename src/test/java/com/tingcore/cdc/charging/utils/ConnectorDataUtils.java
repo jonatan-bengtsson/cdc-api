@@ -1,12 +1,13 @@
-package com.tingcore.cdc.charging.mapper.mock;
+package com.tingcore.cdc.charging.utils;
 
 import com.tingcore.charging.assets.model.BasicConnector;
 import com.tingcore.charging.assets.model.Connector;
 import com.tingcore.charging.assets.model.ConnectorCapability;
 import com.tingcore.charging.assets.model.ConnectorEntity;
 import com.tingcore.charging.assets.model.EntityMetadata;
+import com.tingcore.charging.operations.model.ConnectorStatusResponse;
 
-public class ConnectorFactory {
+public class ConnectorDataUtils {
 
 
 
@@ -38,4 +39,11 @@ public class ConnectorFactory {
                 .metadata(meta);
     }
 
+    public static ConnectorStatusResponse createConnectorStatusResponse(Long connectorId, ConnectorStatusResponse.ConnectorStatusEnum connectorStatusEnum) {
+        ConnectorStatusResponse connectorStatusResponse = new ConnectorStatusResponse();
+        connectorStatusResponse.connectorId(connectorId);
+        connectorStatusResponse.setConnectorStatus(connectorStatusEnum);
+
+        return connectorStatusResponse;
+    }
 }

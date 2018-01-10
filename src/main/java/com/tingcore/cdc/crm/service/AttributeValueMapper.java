@@ -2,8 +2,7 @@ package com.tingcore.cdc.crm.service;
 
 import com.tingcore.cdc.crm.constant.AttributeConstant;
 import com.tingcore.cdc.crm.model.BaseAttributeModel;
-import com.tingcore.cdc.crm.model.User;
-import com.tingcore.commons.api.service.HashIdService;
+import com.tingcore.cdc.crm.request.UpdateUserRequest;
 import org.springframework.stereotype.Component;
 import com.tingcore.commons.api.utils.JsonUtils;
 import com.tingcore.users.model.AttributeResponse;
@@ -26,7 +25,7 @@ public class AttributeValueMapper {
 
     private static final Logger LOG = LoggerFactory.getLogger(AttributeValueMapper.class);
 
-    public static AttributeValueListRequest toAttributeValueListRequest (User request, final List<AttributeResponse> cachedAttributes) {
+    public static AttributeValueListRequest toAttributeValueListRequest (UpdateUserRequest request, final List<AttributeResponse> cachedAttributes) {
         AttributeValueListRequest list = createAttributeValueListRequest();
         // todo write a test were you try to update an attribute that does not exists in the database
         Optional.ofNullable(request.getOrganizationNumber()).map(organizationNumber -> list.addAttributeValuesItem(toAttributeValueRequest(organizationNumber, findAttributeId(cachedAttributes, AttributeConstant.ORGANIZATION_NUMBER).orElse(null))));
@@ -42,7 +41,6 @@ public class AttributeValueMapper {
         Optional.ofNullable(request.getFirstName()).map(firstName -> list.addAttributeValuesItem(toAttributeValueRequest(firstName,findAttributeId(cachedAttributes, AttributeConstant.FIRST_NAME).orElse(null))));
         Optional.ofNullable(request.getLastName()).map(lastName -> list.addAttributeValuesItem(toAttributeValueRequest(lastName, findAttributeId(cachedAttributes, AttributeConstant.LAST_NAME).orElse(null))));
         Optional.ofNullable(request.getName()).map(name -> list.addAttributeValuesItem(toAttributeValueRequest(name, findAttributeId(cachedAttributes, AttributeConstant.NAME).orElse(null))));
-        Optional.ofNullable(request.getHasChargingAccess()).map(chargingAccess -> list.addAttributeValuesItem(toAttributeValueRequest(chargingAccess, findAttributeId(cachedAttributes, AttributeConstant.HAS_CHARGING_ACCESS).orElse(null)))); // todo boolean?
         Optional.ofNullable(request.getLanguage()).map(language -> list.addAttributeValuesItem(toAttributeValueRequest(language, findAttributeId(cachedAttributes, AttributeConstant.LANGUAGE).orElse(null))));
 
         return list;

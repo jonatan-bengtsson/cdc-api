@@ -22,14 +22,13 @@ public class UpdateUserRequest {
     private ApprovedMarketInfo approvedMarketInfo;
     private List<LicensePlate> licensePlates;
     private SocialSecurityNumber socialSecurityNumber;
-    private BooleanAttribute hasChargingAccess;
     private StringAttribute customerType;
     private List<PhoneNumber> phoneNumbers;
     private OrganizationNumber organizationNumber;
     private StringAttribute language;
     private ApprovedPrivacy approvedPrivacy;
 
-    public UpdateUserRequest (StringAttribute firstName, StringAttribute lastName, StringAttribute name, List<AddressCRM> address, StringAttribute timezone, List<ApprovedAgreement> approvedAgreements, ApprovedMarketInfo approvedMarketInfo, List<LicensePlate> licensePlates, SocialSecurityNumber socialSecurityNumber, BooleanAttribute hasChargingAccess, StringAttribute customerType, List<PhoneNumber> phoneNumbers, OrganizationNumber organizationNumber, StringAttribute language, ApprovedPrivacy approvedPrivacy) {
+    public UpdateUserRequest (StringAttribute firstName, StringAttribute lastName, StringAttribute name, List<AddressCRM> address, StringAttribute timezone, List<ApprovedAgreement> approvedAgreements, ApprovedMarketInfo approvedMarketInfo, List<LicensePlate> licensePlates, SocialSecurityNumber socialSecurityNumber, StringAttribute customerType, List<PhoneNumber> phoneNumbers, OrganizationNumber organizationNumber, StringAttribute language, ApprovedPrivacy approvedPrivacy) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.name = name;
@@ -39,7 +38,6 @@ public class UpdateUserRequest {
         this.approvedMarketInfo = approvedMarketInfo;
         this.licensePlates = licensePlates;
         this.socialSecurityNumber = socialSecurityNumber;
-        this.hasChargingAccess = hasChargingAccess;
         this.customerType = customerType;
         this.phoneNumbers = phoneNumbers;
         this.organizationNumber = organizationNumber;
@@ -104,12 +102,6 @@ public class UpdateUserRequest {
         return socialSecurityNumber;
     }
 
-    @JsonProperty(FieldConstant.HAS_CHARGING_ACCESS)
-    @ApiModelProperty(value = "If the user is allowed to charge or not", example = "true")
-    public BooleanAttribute getHasChargingAccess() {
-        return hasChargingAccess;
-    }
-
     @JsonProperty(FieldConstant.CUSTOMER_TYPE)
     @ApiModelProperty(value = "The type of custoner", example = "privateCustomer")
     public StringAttribute getCustomerType() {
@@ -154,7 +146,6 @@ public class UpdateUserRequest {
         private ApprovedMarketInfo approvedMarketInfo;
         private List<LicensePlate> licensePlates;
         private SocialSecurityNumber socialSecurityNumber;
-        private BooleanAttribute hasChargingAccess;
         private StringAttribute customerType;
         private List<PhoneNumber> phoneNumbers;
         private OrganizationNumber organizationNumber;
@@ -228,11 +219,6 @@ public class UpdateUserRequest {
             return this;
         }
 
-        public Builder hasChargingAccess(final BooleanAttribute hasChargingAccess){
-            this.hasChargingAccess = hasChargingAccess;
-            return this;
-        }
-
         public Builder customerType(final StringAttribute customerType){
             this.customerType = customerType;
             return this;
@@ -265,7 +251,7 @@ public class UpdateUserRequest {
 
         public UpdateUserRequest build(){
             return new UpdateUserRequest(firstName, lastName, name, address, timezone, approvedAgreements, approvedMarketInfo, licensePlates,
-                    socialSecurityNumber, hasChargingAccess, customerType, phoneNumbers, organizationNumber, language, approvedPrivacy);
+                    socialSecurityNumber, customerType, phoneNumbers, organizationNumber, language, approvedPrivacy);
         }
     }
 }

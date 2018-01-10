@@ -26,4 +26,8 @@ public class StringAttribute extends BaseAttributeModel {
     public void setValue(String value) {
         this.value = value;
     }
+
+    public StringAttribute copyWithoutId () {
+        return new StringAttribute(null, this.value);
+    }
 }

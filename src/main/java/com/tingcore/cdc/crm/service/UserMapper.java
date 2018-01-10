@@ -24,19 +24,39 @@ class UserMapper {
                 .lastName(AttributeMapper.findStringAttribute(attributes, AttributeConstant.LAST_NAME).orElse(null))
                 .email(userResponse.getEmail())
                 .organization(OrganizationMapper.toResponse(userResponse.getOrganization()))
-                .organizationNumber(AttributeMapper.findStringAttribute(attributes, AttributeConstant.ORGANIZATION_NUMBER).orElse(null))
-                .phoneNumbers(AttributeMapper.findPhoneNumberResponses(attributes, AttributeConstant.PHONE_NUMBER))
+                .organizationNumber(AttributeMapper.findOrganizationNumber(attributes).orElse(null))
+                .phoneNumbers(AttributeMapper.findPhoneNumbers(attributes, AttributeConstant.PHONE_NUMBER))
                 .approvedMarketInfo(AttributeMapper.findApprovedMarketInfo(attributes).orElse(null))
-                .address(AttributeMapper.findAddressResponse(attributes))
+                .address(AttributeMapper.findAddress(attributes))
                 .timezone(AttributeMapper.findStringAttribute(attributes, AttributeConstant.TIMEZONE).orElse(null))
                 .approvedAgreements(AttributeMapper.findApprovedAgreements(attributes))
-                .licensePlates(AttributeMapper.findLicensePlateResponse(attributes))
+                .licensePlates(AttributeMapper.findLicensePlates(attributes))
                 .socialSecurityNumber(AttributeMapper.findSocialSecurityNumber(attributes).orElse(null))
                 .customerNumber(AttributeMapper.findStringAttribute(attributes, AttributeConstant.CUSTOMER_NUMBER).orElse(null))
                 .customerType(AttributeMapper.findStringAttribute(attributes, AttributeConstant.CUSTOMER_TYPE).orElse(null))
                 .language(AttributeMapper.findStringAttribute(attributes, AttributeConstant.LANGUAGE).orElse(null))
-                .activationDate(AttributeMapper.findDateResponse(attributes, AttributeConstant.ACTIVATION_DATE).orElse(null)) // Todo add to user-service database
+                .activationDate(AttributeMapper.findDate(attributes, AttributeConstant.ACTIVATION_DATE).orElse(null)) // Todo add to user-service database
                 .hasChargingAccess(AttributeMapper.findBooleanAttribute(attributes, AttributeConstant.HAS_CHARGING_ACCESS).orElse(null))
+                .build();
+    }
+
+    public static User attributeListToUserResponse (List<AttributeResponse> attributes) {
+        return User.createBuilder()
+                .firstName(AttributeMapper.findStringAttribute(attributes, AttributeConstant.FIRST_NAME).orElse(null))
+                .lastName(AttributeMapper.findStringAttribute(attributes, AttributeConstant.LAST_NAME).orElse(null))
+                .name(AttributeMapper.findStringAttribute(attributes, AttributeConstant.NAME).orElse(null))
+                .organizationNumber(AttributeMapper.findOrganizationNumber(attributes).orElse(null))
+                .phoneNumbers(AttributeMapper.findPhoneNumbers(attributes, AttributeConstant.PHONE_NUMBER))
+                .approvedMarketInfo(AttributeMapper.findApprovedMarketInfo(attributes).orElse(null))
+                .address(AttributeMapper.findAddress(attributes))
+                .timezone(AttributeMapper.findStringAttribute(attributes, AttributeConstant.TIMEZONE).orElse(null))
+                .approvedAgreements(AttributeMapper.findApprovedAgreements(attributes))
+                .licensePlates(AttributeMapper.findLicensePlates(attributes))
+                .socialSecurityNumber(AttributeMapper.findSocialSecurityNumber(attributes).orElse(null))
+                .customerType(AttributeMapper.findStringAttribute(attributes, AttributeConstant.CUSTOMER_TYPE).orElse(null))
+                .language(AttributeMapper.findStringAttribute(attributes, AttributeConstant.LANGUAGE).orElse(null))
+                .hasChargingAccess(AttributeMapper.findBooleanAttribute(attributes, AttributeConstant.HAS_CHARGING_ACCESS).orElse(null))
+                .approvedPrivacy(AttributeMapper.findApprovedPrivacy(attributes,AttributeConstant.APPROVED_PRIVACY).orElse(null))
                 .build();
     }
 }

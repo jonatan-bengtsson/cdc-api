@@ -35,4 +35,7 @@ public class AttributeConstant {
     public static final String HAS_CHARGING_ACCESS = "hasChargingAccess";
     public static final String LAST_NAME = "lastName";
     public static final String FIRST_NAME = "firstName";
+    public static final String APPROVED_PRIVACY = "approvedPrivacy";
+    public static final String EXPIRATION_DATE = "expirationDate";
+    public static final String NAME = "name";
 }

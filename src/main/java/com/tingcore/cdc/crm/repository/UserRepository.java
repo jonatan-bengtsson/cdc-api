@@ -1,10 +1,15 @@
 package com.tingcore.cdc.crm.repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tingcore.cdc.crm.model.User;
 import com.tingcore.commons.api.repository.ApiResponse;
 import com.tingcore.users.api.UsersApi;
+import com.tingcore.users.model.AttributeResponse;
+import com.tingcore.users.model.AttributeValueListRequest;
 import com.tingcore.users.model.UserResponse;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * @author moa.mackegard
@@ -27,4 +32,9 @@ public class UserRepository extends AbstractUserServiceRepository {
     public ApiResponse<UserResponse> getSelf(final String authorizationId, final Boolean includeAttributes) {
         return execute(usersApi.getSelfUsingGET(authorizationId, includeAttributes));
     }
+
+    public ApiResponse<List<AttributeResponse>> putUserAttributeValues (final Long userId, final Long authorizationId, final AttributeValueListRequest attributeValueListRequests) {
+            return execute(usersApi.putUserAttributeValuesUsingPUT(userId, attributeValueListRequests, authorizationId));
+    }
+
 }

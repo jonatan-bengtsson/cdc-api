@@ -11,7 +11,8 @@ public class LicensePlate extends BaseAttributeModel {
     private String licensePlate;
     private String formatter;
 
-    public LicensePlate(String licenseplate, String formatter) {
+    public LicensePlate(Long id, String licenseplate, String formatter) {
+        this.id = id;
         this.licensePlate = licenseplate;
         this.formatter = formatter;
     }
@@ -35,5 +36,9 @@ public class LicensePlate extends BaseAttributeModel {
 
     public void setFormatter(String formatter) {
         this.formatter = formatter;
+    }
+
+    public LicensePlate copyWithoutId () {
+        return new LicensePlate(null, this.licensePlate, this.formatter);
     }
 }

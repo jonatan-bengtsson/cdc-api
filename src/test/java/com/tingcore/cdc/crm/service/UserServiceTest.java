@@ -34,7 +34,7 @@ public class UserServiceTest {
 
     @Before
     public void setUp() {
-        this.userService = new UserService(userRepository);
+        this.userService = new UserService(userRepository, attributeRepository);
     }
 
     @Test

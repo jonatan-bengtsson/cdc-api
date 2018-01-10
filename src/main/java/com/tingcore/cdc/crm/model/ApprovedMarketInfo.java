@@ -38,4 +38,9 @@ public class ApprovedMarketInfo extends BaseAttributeModel {
     public void setFormatter(String formatter) {
         this.formatter = formatter;
     }
+
+    @Override
+    public ApprovedMarketInfo copyWithoutId () {
+        return new ApprovedMarketInfo(null, this.marketInfoId,this.formatter);
+    }
 }

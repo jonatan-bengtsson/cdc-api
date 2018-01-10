@@ -38,4 +38,8 @@ public class OrganizationNumber extends BaseAttributeModel {
     public void setFormatter(String formatter) {
         this.formatter = formatter;
     }
+
+    public OrganizationNumber copyWithoutId () {
+        return new OrganizationNumber(null, this.organizationNumber, this.formatter);
+    }
 }

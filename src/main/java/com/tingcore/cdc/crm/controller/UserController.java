@@ -3,17 +3,21 @@ package com.tingcore.cdc.crm.controller;
 import com.tingcore.cdc.configuration.AuthorizedUser;
 import com.tingcore.cdc.configuration.WebMvcConfiguration;
 import com.tingcore.cdc.crm.model.User;
+import com.tingcore.cdc.crm.request.UpdateUserRequest;
 import com.tingcore.cdc.crm.service.UserService;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
+import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 
 /**
  * @author palmithor
@@ -44,5 +48,14 @@ public class UserController {
         return userService.getUserById(authorizedUser.getUser().getId(), includeAttributes);
     }
 
+
+    @RequestMapping(value="/self/values", method = PUT, produces = "application/json")
+    @ApiOperation(value = "Create or update a user's attribute values",
+            notes = "Route allows creating new or updating an existing user's attribute values",
+            tags = SwaggerConstant.TAGS_USERS)
+    public User updateAttributeValues(@Valid @RequestBody UpdateUserRequest userRequest) {
+        final Long authorizedUserId = authorizedUser.getUser().getId();
+        return userService.putUserAttributeValues(authorizedUserId, authorizedUserId, userRequest);
+    }
 
 }

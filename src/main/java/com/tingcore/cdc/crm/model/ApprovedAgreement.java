@@ -27,4 +27,8 @@ public class ApprovedAgreement extends BaseAttributeModel {
     public void setAgreementId(String agreementId) {
         this.agreementId = agreementId;
     }
+
+    public ApprovedAgreement copyWithoutId () {
+        return new ApprovedAgreement(null,this.agreementId);
+    }
 }

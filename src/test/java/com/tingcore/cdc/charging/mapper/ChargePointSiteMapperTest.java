@@ -205,11 +205,11 @@ public class ChargePointSiteMapperTest {
         BasicChargePoint.OperationalStatusEnum chargePointOperationalStatus = BasicChargePoint.OperationalStatusEnum.IN_OPERATION;
         Address address = new Address()
                 .city("City")
-                .country("Country")
+                .countryIsoCode("SE")
                 .floor("2 vån")
                 .number("23")
                 .postalCode("123 42")
-                .state("Stockholm Län")
+                .region("Stockholm Län")
                 .street("Eventgatan");
 
         GeoCoordinate geoCoordinate = new GeoCoordinate()

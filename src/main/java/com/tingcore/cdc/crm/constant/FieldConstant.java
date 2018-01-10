@@ -64,7 +64,8 @@ public class FieldConstant {
     public static final String PHONE_NUMBER = "phoneNumber";
     public static final String FORMATTER = "formatter";
     public static final String DEFAULT_CURRENCY = "defaultCurrency";
-    
+    public static final String TYPE_ID = "typeId";
+
     private FieldConstant() {
     }
 }

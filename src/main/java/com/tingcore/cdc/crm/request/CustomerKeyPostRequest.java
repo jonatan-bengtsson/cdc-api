@@ -17,19 +17,23 @@ public class CustomerKeyPostRequest {
 
     private final String name;
     private final String keyIdentifier; // TODO we might have to add more detailed validation constraints for this field
+    private final Long typeId;
     private final List<Long> userPaymentOptions;
 
     public CustomerKeyPostRequest(final String name,
                                   final String keyIdentifier,
+                                  final Long typeId,
                                   final List<Long> userPaymentOptions) {
         this.name = name;
         this.keyIdentifier = keyIdentifier;
+        this.typeId = typeId;
         this.userPaymentOptions = userPaymentOptions;
     }
 
     public CustomerKeyPostRequest() {
         this.name = null;
         this.keyIdentifier = null;
+        this.typeId = null;
         this.userPaymentOptions = null;
     }
 
@@ -43,10 +47,17 @@ public class CustomerKeyPostRequest {
 
     @JsonProperty(FieldConstant.KEY_IDENTIFIER)
     @NotNull
-    @Size(min = 1, max = 255)
+    @Size(min = 1, max = 20) // The maximum size of a key identifier is 20 according to OCP
     @ApiModelProperty(position = 2, value = "The key identifier (often rfid) of the customer key", example = "0123456789", required = true)
     public String getKeyIdentifier() {
         return keyIdentifier;
+    }
+
+    @JsonProperty(FieldConstant.TYPE_ID)
+    @NotNull
+    @ApiModelProperty(position = 3, value = "The customer key type id", example = "1", required = true)
+    public Long getTypeId() {
+        return typeId;
     }
 
     @JsonProperty(FieldConstant.USER_PAYMENT_OPTIONS)
@@ -62,6 +73,7 @@ public class CustomerKeyPostRequest {
     public static final class Builder {
         private String name;
         private String keyIdentifier;
+        private Long typeId;
         private List<Long> userPaymentOptions;
 
         private Builder() {
@@ -78,6 +90,11 @@ public class CustomerKeyPostRequest {
             return this;
         }
 
+        public Builder typeId(final Long typeId) {
+            this.typeId = typeId;
+            return this;
+        }
+
         public Builder addUserPaymentOption(final Long userPaymentOptionId) {
             this.userPaymentOptions.add(userPaymentOptionId);
             return this;
@@ -89,7 +106,7 @@ public class CustomerKeyPostRequest {
         }
 
         public CustomerKeyPostRequest build() {
-            return new CustomerKeyPostRequest(name, keyIdentifier, userPaymentOptions);
+            return new CustomerKeyPostRequest(name, keyIdentifier, typeId, userPaymentOptions);
         }
     }
 }

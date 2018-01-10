@@ -123,14 +123,12 @@ public class ChargingSessionRepository {
             case STOPPED:
                 return ChargingSessionStatus.STOPPED;
             case PRICE_ESTABLISHED:
-            case TRANSACTION_CLEARED:
                 return ChargingSessionStatus.COMPLETE;
             case TIMEOUT_WAITING_TO_START:
             case TIMEOUT_WAITING_TO_STOP:
             case FAILED_TO_START:
             case FAILED_TO_STOP:
             case FAILED_TO_ESTABLISH_PRICE:
-            case FAILED_TO_CLEAR_TRANSACTION:
             case FAILED:
                 return ChargingSessionStatus.FAILED;
         }

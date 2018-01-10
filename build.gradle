@@ -28,7 +28,7 @@ apply plugin: "org.springframework.boot"
 apply plugin: "org.sonarqube"
 apply plugin: "jacoco"
 
-version = '0.1.4-SNAPSHOT'
+version = '0.1.5'
 group = "com.tingcore"
 
 
@@ -201,6 +201,11 @@ task swaggerTs {
 
 clean.doFirst {
     delete(swaggerOutputDirTs)
+}
+
+
+springBoot  {
+    buildInfo()
 }
 
 licenseReport {

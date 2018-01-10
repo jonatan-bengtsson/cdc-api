@@ -2,6 +2,7 @@ package com.tingcore.cdc.crm.service;
 
 import com.tingcore.cdc.crm.constant.AttributeConstant;
 import com.tingcore.cdc.crm.model.User;
+import com.tingcore.cdc.crm.repository.AttributeRepository;
 import com.tingcore.cdc.crm.repository.UserRepository;
 import com.tingcore.cdc.crm.utils.UserDataUtils;
 import com.tingcore.cdc.utils.CommonDataUtils;
@@ -29,6 +30,7 @@ import static org.mockito.BDDMockito.given;
 public class UserServiceTest {
 
     @MockBean private UserRepository userRepository;
+    @MockBean private AttributeRepository attributeRepository;
 
     private UserService userService;
 

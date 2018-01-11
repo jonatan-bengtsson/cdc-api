@@ -50,7 +50,7 @@ public class UserController {
     }
 
 
-    @RequestMapping(value="/self/values", method = PUT, produces = "application/json")
+    @RequestMapping(value="/self/values/private-customer", method = PUT, produces = "application/json")
     @ApiOperation(value = "Create or update a user's attribute values",
             notes = "Route allows creating new or updating an existing user's attribute values",
             tags = SwaggerConstant.TAGS_USERS)
@@ -59,7 +59,7 @@ public class UserController {
         return userService.putUserAttributeValues(authorizedUserId, authorizedUserId, userRequest);
     }
 
-    @RequestMapping(value="/self/values", method = PUT, produces = "application/json")
+    @RequestMapping(value="/self/values/business-customer", method = PUT, produces = "application/json")
     @ApiOperation(value = "Create or update a user's attribute values",
             notes = "Route allows creating new or updating an existing user's attribute values",
             tags = SwaggerConstant.TAGS_USERS)

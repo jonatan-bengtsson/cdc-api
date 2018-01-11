@@ -2,7 +2,7 @@ package com.tingcore.cdc.crm.service;
 
 import com.tingcore.cdc.crm.constant.AttributeConstant;
 import com.tingcore.cdc.crm.model.BaseAttributeModel;
-import com.tingcore.cdc.crm.request.UpdateUserRequest;
+import com.tingcore.cdc.crm.request.BaseUpdateCustomerRequest;
 import org.springframework.stereotype.Component;
 import com.tingcore.commons.api.utils.JsonUtils;
 import com.tingcore.users.model.AttributeResponse;
@@ -25,7 +25,7 @@ public class AttributeValueMapper {
 
     private static final Logger LOG = LoggerFactory.getLogger(AttributeValueMapper.class);
 
-    public static AttributeValueListRequest toAttributeValueListRequest (UpdateUserRequest request, final List<AttributeResponse> cachedAttributes) {
+    public static AttributeValueListRequest toAttributeValueListRequest (BaseUpdateCustomerRequest request, final List<AttributeResponse> cachedAttributes) {
         AttributeValueListRequest list = createAttributeValueListRequest();
         // todo write a test were you try to update an attribute that does not exists in the database
         Optional.ofNullable(request.getOrganizationNumber()).map(organizationNumber -> list.addAttributeValuesItem(toAttributeValueRequest(organizationNumber, findAttributeId(cachedAttributes, AttributeConstant.ORGANIZATION_NUMBER).orElse(null))));

@@ -3,7 +3,8 @@ package com.tingcore.cdc.crm.controller;
 import com.tingcore.cdc.configuration.AuthorizedUser;
 import com.tingcore.cdc.configuration.WebMvcConfiguration;
 import com.tingcore.cdc.crm.model.User;
-import com.tingcore.cdc.crm.request.UpdateUserRequest;
+import com.tingcore.cdc.crm.request.UpdateBusinessCustomerRequest;
+import com.tingcore.cdc.crm.request.UpdatePrivateCustomerRequest;
 import com.tingcore.cdc.crm.service.UserService;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
@@ -53,7 +54,16 @@ public class UserController {
     @ApiOperation(value = "Create or update a user's attribute values",
             notes = "Route allows creating new or updating an existing user's attribute values",
             tags = SwaggerConstant.TAGS_USERS)
-    public User updateAttributeValues(@Valid @RequestBody UpdateUserRequest userRequest) {
+    public User updatePrivateCustomerAttributeValues(@Valid @RequestBody UpdatePrivateCustomerRequest userRequest) {
+        final Long authorizedUserId = authorizedUser.getUser().getId();
+        return userService.putUserAttributeValues(authorizedUserId, authorizedUserId, userRequest);
+    }
+
+    @RequestMapping(value="/self/values", method = PUT, produces = "application/json")
+    @ApiOperation(value = "Create or update a user's attribute values",
+            notes = "Route allows creating new or updating an existing user's attribute values",
+            tags = SwaggerConstant.TAGS_USERS)
+    public User updateBusinessCustomerAttributeValues(@Valid @RequestBody UpdateBusinessCustomerRequest userRequest) {
         final Long authorizedUserId = authorizedUser.getUser().getId();
         return userService.putUserAttributeValues(authorizedUserId, authorizedUserId, userRequest);
     }

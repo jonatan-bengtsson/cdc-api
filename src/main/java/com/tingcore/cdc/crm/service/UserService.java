@@ -3,7 +3,7 @@ package com.tingcore.cdc.crm.service;
 import com.tingcore.cdc.crm.model.User;
 import com.tingcore.cdc.crm.repository.AttributeRepository;
 import com.tingcore.cdc.crm.repository.UserRepository;
-import com.tingcore.cdc.crm.request.UpdateUserRequest;
+import com.tingcore.cdc.crm.request.BaseUpdateCustomerRequest;
 import com.tingcore.commons.api.repository.ApiResponse;
 import com.tingcore.users.model.AttributeResponse;
 import com.tingcore.users.model.AttributeValueListRequest;
@@ -36,7 +36,7 @@ public class UserService {
                 .orElseThrow(() -> new UsersApiException(apiResponse.getError()));
     }
 
-    public User putUserAttributeValues(final Long userId, final Long authorizedUserId, final UpdateUserRequest userRequest){
+    public User putUserAttributeValues(final Long userId, final Long authorizedUserId, final BaseUpdateCustomerRequest userRequest){
         AttributeValueListRequest attributeValueListRequest = AttributeValueMapper.toAttributeValueListRequest(userRequest, attributeRepository.findAll());
         ApiResponse<List<AttributeResponse>> apiResponse = userRepository.putUserAttributeValues(userId, authorizedUserId, attributeValueListRequest);
         return apiResponse.getResponseOptional()

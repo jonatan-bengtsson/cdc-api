@@ -108,11 +108,11 @@ public class CustomerKeyServiceTest {
 
     @Test
     public void getCustomerKeyTypes() {
-        final List<CustomerKeyTypeResponse> expectedResponse = newArrayList(CustomerKeyDataUtils.randomCustomerKeyTypeResponse(), CustomerKeyDataUtils.randomCustomerKeyTypeResponse());
+        final List<CustomerKeyTypeResponse> apiResponse = newArrayList(CustomerKeyDataUtils.randomCustomerKeyTypeResponse(), CustomerKeyDataUtils.randomCustomerKeyTypeResponse());
         given(customerKeyRepository.findCustomerKeyTypes())
-                .willReturn(new ApiResponse<>(expectedResponse));
+                .willReturn(new ApiResponse<>(apiResponse));
         final List<CustomerKeyType> customerKeyTypes = customerKeyService.getCustomerKeyTypes();
-        customerKeyTypes.forEach(customerKeyType -> assertThat(expectedResponse.contains(customerKeyTypes)));
+        assertThat(customerKeyTypes).hasSameSizeAs(apiResponse);
     }
 
     @Test

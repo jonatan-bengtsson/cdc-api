@@ -22,20 +22,6 @@ public abstract class BaseUpdateCustomerRequest {
     StringAttribute language;
     ApprovedPrivacy approvedPrivacy;
 
-    public BaseUpdateCustomerRequest(List<AddressCRM> address, StringAttribute timezone, List<ApprovedAgreement> approvedAgreements, ApprovedMarketInfo approvedMarketInfo, List<LicensePlate> licensePlates, List<PhoneNumber> phoneNumbers, StringAttribute language, ApprovedPrivacy approvedPrivacy) {
-        this.address = address;
-        this.timezone = timezone;
-        this.approvedAgreements = approvedAgreements;
-        this.approvedMarketInfo = approvedMarketInfo;
-        this.licensePlates = licensePlates;
-        this.phoneNumbers = phoneNumbers;
-        this.language = language;
-        this.approvedPrivacy = approvedPrivacy;
-    }
-
-    public BaseUpdateCustomerRequest() {
-    }
-
 
     @JsonProperty(FieldConstant.ADDRESS)
     @ApiModelProperty(value = "Private address")
@@ -83,6 +69,26 @@ public abstract class BaseUpdateCustomerRequest {
     @ApiModelProperty(value = "The id of the approved privacy agreement")
     public ApprovedPrivacy getApprovedPrivacy () {
         return approvedPrivacy;
+    }
+
+    public OrganizationNumber getOrganizationNumber() {
+        return null;
+    }
+
+    public SocialSecurityNumber getSocialSecurityNumber() {
+        return null;
+    }
+
+    public StringAttribute getFirstName() {
+        return null;
+    }
+
+    public StringAttribute getLastName() {
+        return null;
+    }
+
+    public StringAttribute getName() {
+        return null;
     }
 
 }

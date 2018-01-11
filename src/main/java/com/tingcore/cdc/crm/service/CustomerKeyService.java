@@ -1,14 +1,17 @@
 package com.tingcore.cdc.crm.service;
 
 import com.tingcore.cdc.crm.model.CustomerKey;
+import com.tingcore.cdc.crm.model.CustomerKeyType;
 import com.tingcore.cdc.crm.repository.CustomerKeyRepository;
 import com.tingcore.cdc.crm.request.CustomerKeyPostRequest;
 import com.tingcore.commons.api.repository.ApiResponse;
 import com.tingcore.commons.rest.PageResponse;
 import com.tingcore.users.model.CustomerKeyResponse;
+import com.tingcore.users.model.CustomerKeyTypeResponse;
 import com.tingcore.users.model.PageResponseCustomerKeyResponse;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -49,6 +52,13 @@ public class CustomerKeyService {
         return apiResponse
                 .getResponseOptional()
                 .map(CustomerKeyMapper::toModel)
+                .orElseThrow(() -> new UsersApiException(apiResponse.getError()));
+    }
+
+    public List<CustomerKeyType> getCustomerKeyTypes() {
+        final ApiResponse<List<CustomerKeyTypeResponse>> apiResponse = customerKeyRepository.findCustomerKeyTypes();
+        return apiResponse.getResponseOptional()
+                .map(customerKeyTypeResponses -> customerKeyTypeResponses.stream().map(CustomerKeyTypeMapper::toModel).collect(Collectors.toList()))
                 .orElseThrow(() -> new UsersApiException(apiResponse.getError()));
     }
 }

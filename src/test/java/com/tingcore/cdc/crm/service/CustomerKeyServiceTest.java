@@ -1,6 +1,7 @@
 package com.tingcore.cdc.crm.service;
 
 import com.tingcore.cdc.crm.model.CustomerKey;
+import com.tingcore.cdc.crm.model.CustomerKeyType;
 import com.tingcore.cdc.crm.repository.CustomerKeyRepository;
 import com.tingcore.cdc.crm.utils.CustomerKeyDataUtils;
 import com.tingcore.cdc.utils.CommonDataUtils;
@@ -9,6 +10,7 @@ import com.tingcore.commons.rest.ErrorResponse;
 import com.tingcore.commons.rest.PageResponse;
 import com.tingcore.users.model.CustomerKeyRequest;
 import com.tingcore.users.model.CustomerKeyResponse;
+import com.tingcore.users.model.CustomerKeyTypeResponse;
 import com.tingcore.users.model.PageResponseCustomerKeyResponse;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,8 +18,11 @@ import org.junit.runner.RunWith;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyLong;
@@ -98,6 +103,24 @@ public class CustomerKeyServiceTest {
                 .willReturn(new ApiResponse<>(ErrorResponse.forbidden().build()));
         assertThatExceptionOfType(UsersApiException.class)
                 .isThrownBy(() -> customerKeyService.create(CommonDataUtils.getNextId(), CustomerKeyDataUtils.randomRequestAllValid().build()))
+                .withNoCause();
+    }
+
+    @Test
+    public void getCustomerKeyTypes() {
+        final List<CustomerKeyTypeResponse> expectedResponse = newArrayList(CustomerKeyDataUtils.randomCustomerKeyTypeResponse(), CustomerKeyDataUtils.randomCustomerKeyTypeResponse());
+        given(customerKeyRepository.findCustomerKeyTypes())
+                .willReturn(new ApiResponse<>(expectedResponse));
+        final List<CustomerKeyType> customerKeyTypes = customerKeyService.getCustomerKeyTypes();
+        customerKeyTypes.forEach(customerKeyType -> assertThat(expectedResponse.contains(customerKeyTypes)));
+    }
+
+    @Test
+    public void failGetCustomerKeyTypesApiError() {
+        given(customerKeyRepository.findCustomerKeyTypes())
+                .willReturn(new ApiResponse<>(ErrorResponse.serverError().build()));
+        assertThatExceptionOfType(UsersApiException.class)
+                .isThrownBy(() -> customerKeyService.getCustomerKeyTypes())
                 .withNoCause();
     }
 

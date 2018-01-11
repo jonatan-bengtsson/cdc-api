@@ -6,8 +6,11 @@ import com.tingcore.users.api.CustomerKeysApi;
 import com.tingcore.users.api.UsersApi;
 import com.tingcore.users.model.CustomerKeyRequest;
 import com.tingcore.users.model.CustomerKeyResponse;
+import com.tingcore.users.model.CustomerKeyTypeResponse;
 import com.tingcore.users.model.PageResponseCustomerKeyResponse;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * @author palmithor
@@ -37,5 +40,9 @@ public class CustomerKeyRepository extends AbstractUserServiceRepository {
 
     public ApiResponse<CustomerKeyResponse> post(final Long authorizedUserId, final CustomerKeyRequest customerKeyRequest) {
         return execute(customerKeysApi.postUsingPOST2(customerKeyRequest, authorizedUserId, authorizedUserId));
+    }
+
+    public ApiResponse<List<CustomerKeyTypeResponse>> findCustomerKeyTypes() {
+        return execute(customerKeysApi.getCustomerKeyTypesUsingGET());
     }
 }

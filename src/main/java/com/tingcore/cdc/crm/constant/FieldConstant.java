@@ -66,6 +66,7 @@ public class FieldConstant {
     public static final String FORMATTER = "formatter";
     public static final String DEFAULT_CURRENCY = "defaultCurrency";
     public static final String APPROVED_PRIVACY = "approvedPrivacy";
+    public static final String PRIVACY_ID = "privacyId";
     public static final String TYPE_ID = "typeId";
 
     private FieldConstant() {

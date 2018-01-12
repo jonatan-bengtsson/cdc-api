@@ -6,10 +6,14 @@ import com.tingcore.cdc.crm.model.User;
 import com.tingcore.cdc.crm.request.UpdateBusinessCustomerRequest;
 import com.tingcore.cdc.crm.request.UpdatePrivateCustomerRequest;
 import com.tingcore.cdc.utils.CommonDataUtils;
+import com.tingcore.users.model.AttributeResponse;
+import com.tingcore.users.model.AttributeValueListRequest;
 import com.tingcore.users.model.UserResponse;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import static com.google.common.collect.Lists.newArrayList;
 
@@ -18,6 +22,7 @@ import static com.google.common.collect.Lists.newArrayList;
  * @since 2017-11-12.
  */
 public class UserDataUtils {
+
 
     public UserDataUtils() {
     }
@@ -115,6 +120,21 @@ public class UserDataUtils {
                 .contactEmail(request.getContactEmail())
                 .contactPhoneNumber(request.getContactPhoneNumber())
                 .build();
+    }
+
+    public static List<AttributeResponse> createMockResponseList (AttributeValueListRequest listRequest) {
+        List<AttributeResponse> responses = new ArrayList<>();
+        AttributeResponseDataUtils.mockOrganizationResponse(listRequest).ifPresent(responses::add);
+        AttributeResponseDataUtils.mockSocialSecurityNumberResponse(listRequest).ifPresent(responses::add);
+        AttributeResponseDataUtils.mockAddressResponse(listRequest).forEach(responses::add);
+        responses.addAll(AttributeResponseDataUtils.mockLicensePlatesResponse(listRequest));
+        responses.addAll(AttributeResponseDataUtils.mockPhoneNumbersResponse(listRequest));
+        AttributeResponseDataUtils.mockApprovedAgreementResponse(listRequest).forEach(approvedAgreement -> responses.add(approvedAgreement));
+        AttributeResponseDataUtils.mockApprovedMarketInfoResponse(listRequest).ifPresent(approvedMarketInfo -> responses.add(approvedMarketInfo));
+        AttributeResponseDataUtils.mockEmailResponse(listRequest).ifPresent(email -> responses.add(email));
+        AttributeResponseDataUtils.mockApprovedPrivacyResponse(listRequest).ifPresent(approvedPrivacy -> responses.add(approvedPrivacy));
+        AttributeResponseDataUtils.mockTimeZoneResponse(listRequest).ifPresent(timezone -> responses.add(timezone));
+        return responses;
     }
 }
 

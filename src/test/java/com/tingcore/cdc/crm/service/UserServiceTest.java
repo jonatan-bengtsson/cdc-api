@@ -6,6 +6,7 @@ import com.tingcore.cdc.crm.repository.AttributeRepository;
 import com.tingcore.cdc.crm.repository.UserRepository;
 import com.tingcore.cdc.crm.request.BaseUpdateCustomerRequest;
 import com.tingcore.cdc.crm.request.UpdatePrivateCustomerRequest;
+import com.tingcore.cdc.crm.utils.AttributeDataUtils;
 import com.tingcore.cdc.crm.utils.ModelDataUtils;
 import com.tingcore.cdc.crm.utils.UserDataUtils;
 import com.tingcore.cdc.utils.CommonDataUtils;
@@ -71,12 +72,35 @@ public class UserServiceTest {
     }
 
     @Test
-    public void putUserAttributeValues() {
+    public void putUserAttributeValues() throws Exception {
         final Long userId = CommonDataUtils.getNextId();
         final UpdatePrivateCustomerRequest request = UserDataUtils.createUpdatePrivateCustomerRequest();
-        ApiResponse<List<AttributeResponse>> apiResponse = ;
 
-        given(userRepository.putUserAttributeValues(anyLong(), anyLong(), any(AttributeValueListRequest.class))).willReturn();
+        List<AttributeResponse> mockCachedAttributes = AttributeDataUtils.allAttributes();
+        given(attributeRepository.findAll()).willReturn(mockCachedAttributes);
+
+        AttributeValueListRequest attributeValueListRequest = AttributeValueMapper.toAttributeValueListRequest(request, mockCachedAttributes);
+        ApiResponse<List<AttributeResponse>> apiMockResponse = createApiMockResponse(attributeValueListRequest);
+        given(userRepository.putUserAttributeValues(anyLong(), anyLong(), any(AttributeValueListRequest.class))).willReturn(apiMockResponse);
+
+        User userServiceResponse = userService.putUserAttributeValues(userId, userId, request);
+        assertCustomer(request, userServiceResponse);
+    }
+
+
+    private ApiResponse<List<AttributeResponse>> createApiMockResponse (AttributeValueListRequest listRequest) {
+        List<AttributeResponse> mockResponseList = UserDataUtils.createMockResponseList(listRequest);
+        ApiResponse<List<AttributeResponse>> apiMockResponse = new ApiResponse<>(mockResponseList);
+        return apiMockResponse;
+    }
+
+    private void assertCustomer (BaseUpdateCustomerRequest mockUserRequest, User response) {
+        assertThat(response.getAddress().get(0).getAddress()).isEqualTo(mockUserRequest.getAddresses().get(0).getAddress());
+        assertThat(response.getPhoneNumbers().get(0).getPhoneNumber()).isEqualTo(mockUserRequest.getPhoneNumbers().get(0).getPhoneNumber());
+        assertThat(response.getTimezone().getValue()).contains(mockUserRequest.getTimezone().getValue());
+        assertThat(response.getLicensePlates().get(0).getLicensePlate()).isEqualTo(mockUserRequest.getLicensePlates().get(0).getLicensePlate());
+        assertThat(response.getApprovedAgreements().get(0).getAgreementId()).isEqualTo(mockUserRequest.getApprovedAgreements().get(0).getAgreementId());
+
     }
 
 }

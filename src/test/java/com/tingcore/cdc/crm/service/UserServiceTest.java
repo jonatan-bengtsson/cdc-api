@@ -4,11 +4,16 @@ import com.tingcore.cdc.crm.constant.AttributeConstant;
 import com.tingcore.cdc.crm.model.User;
 import com.tingcore.cdc.crm.repository.AttributeRepository;
 import com.tingcore.cdc.crm.repository.UserRepository;
+import com.tingcore.cdc.crm.request.BaseUpdateCustomerRequest;
+import com.tingcore.cdc.crm.request.UpdatePrivateCustomerRequest;
+import com.tingcore.cdc.crm.utils.ModelDataUtils;
 import com.tingcore.cdc.crm.utils.UserDataUtils;
 import com.tingcore.cdc.utils.CommonDataUtils;
 import com.tingcore.commons.api.repository.ApiResponse;
 import com.tingcore.commons.constant.SuppressWarningConstant;
 import com.tingcore.commons.rest.ErrorResponse;
+import com.tingcore.users.model.AttributeResponse;
+import com.tingcore.users.model.AttributeValueListRequest;
 import com.tingcore.users.model.UserResponse;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,9 +21,14 @@ import org.junit.runner.RunWith;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.List;
+import java.util.logging.Logger;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyLong;
 
 
 /**
@@ -59,4 +69,14 @@ public class UserServiceTest {
         assertThatExceptionOfType(UsersApiException.class)
                 .isThrownBy(() -> userService.getUserById(authorizedUserId, true));
     }
+
+    @Test
+    public void putUserAttributeValues() {
+        final Long userId = CommonDataUtils.getNextId();
+        final UpdatePrivateCustomerRequest request = UserDataUtils.createUpdatePrivateCustomerRequest();
+        ApiResponse<List<AttributeResponse>> apiResponse = ;
+
+        given(userRepository.putUserAttributeValues(anyLong(), anyLong(), any(AttributeValueListRequest.class))).willReturn();
+    }
+
 }

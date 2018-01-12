@@ -1,11 +1,15 @@
 package com.tingcore.cdc.crm.utils;
 
+import com.google.common.collect.Lists;
 import com.tingcore.cdc.crm.model.StringAttribute;
 import com.tingcore.cdc.crm.model.User;
+import com.tingcore.cdc.crm.request.UpdateBusinessCustomerRequest;
+import com.tingcore.cdc.crm.request.UpdatePrivateCustomerRequest;
 import com.tingcore.cdc.utils.CommonDataUtils;
 import com.tingcore.users.model.UserResponse;
 
 import java.time.Instant;
+import java.util.Arrays;
 
 import static com.google.common.collect.Lists.newArrayList;
 
@@ -44,5 +48,73 @@ public class UserDataUtils {
         return response;
     }
 
+    public static UpdatePrivateCustomerRequest createUpdatePrivateCustomerRequest() {
+        return UpdatePrivateCustomerRequest.createBuilder()
+                .address(Lists.newArrayList(ModelDataUtils.createAddress(), ModelDataUtils.createAddress()))
+                .approvedAgreements(Arrays.asList(ModelDataUtils.createApprovedAgreement()))
+                .approvedMarketInfo(ModelDataUtils.createApprovedMarketInfo())
+                .approvedPrivacy(ModelDataUtils.createApprovedPrivacy())
+                .firstName(ModelDataUtils.createStringAttribute())
+                .lastName(ModelDataUtils.createStringAttribute())
+                .phoneNumbers(Arrays.asList(ModelDataUtils.createPhoneNumber()))
+                .licensePlates(Arrays.asList(ModelDataUtils.createLicensePlate()))
+                .language(ModelDataUtils.createStringAttribute())
+                .socialSecurityNumber(ModelDataUtils.createSocialSecurityNumber())
+                .timezone(ModelDataUtils.createStringAttribute())
+                .build();
+    }
+
+    public static User createUpdatePrivateCustomerResponse(UpdatePrivateCustomerRequest request) {
+        return User.createBuilder()
+                .firstName(request.getFirstName())
+                .lastName(request.getLastName())
+                .phoneNumbers(request.getPhoneNumbers())
+                .approvedMarketInfo(request.getApprovedMarketInfo())
+                .address(request.getAddresses())
+                .timezone(request.getTimezone())
+                .approvedAgreements(request.getApprovedAgreements())
+                .licensePlates(request.getLicensePlates())
+                .socialSecurityNumber(request.getSocialSecurityNumber())
+                .language(request.getLanguage())
+                .build();
+    }
+
+    public static UpdateBusinessCustomerRequest createUpdateBusinessCustomerRequest() {
+        return UpdateBusinessCustomerRequest.createBuilder()
+                .address(Lists.newArrayList(ModelDataUtils.createAddress(), ModelDataUtils.createAddress()))
+                .approvedAgreements(Arrays.asList(ModelDataUtils.createApprovedAgreement()))
+                .approvedMarketInfo(ModelDataUtils.createApprovedMarketInfo())
+                .approvedPrivacy(ModelDataUtils.createApprovedPrivacy())
+                .phoneNumbers(Arrays.asList(ModelDataUtils.createPhoneNumber()))
+                .licensePlates(Arrays.asList(ModelDataUtils.createLicensePlate()))
+                .language(ModelDataUtils.createStringAttribute())
+                .timezone(ModelDataUtils.createStringAttribute())
+                .name(ModelDataUtils.createStringAttribute())
+                .organizationNumber(ModelDataUtils.createOrganizationNumber())
+                .contactFirstName(ModelDataUtils.createStringAttribute())
+                .contactLastName(ModelDataUtils.createStringAttribute())
+                .contactEmail(ModelDataUtils.createStringAttribute())
+                .contactPhoneNumber(Arrays.asList(ModelDataUtils.createPhoneNumber()))
+                .build();
+    }
+
+    public static User createUpdateBusinessCustomerResponse(UpdateBusinessCustomerRequest request) {
+        return User.createBuilder()
+                .name(request.getName())
+                .phoneNumbers(request.getPhoneNumbers())
+                .approvedMarketInfo(request.getApprovedMarketInfo())
+                .approvedPrivacy(request.getApprovedPrivacy())
+                .address(request.getAddresses())
+                .timezone(request.getTimezone())
+                .approvedAgreements(request.getApprovedAgreements())
+                .licensePlates(request.getLicensePlates())
+                .organizationNumber(request.getOrganizationNumber())
+                .language(request.getLanguage())
+                .contactFirstName(request.getContactFirstName())
+                .contactLastName(request.getContactLastName())
+                .contactEmail(request.getContactEmail())
+                .contactPhoneNumber(request.getContactPhoneNumber())
+                .build();
+    }
 }
 

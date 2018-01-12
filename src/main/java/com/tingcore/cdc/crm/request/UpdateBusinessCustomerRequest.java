@@ -22,7 +22,7 @@ public class UpdateBusinessCustomerRequest extends BaseUpdateCustomerRequest {
 
     public UpdateBusinessCustomerRequest(StringAttribute name, List<AddressCRM> address, StringAttribute timezone, List<ApprovedAgreement> approvedAgreements, ApprovedMarketInfo approvedMarketInfo, List<LicensePlate> licensePlates, List<PhoneNumber> phoneNumbers, OrganizationNumber organizationNumber, StringAttribute language, ApprovedPrivacy approvedPrivacy, StringAttribute contactFirstName, StringAttribute contactLastName, List<PhoneNumber> contactPhoneNumber, StringAttribute contactEmail) {
         this.name = name;
-        this.address = address;
+        this.addresses = address;
         this.timezone = timezone;
         this.approvedAgreements = approvedAgreements;
         this.approvedMarketInfo = approvedMarketInfo;

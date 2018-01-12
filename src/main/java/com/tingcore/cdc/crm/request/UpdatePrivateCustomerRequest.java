@@ -16,7 +16,7 @@ public class UpdatePrivateCustomerRequest extends BaseUpdateCustomerRequest {
     public UpdatePrivateCustomerRequest(StringAttribute firstName, StringAttribute lastName, List<AddressCRM> address, StringAttribute timezone, List<ApprovedAgreement> approvedAgreements, ApprovedMarketInfo approvedMarketInfo, List<LicensePlate> licensePlates, SocialSecurityNumber socialSecurityNumber, List<PhoneNumber> phoneNumbers, StringAttribute language, ApprovedPrivacy approvedPrivacy) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.address = address;
+        this.addresses = address;
         this.timezone = timezone;
         this.approvedAgreements = approvedAgreements;
         this.approvedMarketInfo = approvedMarketInfo;

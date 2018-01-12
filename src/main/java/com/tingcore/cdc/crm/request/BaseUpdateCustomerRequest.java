@@ -5,7 +5,6 @@ import com.tingcore.cdc.crm.constant.FieldConstant;
 import com.tingcore.cdc.crm.model.*;
 import io.swagger.annotations.ApiModelProperty;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,7 +12,7 @@ import java.util.List;
  * @since 2018-01-10.
  */
 public abstract class BaseUpdateCustomerRequest {
-    List<AddressCRM> address;
+    List<AddressCRM> addresses;
     StringAttribute timezone;
     List<ApprovedAgreement> approvedAgreements;
     ApprovedMarketInfo approvedMarketInfo;
@@ -24,9 +23,9 @@ public abstract class BaseUpdateCustomerRequest {
 
 
     @JsonProperty(FieldConstant.ADDRESS)
-    @ApiModelProperty(value = "Private address")
-    public List<AddressCRM> getAddress() {
-        return address;
+    @ApiModelProperty(value = "Private addresses")
+    public List<AddressCRM> getAddresses() {
+        return addresses;
     }
 
     @JsonProperty(FieldConstant.TIME_ZONE)

@@ -68,6 +68,7 @@ public class FieldConstant {
     public static final String APPROVED_PRIVACY = "approvedPrivacy";
     public static final String PRIVACY_ID = "privacyId";
     public static final String TYPE_ID = "typeId";
+    public static final String VALUE = "value";
 
     private FieldConstant() {
     }

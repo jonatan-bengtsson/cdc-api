@@ -5,6 +5,7 @@ import com.tingcore.cdc.crm.model.User;
 import com.tingcore.cdc.crm.repository.AttributeRepository;
 import com.tingcore.cdc.crm.repository.UserRepository;
 import com.tingcore.cdc.crm.request.BaseUpdateCustomerRequest;
+import com.tingcore.cdc.crm.request.UpdateBusinessCustomerRequest;
 import com.tingcore.cdc.crm.request.UpdatePrivateCustomerRequest;
 import com.tingcore.cdc.crm.utils.AttributeDataUtils;
 import com.tingcore.cdc.crm.utils.ModelDataUtils;
@@ -21,8 +22,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
+import sun.jvmstat.perfdata.monitor.AbstractMonitoredVm;
 
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -72,15 +75,41 @@ public class UserServiceTest {
     }
 
     @Test
-    public void putUserAttributeValues() throws Exception {
+    public void putPrivateCustomerAttributeValues() throws Exception {
         final Long userId = CommonDataUtils.getNextId();
         final UpdatePrivateCustomerRequest request = UserDataUtils.createUpdatePrivateCustomerRequest();
 
         List<AttributeResponse> mockCachedAttributes = AttributeDataUtils.allAttributes();
+        Map<String, Long> attributeIdMap = AttributeValueMapper.createAttributeIdMap(mockCachedAttributes);
         given(attributeRepository.findAll()).willReturn(mockCachedAttributes);
 
         AttributeValueListRequest attributeValueListRequest = AttributeValueMapper.toAttributeValueListRequest(request, mockCachedAttributes);
-        ApiResponse<List<AttributeResponse>> apiMockResponse = createApiMockResponse(attributeValueListRequest);
+        ApiResponse<List<AttributeResponse>> apiMockResponse = createApiMockResponse(attributeValueListRequest, attributeIdMap);
+        given(userRepository.putUserAttributeValues(anyLong(), anyLong(), any(AttributeValueListRequest.class))).willReturn(apiMockResponse);
+
+        User userServiceResponse = userService.putUserAttributeValues(userId, userId, request);
+        assertCustomer(request, userServiceResponse);
+    }
+
+    @Test
+    public void failPutPrivateCustomerAttributeValuesApiError () throws Exception {
+        given(userRepository.putUserAttributeValues(anyLong(), anyLong(), any(AttributeValueListRequest.class))).willReturn(new ApiResponse<>(ErrorResponse.forbidden().build()));
+        assertThatExceptionOfType(UsersApiException.class)
+                .isThrownBy(() -> userService.putUserAttributeValues(CommonDataUtils.getNextId(), CommonDataUtils.getNextId(), UserDataUtils.createUpdatePrivateCustomerRequest()))
+                .withNoCause();
+    }
+
+    @Test
+    public void putBusinessCustomerAttributeValues() throws Exception {
+        final Long userId = CommonDataUtils.getNextId();
+        final UpdateBusinessCustomerRequest request = UserDataUtils.createUpdateBusinessCustomerRequest();
+
+        List<AttributeResponse> mockCachedAttributes = AttributeDataUtils.allAttributes();
+        Map<String, Long> attributeIdMap = AttributeValueMapper.createAttributeIdMap(mockCachedAttributes);
+        given(attributeRepository.findAll()).willReturn(mockCachedAttributes);
+
+        AttributeValueListRequest attributeValueListRequest = AttributeValueMapper.toAttributeValueListRequest(request, mockCachedAttributes);
+        ApiResponse<List<AttributeResponse>> apiMockResponse = createApiMockResponse(attributeValueListRequest, attributeIdMap);
         given(userRepository.putUserAttributeValues(anyLong(), anyLong(), any(AttributeValueListRequest.class))).willReturn(apiMockResponse);
 
         User userServiceResponse = userService.putUserAttributeValues(userId, userId, request);
@@ -88,8 +117,8 @@ public class UserServiceTest {
     }
 
 
-    private ApiResponse<List<AttributeResponse>> createApiMockResponse (AttributeValueListRequest listRequest) {
-        List<AttributeResponse> mockResponseList = UserDataUtils.createMockResponseList(listRequest);
+    private ApiResponse<List<AttributeResponse>> createApiMockResponse (AttributeValueListRequest listRequest, Map<String, Long> attributeIdMap) {
+        List<AttributeResponse> mockResponseList = UserDataUtils.createMockResponseList(listRequest, attributeIdMap);
         ApiResponse<List<AttributeResponse>> apiMockResponse = new ApiResponse<>(mockResponseList);
         return apiMockResponse;
     }

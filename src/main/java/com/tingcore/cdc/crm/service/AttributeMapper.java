@@ -78,7 +78,7 @@ public class AttributeMapper {
     }
 
     static List<LicensePlate> findLicensePlates(final List<AttributeResponse> attributes) {
-        List<AttributeResponse> attributeResponses = findAttributesFromList(attributes, AttributeConstant.LICENSE_PLATES);
+        List<AttributeResponse> attributeResponses = findAttributesFromList(attributes, AttributeConstant.LICENSE_PLATE);
         return attributeResponses.stream()
                 .map(attributeResponse -> parseAttributeValue(attributeResponse, LicensePlate.class))
                 .filter(Optional::isPresent)

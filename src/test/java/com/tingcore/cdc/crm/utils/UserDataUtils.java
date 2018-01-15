@@ -14,6 +14,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import static com.google.common.collect.Lists.newArrayList;
 
@@ -57,8 +58,8 @@ public class UserDataUtils {
         return UpdatePrivateCustomerRequest.createBuilder()
                 .address(Lists.newArrayList(ModelDataUtils.createAddress(), ModelDataUtils.createAddress()))
                 .approvedAgreements(Arrays.asList(ModelDataUtils.createApprovedAgreement()))
-                .approvedMarketInfo(ModelDataUtils.createApprovedMarketInfo())
-                .approvedPrivacy(ModelDataUtils.createApprovedPrivacy())
+                //.approvedMarketInfo(ModelDataUtils.createApprovedMarketInfo())
+                //.approvedPrivacy(ModelDataUtils.createApprovedPrivacy())
                 .firstName(ModelDataUtils.createStringAttribute())
                 .lastName(ModelDataUtils.createStringAttribute())
                 .phoneNumbers(Arrays.asList(ModelDataUtils.createPhoneNumber()))
@@ -88,8 +89,8 @@ public class UserDataUtils {
         return UpdateBusinessCustomerRequest.createBuilder()
                 .address(Lists.newArrayList(ModelDataUtils.createAddress(), ModelDataUtils.createAddress()))
                 .approvedAgreements(Arrays.asList(ModelDataUtils.createApprovedAgreement()))
-                .approvedMarketInfo(ModelDataUtils.createApprovedMarketInfo())
-                .approvedPrivacy(ModelDataUtils.createApprovedPrivacy())
+                //.approvedMarketInfo(ModelDataUtils.createApprovedMarketInfo())
+                //.approvedPrivacy(ModelDataUtils.createApprovedPrivacy())
                 .phoneNumbers(Arrays.asList(ModelDataUtils.createPhoneNumber()))
                 .licensePlates(Arrays.asList(ModelDataUtils.createLicensePlate()))
                 .language(ModelDataUtils.createStringAttribute())
@@ -122,18 +123,18 @@ public class UserDataUtils {
                 .build();
     }
 
-    public static List<AttributeResponse> createMockResponseList (AttributeValueListRequest listRequest) {
+    public static List<AttributeResponse> createMockResponseList (AttributeValueListRequest listRequest, Map<String, Long> cachedAttributes) {
         List<AttributeResponse> responses = new ArrayList<>();
-        AttributeResponseDataUtils.mockOrganizationResponse(listRequest).ifPresent(responses::add);
-        AttributeResponseDataUtils.mockSocialSecurityNumberResponse(listRequest).ifPresent(responses::add);
-        AttributeResponseDataUtils.mockAddressResponse(listRequest).forEach(responses::add);
-        responses.addAll(AttributeResponseDataUtils.mockLicensePlatesResponse(listRequest));
-        responses.addAll(AttributeResponseDataUtils.mockPhoneNumbersResponse(listRequest));
-        AttributeResponseDataUtils.mockApprovedAgreementResponse(listRequest).forEach(approvedAgreement -> responses.add(approvedAgreement));
-        AttributeResponseDataUtils.mockApprovedMarketInfoResponse(listRequest).ifPresent(approvedMarketInfo -> responses.add(approvedMarketInfo));
-        AttributeResponseDataUtils.mockEmailResponse(listRequest).ifPresent(email -> responses.add(email));
-        AttributeResponseDataUtils.mockApprovedPrivacyResponse(listRequest).ifPresent(approvedPrivacy -> responses.add(approvedPrivacy));
-        AttributeResponseDataUtils.mockTimeZoneResponse(listRequest).ifPresent(timezone -> responses.add(timezone));
+        AttributeResponseDataUtils.mockOrganizationNumberResponse(listRequest, cachedAttributes).ifPresent(responses::add);
+        AttributeResponseDataUtils.mockSocialSecurityNumberResponse(listRequest, cachedAttributes).ifPresent(responses::add);
+        AttributeResponseDataUtils.mockAddressResponse(listRequest, cachedAttributes).forEach(responses::add);
+        responses.addAll(AttributeResponseDataUtils.mockLicensePlatesResponse(listRequest, cachedAttributes));
+        responses.addAll(AttributeResponseDataUtils.mockPhoneNumbersResponse(listRequest, cachedAttributes));
+        AttributeResponseDataUtils.mockApprovedAgreementResponse(listRequest, cachedAttributes).forEach(approvedAgreement -> responses.add(approvedAgreement));
+        AttributeResponseDataUtils.mockApprovedMarketInfoResponse(listRequest, cachedAttributes).ifPresent(approvedMarketInfo -> responses.add(approvedMarketInfo));
+        AttributeResponseDataUtils.mockEmailResponse(listRequest, cachedAttributes).ifPresent(email -> responses.add(email));
+        AttributeResponseDataUtils.mockApprovedPrivacyResponse(listRequest, cachedAttributes).ifPresent(approvedPrivacy -> responses.add(approvedPrivacy));
+        AttributeResponseDataUtils.mockTimeZoneResponse(listRequest, cachedAttributes).ifPresent(timezone -> responses.add(timezone));
         return responses;
     }
 }

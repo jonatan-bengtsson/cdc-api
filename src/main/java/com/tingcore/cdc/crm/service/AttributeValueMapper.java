@@ -1,9 +1,9 @@
 package com.tingcore.cdc.crm.service;
 
 import com.tingcore.cdc.crm.constant.AttributeConstant;
+import com.tingcore.cdc.crm.constant.FieldConstant;
 import com.tingcore.cdc.crm.model.BaseAttributeModel;
-import com.tingcore.cdc.crm.request.BaseUpdateCustomerRequest;
-import org.springframework.stereotype.Component;
+import com.tingcore.cdc.crm.request.*;
 import com.tingcore.commons.api.utils.JsonUtils;
 import com.tingcore.users.model.AttributeResponse;
 import com.tingcore.users.model.AttributeValueListRequest;
@@ -11,39 +11,82 @@ import com.tingcore.users.model.AttributeValueRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * @author moa.mackegard
  * @since 2017-11-10.
  */
 
-@Component
 public class AttributeValueMapper {
 
     private static final Logger LOG = LoggerFactory.getLogger(AttributeValueMapper.class);
 
-    public static AttributeValueListRequest toAttributeValueListRequest (BaseUpdateCustomerRequest request, final List<AttributeResponse> cachedAttributes) {
+    public static <T extends BaseUpdateCustomerRequest> AttributeValueListRequest toAttributeValueListRequest (final T request, final List<AttributeResponse> cachedAttributes) {
         AttributeValueListRequest list = createAttributeValueListRequest();
-        // todo write a test were you try to update an attribute that does not exists in the database
-        Optional.ofNullable(request.getOrganizationNumber()).map(organizationNumber -> list.addAttributeValuesItem(toAttributeValueRequest(organizationNumber, findAttributeId(cachedAttributes, AttributeConstant.ORGANIZATION_NUMBER).orElse(null))));
-        Optional.ofNullable(request.getSocialSecurityNumber()).map(socialSecurityNumber -> list.addAttributeValuesItem(toAttributeValueRequest(socialSecurityNumber, findAttributeId(cachedAttributes, AttributeConstant.SOCIAL_SECURITY_NUMBER).orElse(null))));
-        //Optional.ofNullable(request.getEmail()).map(email -> list.addAttributeValuesItem(toAttributeValueRequest(email))); // todo should email really be both an attribute and a value directly on the user?
-        Optional.ofNullable(request.getTimezone()).map(timeZone -> list.addAttributeValuesItem(toAttributeValueRequest(timeZone, findAttributeId(cachedAttributes, AttributeConstant.TIMEZONE).orElse(null))));
-        Optional.ofNullable(request.getApprovedMarketInfo()).map(approvedMarketInfo -> list.addAttributeValuesItem(toAttributeValueRequest(approvedMarketInfo,findAttributeId(cachedAttributes,AttributeConstant.APPROVED_MARKET_INFO).orElse(null))));
-        Optional.ofNullable(request.getApprovedPrivacy()).map(approvedPrivacy -> list.addAttributeValuesItem(toAttributeValueRequest(approvedPrivacy, findAttributeId(cachedAttributes,AttributeConstant.APPROVED_PRIVACY).orElse(null))));
-        Optional.ofNullable(request.getAddresses()).ifPresent(addresslist -> addresslist.stream().forEach(address -> list.addAttributeValuesItem(toAttributeValueRequest(address,findAttributeId(cachedAttributes,AttributeConstant.ADDRESS).orElse(null)))));
-        Optional.ofNullable(request.getPhoneNumbers()).ifPresent(numberList -> numberList.stream().forEach(phoneNumber -> list.addAttributeValuesItem(toAttributeValueRequest(phoneNumber,findAttributeId(cachedAttributes,AttributeConstant.PHONE_NUMBER).orElse(null)))));
-        Optional.ofNullable(request.getLicensePlates()).ifPresent(licensePlateList -> licensePlateList.stream().forEach(licensePlate -> list.addAttributeValuesItem(toAttributeValueRequest(licensePlate, findAttributeId(cachedAttributes, AttributeConstant.LICENSE_PLATES).orElse(null)))));
-        Optional.ofNullable(request.getApprovedAgreements()).ifPresent(agreements -> agreements.stream().forEach(agreement -> list.addAttributeValuesItem(toAttributeValueRequest(agreement,findAttributeId(cachedAttributes,AttributeConstant.APPROVED_AGREEMENTS).orElse(null)))));
-        Optional.ofNullable(request.getFirstName()).map(firstName -> list.addAttributeValuesItem(toAttributeValueRequest(firstName,findAttributeId(cachedAttributes, AttributeConstant.FIRST_NAME).orElse(null))));
-        Optional.ofNullable(request.getLastName()).map(lastName -> list.addAttributeValuesItem(toAttributeValueRequest(lastName, findAttributeId(cachedAttributes, AttributeConstant.LAST_NAME).orElse(null))));
-        Optional.ofNullable(request.getName()).map(name -> list.addAttributeValuesItem(toAttributeValueRequest(name, findAttributeId(cachedAttributes, AttributeConstant.NAME).orElse(null))));
-        Optional.ofNullable(request.getLanguage()).map(language -> list.addAttributeValuesItem(toAttributeValueRequest(language, findAttributeId(cachedAttributes, AttributeConstant.LANGUAGE).orElse(null))));
+        Optional.ofNullable(request.getTimezone())
+                .ifPresent(timeZone -> addAttributeToList(list, timeZone, cachedAttributes, AttributeConstant.TIMEZONE));
+        Optional.ofNullable(request.getAddresses())
+                .ifPresent(addressList -> addressList.stream().forEach(address -> addAttributeToList(list, address, cachedAttributes, AttributeConstant.ADDRESS)));
+        Optional.ofNullable(request.getPhoneNumbers())
+                .ifPresent(numberList -> numberList.stream().forEach(phoneNumber -> addAttributeToList(list, phoneNumber, cachedAttributes, AttributeConstant.PHONE_NUMBER)));
+        Optional.ofNullable(request.getLanguage())
+                .ifPresent(language -> addAttributeToList(list, language, cachedAttributes, AttributeConstant.LANGUAGE));
+
+        if(request.getClass().equals(UpdatePrivateCustomerRequest.class)){
+            addPrivateCustomerAttributes(list,(UpdatePrivateCustomerRequest) request,cachedAttributes);
+        } else if(request.getClass().equals(UpdateBusinessCustomerRequest.class)) {
+            addBusinessCustomerAttributes(list, (UpdateBusinessCustomerRequest) request, cachedAttributes);
+        }
 
         return list;
+    }
+
+    private static AttributeValueListRequest addPrivateCustomerAttributes(final AttributeValueListRequest list, final UpdatePrivateCustomerRequest privateCustomerRequest, final List<AttributeResponse> cachedAttributes){
+        Optional.ofNullable(privateCustomerRequest.getSocialSecurityNumber())
+                .ifPresent(socialSecurityNumber -> addAttributeToList(list, socialSecurityNumber, cachedAttributes, AttributeConstant.SOCIAL_SECURITY_NUMBER));
+        Optional.ofNullable(privateCustomerRequest.getFirstName())
+                .ifPresent(firstName -> addAttributeToList(list, firstName, cachedAttributes, AttributeConstant.FIRST_NAME));
+        Optional.ofNullable(privateCustomerRequest.getLastName())
+                .ifPresent(lastName -> addAttributeToList(list, lastName, cachedAttributes, AttributeConstant.LAST_NAME));
+        Optional.ofNullable(privateCustomerRequest.getApprovedMarketInfo())
+                .ifPresent(approvedMarketInfo -> addAttributeToList(list, approvedMarketInfo, cachedAttributes, AttributeConstant.APPROVED_MARKET_INFO));
+        Optional.ofNullable(privateCustomerRequest.getApprovedPrivacy())
+                .ifPresent(approvedPrivacy -> addAttributeToList(list, approvedPrivacy, cachedAttributes, AttributeConstant.APPROVED_PRIVACY));
+        Optional.ofNullable(privateCustomerRequest.getLicensePlates())
+                .ifPresent(licensePlateList -> licensePlateList.stream().forEach(licensePlate -> addAttributeToList(list, licensePlate, cachedAttributes, FieldConstant.LICENSE_PLATE)));
+        Optional.ofNullable(privateCustomerRequest.getApprovedAgreements())
+                .ifPresent(agreements -> agreements.stream().forEach(agreement -> addAttributeToList(list, agreement, cachedAttributes, AttributeConstant.APPROVED_AGREEMENTS)));
+        return list;
+    }
+
+    private static AttributeValueListRequest addBusinessCustomerAttributes(final AttributeValueListRequest list, final UpdateBusinessCustomerRequest request, final List<AttributeResponse> cachedAttributes){
+        Optional.ofNullable(request.getOrganizationNumber())
+                .ifPresent(organizationNumber -> addAttributeToList(list, organizationNumber, cachedAttributes, AttributeConstant.ORGANIZATION_NUMBER));
+        Optional.ofNullable(request.getName())
+                .ifPresent(name -> addAttributeToList(list,name, cachedAttributes, AttributeConstant.NAME));
+        Optional.ofNullable(request.getApprovedMarketInfo())
+                .ifPresent(marketInfo -> addAttributeToList(list,marketInfo, cachedAttributes, AttributeConstant.APPROVED_MARKET_INFO));
+        Optional.ofNullable(request.getApprovedPrivacy())
+                .ifPresent(privacy -> addAttributeToList(list,privacy, cachedAttributes, AttributeConstant.APPROVED_PRIVACY));
+        Optional.ofNullable(request.getLicensePlates())
+                .ifPresent(licensePlates -> licensePlates.stream().forEach(licensePlate -> addAttributeToList(list,licensePlate, cachedAttributes, FieldConstant.LICENSE_PLATE)));
+        Optional.ofNullable(request.getApprovedAgreements())
+                .ifPresent(agreements -> agreements.stream().forEach(agreement -> addAttributeToList(list,agreement, cachedAttributes, AttributeConstant.APPROVED_AGREEMENTS)));
+        Optional.ofNullable(request.getContactEmail())
+                .ifPresent(contactEmail -> addAttributeToList(list, contactEmail, cachedAttributes, AttributeConstant.CONTACT_EMAIL));
+        Optional.ofNullable(request.getContactFirstName())
+                .ifPresent(contactFirstName -> addAttributeToList(list, contactFirstName, cachedAttributes, AttributeConstant.CONTACT_FIRST_NAME));
+        Optional.ofNullable(request.getContactLastName())
+                .ifPresent(contactLastName -> addAttributeToList(list, contactLastName, cachedAttributes, AttributeConstant.CONTACT_LAST_NAME));
+        Optional.ofNullable(request.getContactPhoneNumber())
+                .ifPresent(contactPhoneNumbers -> contactPhoneNumbers.stream().forEach(contactPhoneNumber -> addAttributeToList(list, contactPhoneNumber, cachedAttributes, AttributeConstant.CONTACT_PHONE_NUMBER)));
+
+        return list;
+    }
+
+    private static void addAttributeToList (AttributeValueListRequest list, BaseAttributeModel stringAttribute, final List<AttributeResponse> cachedAttributes, String attributeName) {
+        list.addAttributeValuesItem(toAttributeValueRequest(stringAttribute,findAttributeId(cachedAttributes, attributeName).orElse(null)));
     }
 
     public static Optional<Long> findAttributeId (List<AttributeResponse> attributes, String attributeName) {
@@ -68,6 +111,12 @@ public class AttributeValueMapper {
         request.setValue(attributeValue);
         request.setValueId(attributeValueId);
         return request;
+    }
+
+    public static Map<String, Long> createAttributeIdMap (List<AttributeResponse> mockCachedAttributes) {
+        Map<String, Long> attributeIdMap =new HashMap<>();
+        mockCachedAttributes.stream().forEach(attributeResponse -> attributeIdMap.put(attributeResponse.getName(),attributeResponse.getId()));
+        return attributeIdMap;
     }
 
 

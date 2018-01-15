@@ -101,5 +101,6 @@ rebel_project.xml
 
 ### Generated client code ###
 typescript-client/
+java-client/
 
 # End of https://www.gitignore.io/api/gradle,intellij

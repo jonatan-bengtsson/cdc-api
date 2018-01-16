@@ -82,7 +82,7 @@ public class UpdatePrivateCustomerRequest extends BaseUpdateCustomerRequest {
         }
 
         public Builder lastName(final StringAttribute lastName){
-            this.firstName = lastName;
+            this.lastName = lastName;
             return this;
         }
 

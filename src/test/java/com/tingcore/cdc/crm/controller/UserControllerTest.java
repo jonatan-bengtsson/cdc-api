@@ -2,13 +2,9 @@ package com.tingcore.cdc.crm.controller;
 
 import com.tingcore.cdc.ControllerUnitTest;
 import com.tingcore.cdc.crm.model.User;
-import com.tingcore.cdc.crm.request.UpdateBusinessCustomerRequest;
-import com.tingcore.cdc.crm.request.UpdatePrivateCustomerRequest;
 import com.tingcore.cdc.crm.service.UserService;
 import com.tingcore.cdc.crm.service.UsersApiException;
 import com.tingcore.cdc.crm.utils.UserDataUtils;
-import com.tingcore.cdc.utils.CommonDataUtils;
-import com.tingcore.cdc.utils.MockMvcUtils;
 import com.tingcore.commons.api.service.HashIdService;
 import com.tingcore.commons.rest.ErrorResponse;
 import org.junit.Test;
@@ -17,15 +13,11 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
-import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyLong;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -64,21 +56,4 @@ public class UserControllerTest extends ControllerUnitTest {
                 .andExpect(status().isGatewayTimeout())
                 .andExpect(content().string("{\"statusCode\":504,\"status\":\"Gateway Timeout\"}"));
     }
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

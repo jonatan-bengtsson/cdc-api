@@ -1,7 +1,6 @@
 package com.tingcore.cdc.crm.repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tingcore.cdc.crm.model.User;
 import com.tingcore.commons.api.repository.ApiResponse;
 import com.tingcore.users.api.UsersApi;
 import com.tingcore.users.model.AttributeResponse;

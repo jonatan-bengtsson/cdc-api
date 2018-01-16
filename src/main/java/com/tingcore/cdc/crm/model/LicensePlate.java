@@ -11,9 +11,9 @@ public class LicensePlate extends BaseAttributeModel {
     private String licensePlate;
     private String formatter;
 
-    public LicensePlate(Long id, String licenseplate, String formatter) {
+    public LicensePlate(Long id, String licensePlate, String formatter) {
         this.id = id;
-        this.licensePlate = licenseplate;
+        this.licensePlate = licensePlate;
         this.formatter = formatter;
     }
 

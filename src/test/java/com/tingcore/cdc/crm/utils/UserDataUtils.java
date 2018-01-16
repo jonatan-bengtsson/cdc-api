@@ -56,17 +56,17 @@ public class UserDataUtils {
 
     public static UpdatePrivateCustomerRequest createUpdatePrivateCustomerRequest() {
         return UpdatePrivateCustomerRequest.createBuilder()
-                .address(Lists.newArrayList(ModelDataUtils.createAddress(), ModelDataUtils.createAddress()))
-                .approvedAgreements(Arrays.asList(ModelDataUtils.createApprovedAgreement()))
+                .address(Lists.newArrayList(AttributeDataUtils.createAddress(), AttributeDataUtils.createAddress()))
+                .approvedAgreements(Arrays.asList(AttributeDataUtils.createApprovedAgreement()))
                 //.approvedMarketInfo(ModelDataUtils.createApprovedMarketInfo())
                 //.approvedPrivacy(ModelDataUtils.createApprovedPrivacy())
-                .firstName(ModelDataUtils.createStringAttribute())
-                .lastName(ModelDataUtils.createStringAttribute())
-                .phoneNumbers(Arrays.asList(ModelDataUtils.createPhoneNumber()))
-                .licensePlates(Arrays.asList(ModelDataUtils.createLicensePlate()))
-                .language(ModelDataUtils.createStringAttribute())
-                .socialSecurityNumber(ModelDataUtils.createSocialSecurityNumber())
-                .timezone(ModelDataUtils.createStringAttribute())
+                .firstName(AttributeDataUtils.createStringAttribute())
+                .lastName(AttributeDataUtils.createStringAttribute())
+                .phoneNumbers(Arrays.asList(AttributeDataUtils.createPhoneNumber()))
+                .licensePlates(Arrays.asList(AttributeDataUtils.createLicensePlate()))
+                .language(AttributeDataUtils.createStringAttribute())
+                .socialSecurityNumber(AttributeDataUtils.createSocialSecurityNumber())
+                .timezone(AttributeDataUtils.createStringAttribute())
                 .build();
     }
 
@@ -87,20 +87,20 @@ public class UserDataUtils {
 
     public static UpdateBusinessCustomerRequest createUpdateBusinessCustomerRequest() {
         return UpdateBusinessCustomerRequest.createBuilder()
-                .address(Lists.newArrayList(ModelDataUtils.createAddress(), ModelDataUtils.createAddress()))
-                .approvedAgreements(Arrays.asList(ModelDataUtils.createApprovedAgreement()))
+                .address(Lists.newArrayList(AttributeDataUtils.createAddress(), AttributeDataUtils.createAddress()))
+                .approvedAgreements(Arrays.asList(AttributeDataUtils.createApprovedAgreement()))
                 //.approvedMarketInfo(ModelDataUtils.createApprovedMarketInfo())
                 //.approvedPrivacy(ModelDataUtils.createApprovedPrivacy())
-                .phoneNumbers(Arrays.asList(ModelDataUtils.createPhoneNumber()))
-                .licensePlates(Arrays.asList(ModelDataUtils.createLicensePlate()))
-                .language(ModelDataUtils.createStringAttribute())
-                .timezone(ModelDataUtils.createStringAttribute())
-                .name(ModelDataUtils.createStringAttribute())
-                .organizationNumber(ModelDataUtils.createOrganizationNumber())
-                .contactFirstName(ModelDataUtils.createStringAttribute())
-                .contactLastName(ModelDataUtils.createStringAttribute())
-                .contactEmail(ModelDataUtils.createStringAttribute())
-                .contactPhoneNumber(Arrays.asList(ModelDataUtils.createPhoneNumber()))
+                .phoneNumbers(Arrays.asList(AttributeDataUtils.createPhoneNumber()))
+                .licensePlates(Arrays.asList(AttributeDataUtils.createLicensePlate()))
+                .language(AttributeDataUtils.createStringAttribute())
+                .timezone(AttributeDataUtils.createStringAttribute())
+                .name(AttributeDataUtils.createStringAttribute())
+                .organizationNumber(AttributeDataUtils.createOrganizationNumber())
+                .contactFirstName(AttributeDataUtils.createStringAttribute())
+                .contactLastName(AttributeDataUtils.createStringAttribute())
+                .contactEmail(AttributeDataUtils.createStringAttribute())
+                .contactPhoneNumber(Arrays.asList(AttributeDataUtils.createPhoneNumber()))
                 .build();
     }
 

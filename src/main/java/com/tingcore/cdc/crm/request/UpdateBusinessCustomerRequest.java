@@ -20,7 +20,20 @@ public class UpdateBusinessCustomerRequest extends BaseUpdateCustomerRequest {
     private List<PhoneNumber> contactPhoneNumber;
     private StringAttribute contactEmail;
 
-    public UpdateBusinessCustomerRequest(StringAttribute name, List<AddressCRM> address, StringAttribute timezone, List<ApprovedAgreement> approvedAgreements, ApprovedMarketInfo approvedMarketInfo, List<LicensePlate> licensePlates, List<PhoneNumber> phoneNumbers, OrganizationNumber organizationNumber, StringAttribute language, ApprovedPrivacy approvedPrivacy, StringAttribute contactFirstName, StringAttribute contactLastName, List<PhoneNumber> contactPhoneNumber, StringAttribute contactEmail) {
+    public UpdateBusinessCustomerRequest(StringAttribute name,
+                                         List<AddressCRM> address,
+                                         StringAttribute timezone,
+                                         List<ApprovedAgreement> approvedAgreements,
+                                         ApprovedMarketInfo approvedMarketInfo,
+                                         List<LicensePlate> licensePlates,
+                                         List<PhoneNumber> phoneNumbers,
+                                         OrganizationNumber organizationNumber,
+                                         StringAttribute language,
+                                         ApprovedPrivacy approvedPrivacy,
+                                         StringAttribute contactFirstName,
+                                         StringAttribute contactLastName,
+                                         List<PhoneNumber> contactPhoneNumber,
+                                         StringAttribute contactEmail) {
         this.name = name;
         this.addresses = address;
         this.timezone = timezone;
@@ -67,13 +80,13 @@ public class UpdateBusinessCustomerRequest extends BaseUpdateCustomerRequest {
     }
 
     @JsonProperty(FieldConstant.CONTACT_PHONE_NUMBER)
-    @ApiModelProperty(value = "The id of the approved privacy agreement")
+    @ApiModelProperty(value = "The id of the approved privacy agreement", example = "0711111111")
     public List<PhoneNumber> getContactPhoneNumber() {
         return contactPhoneNumber;
     }
 
     @JsonProperty(FieldConstant.CONTACT_EMAIL)
-    @ApiModelProperty(value = "The id of the approved privacy agreement")
+    @ApiModelProperty(value = "The id of the approved privacy agreement", example = "contact@company.com")
     public StringAttribute getContactEmail() {
         return contactEmail;
     }

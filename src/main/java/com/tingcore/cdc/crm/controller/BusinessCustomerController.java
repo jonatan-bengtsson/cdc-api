@@ -4,49 +4,41 @@ import com.tingcore.cdc.configuration.AuthorizedUser;
 import com.tingcore.cdc.configuration.WebMvcConfiguration;
 import com.tingcore.cdc.crm.model.User;
 import com.tingcore.cdc.crm.request.UpdateBusinessCustomerRequest;
-import com.tingcore.cdc.crm.request.UpdatePrivateCustomerRequest;
 import com.tingcore.cdc.crm.service.UserService;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
 
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 
-/**
- * @author palmithor
- * @since 2017-11-09
- */
 @RestController
-@RequestMapping(value = "/v1/users")
-public class UserController {
+@RequestMapping(value = "/v1/business-customer")
+public class BusinessCustomerController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(BusinessCustomerController.class);
 
     private UserService userService;
 
     @Resource(name = WebMvcConfiguration.AUTHORIZED_USER)
     private AuthorizedUser authorizedUser;
 
-    public UserController(final UserService userService) {
+    public BusinessCustomerController(final UserService userService) {
         this.userService = userService;
     }
 
-
-    @RequestMapping(value = "/self", method = GET, produces = "application/json")
-    @ApiOperation(value = "Get the authorized user",
-            notes = "Route allows fetching the user that is currently logged in. " +
-                    "The endpoint uses the authorization id affiliated with the user.",
+    @RequestMapping(value="/self", method = PUT, produces = "application/json")
+    @ApiOperation(value = "Create or update a business customer's attribute values",
+            notes = "Route allows creating new or updating an existing business customer's attribute values",
             tags = SwaggerConstant.TAGS_USERS)
-    public User getSelf(@RequestParam(value = "includeAttributes") Boolean includeAttributes) {
-        return userService.getUserById(authorizedUser.getUser().getId(), includeAttributes);
+    public User updateBusinessCustomerAttributeValues(@Valid @RequestBody UpdateBusinessCustomerRequest userRequest) {
+        final Long authorizedUserId = authorizedUser.getUser().getId();
+        return userService.putUserAttributeValues(authorizedUserId, authorizedUserId, userRequest);
     }
 
 }

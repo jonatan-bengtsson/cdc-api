@@ -3,6 +3,7 @@ package com.tingcore.cdc.crm.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tingcore.cdc.crm.constant.FieldConstant;
 import com.tingcore.cdc.crm.constant.JsonPropertyConstant;
+import io.swagger.annotations.ApiModelProperty;
 
 /**
  * @author moa.mackegard
@@ -22,6 +23,7 @@ public class ApprovedMarketInfo extends BaseAttributeModel {
     }
 
     @JsonProperty(FieldConstant.MARKET_INFO_ID)
+    @ApiModelProperty(value = "The id of the approved market info")
     public String getMarketInfoId() {
         return marketInfoId;
     }
@@ -31,6 +33,7 @@ public class ApprovedMarketInfo extends BaseAttributeModel {
     }
 
     @JsonProperty(JsonPropertyConstant.FORMATTER)
+    @ApiModelProperty(value = "The requested formatter code", example = "SE")
     public String getFormatter() {
         return formatter;
     }
@@ -41,6 +44,6 @@ public class ApprovedMarketInfo extends BaseAttributeModel {
 
     @Override
     public ApprovedMarketInfo copyWithoutId () {
-        return new ApprovedMarketInfo(null, this.marketInfoId,this.formatter);
+        return new ApprovedMarketInfo(null, this.marketInfoId, this.formatter);
     }
 }

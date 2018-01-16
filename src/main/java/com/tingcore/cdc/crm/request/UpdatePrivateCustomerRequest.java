@@ -13,7 +13,17 @@ public class UpdatePrivateCustomerRequest extends BaseUpdateCustomerRequest {
     private StringAttribute lastName;
     private SocialSecurityNumber socialSecurityNumber;
 
-    public UpdatePrivateCustomerRequest(StringAttribute firstName, StringAttribute lastName, List<AddressCRM> address, StringAttribute timezone, List<ApprovedAgreement> approvedAgreements, ApprovedMarketInfo approvedMarketInfo, List<LicensePlate> licensePlates, SocialSecurityNumber socialSecurityNumber, List<PhoneNumber> phoneNumbers, StringAttribute language, ApprovedPrivacy approvedPrivacy) {
+    public UpdatePrivateCustomerRequest(StringAttribute firstName,
+                                        StringAttribute lastName,
+                                        List<AddressCRM> address,
+                                        StringAttribute timezone,
+                                        List<ApprovedAgreement> approvedAgreements,
+                                        ApprovedMarketInfo approvedMarketInfo,
+                                        List<LicensePlate> licensePlates,
+                                        SocialSecurityNumber socialSecurityNumber,
+                                        List<PhoneNumber> phoneNumbers,
+                                        StringAttribute language,
+                                        ApprovedPrivacy approvedPrivacy) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.addresses = address;
@@ -39,7 +49,7 @@ public class UpdatePrivateCustomerRequest extends BaseUpdateCustomerRequest {
 
     @Override
     @JsonProperty(FieldConstant.LAST_NAME)
-    @ApiModelProperty(value = "Private customer Last name")
+    @ApiModelProperty(value = "Private customer Last name", example = "Smith")
     public StringAttribute getLastName() {
         return lastName;
     }

@@ -8,7 +8,6 @@ import com.tingcore.cdc.crm.request.BaseUpdateCustomerRequest;
 import com.tingcore.cdc.crm.request.UpdateBusinessCustomerRequest;
 import com.tingcore.cdc.crm.request.UpdatePrivateCustomerRequest;
 import com.tingcore.cdc.crm.utils.AttributeDataUtils;
-import com.tingcore.cdc.crm.utils.ModelDataUtils;
 import com.tingcore.cdc.crm.utils.UserDataUtils;
 import com.tingcore.cdc.utils.CommonDataUtils;
 import com.tingcore.commons.api.repository.ApiResponse;
@@ -22,11 +21,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
-import sun.jvmstat.perfdata.monitor.AbstractMonitoredVm;
 
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;

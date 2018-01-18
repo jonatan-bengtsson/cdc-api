@@ -69,25 +69,5 @@ public abstract class BaseUpdateCustomerRequest {
     public ApprovedPrivacy getApprovedPrivacy () {
         return approvedPrivacy;
     }
-
-    public OrganizationNumber getOrganizationNumber() {
-        return null;
-    }
-
-    public SocialSecurityNumber getSocialSecurityNumber() {
-        return null;
-    }
-
-    public StringAttribute getFirstName() {
-        return null;
-    }
-
-    public StringAttribute getLastName() {
-        return null;
-    }
-
-    public StringAttribute getName() {
-        return null;
-    }
-
+    
 }

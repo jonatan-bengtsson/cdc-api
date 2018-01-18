@@ -18,7 +18,7 @@ import javax.validation.Valid;
 import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 
 @RestController
-@RequestMapping(value = "/v1/business-customer")
+@RequestMapping(value = "/v1/business-customers")
 public class BusinessCustomerController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BusinessCustomerController.class);
@@ -38,7 +38,7 @@ public class BusinessCustomerController {
             tags = SwaggerConstant.TAGS_USERS)
     public User updateBusinessCustomerAttributeValues(@Valid @RequestBody UpdateBusinessCustomerRequest userRequest) {
         final Long authorizedUserId = authorizedUser.getUser().getId();
-        return userService.putUserAttributeValues(authorizedUserId, authorizedUserId, userRequest);
+        return userService.putUserAttributeValues(authorizedUserId, userRequest);
     }
 
 }

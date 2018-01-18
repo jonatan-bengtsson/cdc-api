@@ -36,9 +36,9 @@ public class UserService {
                 .orElseThrow(() -> new UsersApiException(apiResponse.getError()));
     }
 
-    public User putUserAttributeValues(final Long userId, final Long authorizedUserId, final BaseUpdateCustomerRequest userRequest){
+    public <T extends BaseUpdateCustomerRequest> User putUserAttributeValues(final Long userId, final T userRequest){
         AttributeValueListRequest attributeValueListRequest = AttributeValueMapper.toAttributeValueListRequest(userRequest, attributeRepository.findAll());
-        ApiResponse<List<AttributeResponse>> apiResponse = userRepository.putUserAttributeValues(userId, authorizedUserId, attributeValueListRequest);
+        ApiResponse<List<AttributeResponse>> apiResponse = userRepository.putUserAttributeValues(userId, attributeValueListRequest);
         return apiResponse.getResponseOptional()
                 .map(attributeResponses -> UserMapper.attributeListToUserResponse(attributeResponses))
                 .orElseThrow(() -> new UsersApiException(apiResponse.getError()));

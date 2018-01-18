@@ -32,8 +32,8 @@ public class UserRepository extends AbstractUserServiceRepository {
         return execute(usersApi.getSelfUsingGET(authorizationId, includeAttributes));
     }
 
-    public ApiResponse<List<AttributeResponse>> putUserAttributeValues (final Long userId, final Long authorizationId, final AttributeValueListRequest attributeValueListRequests) {
-            return execute(usersApi.putUserAttributeValuesUsingPUT(userId, attributeValueListRequests, authorizationId));
+    public ApiResponse<List<AttributeResponse>> putUserAttributeValues (final Long userId, final AttributeValueListRequest attributeValueListRequests) {
+            return execute(usersApi.putUserAttributeValuesUsingPUT(userId, attributeValueListRequests, userId));
     }
 
 }

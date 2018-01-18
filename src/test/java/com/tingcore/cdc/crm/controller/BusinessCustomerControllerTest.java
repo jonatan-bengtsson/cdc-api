@@ -35,8 +35,8 @@ public class BusinessCustomerControllerTest extends ControllerUnitTest {
     public void putBusinessCustomerAttributeValues() throws Exception {
         final UpdateBusinessCustomerRequest request = UserDataUtils.createUpdateBusinessCustomerRequest();
         final User response = UserDataUtils.createUpdateBusinessCustomerResponse(request);
-        given(userService.putUserAttributeValues(anyLong(), anyLong(), any(UpdateBusinessCustomerRequest.class))).willReturn(response);
-        MvcResult result = mockMvc.perform(put("/v1/business-customer/self")
+        given(userService.putUserAttributeValues(anyLong(), any(UpdateBusinessCustomerRequest.class))).willReturn(response);
+        MvcResult result = mockMvc.perform(put("/v1/business-customers/self")
                 .content(mockMvcUtils.toJson(request))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -48,7 +48,7 @@ public class BusinessCustomerControllerTest extends ControllerUnitTest {
     @Test
     public void failPutBusinessCustomerAttributeValuesBadRequest() throws Exception {
         final UpdatePrivateCustomerRequest request = UserDataUtils.createUpdatePrivateCustomerRequest();
-        mockMvc.perform(put("/v1/business-customer/self")
+        mockMvc.perform(put("/v1/business-customers/self")
                 .content(mockMvcUtils.toJson(request))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());

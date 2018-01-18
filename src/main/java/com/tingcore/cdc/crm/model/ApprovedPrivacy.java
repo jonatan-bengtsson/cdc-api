@@ -1,6 +1,7 @@
 package com.tingcore.cdc.crm.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.tingcore.cdc.crm.constant.FieldConstant;
 
 /**
  * @author moa.mackegard
@@ -23,7 +24,7 @@ public class ApprovedPrivacy extends BaseAttributeModel {
         return new ApprovedPrivacy(null, this.privacyId);
     }
 
-    @JsonProperty("privacyId")
+    @JsonProperty(FieldConstant.PRIVACY_ID)
     public String getPrivacyId() {
         return privacyId;
     }

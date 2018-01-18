@@ -40,21 +40,18 @@ public class UpdatePrivateCustomerRequest extends BaseUpdateCustomerRequest {
     public UpdatePrivateCustomerRequest() {
     }
 
-    @Override
     @JsonProperty(FieldConstant.FIRST_NAME)
     @ApiModelProperty(value = "Private customer first name", example = "Anna")
     public StringAttribute getFirstName() {
         return firstName;
     }
 
-    @Override
     @JsonProperty(FieldConstant.LAST_NAME)
     @ApiModelProperty(value = "Private customer Last name", example = "Smith")
     public StringAttribute getLastName() {
         return lastName;
     }
 
-    @Override
     @JsonProperty(FieldConstant.SOCIAL_SECURITY_NUMBER)
     @ApiModelProperty(value = "The social security number and the formatter code", example = "YYYYMMDD-XXXX")
     public SocialSecurityNumber getSocialSecurityNumber() {

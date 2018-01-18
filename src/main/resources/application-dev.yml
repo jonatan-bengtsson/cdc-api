@@ -15,7 +15,8 @@ logging:
 
 app:
   user-service:
-    base-url: http://${integration.user.hostname}
+    #base-url: http://${integration.user.hostname}
+    base-url: https://user-service-test.tingcore-infra.com
 
 integration:
   payments:

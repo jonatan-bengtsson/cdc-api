@@ -82,17 +82,17 @@ public class UserServiceTest {
 
         AttributeValueListRequest attributeValueListRequest = AttributeValueMapper.toAttributeValueListRequest(request, mockCachedAttributes);
         ApiResponse<List<AttributeResponse>> apiMockResponse = createApiMockResponse(attributeValueListRequest, attributeIdMap);
-        given(userRepository.putUserAttributeValues(anyLong(), anyLong(), any(AttributeValueListRequest.class))).willReturn(apiMockResponse);
+        given(userRepository.putUserAttributeValues(anyLong(), any(AttributeValueListRequest.class))).willReturn(apiMockResponse);
 
-        User userServiceResponse = userService.putUserAttributeValues(userId, userId, request);
+        User userServiceResponse = userService.putUserAttributeValues(userId, request);
         assertCustomer(request, userServiceResponse);
     }
 
     @Test
     public void failPutPrivateCustomerAttributeValuesApiError () throws Exception {
-        given(userRepository.putUserAttributeValues(anyLong(), anyLong(), any(AttributeValueListRequest.class))).willReturn(new ApiResponse<>(ErrorResponse.forbidden().build()));
+        given(userRepository.putUserAttributeValues(anyLong(), any(AttributeValueListRequest.class))).willReturn(new ApiResponse<>(ErrorResponse.forbidden().build()));
         assertThatExceptionOfType(UsersApiException.class)
-                .isThrownBy(() -> userService.putUserAttributeValues(CommonDataUtils.getNextId(), CommonDataUtils.getNextId(), UserDataUtils.createUpdatePrivateCustomerRequest()))
+                .isThrownBy(() -> userService.putUserAttributeValues(CommonDataUtils.getNextId(), UserDataUtils.createUpdatePrivateCustomerRequest()))
                 .withNoCause();
     }
 
@@ -107,9 +107,9 @@ public class UserServiceTest {
 
         AttributeValueListRequest attributeValueListRequest = AttributeValueMapper.toAttributeValueListRequest(request, mockCachedAttributes);
         ApiResponse<List<AttributeResponse>> apiMockResponse = createApiMockResponse(attributeValueListRequest, attributeIdMap);
-        given(userRepository.putUserAttributeValues(anyLong(), anyLong(), any(AttributeValueListRequest.class))).willReturn(apiMockResponse);
+        given(userRepository.putUserAttributeValues(anyLong(), any(AttributeValueListRequest.class))).willReturn(apiMockResponse);
 
-        User userServiceResponse = userService.putUserAttributeValues(userId, userId, request);
+        User userServiceResponse = userService.putUserAttributeValues(userId, request);
         assertCustomer(request, userServiceResponse);
     }
 

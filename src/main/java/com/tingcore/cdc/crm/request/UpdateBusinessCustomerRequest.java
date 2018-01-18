@@ -53,14 +53,12 @@ public class UpdateBusinessCustomerRequest extends BaseUpdateCustomerRequest {
     public UpdateBusinessCustomerRequest() {
     }
 
-    @Override
     @JsonProperty(FieldConstant.NAME)
     @ApiModelProperty(value = "Business customer name", example = "Company name")
     public StringAttribute getName() {
         return name;
     }
 
-    @Override
     @JsonProperty(FieldConstant.ORGANIZATION_NUMBER)
     @ApiModelProperty(value = "The organization number for a business customer", example = "XXXXXX-XXXX")
     public OrganizationNumber getOrganizationNumber() {

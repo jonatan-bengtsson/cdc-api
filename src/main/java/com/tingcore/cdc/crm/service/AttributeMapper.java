@@ -34,7 +34,7 @@ public class AttributeMapper {
                 .collect(Collectors.toList());
     }
 
-    static List<PhoneNumber> findPhoneNumberResponses(final List<AttributeResponse> attributes, final String phoneNumberAttributeName) {
+    static List<PhoneNumber> findPhoneNumbers(final List<AttributeResponse> attributes, final String phoneNumberAttributeName) {
         List<AttributeResponse> attributeResponses = findAttributesFromList(attributes, phoneNumberAttributeName);
         return attributeResponses.stream()
                 .map(attributeResponse -> parseAttributeValue(attributeResponse, PhoneNumber.class))
@@ -43,7 +43,7 @@ public class AttributeMapper {
                 .collect(Collectors.toList());
     }
 
-    static Optional<AddressCRM> findBillingAddressResponse(final List<AttributeResponse> attributes) {
+    static Optional<AddressCRM> findBillingAddress(final List<AttributeResponse> attributes) {
         Optional<AttributeResponse> attributeResponse = findAttributeFromList(attributes, AttributeConstant.ADDRESS);
 
         if (attributeResponse.isPresent()) {
@@ -68,7 +68,7 @@ public class AttributeMapper {
     }
 
 
-    static List<AddressCRM> findAddressResponse(final List<AttributeResponse> attributes) {
+    static List<AddressCRM> findAddress(final List<AttributeResponse> attributes) {
         List<AttributeResponse> attributeResponses = findAttributesFromList(attributes, AttributeConstant.ADDRESS);
         return attributeResponses.stream()
                 .map(attributeResponse -> parseAttributeValue(attributeResponse, AddressCRM.class))
@@ -77,8 +77,8 @@ public class AttributeMapper {
                 .collect(Collectors.toList());
     }
 
-    static List<LicensePlate> findLicensePlateResponse(final List<AttributeResponse> attributes) {
-        List<AttributeResponse> attributeResponses = findAttributesFromList(attributes, AttributeConstant.LICENSE_PLATES);
+    static List<LicensePlate> findLicensePlates(final List<AttributeResponse> attributes) {
+        List<AttributeResponse> attributeResponses = findAttributesFromList(attributes, AttributeConstant.LICENSE_PLATE);
         return attributeResponses.stream()
                 .map(attributeResponse -> parseAttributeValue(attributeResponse, LicensePlate.class))
                 .filter(Optional::isPresent)
@@ -122,7 +122,7 @@ public class AttributeMapper {
         }
     }
 
-    static List<AddressCRM> findVisitingAddressResponse(final List<AttributeResponse> attributes) {
+    static List<AddressCRM> findVisitingAddress(final List<AttributeResponse> attributes) {
         List<AttributeResponse> attributeResponses = findAttributesFromList(attributes, AttributeConstant.VISITING_ADDRESS);
         return attributeResponses.stream()
                 .map(attributeResponse -> parseAttributeValue(attributeResponse, AddressCRM.class))
@@ -143,13 +143,24 @@ public class AttributeMapper {
         }
     }
 
-    static Optional<InstantAttribute> findDateResponse(List<AttributeResponse> attributes, String attributeName) {
+    static Optional<InstantAttribute> findDate(List<AttributeResponse> attributes, String attributeName) {
         Optional<AttributeResponse> attributeResponse = findAttributeFromList(attributes, attributeName);
 
         if (attributeResponse.isPresent()) {
             Optional<InstantAttribute> instantAttributeResponse = parseAttributeValue(attributeResponse.get(), InstantAttribute.class);
             instantAttributeResponse.ifPresent(instantAttribute1 -> instantAttribute1.setId(attributeResponse.get().getAttributeValue().getId()));
             return instantAttributeResponse;
+        } else {
+            return Optional.empty();
+        }
+    }
+
+    public static Optional<ApprovedPrivacy> findApprovedPrivacy(List<AttributeResponse> attributes, String attributeName) {
+        Optional<AttributeResponse> attributeResponse = findAttributeFromList(attributes, attributeName);
+        if (attributeResponse.isPresent()) {
+            Optional<ApprovedPrivacy> approvedPrivacy = parseAttributeValue(attributeResponse.get(), ApprovedPrivacy.class);
+            approvedPrivacy.ifPresent(a -> a.setId(attributeResponse.get().getAttributeValue().getId()));
+            return approvedPrivacy;
         } else {
             return Optional.empty();
         }

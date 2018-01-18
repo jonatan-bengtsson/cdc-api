@@ -22,10 +22,15 @@ public class User {
     private final BooleanAttribute hasChargingAccess;
     private final StringAttribute customerType;
     private final List<PhoneNumber> phoneNumbers;
-    private final StringAttribute organizationNumber;
+    private final OrganizationNumber organizationNumber;
     private final StringAttribute language;
     private final InstantAttribute activationDate;
-    private final InstantAttribute expirationDate;
+    private final ApprovedPrivacy approvedPrivacy;
+    private final StringAttribute name;
+    private final StringAttribute contactFirstName;
+    private final StringAttribute contactLastName;
+    private final List<PhoneNumber> contactPhoneNumber;
+    private final StringAttribute contactEmail;
 
     public User(final Long id,
                 final Organization organization,
@@ -42,11 +47,15 @@ public class User {
                 final BooleanAttribute hasChargingAccess,
                 final StringAttribute customerType,
                 final List<PhoneNumber> phoneNumbers,
-                final StringAttribute organizationNumber,
-                final List<StringAttribute> roles,
+                final OrganizationNumber organizationNumber,
                 final StringAttribute language,
                 final InstantAttribute activationDate,
-                final InstantAttribute expirationDate) {
+                final ApprovedPrivacy approvedPrivacy,
+                final StringAttribute name,
+                final StringAttribute contactFirstName,
+                final StringAttribute contactLastName,
+                final List<PhoneNumber> contactPhoneNumber,
+                final StringAttribute contactEmail) {
         this.id = id;
         this.organization = organization;
         this.firstName = firstName;
@@ -65,7 +74,12 @@ public class User {
         this.organizationNumber = organizationNumber;
         this.language = language;
         this.activationDate = activationDate;
-        this.expirationDate = expirationDate;
+        this.approvedPrivacy = approvedPrivacy;
+        this.name = name;
+        this.contactFirstName = contactFirstName;
+        this.contactLastName = contactLastName;
+        this.contactPhoneNumber = contactPhoneNumber;
+        this.contactEmail = contactEmail;
     }
 
     public User() {
@@ -87,7 +101,12 @@ public class User {
         this.organizationNumber = null;
         this.language = null;
         this.activationDate = null;
-        this.expirationDate = null;
+        this.approvedPrivacy = null;
+        this.name = null;
+        this.contactFirstName = null;
+        this.contactLastName = null;
+        this.contactEmail = null;
+        this.contactPhoneNumber = null;
     }
     
     
@@ -184,7 +203,7 @@ public class User {
     
     @JsonProperty(FieldConstant.ORGANIZATION_NUMBER)
     @ApiModelProperty(position = 16)
-    public StringAttribute getOrganizationNumber() {
+    public OrganizationNumber getOrganizationNumber() {
         return organizationNumber;
     }
     
@@ -199,11 +218,41 @@ public class User {
     public InstantAttribute getActivationDate() {
         return activationDate;
     }
-    
-    @JsonProperty(FieldConstant.EXPIRATION_DATE)
-    @ApiModelProperty(position = 19)
-    public InstantAttribute getExpirationDate() {
-        return expirationDate;
+
+    @JsonProperty(FieldConstant.APPROVED_PRIVACY)
+    @ApiModelProperty(position = 20)
+    public ApprovedPrivacy getApprovedPrivacy() {
+        return approvedPrivacy;
+    }
+
+    @JsonProperty(FieldConstant.NAME)
+    @ApiModelProperty(position = 21)
+    public StringAttribute getName() {
+        return name;
+    }
+
+    @JsonProperty(FieldConstant.CONTACT_FIRST_NAME)
+    @ApiModelProperty(position = 22)
+    public StringAttribute getContactFirstName() {
+        return contactFirstName;
+    }
+
+    @JsonProperty(FieldConstant.CONTACT_LAST_NAME)
+    @ApiModelProperty(position = 23)
+    public StringAttribute getContactLastName() {
+        return contactLastName;
+    }
+
+    @JsonProperty(FieldConstant.CONTACT_EMAIL)
+    @ApiModelProperty(position = 24)
+    public StringAttribute getContactEmail() {
+        return contactEmail;
+    }
+
+    @JsonProperty(FieldConstant.CONTACT_PHONE_NUMBER)
+    @ApiModelProperty(position = 25)
+    public List<PhoneNumber> getContactPhoneNumber() {
+        return contactPhoneNumber;
     }
     
     
@@ -227,11 +276,15 @@ public class User {
         private BooleanAttribute hasChargingAccess;
         private StringAttribute customerType;
         private List<PhoneNumber> phoneNumbers;
-        private StringAttribute organizationNumber;
-        private List<StringAttribute> roles;
+        private OrganizationNumber organizationNumber;
         private StringAttribute language;
         private InstantAttribute activationDate;
-        private InstantAttribute expirationDate;
+        private ApprovedPrivacy approvedPrivacy;
+        private StringAttribute name;
+        private StringAttribute contactFirstName;
+        private StringAttribute contactLastName;
+        private List<PhoneNumber> contactPhoneNumber;
+        private StringAttribute contactEmail;
 
         Builder() {
         }
@@ -245,7 +298,6 @@ public class User {
             this.organization = organization;
             return this;
         }
-
 
         public Builder firstName(final StringAttribute firstName) {
             this.firstName = firstName;
@@ -308,23 +360,13 @@ public class User {
         }
 
         // organizationNumber is the id for a business customer
-        public Builder organizationNumber(final StringAttribute organizationNumber) {
+        public Builder organizationNumber(final OrganizationNumber organizationNumber) {
             this.organizationNumber = organizationNumber;
-            return this;
-        }
-
-        public Builder roles(final List<StringAttribute> roles) {
-            this.roles = roles;
             return this;
         }
 
         public Builder activationDate(final InstantAttribute activationDate) {
             this.activationDate = activationDate;
-            return this;
-        }
-
-        public Builder expirationDate(final InstantAttribute expirationDate) {
-            this.expirationDate = expirationDate;
             return this;
         }
 
@@ -338,12 +380,42 @@ public class User {
             return this;
         }
 
+        public Builder approvedPrivacy(final ApprovedPrivacy approvedPrivacy) {
+            this.approvedPrivacy = approvedPrivacy;
+            return this;
+        }
+
+        public Builder name(final StringAttribute name) {
+            this.name = name;
+            return this;
+        }
+
+        public Builder contactFirstName(final StringAttribute contactFirstName) {
+            this.contactFirstName = contactFirstName;
+            return this;
+        }
+
+        public Builder contactLastName(final StringAttribute contactLastName) {
+            this.contactLastName= contactLastName;
+            return this;
+        }
+
+        public Builder contactEmail(final StringAttribute contactEmail) {
+            this.contactEmail = contactEmail;
+            return this;
+        }
+
+        public Builder contactPhoneNumber(final List<PhoneNumber> contactPhoneNumber) {
+            this.contactPhoneNumber = contactPhoneNumber;
+            return this;
+        }
+
 
         public User build() {
             return new User(id, organization, firstName, lastName, email, address, timezone, approvedAgreements, approvedMarketInfo, licensePlates,
                     socialSecurityNumber, customerNumber, hasChargingAccess, customerType, phoneNumbers,
-                    organizationNumber, roles, language,
-                    activationDate, expirationDate);
+                    organizationNumber, language,
+                    activationDate, approvedPrivacy, name, contactFirstName, contactLastName, contactPhoneNumber, contactEmail);
         }
     }
 

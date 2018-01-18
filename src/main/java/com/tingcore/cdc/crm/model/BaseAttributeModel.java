@@ -22,4 +22,6 @@ public abstract class BaseAttributeModel {
         this.id = id;
     }
 
+    public abstract <T extends BaseAttributeModel> T copyWithoutId ();
+
 }

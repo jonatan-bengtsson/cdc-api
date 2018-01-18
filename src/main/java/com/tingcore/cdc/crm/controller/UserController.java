@@ -44,5 +44,4 @@ public class UserController {
         return userService.getUserById(authorizedUser.getUser().getId(), includeAttributes);
     }
 
-
 }

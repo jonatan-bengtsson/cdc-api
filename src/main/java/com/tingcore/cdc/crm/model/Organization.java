@@ -119,7 +119,7 @@ public class Organization {
         return billingAddress;
     }
     
-    @JsonProperty(FieldConstant.BILLING_TELEPHONE)
+    @JsonProperty(FieldConstant.BILLING_PHONE_NUMBER)
     @ApiModelProperty(position = 15)
     public List<PhoneNumber> getBillingTelephone () {
         return billingTelephone;

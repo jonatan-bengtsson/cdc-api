@@ -28,4 +28,9 @@ public class InstantAttribute extends BaseAttributeModel {
     public void setValue(final Instant value) {
         this.value = value;
     }
+
+    @Override
+    public InstantAttribute copyWithoutId () {
+        return new InstantAttribute(null, this.value);
+    }
 }

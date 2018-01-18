@@ -50,4 +50,8 @@ public class PhoneNumber extends BaseAttributeModel {
         this.name = name;
     }
 
+    public PhoneNumber copyWithoutId () {
+        return new PhoneNumber(null, this.phoneNumber,this.formatter,this.name);
+    }
+
 }

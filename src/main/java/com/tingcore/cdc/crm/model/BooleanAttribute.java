@@ -30,4 +30,9 @@ public class BooleanAttribute extends BaseAttributeModel {
     public void setValue(final Boolean value) {
         this.value = value;
     }
+
+    @Override
+    public BooleanAttribute copyWithoutId () {
+        return new BooleanAttribute(null, this.value);
+    }
 }

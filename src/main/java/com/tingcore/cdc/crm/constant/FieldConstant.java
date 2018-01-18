@@ -35,7 +35,7 @@ public class FieldConstant {
     public static final String CONTACT_NOTES = "contactNotes";
     public static final String VAT = "VAT";
     public static final String BILLING_ADDRESS = "billingAddress";
-    public static final String BILLING_TELEPHONE = "billingTelephone";
+    public static final String BILLING_PHONE_NUMBER = "billingPhoneNumber";
     public static final String VISITING_ADDRESS = "visitingAddresses";
     public static final String ORGANIZATION_TYPE = "organizationType";
     public static final String FIRST_NAME = "firstName";
@@ -65,7 +65,10 @@ public class FieldConstant {
     public static final String PHONE_NUMBER = "phoneNumber";
     public static final String FORMATTER = "formatter";
     public static final String DEFAULT_CURRENCY = "defaultCurrency";
+    public static final String APPROVED_PRIVACY = "approvedPrivacy";
+    public static final String PRIVACY_ID = "privacyId";
     public static final String TYPE_ID = "typeId";
+    public static final String VALUE = "value";
 
     private FieldConstant() {
     }

@@ -39,7 +39,7 @@ public class UserDataUtils {
     public static UserResponse createValidUserResponse() {
         final UserResponse response = new UserResponse();
         response.setOrganization(OrganizationDataUtils.createOrganizationResponse());
-        response.setOrganizationPermissions(newArrayList(OrganizationDataUtils.createOrganizationResponse()));
+        response.setAccessibleOrganizations(newArrayList(OrganizationDataUtils.createOrganizationResponse()));
         response.setEmail(CommonDataUtils.randomEmail());
         response.setId(CommonDataUtils.getNextId());
         response.setCreated(Instant.now().toEpochMilli());

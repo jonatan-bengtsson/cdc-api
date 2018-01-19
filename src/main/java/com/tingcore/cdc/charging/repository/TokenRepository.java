@@ -1,10 +1,12 @@
 package com.tingcore.cdc.charging.repository;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableMap;
 import com.tingcore.cdc.charging.model.AuthorizationToken;
 import com.tingcore.cdc.charging.model.ChargePointId;
 import com.tingcore.cdc.charging.model.CustomerKeyId;
 import com.tingcore.cdc.charging.model.TrustedUserId;
+import com.tingcore.commons.api.repository.AbstractApiRepository;
 import com.tingcore.payments.emp.api.TokensApi;
 import com.tingcore.payments.emp.model.ApiAuthorizationToken;
 import com.tingcore.payments.emp.model.Authorization;
@@ -17,10 +19,13 @@ import java.time.Instant;
 import static org.apache.commons.lang3.Validate.notNull;
 
 @Repository
-public class TokenRepository {
+public class TokenRepository extends AbstractApiRepository {
     private final TokensApi tokensApi;
+    private static final Integer DEFAULT_TIME_OUT = 60;
 
-    public TokenRepository(final TokensApi tokensApi) {
+    public TokenRepository(final ObjectMapper objectMapper,
+                           final TokensApi tokensApi) {
+        super(notNull(objectMapper));
         this.tokensApi = notNull(tokensApi);
     }
 
@@ -39,7 +44,7 @@ public class TokenRepository {
             request.setAccount(customerKeyId.value);
             request.setChargePoint(chargePointId.value);
             request.setTime(Instant.now().toEpochMilli());
-            return apiTokenToModel(tokensApi.createAuthorizationToken(request));
+            return apiTokenToModel(execute(tokensApi.createAuthorizationToken(request)).getResponse());
         } catch (final RestClientException exception) {
             throw new RuntimeException(exception); // TODO better error handling
         }
@@ -47,5 +52,10 @@ public class TokenRepository {
 
     private AuthorizationToken apiTokenToModel(final ApiAuthorizationToken apiAuthorizationToken) {
         return new AuthorizationToken(apiAuthorizationToken.getValue());
+    }
+
+    @Override
+    public Integer getTimeout() {
+        return DEFAULT_TIME_OUT;
     }
 }

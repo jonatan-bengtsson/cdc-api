@@ -1,8 +1,11 @@
 package com.tingcore.cdc.charging.repository;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableMap;
 import com.tingcore.cdc.charging.model.*;
 import com.tingcore.cdc.exception.NoSessionFoundException;
+import com.tingcore.commons.api.repository.AbstractApiRepository;
+import com.tingcore.commons.external.ExternalApiException;
 import com.tingcore.payments.emp.api.ChargesApi;
 import com.tingcore.payments.emp.model.*;
 import org.springframework.stereotype.Repository;
@@ -11,6 +14,7 @@ import org.springframework.web.client.RestClientException;
 
 import java.time.Instant;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 
 import static java.lang.String.format;
 import static java.util.Optional.ofNullable;
@@ -18,16 +22,19 @@ import static org.apache.commons.lang3.Validate.notNull;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @Repository
-public class ChargingSessionRepository {
+public class ChargingSessionRepository extends AbstractApiRepository {
     private final ChargesApi chargesApi;
+    private static final Integer DEFAULT_TIME_OUT = 60;
 
-    public ChargingSessionRepository(final ChargesApi chargesApi) {
+    public ChargingSessionRepository(final ObjectMapper objectMapper,
+                                     final ChargesApi chargesApi) {
+        super(notNull(objectMapper));
         this.chargesApi = notNull(chargesApi);
     }
 
     public ChargingSession fetchSession(final ChargingSessionId id) {
         try {
-            final ApiCharge charge = chargesApi.getCharge(id.value);
+            final ApiCharge charge = execute(chargesApi.getCharge(id.value)).getResponse();
             return apiSessionToModel(charge);
         } catch (final RestClientException exception) {
             if (exception instanceof HttpStatusCodeException) {
@@ -46,7 +53,7 @@ public class ChargingSessionRepository {
             final CreateChargeRequest createChargeRequest = new CreateChargeRequest();
             createChargeRequest.setUser(trustedUserId.value);
             createChargeRequest.setAccount(targetUser.value);
-            final ApiCharge charge = chargesApi.createCharge(createChargeRequest);
+            final ApiCharge charge = execute(chargesApi.createCharge(createChargeRequest)).getResponse();
             return apiSessionToModel(charge);
         } catch (final RestClientException exception) {
             throw new RuntimeException(exception); // TODO better error handling
@@ -67,7 +74,7 @@ public class ChargingSessionRepository {
                     "connector", connectorId.value
             ));
             startEvent.setEvent(event);
-            return apiEventToModel(sessionId, chargesApi.createChargeEvent(sessionId.value, startEvent));
+            return apiEventToModel(sessionId, execute(chargesApi.createChargeEvent(sessionId.value, startEvent)).getResponse());
         } catch (final RestClientException exception) {
             throw new RuntimeException(exception); // TODO better error handling
         }
@@ -85,7 +92,7 @@ public class ChargingSessionRepository {
                     "chargePoint", chargePointId.value
             ));
             stopEvent.setEvent(event);
-            return apiEventToModel(sessionId, chargesApi.createChargeEvent(sessionId.value, stopEvent));
+            return apiEventToModel(sessionId, execute(chargesApi.createChargeEvent(sessionId.value, stopEvent)).getResponse());
         } catch (final RestClientException exception) {
             throw new RuntimeException(exception); // TODO better error handling
         }
@@ -147,5 +154,10 @@ public class ChargingSessionRepository {
 
     private static Instant apiTimeToNullableInstant(final Long time) {
         return ofNullable(time).map(Instant::ofEpochMilli).orElse(null);
+    }
+
+    @Override
+    public Integer getTimeout() {
+        return DEFAULT_TIME_OUT;
     }
 }

@@ -26,7 +26,7 @@ public class AttributeMapper {
 
 
     static List<ApprovedAgreement> findApprovedAgreements(final List<AttributeResponse> attributes) {
-        List<AttributeResponse> attributeResponses = findAttributesFromList(attributes, AttributeConstant.APPROVED_AGREEMENTS);
+        List<AttributeResponse> attributeResponses = findAttributesFromList(attributes, AttributeConstant.APPROVED_AGREEMENT);
         return attributeResponses.stream()
                 .map(attributeResponse -> parseAttributeValue(attributeResponse, ApprovedAgreement.class))
                 .filter(Optional::isPresent)

@@ -9,11 +9,11 @@ import com.tingcore.cdc.crm.constant.FieldConstant;
  */
 public class ApprovedPrivacy extends BaseAttributeModel {
 
-    private String privacyId;
+    private String value;
 
     public ApprovedPrivacy (Long attributeValueId, String privacyId) {
         this.id = attributeValueId;
-        this.privacyId = privacyId;
+        this.value = privacyId;
     }
 
     public ApprovedPrivacy () {
@@ -21,16 +21,16 @@ public class ApprovedPrivacy extends BaseAttributeModel {
 
     @Override
     public ApprovedPrivacy copyWithoutId () {
-        return new ApprovedPrivacy(null, this.privacyId);
+        return new ApprovedPrivacy(null, this.value);
     }
 
     @JsonProperty(FieldConstant.PRIVACY_ID)
-    public String getPrivacyId() {
-        return privacyId;
+    public String getValue() {
+        return value;
     }
 
-    public void setPrivacyId(String privacyId) {
-        this.privacyId = privacyId;
+    public void setValue(String value) {
+        this.value = value;
     }
 
 

@@ -34,13 +34,13 @@ public abstract class BaseUpdateCustomerRequest {
         return timezone;
     }
 
-    @JsonProperty(FieldConstant.APPROVED_AGREEMENT)
+    @JsonProperty(FieldConstant.APPROVED_AGREEMENTS)
     @ApiModelProperty(value = "The ids of all the approved agreements")
     public List<ApprovedAgreement> getApprovedAgreements() {
         return approvedAgreements;
     }
 
-    @JsonProperty(FieldConstant.APPROVES_MARKET_INFO)
+    @JsonProperty(FieldConstant.APPROVED_MARKET_INFO)
     @ApiModelProperty(value = "The id of the approved market info")
     public ApprovedMarketInfo getApprovedMarketInfo() {
         return approvedMarketInfo;

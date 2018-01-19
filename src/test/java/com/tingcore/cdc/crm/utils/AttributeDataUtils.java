@@ -3,6 +3,7 @@ package com.tingcore.cdc.crm.utils;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.GsonBuilder;
 import com.tingcore.cdc.crm.constant.AttributeConstant;
+import com.tingcore.cdc.crm.constant.FieldConstant;
 import com.tingcore.cdc.crm.model.*;
 import com.tingcore.cdc.utils.CommonDataUtils;
 import com.tingcore.users.model.AttributeResponse;
@@ -98,7 +99,7 @@ public class AttributeDataUtils {
         final HashMap<String, Object> properties = newHashMap();
         properties.put(PROPERTY_ALLOW_MULTIPLE, true);
         properties.put(PROPERTY_REQUIRED, Arrays.asList("agreementId"));
-        return createAttributeResponse(properties, AttributeConstant.APPROVED_AGREEMENTS, "{\"agreementId\": \"123456\"}",
+        return createAttributeResponse(properties, AttributeConstant.APPROVED_AGREEMENT, "{\"agreementId\": \"123456\"}",
                 AttributeResponse.TypeEnum.JSON);
     }
 
@@ -135,11 +136,11 @@ public class AttributeDataUtils {
     }
 
     public static ApprovedMarketInfo createApprovedMarketInfo () {
-        return new ApprovedMarketInfo(CommonDataUtils.getNextId(),CommonDataUtils.randomNumberStr(19000101,20180000),"SE");
+        return new ApprovedMarketInfo(CommonDataUtils.getNextId(), FieldConstant.APPROVED_MARKET_INFO);
     }
 
     public static ApprovedPrivacy createApprovedPrivacy () {
-        return new ApprovedPrivacy(CommonDataUtils.getNextId(),CommonDataUtils.randomNumberStr(19000101,20180000));
+        return new ApprovedPrivacy(CommonDataUtils.getNextId(),FieldConstant.APPROVED_PRIVACY);
     }
 
     public static LicensePlate createLicensePlate () {
@@ -161,33 +162,33 @@ public class AttributeDataUtils {
 
     private static final String ATTRIBUTES_LIST_JSON = "[\n" +
             "  {\n" +
-            "    \"id\": 20,\n" +
+            "    \"id\": 19,\n" +
             "    \"name\": \"name\",\n" +
-            "    \"type\": \"STRING\",\n" +
+            "    \"type\": \"string\",\n" +
+            "    \"properties\": {\n" +
+            "      \"allowMultiple\": false\n" +
+            "    }\n" +
+            "  },\n" +
+            "  {\n" +
+            "    \"id\": 20,\n" +
+            "    \"name\": \"firstName\",\n" +
+            "    \"type\": \"string\",\n" +
             "    \"properties\": {\n" +
             "      \"allowMultiple\": false\n" +
             "    }\n" +
             "  },\n" +
             "  {\n" +
             "    \"id\": 21,\n" +
-            "    \"name\": \"firstName\",\n" +
-            "    \"type\": \"STRING\",\n" +
+            "    \"name\": \"lastName\",\n" +
+            "    \"type\": \"string\",\n" +
             "    \"properties\": {\n" +
             "      \"allowMultiple\": false\n" +
             "    }\n" +
             "  },\n" +
             "  {\n" +
             "    \"id\": 22,\n" +
-            "    \"name\": \"lastName\",\n" +
-            "    \"type\": \"STRING\",\n" +
-            "    \"properties\": {\n" +
-            "      \"allowMultiple\": false\n" +
-            "    }\n" +
-            "  },\n" +
-            "  {\n" +
-            "    \"id\": 23,\n" +
-            "    \"name\": \"approvedAgreements\",\n" +
-            "    \"type\": \"JSON\",\n" +
+            "    \"name\": \"approvedAgreement\",\n" +
+            "    \"type\": \"json\",\n" +
             "    \"properties\": {\n" +
             "      \"allowMultiple\": true,\n" +
             "      \"required\": [\n" +
@@ -196,9 +197,9 @@ public class AttributeDataUtils {
             "    }\n" +
             "  },\n" +
             "  {\n" +
-            "    \"id\": 25,\n" +
+            "    \"id\": 24,\n" +
             "    \"name\": \"licensePlate\",\n" +
-            "    \"type\": \"JSON\",\n" +
+            "    \"type\": \"json\",\n" +
             "    \"properties\": {\n" +
             "      \"allowMultiple\": true,\n" +
             "      \"required\": [\n" +
@@ -208,15 +209,15 @@ public class AttributeDataUtils {
             "    }\n" +
             "  },\n" +
             "  {\n" +
-            "    \"id\": 26,\n" +
+            "    \"id\": 25,\n" +
             "    \"name\": \"customerNumber\",\n" +
-            "    \"type\": \"STRING\",\n" +
+            "    \"type\": \"string\",\n" +
             "    \"properties\": {\n" +
             "      \"allowMultiple\": false\n" +
             "    }\n" +
             "  },\n" +
             "  {\n" +
-            "    \"id\": 27,\n" +
+            "    \"id\": 26,\n" +
             "    \"name\": \"hasChargingAccess\",\n" +
             "    \"type\": \"boolean\",\n" +
             "    \"properties\": {\n" +
@@ -224,17 +225,17 @@ public class AttributeDataUtils {
             "    }\n" +
             "  },\n" +
             "  {\n" +
-            "    \"id\": 28,\n" +
+            "    \"id\": 27,\n" +
             "    \"name\": \"customerType\",\n" +
-            "    \"type\": \"STRING\",\n" +
+            "    \"type\": \"string\",\n" +
             "    \"properties\": {\n" +
             "      \"allowMultiple\": false\n" +
             "    }\n" +
             "  },\n" +
             "  {\n" +
-            "    \"id\": 29,\n" +
+            "    \"id\": 28,\n" +
             "    \"name\": \"phoneNumber\",\n" +
-            "    \"type\": \"JSON\",\n" +
+            "    \"type\": \"json\",\n" +
             "    \"properties\": {\n" +
             "      \"allowMultiple\": true,\n" +
             "      \"required\": [\n" +
@@ -244,25 +245,25 @@ public class AttributeDataUtils {
             "    }\n" +
             "  },\n" +
             "  {\n" +
-            "    \"id\": 31,\n" +
+            "    \"id\": 30,\n" +
             "    \"name\": \"language\",\n" +
-            "    \"type\": \"STRING\",\n" +
+            "    \"type\": \"string\",\n" +
+            "    \"properties\": {\n" +
+            "      \"allowMultiple\": false\n" +
+            "    }\n" +
+            "  },\n" +
+            "  {\n" +
+            "    \"id\": 31,\n" +
+            "    \"name\": \"timeZone\",\n" +
+            "    \"type\": \"string\",\n" +
             "    \"properties\": {\n" +
             "      \"allowMultiple\": false\n" +
             "    }\n" +
             "  },\n" +
             "  {\n" +
             "    \"id\": 32,\n" +
-            "    \"name\": \"timeZone\",\n" +
-            "    \"type\": \"STRING\",\n" +
-            "    \"properties\": {\n" +
-            "      \"allowMultiple\": false\n" +
-            "    }\n" +
-            "  },\n" +
-            "  {\n" +
-            "    \"id\": 33,\n" +
             "    \"name\": \"organizationNumber\",\n" +
-            "    \"type\": \"JSON\",\n" +
+            "    \"type\": \"json\",\n" +
             "    \"properties\": {\n" +
             "      \"allowMultiple\": false,\n" +
             "      \"required\": [\n" +
@@ -272,9 +273,9 @@ public class AttributeDataUtils {
             "    }\n" +
             "  },\n" +
             "  {\n" +
-            "    \"id\": 34,\n" +
+            "    \"id\": 33,\n" +
             "    \"name\": \"socialSecurityNumber\",\n" +
-            "    \"type\": \"STRING\",\n" +
+            "    \"type\": \"string\",\n" +
             "    \"properties\": {\n" +
             "      \"allowMultiple\": false,\n" +
             "      \"required\": [\n" +
@@ -284,9 +285,9 @@ public class AttributeDataUtils {
             "    }\n" +
             "  },\n" +
             "  {\n" +
-            "    \"id\": 35,\n" +
+            "    \"id\": 34,\n" +
             "    \"name\": \"address\",\n" +
-            "    \"type\": \"JSON\",\n" +
+            "    \"type\": \"json\",\n" +
             "    \"properties\": {\n" +
             "      \"allowMultiple\": true,\n" +
             "      \"required\": [\n" +
@@ -295,25 +296,25 @@ public class AttributeDataUtils {
             "    }\n" +
             "  },\n" +
             "  {\n" +
-            "    \"id\": 36,\n" +
+            "    \"id\": 35,\n" +
             "    \"name\": \"email\",\n" +
-            "    \"type\": \"STRING\",\n" +
+            "    \"type\": \"string\",\n" +
             "    \"properties\": {\n" +
             "      \"allowMultiple\": true\n" +
             "    }\n" +
             "  },\n" +
             "  {\n" +
-            "    \"id\": 37,\n" +
+            "    \"id\": 36,\n" +
             "    \"name\": \"diagnosticsLink\",\n" +
-            "    \"type\": \"STRING\",\n" +
+            "    \"type\": \"string\",\n" +
             "    \"properties\": {\n" +
             "      \"allowMultiple\": false\n" +
             "    }\n" +
             "  },\n" +
             "  {\n" +
-            "    \"id\": 38,\n" +
+            "    \"id\": 37,\n" +
             "    \"name\": \"VAT\",\n" +
-            "    \"type\": \"JSON\",\n" +
+            "    \"type\": \"json\",\n" +
             "    \"properties\": {\n" +
             "      \"allowMultiple\": false,\n" +
             "      \"required\": [\n" +
@@ -323,17 +324,17 @@ public class AttributeDataUtils {
             "    }\n" +
             "  },\n" +
             "  {\n" +
-            "    \"id\": 39,\n" +
+            "    \"id\": 38,\n" +
             "    \"name\": \"defaultCurrency\",\n" +
-            "    \"type\": \"JSON\",\n" +
+            "    \"type\": \"json\",\n" +
             "    \"properties\": {\n" +
             "      \"allowMultiple\": false\n" +
             "    }\n" +
             "  },\n" +
             "  {\n" +
-            "    \"id\": 40,\n" +
+            "    \"id\": 39,\n" +
             "    \"name\": \"billingAddress\",\n" +
-            "    \"type\": \"JSON\",\n" +
+            "    \"type\": \"json\",\n" +
             "    \"properties\": {\n" +
             "      \"allowMultiple\": true,\n" +
             "      \"required\": [\n" +
@@ -342,9 +343,9 @@ public class AttributeDataUtils {
             "    }\n" +
             "  },\n" +
             "  {\n" +
-            "    \"id\": 41,\n" +
+            "    \"id\": 40,\n" +
             "    \"name\": \"billingPhoneNumber\",\n" +
-            "    \"type\": \"JSON\",\n" +
+            "    \"type\": \"json\",\n" +
             "    \"properties\": {\n" +
             "      \"allowMultiple\": true,\n" +
             "      \"required\": [\n" +
@@ -354,9 +355,9 @@ public class AttributeDataUtils {
             "    }\n" +
             "  },\n" +
             "  {\n" +
-            "    \"id\": 42,\n" +
+            "    \"id\": 41,\n" +
             "    \"name\": \"agreement\",\n" +
-            "    \"type\": \"JSON\",\n" +
+            "    \"type\": \"json\",\n" +
             "    \"properties\": {\n" +
             "      \"allowMultiple\": true,\n" +
             "      \"required\": [\n" +
@@ -367,9 +368,9 @@ public class AttributeDataUtils {
             "    }\n" +
             "  },\n" +
             "  {\n" +
-            "    \"id\": 43,\n" +
+            "    \"id\": 42,\n" +
             "    \"name\": \"contactAddress\",\n" +
-            "    \"type\": \"JSON\",\n" +
+            "    \"type\": \"json\",\n" +
             "    \"properties\": {\n" +
             "      \"allowMultiple\": true,\n" +
             "      \"required\": [\n" +
@@ -378,9 +379,9 @@ public class AttributeDataUtils {
             "    }\n" +
             "  },\n" +
             "  {\n" +
-            "    \"id\": 44,\n" +
+            "    \"id\": 43,\n" +
             "    \"name\": \"contactPhoneNumber\",\n" +
-            "    \"type\": \"JSON\",\n" +
+            "    \"type\": \"json\",\n" +
             "    \"properties\": {\n" +
             "      \"allowMultiple\": true,\n" +
             "      \"required\": [\n" +
@@ -390,41 +391,41 @@ public class AttributeDataUtils {
             "    }\n" +
             "  },\n" +
             "  {\n" +
-            "    \"id\": 45,\n" +
+            "    \"id\": 44,\n" +
             "    \"name\": \"contactFirstName\",\n" +
-            "    \"type\": \"STRING\",\n" +
+            "    \"type\": \"string\",\n" +
+            "    \"properties\": {\n" +
+            "      \"allowMultiple\": false\n" +
+            "    }\n" +
+            "  },\n" +
+            "  {\n" +
+            "    \"id\": 45,\n" +
+            "    \"name\": \"contactLastName\",\n" +
+            "    \"type\": \"string\",\n" +
             "    \"properties\": {\n" +
             "      \"allowMultiple\": false\n" +
             "    }\n" +
             "  },\n" +
             "  {\n" +
             "    \"id\": 46,\n" +
-            "    \"name\": \"contactLastName\",\n" +
-            "    \"type\": \"STRING\",\n" +
+            "    \"name\": \"contactNotes\",\n" +
+            "    \"type\": \"string\",\n" +
             "    \"properties\": {\n" +
             "      \"allowMultiple\": false\n" +
             "    }\n" +
             "  },\n" +
             "  {\n" +
             "    \"id\": 47,\n" +
-            "    \"name\": \"contactNotes\",\n" +
-            "    \"type\": \"STRING\",\n" +
+            "    \"name\": \"contactEmail\",\n" +
+            "    \"type\": \"string\",\n" +
             "    \"properties\": {\n" +
             "      \"allowMultiple\": false\n" +
             "    }\n" +
             "  },\n" +
             "  {\n" +
             "    \"id\": 48,\n" +
-            "    \"name\": \"contactEmail\",\n" +
-            "    \"type\": \"STRING\",\n" +
-            "    \"properties\": {\n" +
-            "      \"allowMultiple\": false\n" +
-            "    }\n" +
-            "  },\n" +
-            "  {\n" +
-            "    \"id\": 49,\n" +
             "    \"name\": \"visitingAddress\",\n" +
-            "    \"type\": \"JSON\",\n" +
+            "    \"type\": \"json\",\n" +
             "    \"properties\": {\n" +
             "      \"allowMultiple\": true,\n" +
             "      \"required\": [\n" +
@@ -433,9 +434,33 @@ public class AttributeDataUtils {
             "    }\n" +
             "  },\n" +
             "  {\n" +
-            "    \"id\": 50,\n" +
+            "    \"id\": 49,\n" +
             "    \"name\": \"organizationType\",\n" +
-            "    \"type\": \"STRING\",\n" +
+            "    \"type\": \"string\",\n" +
+            "    \"properties\": {\n" +
+            "      \"allowMultiple\": false\n" +
+            "    }\n" +
+            "  },\n" +
+            "  {\n" +
+            "    \"id\": 50,\n" +
+            "    \"name\": \"approvedPrivacy\",\n" +
+            "    \"type\": \"string\",\n" +
+            "    \"properties\": {\n" +
+            "      \"allowMultiple\": true\n" +
+            "    }\n" +
+            "  },\n" +
+            "  {\n" +
+            "    \"id\": 51,\n" +
+            "    \"name\": \"approvedMarketInfo\",\n" +
+            "    \"type\": \"string\",\n" +
+            "    \"properties\": {\n" +
+            "      \"allowMultiple\": true\n" +
+            "    }\n" +
+            "  },\n" +
+            "  {\n" +
+            "    \"id\": 52,\n" +
+            "    \"name\": \"activationDate\",\n" +
+            "    \"type\": \"string\",\n" +
             "    \"properties\": {\n" +
             "      \"allowMultiple\": false\n" +
             "    }\n" +

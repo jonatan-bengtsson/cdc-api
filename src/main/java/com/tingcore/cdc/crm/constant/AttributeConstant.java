@@ -10,7 +10,7 @@ public class AttributeConstant {
     public static final String APPROVED_MARKET_INFO = "approvedMarketInfo";
     public static final String ADDRESS = "address";
     public static final String TIMEZONE = "timeZone";
-    public static final String APPROVED_AGREEMENTS = "approvedAgreements";
+    public static final String APPROVED_AGREEMENT = "approvedAgreement";
     public static final String LICENSE_PLATE = "licensePlate";
     public static final String SOCIAL_SECURITY_NUMBER = "socialSecurityNumber";
     public static final String CUSTOMER_NUMBER = "customerNumber";

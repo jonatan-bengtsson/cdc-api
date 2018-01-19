@@ -36,7 +36,7 @@ public class AttributeResponseDataUtils {
         final HashMap<String, Object> properties = newHashMap();
         properties.put(PROPERTY_ALLOW_MULTIPLE, true);
         properties.put(PROPERTY_REQUIRED, Arrays.asList(FieldConstant.MARKET_INFO_ID));
-        return findAttributeValue(listRequest, FieldConstant.APPROVES_MARKET_INFO, cachedAttributes).map(s -> AttributeDataUtils.createAttributeResponse(properties, AttributeConstant.APPROVED_MARKET_INFO, s, AttributeResponse.TypeEnum.JSON));
+        return findAttributeValue(listRequest, FieldConstant.APPROVED_MARKET_INFO, cachedAttributes).map(s -> AttributeDataUtils.createAttributeResponse(properties, AttributeConstant.APPROVED_MARKET_INFO, s, AttributeResponse.TypeEnum.JSON));
     }
 
     public static Optional<AttributeResponse> mockApprovedPrivacyResponse (AttributeValueListRequest listRequest, Map<String, Long> cachedAttributes) {
@@ -103,7 +103,7 @@ public class AttributeResponseDataUtils {
         final HashMap<String, Object> properties = newHashMap();
         properties.put(PROPERTY_ALLOW_MULTIPLE, true);
         properties.put(PROPERTY_REQUIRED, Arrays.asList(FieldConstant.AGREEMENT_ID));
-        return findAttributeValues(listRequest, FieldConstant.APPROVED_AGREEMENT, cachedAttributes).stream().map(s -> AttributeDataUtils.createAttributeResponse(properties, FieldConstant.APPROVED_AGREEMENT, s, AttributeResponse.TypeEnum.JSON)).collect(Collectors.toList());
+        return findAttributeValues(listRequest, AttributeConstant.APPROVED_AGREEMENT, cachedAttributes).stream().map(s -> AttributeDataUtils.createAttributeResponse(properties, AttributeConstant.APPROVED_AGREEMENT, s, AttributeResponse.TypeEnum.JSON)).collect(Collectors.toList());
     }
 
     public static List<AttributeResponse> mockLicensePlatesResponse (AttributeValueListRequest listRequest, Map<String, Long> cachedAttributes) {

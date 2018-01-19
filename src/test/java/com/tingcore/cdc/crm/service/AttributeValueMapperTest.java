@@ -47,7 +47,7 @@ public class AttributeValueMapperTest {
     @Test
     public void assertAttributeSavedWithCorrectId() throws Exception {
 
-        assertThat(findPrivateCustomerAttributeRequest(AttributeConstant.APPROVED_AGREEMENTS).getValue()).contains(FieldConstant.AGREEMENT_ID);
+        assertThat(findPrivateCustomerAttributeRequest(AttributeConstant.APPROVED_AGREEMENT).getValue()).contains(FieldConstant.AGREEMENT_ID);
         assertThat(findPrivateCustomerAttributeRequest(AttributeConstant.ADDRESS).getValue()).contains(FieldConstant.ADDRESS);
         assertThat(findPrivateCustomerAttributeRequest(AttributeConstant.SOCIAL_SECURITY_NUMBER).getValue()).contains(FieldConstant.SOCIAL_SECURITY_NUMBER);
         assertThat(findPrivateCustomerAttributeRequest(AttributeConstant.FIRST_NAME).getValue()).contains(FieldConstant.VALUE);
@@ -62,6 +62,9 @@ public class AttributeValueMapperTest {
         assertThat(findBusinessCustomerAttributeRequest(AttributeConstant.CONTACT_PHONE_NUMBER).getValue()).contains(FieldConstant.PHONE_NUMBER);
         assertThat(findBusinessCustomerAttributeRequest(AttributeConstant.CONTACT_EMAIL).getValue()).contains(FieldConstant.VALUE);
         assertThat(findBusinessCustomerAttributeRequest(FieldConstant.LICENSE_PLATE).getValue()).contains(FieldConstant.LICENSE_PLATE);
+
+        assertThat(findBusinessCustomerAttributeRequest(FieldConstant.APPROVED_PRIVACY).getValue()).contains(FieldConstant.APPROVED_PRIVACY);
+        assertThat(findBusinessCustomerAttributeRequest(FieldConstant.APPROVED_MARKET_INFO).getValue()).contains(FieldConstant.APPROVED_MARKET_INFO);
 
     }
 

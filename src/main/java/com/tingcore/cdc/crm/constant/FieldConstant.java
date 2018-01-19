@@ -42,8 +42,8 @@ public class FieldConstant {
     public static final String LAST_NAME = "lastName";
     public static final String ADDRESS = "address";
     public static final String TIME_ZONE = "timeZone";
-    public static final String APPROVED_AGREEMENT = "approvedAgreements";
-    public static final String APPROVES_MARKET_INFO = "approvedMarketInfo";
+    public static final String APPROVED_AGREEMENTS = "approvedAgreements";
+    public static final String APPROVED_MARKET_INFO = "approvedMarketInfo";
     public static final String LICENSE_PLATES = "licensePlates";
     public static final String SOCIAL_SECURITY_NUMBER = "socialSecurityNumber";
     public static final String CUSTOMER_NUMBER = "customerNumber";

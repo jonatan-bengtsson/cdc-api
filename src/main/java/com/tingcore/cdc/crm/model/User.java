@@ -147,13 +147,13 @@ public class User {
         return timezone;
     }
     
-    @JsonProperty(FieldConstant.APPROVED_AGREEMENT)
+    @JsonProperty(FieldConstant.APPROVED_AGREEMENTS)
     @ApiModelProperty(position = 7)
     public List<ApprovedAgreement> getApprovedAgreements() {
         return approvedAgreements;
     }
     
-    @JsonProperty(FieldConstant.APPROVES_MARKET_INFO)
+    @JsonProperty(FieldConstant.APPROVED_MARKET_INFO)
     @ApiModelProperty(position = 8)
     public ApprovedMarketInfo getApprovedMarketInfo() {
         return approvedMarketInfo;

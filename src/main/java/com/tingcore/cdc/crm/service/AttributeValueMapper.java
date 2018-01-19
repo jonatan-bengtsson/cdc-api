@@ -56,7 +56,7 @@ public class AttributeValueMapper {
         Optional.ofNullable(privateCustomerRequest.getLicensePlates())
                 .ifPresent(licensePlateList -> licensePlateList.stream().forEach(licensePlate -> addAttributeToList(list, licensePlate, cachedAttributes, FieldConstant.LICENSE_PLATE)));
         Optional.ofNullable(privateCustomerRequest.getApprovedAgreements())
-                .ifPresent(agreements -> agreements.stream().forEach(agreement -> addAttributeToList(list, agreement, cachedAttributes, AttributeConstant.APPROVED_AGREEMENTS)));
+                .ifPresent(agreements -> agreements.stream().forEach(agreement -> addAttributeToList(list, agreement, cachedAttributes, AttributeConstant.APPROVED_AGREEMENT)));
         return list;
     }
 
@@ -72,7 +72,7 @@ public class AttributeValueMapper {
         Optional.ofNullable(request.getLicensePlates())
                 .ifPresent(licensePlates -> licensePlates.stream().forEach(licensePlate -> addAttributeToList(list,licensePlate, cachedAttributes, FieldConstant.LICENSE_PLATE)));
         Optional.ofNullable(request.getApprovedAgreements())
-                .ifPresent(agreements -> agreements.stream().forEach(agreement -> addAttributeToList(list,agreement, cachedAttributes, AttributeConstant.APPROVED_AGREEMENTS)));
+                .ifPresent(agreements -> agreements.stream().forEach(agreement -> addAttributeToList(list,agreement, cachedAttributes, AttributeConstant.APPROVED_AGREEMENT)));
         Optional.ofNullable(request.getContactEmail())
                 .ifPresent(contactEmail -> addAttributeToList(list, contactEmail, cachedAttributes, AttributeConstant.CONTACT_EMAIL));
         Optional.ofNullable(request.getContactFirstName())

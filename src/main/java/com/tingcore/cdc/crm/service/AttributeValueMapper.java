@@ -52,7 +52,7 @@ public class AttributeValueMapper {
         Optional.ofNullable(privateCustomerRequest.getApprovedMarketInfo())
                 .ifPresent(marketInfos -> marketInfos.stream().forEach(marketInfo -> addAttributeToList(list, marketInfo, cachedAttributes, AttributeConstant.APPROVED_MARKET_INFO)));
         Optional.ofNullable(privateCustomerRequest.getApprovedPrivacy())
-                .ifPresent(privacys -> privacys.stream().forEach(privacy -> addAttributeToList(list, privacy, cachedAttributes, AttributeConstant.APPROVED_PRIVACY)));
+                .ifPresent(privacies -> privacies.stream().forEach(privacy -> addAttributeToList(list, privacy, cachedAttributes, AttributeConstant.APPROVED_PRIVACY)));
         Optional.ofNullable(privateCustomerRequest.getLicensePlates())
                 .ifPresent(licensePlateList -> licensePlateList.stream().forEach(licensePlate -> addAttributeToList(list, licensePlate, cachedAttributes, FieldConstant.LICENSE_PLATE)));
         Optional.ofNullable(privateCustomerRequest.getApprovedAgreements())
@@ -68,7 +68,7 @@ public class AttributeValueMapper {
         Optional.ofNullable(request.getApprovedMarketInfo())
                 .ifPresent(marketInfos -> marketInfos.stream().forEach(marketInfo -> addAttributeToList(list, marketInfo, cachedAttributes, AttributeConstant.APPROVED_MARKET_INFO)));
         Optional.ofNullable(request.getApprovedPrivacy())
-                .ifPresent(privacys -> privacys.stream().forEach(privacy -> addAttributeToList(list, privacy, cachedAttributes, AttributeConstant.APPROVED_PRIVACY)));
+                .ifPresent(privacies -> privacies.stream().forEach(privacy -> addAttributeToList(list, privacy, cachedAttributes, AttributeConstant.APPROVED_PRIVACY)));
         Optional.ofNullable(request.getLicensePlates())
                 .ifPresent(licensePlates -> licensePlates.stream().forEach(licensePlate -> addAttributeToList(list,licensePlate, cachedAttributes, FieldConstant.LICENSE_PLATE)));
         Optional.ofNullable(request.getApprovedAgreements())

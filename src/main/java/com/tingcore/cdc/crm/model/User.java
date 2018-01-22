@@ -15,7 +15,7 @@ public class User {
     private final List<AddressCRM> address;
     private final StringAttribute timezone;
     private final List<ApprovedAgreement> approvedAgreements;
-    private final List<ApprovedMarketInfo> approvedMarketInfo;
+    private final List<ApprovedMarketInfo> approvedMarketInfos;
     private final List<LicensePlate> licensePlates;
     private final SocialSecurityNumber socialSecurityNumber;
     private final StringAttribute customerNumber;
@@ -25,7 +25,7 @@ public class User {
     private final OrganizationNumber organizationNumber;
     private final StringAttribute language;
     private final InstantAttribute activationDate;
-    private final List<ApprovedPrivacy> approvedPrivacy;
+    private final List<ApprovedPrivacy> approvedPrivacies;
     private final StringAttribute name;
     private final StringAttribute contactFirstName;
     private final StringAttribute contactLastName;
@@ -64,7 +64,7 @@ public class User {
         this.address = address;
         this.timezone = timezone;
         this.approvedAgreements = approvedAgreements;
-        this.approvedMarketInfo = approvedMarketInfo;
+        this.approvedMarketInfos = approvedMarketInfo;
         this.licensePlates = licensePlates;
         this.socialSecurityNumber = socialSecurityNumber;
         this.customerNumber = customerNumber;
@@ -74,7 +74,7 @@ public class User {
         this.organizationNumber = organizationNumber;
         this.language = language;
         this.activationDate = activationDate;
-        this.approvedPrivacy = approvedPrivacy;
+        this.approvedPrivacies = approvedPrivacy;
         this.name = name;
         this.contactFirstName = contactFirstName;
         this.contactLastName = contactLastName;
@@ -91,7 +91,7 @@ public class User {
         this.address = null;
         this.timezone = null;
         this.approvedAgreements = null;
-        this.approvedMarketInfo = null;
+        this.approvedMarketInfos = null;
         this.licensePlates = null;
         this.socialSecurityNumber = null;
         this.customerNumber = null;
@@ -101,7 +101,7 @@ public class User {
         this.organizationNumber = null;
         this.language = null;
         this.activationDate = null;
-        this.approvedPrivacy = null;
+        this.approvedPrivacies = null;
         this.name = null;
         this.contactFirstName = null;
         this.contactLastName = null;
@@ -153,10 +153,10 @@ public class User {
         return approvedAgreements;
     }
     
-    @JsonProperty(FieldConstant.APPROVED_MARKET_INFO)
+    @JsonProperty(FieldConstant.APPROVED_MARKET_INFOS)
     @ApiModelProperty(position = 8)
-    public List<ApprovedMarketInfo> getApprovedMarketInfo() {
-        return approvedMarketInfo;
+    public List<ApprovedMarketInfo> getApprovedMarketInfos() {
+        return approvedMarketInfos;
     }
     
     @JsonProperty(FieldConstant.LICENSE_PLATES)
@@ -219,10 +219,10 @@ public class User {
         return activationDate;
     }
 
-    @JsonProperty(FieldConstant.APPROVED_PRIVACY)
+    @JsonProperty(FieldConstant.APPROVED_PRIVACIES)
     @ApiModelProperty(position = 20)
-    public List<ApprovedPrivacy> getApprovedPrivacy() {
-        return approvedPrivacy;
+    public List<ApprovedPrivacy> getApprovedPrivacies() {
+        return approvedPrivacies;
     }
 
     @JsonProperty(FieldConstant.NAME)
@@ -269,7 +269,7 @@ public class User {
         private List<AddressCRM> address;
         private StringAttribute timezone;
         private List<ApprovedAgreement> approvedAgreements;
-        private List<ApprovedMarketInfo> approvedMarketInfo;
+        private List<ApprovedMarketInfo> approvedMarketInfos;
         private List<LicensePlate> licensePlates;
         private SocialSecurityNumber socialSecurityNumber;
         private StringAttribute customerNumber;
@@ -279,7 +279,7 @@ public class User {
         private OrganizationNumber organizationNumber;
         private StringAttribute language;
         private InstantAttribute activationDate;
-        private List<ApprovedPrivacy> approvedPrivacy;
+        private List<ApprovedPrivacy> approvedPrivacies;
         private StringAttribute name;
         private StringAttribute contactFirstName;
         private StringAttribute contactLastName;
@@ -329,8 +329,8 @@ public class User {
             return this;
         }
 
-        public Builder approvedMarketInfo(final List<ApprovedMarketInfo> approvedMarketInfo) {
-            this.approvedMarketInfo = approvedMarketInfo;
+        public Builder approvedMarketInfos(final List<ApprovedMarketInfo> approvedMarketInfos) {
+            this.approvedMarketInfos = approvedMarketInfos;
             return this;
         }
 
@@ -380,8 +380,8 @@ public class User {
             return this;
         }
 
-        public Builder approvedPrivacy(final List<ApprovedPrivacy> approvedPrivacy) {
-            this.approvedPrivacy = approvedPrivacy;
+        public Builder approvedPrivacies(final List<ApprovedPrivacy> approvedPrivacies) {
+            this.approvedPrivacies = approvedPrivacies;
             return this;
         }
 
@@ -412,10 +412,10 @@ public class User {
 
 
         public User build() {
-            return new User(id, organization, firstName, lastName, email, address, timezone, approvedAgreements, approvedMarketInfo, licensePlates,
+            return new User(id, organization, firstName, lastName, email, address, timezone, approvedAgreements, approvedMarketInfos, licensePlates,
                     socialSecurityNumber, customerNumber, hasChargingAccess, customerType, phoneNumbers,
                     organizationNumber, language,
-                    activationDate, approvedPrivacy, name, contactFirstName, contactLastName, contactPhoneNumber, contactEmail);
+                    activationDate, approvedPrivacies, name, contactFirstName, contactLastName, contactPhoneNumber, contactEmail);
         }
     }
 

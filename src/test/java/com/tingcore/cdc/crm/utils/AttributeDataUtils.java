@@ -136,11 +136,11 @@ public class AttributeDataUtils {
     }
 
     public static ApprovedMarketInfo createApprovedMarketInfo () {
-        return new ApprovedMarketInfo(CommonDataUtils.getNextId(), FieldConstant.APPROVED_MARKET_INFO);
+        return new ApprovedMarketInfo(CommonDataUtils.getNextId(), FieldConstant.APPROVED_MARKET_INFOS);
     }
 
     public static ApprovedPrivacy createApprovedPrivacy () {
-        return new ApprovedPrivacy(CommonDataUtils.getNextId(),FieldConstant.APPROVED_PRIVACY);
+        return new ApprovedPrivacy(CommonDataUtils.getNextId(),FieldConstant.APPROVED_PRIVACIES);
     }
 
     public static LicensePlate createLicensePlate () {
@@ -443,7 +443,7 @@ public class AttributeDataUtils {
             "  },\n" +
             "  {\n" +
             "    \"id\": 50,\n" +
-            "    \"name\": \"approvedPrivacy\",\n" +
+            "    \"name\": \"approvedPrivacies\",\n" +
             "    \"type\": \"string\",\n" +
             "    \"properties\": {\n" +
             "      \"allowMultiple\": true\n" +
@@ -451,7 +451,7 @@ public class AttributeDataUtils {
             "  },\n" +
             "  {\n" +
             "    \"id\": 51,\n" +
-            "    \"name\": \"approvedMarketInfo\",\n" +
+            "    \"name\": \"approvedMarketInfos\",\n" +
             "    \"type\": \"string\",\n" +
             "    \"properties\": {\n" +
             "      \"allowMultiple\": true\n" +

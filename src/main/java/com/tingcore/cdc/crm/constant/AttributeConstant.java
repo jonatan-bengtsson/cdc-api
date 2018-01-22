@@ -7,7 +7,7 @@ package com.tingcore.cdc.crm.constant;
 public class AttributeConstant {
     public static final String ORGANIZATION_NUMBER = "organizationNumber";
     public static final String PHONE_NUMBER = "phoneNumber";
-    public static final String APPROVED_MARKET_INFO = "approvedMarketInfo";
+    public static final String APPROVED_MARKET_INFO = "approvedMarketInfos";
     public static final String ADDRESS = "address";
     public static final String TIMEZONE = "timeZone";
     public static final String APPROVED_AGREEMENT = "approvedAgreement";
@@ -35,6 +35,6 @@ public class AttributeConstant {
     public static final String HAS_CHARGING_ACCESS = "hasChargingAccess";
     public static final String LAST_NAME = "lastName";
     public static final String FIRST_NAME = "firstName";
-    public static final String APPROVED_PRIVACY = "approvedPrivacy";
+    public static final String APPROVED_PRIVACY = "approvedPrivacies";
     public static final String NAME = "name";
 }

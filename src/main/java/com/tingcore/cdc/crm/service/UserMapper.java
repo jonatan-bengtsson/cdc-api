@@ -26,7 +26,7 @@ class UserMapper {
                 .organization(OrganizationMapper.toResponse(userResponse.getOrganization()))
                 .organizationNumber(AttributeMapper.findOrganizationNumber(attributes).orElse(null))
                 .phoneNumbers(AttributeMapper.findPhoneNumbers(attributes, AttributeConstant.PHONE_NUMBER))
-                .approvedMarketInfo(AttributeMapper.findApprovedMarketInfo(attributes))
+                .approvedMarketInfos(AttributeMapper.findApprovedMarketInfo(attributes))
                 .address(AttributeMapper.findAddress(attributes))
                 .timezone(AttributeMapper.findStringAttribute(attributes, AttributeConstant.TIMEZONE).orElse(null))
                 .approvedAgreements(AttributeMapper.findApprovedAgreements(attributes))
@@ -47,7 +47,7 @@ class UserMapper {
                 .name(AttributeMapper.findStringAttribute(attributes, AttributeConstant.NAME).orElse(null))
                 .organizationNumber(AttributeMapper.findOrganizationNumber(attributes).orElse(null))
                 .phoneNumbers(AttributeMapper.findPhoneNumbers(attributes, AttributeConstant.PHONE_NUMBER))
-                .approvedMarketInfo(AttributeMapper.findApprovedMarketInfo(attributes))
+                .approvedMarketInfos(AttributeMapper.findApprovedMarketInfo(attributes))
                 .address(AttributeMapper.findAddress(attributes))
                 .timezone(AttributeMapper.findStringAttribute(attributes, AttributeConstant.TIMEZONE).orElse(null))
                 .approvedAgreements(AttributeMapper.findApprovedAgreements(attributes))
@@ -56,7 +56,7 @@ class UserMapper {
                 .customerType(AttributeMapper.findStringAttribute(attributes, AttributeConstant.CUSTOMER_TYPE).orElse(null))
                 .language(AttributeMapper.findStringAttribute(attributes, AttributeConstant.LANGUAGE).orElse(null))
                 .hasChargingAccess(AttributeMapper.findBooleanAttribute(attributes, AttributeConstant.HAS_CHARGING_ACCESS).orElse(null))
-                .approvedPrivacy(AttributeMapper.findApprovedPrivacy(attributes,AttributeConstant.APPROVED_PRIVACY))
+                .approvedPrivacies(AttributeMapper.findApprovedPrivacy(attributes,AttributeConstant.APPROVED_PRIVACY))
                 .build();
     }
 }

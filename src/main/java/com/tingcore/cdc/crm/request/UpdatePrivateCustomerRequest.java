@@ -18,23 +18,23 @@ public class UpdatePrivateCustomerRequest extends BaseUpdateCustomerRequest {
                                         List<AddressCRM> address,
                                         StringAttribute timezone,
                                         List<ApprovedAgreement> approvedAgreements,
-                                        List<ApprovedMarketInfo> approvedMarketInfo,
+                                        List<ApprovedMarketInfo> approvedMarketInfos,
                                         List<LicensePlate> licensePlates,
                                         SocialSecurityNumber socialSecurityNumber,
                                         List<PhoneNumber> phoneNumbers,
                                         StringAttribute language,
-                                        List<ApprovedPrivacy> approvedPrivacy) {
+                                        List<ApprovedPrivacy> approvedPrivacies) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.addresses = address;
         this.timezone = timezone;
         this.approvedAgreements = approvedAgreements;
-        this.approvedMarketInfo = approvedMarketInfo;
+        this.approvedMarketInfos = approvedMarketInfos;
         this.licensePlates = licensePlates;
         this.socialSecurityNumber = socialSecurityNumber;
         this.phoneNumbers = phoneNumbers;
         this.language = language;
-        this.approvedPrivacy = approvedPrivacy;
+        this.approvedPrivacies = approvedPrivacies;
     }
 
     public UpdatePrivateCustomerRequest() {
@@ -69,12 +69,12 @@ public class UpdatePrivateCustomerRequest extends BaseUpdateCustomerRequest {
         private List<AddressCRM> address;
         private StringAttribute timezone;
         private List<ApprovedAgreement> approvedAgreements;
-        private List<ApprovedMarketInfo> approvedMarketInfo;
+        private List<ApprovedMarketInfo> approvedMarketInfos;
         private List<LicensePlate> licensePlates;
         private SocialSecurityNumber socialSecurityNumber;
         private List<PhoneNumber> phoneNumbers;
         private StringAttribute language;
-        private List<ApprovedPrivacy> approvedPrivacy;
+        private List<ApprovedPrivacy> approvedPrivacies;
 
         private Builder(){
             this.address = new ArrayList<>();
@@ -118,8 +118,8 @@ public class UpdatePrivateCustomerRequest extends BaseUpdateCustomerRequest {
             return this;
         }
 
-        public Builder approvedMarketInfo(final List<ApprovedMarketInfo> approvedMarketInfo){
-            this.approvedMarketInfo = approvedMarketInfo;
+        public Builder approvedMarketInfos(final List<ApprovedMarketInfo> approvedMarketInfos){
+            this.approvedMarketInfos = approvedMarketInfos;
             return this;
         }
 
@@ -153,14 +153,14 @@ public class UpdatePrivateCustomerRequest extends BaseUpdateCustomerRequest {
             return this;
         }
 
-        public Builder approvedPrivacy(final List<ApprovedPrivacy> approvedPrivacy){
-            this.approvedPrivacy = approvedPrivacy;
+        public Builder approvedPrivacies(final List<ApprovedPrivacy> approvedPrivacies){
+            this.approvedPrivacies = approvedPrivacies;
             return this;
         }
 
         public UpdatePrivateCustomerRequest build(){
-            return new UpdatePrivateCustomerRequest(firstName, lastName, address, timezone, approvedAgreements, approvedMarketInfo, licensePlates,
-                    socialSecurityNumber, phoneNumbers, language, approvedPrivacy);
+            return new UpdatePrivateCustomerRequest(firstName, lastName, address, timezone, approvedAgreements, approvedMarketInfos, licensePlates,
+                    socialSecurityNumber, phoneNumbers, language, approvedPrivacies);
         }
     }
 }

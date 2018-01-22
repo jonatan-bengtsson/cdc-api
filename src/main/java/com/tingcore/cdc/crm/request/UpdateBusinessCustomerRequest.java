@@ -24,12 +24,12 @@ public class UpdateBusinessCustomerRequest extends BaseUpdateCustomerRequest {
                                          List<AddressCRM> address,
                                          StringAttribute timezone,
                                          List<ApprovedAgreement> approvedAgreements,
-                                         List<ApprovedMarketInfo> approvedMarketInfo,
+                                         List<ApprovedMarketInfo> approvedMarketInfos,
                                          List<LicensePlate> licensePlates,
                                          List<PhoneNumber> phoneNumbers,
                                          OrganizationNumber organizationNumber,
                                          StringAttribute language,
-                                         List<ApprovedPrivacy> approvedPrivacy,
+                                         List<ApprovedPrivacy> approvedPrivacies,
                                          StringAttribute contactFirstName,
                                          StringAttribute contactLastName,
                                          List<PhoneNumber> contactPhoneNumber,
@@ -38,12 +38,12 @@ public class UpdateBusinessCustomerRequest extends BaseUpdateCustomerRequest {
         this.addresses = address;
         this.timezone = timezone;
         this.approvedAgreements = approvedAgreements;
-        this.approvedMarketInfo = approvedMarketInfo;
+        this.approvedMarketInfos = approvedMarketInfos;
         this.licensePlates = licensePlates;
         this.phoneNumbers = phoneNumbers;
         this.organizationNumber = organizationNumber;
         this.language = language;
-        this.approvedPrivacy = approvedPrivacy;
+        this.approvedPrivacies = approvedPrivacies;
         this.contactFirstName = contactFirstName;
         this.contactLastName = contactLastName;
         this.contactPhoneNumber = contactPhoneNumber;
@@ -66,25 +66,25 @@ public class UpdateBusinessCustomerRequest extends BaseUpdateCustomerRequest {
     }
 
     @JsonProperty(FieldConstant.CONTACT_FIRST_NAME)
-    @ApiModelProperty(value = "The id of the approved privacy agreement")
+    @ApiModelProperty(value = "The contact's first name")
     public StringAttribute getContactFirstName() {
         return contactFirstName;
     }
 
     @JsonProperty(FieldConstant.CONTACT_LAST_NAME)
-    @ApiModelProperty(value = "The id of the approved privacy agreement")
+    @ApiModelProperty(value = "The contact's last name")
     public StringAttribute getContactLastName() {
         return contactLastName;
     }
 
     @JsonProperty(FieldConstant.CONTACT_PHONE_NUMBER)
-    @ApiModelProperty(value = "The id of the approved privacy agreement", example = "0711111111")
+    @ApiModelProperty(value = "The contact's phone number", example = "0711111111")
     public List<PhoneNumber> getContactPhoneNumber() {
         return contactPhoneNumber;
     }
 
     @JsonProperty(FieldConstant.CONTACT_EMAIL)
-    @ApiModelProperty(value = "The id of the approved privacy agreement", example = "contact@company.com")
+    @ApiModelProperty(value = "The contact's email address", example = "contact@company.com")
     public StringAttribute getContactEmail() {
         return contactEmail;
     }
@@ -100,12 +100,12 @@ public class UpdateBusinessCustomerRequest extends BaseUpdateCustomerRequest {
         private List<AddressCRM> address;
         private StringAttribute timezone;
         private List<ApprovedAgreement> approvedAgreements;
-        private List<ApprovedMarketInfo> approvedMarketInfo;
+        private List<ApprovedMarketInfo> approvedMarketInfos;
         private List<LicensePlate> licensePlates;
         private List<PhoneNumber> phoneNumbers;
         private OrganizationNumber organizationNumber;
         private StringAttribute language;
-        private List<ApprovedPrivacy> approvedPrivacy;
+        private List<ApprovedPrivacy> approvedPrivacies;
         private StringAttribute contactFirstName;
         private StringAttribute contactLastName;
         private List<PhoneNumber> contactPhoneNumber;
@@ -149,8 +149,8 @@ public class UpdateBusinessCustomerRequest extends BaseUpdateCustomerRequest {
             return this;
         }
 
-        public Builder approvedMarketInfo(final List<ApprovedMarketInfo> approvedMarketInfo){
-            this.approvedMarketInfo = approvedMarketInfo;
+        public Builder approvedMarketInfos(final List<ApprovedMarketInfo> approvedMarketInfos){
+            this.approvedMarketInfos = approvedMarketInfos;
             return this;
         }
 
@@ -184,8 +184,8 @@ public class UpdateBusinessCustomerRequest extends BaseUpdateCustomerRequest {
             return this;
         }
 
-        public Builder approvedPrivacy(final List<ApprovedPrivacy> approvedPrivacy){
-            this.approvedPrivacy = approvedPrivacy;
+        public Builder approvedPrivacies(final List<ApprovedPrivacy> approvedPrivacies){
+            this.approvedPrivacies = approvedPrivacies;
             return this;
         }
 
@@ -211,8 +211,8 @@ public class UpdateBusinessCustomerRequest extends BaseUpdateCustomerRequest {
 
 
         public UpdateBusinessCustomerRequest build(){
-            return new UpdateBusinessCustomerRequest(name, address, timezone, approvedAgreements, approvedMarketInfo, licensePlates,
-                    phoneNumbers, organizationNumber, language, approvedPrivacy, contactFirstName, contactLastName, contactPhoneNumber, contactEmail);
+            return new UpdateBusinessCustomerRequest(name, address, timezone, approvedAgreements, approvedMarketInfos, licensePlates,
+                    phoneNumbers, organizationNumber, language, approvedPrivacies, contactFirstName, contactLastName, contactPhoneNumber, contactEmail);
         }
     }
 }

@@ -63,8 +63,8 @@ public class AttributeValueMapperTest {
         assertThat(findBusinessCustomerAttributeRequest(AttributeConstant.CONTACT_EMAIL).getValue()).contains(FieldConstant.VALUE);
         assertThat(findBusinessCustomerAttributeRequest(FieldConstant.LICENSE_PLATE).getValue()).contains(FieldConstant.LICENSE_PLATE);
 
-        assertThat(findBusinessCustomerAttributeRequest(FieldConstant.APPROVED_PRIVACY).getValue()).contains(FieldConstant.APPROVED_PRIVACY);
-        assertThat(findBusinessCustomerAttributeRequest(FieldConstant.APPROVED_MARKET_INFO).getValue()).contains(FieldConstant.APPROVED_MARKET_INFO);
+        assertThat(findBusinessCustomerAttributeRequest(FieldConstant.APPROVED_PRIVACIES).getValue()).contains(FieldConstant.APPROVED_PRIVACIES);
+        assertThat(findBusinessCustomerAttributeRequest(FieldConstant.APPROVED_MARKET_INFOS).getValue()).contains(FieldConstant.APPROVED_MARKET_INFOS);
 
     }
 

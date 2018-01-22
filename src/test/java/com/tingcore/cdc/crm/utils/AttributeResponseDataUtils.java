@@ -36,14 +36,14 @@ public class AttributeResponseDataUtils {
         final HashMap<String, Object> properties = newHashMap();
         properties.put(PROPERTY_ALLOW_MULTIPLE, true);
         properties.put(PROPERTY_REQUIRED, Arrays.asList(FieldConstant.MARKET_INFO_ID));
-        return findAttributeValue(listRequest, FieldConstant.APPROVED_MARKET_INFO, cachedAttributes).map(s -> AttributeDataUtils.createAttributeResponse(properties, AttributeConstant.APPROVED_MARKET_INFO, s, AttributeResponse.TypeEnum.JSON));
+        return findAttributeValue(listRequest, FieldConstant.APPROVED_MARKET_INFOS, cachedAttributes).map(s -> AttributeDataUtils.createAttributeResponse(properties, AttributeConstant.APPROVED_MARKET_INFO, s, AttributeResponse.TypeEnum.JSON));
     }
 
     public static Optional<AttributeResponse> mockApprovedPrivacyResponse (AttributeValueListRequest listRequest, Map<String, Long> cachedAttributes) {
         final HashMap<String, Object> properties = newHashMap();
         properties.put(PROPERTY_ALLOW_MULTIPLE, true);
         properties.put(PROPERTY_REQUIRED, Arrays.asList(FieldConstant.PRIVACY_ID));
-        return findAttributeValue(listRequest, FieldConstant.APPROVED_PRIVACY, cachedAttributes).map(s -> AttributeDataUtils.createAttributeResponse(properties, AttributeConstant.APPROVED_PRIVACY, s, AttributeResponse.TypeEnum.JSON));
+        return findAttributeValue(listRequest, FieldConstant.APPROVED_PRIVACIES, cachedAttributes).map(s -> AttributeDataUtils.createAttributeResponse(properties, AttributeConstant.APPROVED_PRIVACY, s, AttributeResponse.TypeEnum.JSON));
     }
 
     public static Optional<AttributeResponse> mockEmailResponse (AttributeValueListRequest listRequest, Map<String, Long> cachedAttributes) {

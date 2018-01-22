@@ -15,11 +15,11 @@ public abstract class BaseUpdateCustomerRequest {
     List<AddressCRM> addresses;
     StringAttribute timezone;
     List<ApprovedAgreement> approvedAgreements;
-    List<ApprovedMarketInfo> approvedMarketInfo;
+    List<ApprovedMarketInfo> approvedMarketInfos;
     List<LicensePlate> licensePlates;
     List<PhoneNumber> phoneNumbers;
     StringAttribute language;
-    List<ApprovedPrivacy> approvedPrivacy;
+    List<ApprovedPrivacy> approvedPrivacies;
 
 
     @JsonProperty(FieldConstant.ADDRESS)
@@ -40,10 +40,10 @@ public abstract class BaseUpdateCustomerRequest {
         return approvedAgreements;
     }
 
-    @JsonProperty(FieldConstant.APPROVED_MARKET_INFO)
+    @JsonProperty(FieldConstant.APPROVED_MARKET_INFOS)
     @ApiModelProperty(value = "The id of the approved market info")
-    public List<ApprovedMarketInfo> getApprovedMarketInfo() {
-        return approvedMarketInfo;
+    public List<ApprovedMarketInfo> getApprovedMarketInfos() {
+        return approvedMarketInfos;
     }
 
     @JsonProperty(FieldConstant.LICENSE_PLATES)
@@ -64,10 +64,10 @@ public abstract class BaseUpdateCustomerRequest {
         return language;
     }
 
-    @JsonProperty(FieldConstant.APPROVED_PRIVACY)
+    @JsonProperty(FieldConstant.APPROVED_PRIVACIES)
     @ApiModelProperty(value = "The id of the approved privacy agreement")
-    public List<ApprovedPrivacy> getApprovedPrivacy () {
-        return approvedPrivacy;
+    public List<ApprovedPrivacy> getApprovedPrivacies() {
+        return approvedPrivacies;
     }
     
 }

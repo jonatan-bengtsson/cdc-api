@@ -15,7 +15,7 @@ public class User {
     private final List<AddressCRM> address;
     private final StringAttribute timezone;
     private final List<ApprovedAgreement> approvedAgreements;
-    private final ApprovedMarketInfo approvedMarketInfo;
+    private final List<ApprovedMarketInfo> approvedMarketInfo;
     private final List<LicensePlate> licensePlates;
     private final SocialSecurityNumber socialSecurityNumber;
     private final StringAttribute customerNumber;
@@ -25,7 +25,7 @@ public class User {
     private final OrganizationNumber organizationNumber;
     private final StringAttribute language;
     private final InstantAttribute activationDate;
-    private final ApprovedPrivacy approvedPrivacy;
+    private final List<ApprovedPrivacy> approvedPrivacy;
     private final StringAttribute name;
     private final StringAttribute contactFirstName;
     private final StringAttribute contactLastName;
@@ -40,7 +40,7 @@ public class User {
                 final List<AddressCRM> address,
                 final StringAttribute timezone,
                 final List<ApprovedAgreement> approvedAgreements,
-                final ApprovedMarketInfo approvedMarketInfo,
+                final List<ApprovedMarketInfo> approvedMarketInfo,
                 final List<LicensePlate> licensePlates,
                 final SocialSecurityNumber socialSecurityNumber,
                 final StringAttribute customerNumber,
@@ -50,7 +50,7 @@ public class User {
                 final OrganizationNumber organizationNumber,
                 final StringAttribute language,
                 final InstantAttribute activationDate,
-                final ApprovedPrivacy approvedPrivacy,
+                final List<ApprovedPrivacy> approvedPrivacy,
                 final StringAttribute name,
                 final StringAttribute contactFirstName,
                 final StringAttribute contactLastName,
@@ -155,7 +155,7 @@ public class User {
     
     @JsonProperty(FieldConstant.APPROVED_MARKET_INFO)
     @ApiModelProperty(position = 8)
-    public ApprovedMarketInfo getApprovedMarketInfo() {
+    public List<ApprovedMarketInfo> getApprovedMarketInfo() {
         return approvedMarketInfo;
     }
     
@@ -221,7 +221,7 @@ public class User {
 
     @JsonProperty(FieldConstant.APPROVED_PRIVACY)
     @ApiModelProperty(position = 20)
-    public ApprovedPrivacy getApprovedPrivacy() {
+    public List<ApprovedPrivacy> getApprovedPrivacy() {
         return approvedPrivacy;
     }
 
@@ -269,7 +269,7 @@ public class User {
         private List<AddressCRM> address;
         private StringAttribute timezone;
         private List<ApprovedAgreement> approvedAgreements;
-        private ApprovedMarketInfo approvedMarketInfo;
+        private List<ApprovedMarketInfo> approvedMarketInfo;
         private List<LicensePlate> licensePlates;
         private SocialSecurityNumber socialSecurityNumber;
         private StringAttribute customerNumber;
@@ -279,7 +279,7 @@ public class User {
         private OrganizationNumber organizationNumber;
         private StringAttribute language;
         private InstantAttribute activationDate;
-        private ApprovedPrivacy approvedPrivacy;
+        private List<ApprovedPrivacy> approvedPrivacy;
         private StringAttribute name;
         private StringAttribute contactFirstName;
         private StringAttribute contactLastName;
@@ -329,7 +329,7 @@ public class User {
             return this;
         }
 
-        public Builder approvedMarketInfo(final ApprovedMarketInfo approvedMarketInfo) {
+        public Builder approvedMarketInfo(final List<ApprovedMarketInfo> approvedMarketInfo) {
             this.approvedMarketInfo = approvedMarketInfo;
             return this;
         }
@@ -380,7 +380,7 @@ public class User {
             return this;
         }
 
-        public Builder approvedPrivacy(final ApprovedPrivacy approvedPrivacy) {
+        public Builder approvedPrivacy(final List<ApprovedPrivacy> approvedPrivacy) {
             this.approvedPrivacy = approvedPrivacy;
             return this;
         }

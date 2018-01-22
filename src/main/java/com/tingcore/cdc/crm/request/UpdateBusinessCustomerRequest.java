@@ -24,12 +24,12 @@ public class UpdateBusinessCustomerRequest extends BaseUpdateCustomerRequest {
                                          List<AddressCRM> address,
                                          StringAttribute timezone,
                                          List<ApprovedAgreement> approvedAgreements,
-                                         ApprovedMarketInfo approvedMarketInfo,
+                                         List<ApprovedMarketInfo> approvedMarketInfo,
                                          List<LicensePlate> licensePlates,
                                          List<PhoneNumber> phoneNumbers,
                                          OrganizationNumber organizationNumber,
                                          StringAttribute language,
-                                         ApprovedPrivacy approvedPrivacy,
+                                         List<ApprovedPrivacy> approvedPrivacy,
                                          StringAttribute contactFirstName,
                                          StringAttribute contactLastName,
                                          List<PhoneNumber> contactPhoneNumber,
@@ -100,12 +100,12 @@ public class UpdateBusinessCustomerRequest extends BaseUpdateCustomerRequest {
         private List<AddressCRM> address;
         private StringAttribute timezone;
         private List<ApprovedAgreement> approvedAgreements;
-        private ApprovedMarketInfo approvedMarketInfo;
+        private List<ApprovedMarketInfo> approvedMarketInfo;
         private List<LicensePlate> licensePlates;
         private List<PhoneNumber> phoneNumbers;
         private OrganizationNumber organizationNumber;
         private StringAttribute language;
-        private ApprovedPrivacy approvedPrivacy;
+        private List<ApprovedPrivacy> approvedPrivacy;
         private StringAttribute contactFirstName;
         private StringAttribute contactLastName;
         private List<PhoneNumber> contactPhoneNumber;
@@ -149,7 +149,7 @@ public class UpdateBusinessCustomerRequest extends BaseUpdateCustomerRequest {
             return this;
         }
 
-        public Builder approvedMarketInfo(final ApprovedMarketInfo approvedMarketInfo){
+        public Builder approvedMarketInfo(final List<ApprovedMarketInfo> approvedMarketInfo){
             this.approvedMarketInfo = approvedMarketInfo;
             return this;
         }
@@ -184,7 +184,7 @@ public class UpdateBusinessCustomerRequest extends BaseUpdateCustomerRequest {
             return this;
         }
 
-        public Builder approvedPrivacy(final ApprovedPrivacy approvedPrivacy){
+        public Builder approvedPrivacy(final List<ApprovedPrivacy> approvedPrivacy){
             this.approvedPrivacy = approvedPrivacy;
             return this;
         }

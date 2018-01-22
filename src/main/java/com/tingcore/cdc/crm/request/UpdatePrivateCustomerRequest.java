@@ -18,12 +18,12 @@ public class UpdatePrivateCustomerRequest extends BaseUpdateCustomerRequest {
                                         List<AddressCRM> address,
                                         StringAttribute timezone,
                                         List<ApprovedAgreement> approvedAgreements,
-                                        ApprovedMarketInfo approvedMarketInfo,
+                                        List<ApprovedMarketInfo> approvedMarketInfo,
                                         List<LicensePlate> licensePlates,
                                         SocialSecurityNumber socialSecurityNumber,
                                         List<PhoneNumber> phoneNumbers,
                                         StringAttribute language,
-                                        ApprovedPrivacy approvedPrivacy) {
+                                        List<ApprovedPrivacy> approvedPrivacy) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.addresses = address;
@@ -69,12 +69,12 @@ public class UpdatePrivateCustomerRequest extends BaseUpdateCustomerRequest {
         private List<AddressCRM> address;
         private StringAttribute timezone;
         private List<ApprovedAgreement> approvedAgreements;
-        private ApprovedMarketInfo approvedMarketInfo;
+        private List<ApprovedMarketInfo> approvedMarketInfo;
         private List<LicensePlate> licensePlates;
         private SocialSecurityNumber socialSecurityNumber;
         private List<PhoneNumber> phoneNumbers;
         private StringAttribute language;
-        private ApprovedPrivacy approvedPrivacy;
+        private List<ApprovedPrivacy> approvedPrivacy;
 
         private Builder(){
             this.address = new ArrayList<>();
@@ -118,7 +118,7 @@ public class UpdatePrivateCustomerRequest extends BaseUpdateCustomerRequest {
             return this;
         }
 
-        public Builder approvedMarketInfo(final ApprovedMarketInfo approvedMarketInfo){
+        public Builder approvedMarketInfo(final List<ApprovedMarketInfo> approvedMarketInfo){
             this.approvedMarketInfo = approvedMarketInfo;
             return this;
         }
@@ -153,7 +153,7 @@ public class UpdatePrivateCustomerRequest extends BaseUpdateCustomerRequest {
             return this;
         }
 
-        public Builder approvedPrivacy(final ApprovedPrivacy approvedPrivacy){
+        public Builder approvedPrivacy(final List<ApprovedPrivacy> approvedPrivacy){
             this.approvedPrivacy = approvedPrivacy;
             return this;
         }

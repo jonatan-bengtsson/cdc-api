@@ -19,7 +19,7 @@ public class ApprovedMarketInfo extends BaseAttributeModel {
     public ApprovedMarketInfo() {
     }
 
-    @JsonProperty(FieldConstant.MARKET_INFO_ID)
+    @JsonProperty(FieldConstant.VALUE)
     @ApiModelProperty(value = "The id of the approved market info")
     public String getValue() {
         return value;

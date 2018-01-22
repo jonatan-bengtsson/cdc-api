@@ -11,9 +11,9 @@ public class ApprovedPrivacy extends BaseAttributeModel {
 
     private String value;
 
-    public ApprovedPrivacy (Long attributeValueId, String privacyId) {
+    public ApprovedPrivacy (Long attributeValueId, String value) {
         this.id = attributeValueId;
-        this.value = privacyId;
+        this.value = value;
     }
 
     public ApprovedPrivacy () {
@@ -24,7 +24,7 @@ public class ApprovedPrivacy extends BaseAttributeModel {
         return new ApprovedPrivacy(null, this.value);
     }
 
-    @JsonProperty(FieldConstant.PRIVACY_ID)
+    @JsonProperty(FieldConstant.VALUE)
     public String getValue() {
         return value;
     }

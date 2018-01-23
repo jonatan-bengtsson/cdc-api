@@ -17,24 +17,24 @@ public class UpdatePrivateCustomerRequest extends BaseUpdateCustomerRequest {
                                         StringAttribute lastName,
                                         List<AddressCRM> address,
                                         StringAttribute timezone,
-                                        List<ApprovedAgreement> approvedAgreements,
-                                        List<ApprovedMarketInfo> approvedMarketInfos,
+                                        List<ApprovedTermsConditions> approvedTermsConditions,
+                                        List<ApprovedMarketInfo> approvedMarketInfo,
                                         List<LicensePlate> licensePlates,
                                         SocialSecurityNumber socialSecurityNumber,
                                         List<PhoneNumber> phoneNumbers,
                                         StringAttribute language,
-                                        List<ApprovedPrivacy> approvedPrivacies) {
+                                        List<ApprovedPrivacyPolicy> approvedPrivacyPolicies) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.addresses = address;
         this.timezone = timezone;
-        this.approvedAgreements = approvedAgreements;
-        this.approvedMarketInfos = approvedMarketInfos;
+        this.approvedTermsConditions = approvedTermsConditions;
+        this.approvedMarketInfo = approvedMarketInfo;
         this.licensePlates = licensePlates;
         this.socialSecurityNumber = socialSecurityNumber;
         this.phoneNumbers = phoneNumbers;
         this.language = language;
-        this.approvedPrivacies = approvedPrivacies;
+        this.approvedPrivacyPolicies = approvedPrivacyPolicies;
     }
 
     public UpdatePrivateCustomerRequest() {
@@ -47,7 +47,7 @@ public class UpdatePrivateCustomerRequest extends BaseUpdateCustomerRequest {
     }
 
     @JsonProperty(FieldConstant.LAST_NAME)
-    @ApiModelProperty(value = "Private customer Last name", example = "Smith")
+    @ApiModelProperty(value = "Private customer last name", example = "Smith")
     public StringAttribute getLastName() {
         return lastName;
     }
@@ -68,17 +68,17 @@ public class UpdatePrivateCustomerRequest extends BaseUpdateCustomerRequest {
         private StringAttribute lastName;
         private List<AddressCRM> address;
         private StringAttribute timezone;
-        private List<ApprovedAgreement> approvedAgreements;
-        private List<ApprovedMarketInfo> approvedMarketInfos;
+        private List<ApprovedTermsConditions> approvedTermsConditions;
+        private List<ApprovedMarketInfo> approvedMarketInfo;
         private List<LicensePlate> licensePlates;
         private SocialSecurityNumber socialSecurityNumber;
         private List<PhoneNumber> phoneNumbers;
         private StringAttribute language;
-        private List<ApprovedPrivacy> approvedPrivacies;
+        private List<ApprovedPrivacyPolicy> approvedPrivacyPolicies;
 
         private Builder(){
             this.address = new ArrayList<>();
-            this.approvedAgreements = new ArrayList<>();
+            this.approvedTermsConditions = new ArrayList<>();
             this.licensePlates = new ArrayList<>();
             this.phoneNumbers = new ArrayList<>();
         }
@@ -108,18 +108,18 @@ public class UpdatePrivateCustomerRequest extends BaseUpdateCustomerRequest {
             return this;
         }
 
-        public Builder addApprovedAgreement(final ApprovedAgreement approvedAgreement){
-            this.approvedAgreements.add(approvedAgreement);
+        public Builder addApprovedTermsConditions(final ApprovedTermsConditions approvedTermsConditions){
+            this.approvedTermsConditions.add(approvedTermsConditions);
             return this;
         }
 
-        public Builder approvedAgreements(final List<ApprovedAgreement> agreements){
-            this.approvedAgreements = agreements;
+        public Builder approvedTermsConditions(final List<ApprovedTermsConditions> approvedTermsConditions){
+            this.approvedTermsConditions = approvedTermsConditions;
             return this;
         }
 
-        public Builder approvedMarketInfos(final List<ApprovedMarketInfo> approvedMarketInfos){
-            this.approvedMarketInfos = approvedMarketInfos;
+        public Builder approvedMarketInfo(final List<ApprovedMarketInfo> approvedMarketInfo){
+            this.approvedMarketInfo = approvedMarketInfo;
             return this;
         }
 
@@ -153,14 +153,14 @@ public class UpdatePrivateCustomerRequest extends BaseUpdateCustomerRequest {
             return this;
         }
 
-        public Builder approvedPrivacies(final List<ApprovedPrivacy> approvedPrivacies){
-            this.approvedPrivacies = approvedPrivacies;
+        public Builder approvedPrivacyPolicies(final List<ApprovedPrivacyPolicy> approvedPrivacyPolicies){
+            this.approvedPrivacyPolicies = approvedPrivacyPolicies;
             return this;
         }
 
         public UpdatePrivateCustomerRequest build(){
-            return new UpdatePrivateCustomerRequest(firstName, lastName, address, timezone, approvedAgreements, approvedMarketInfos, licensePlates,
-                    socialSecurityNumber, phoneNumbers, language, approvedPrivacies);
+            return new UpdatePrivateCustomerRequest(firstName, lastName, address, timezone, approvedTermsConditions, approvedMarketInfo, licensePlates,
+                    socialSecurityNumber, phoneNumbers, language, approvedPrivacyPolicies);
         }
     }
 }

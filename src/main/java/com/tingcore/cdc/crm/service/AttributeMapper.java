@@ -25,10 +25,10 @@ public class AttributeMapper {
     }
 
 
-    static List<ApprovedAgreement> findApprovedAgreements(final List<AttributeResponse> attributes) {
-        List<AttributeResponse> attributeResponses = findAttributesFromList(attributes, AttributeConstant.APPROVED_AGREEMENT);
+    static List<ApprovedTermsConditions> findApprovedTermsConditions(final List<AttributeResponse> attributes) {
+        List<AttributeResponse> attributeResponses = findAttributesFromList(attributes, AttributeConstant.APPROVED_TERMS_CONDITIONS);
         return attributeResponses.stream()
-                .map(attributeResponse -> parseAttributeValue(attributeResponse, ApprovedAgreement.class))
+                .map(attributeResponse -> parseAttributeValue(attributeResponse, ApprovedTermsConditions.class))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .collect(Collectors.toList());
@@ -153,11 +153,11 @@ public class AttributeMapper {
         }
     }
 
-    public static List<ApprovedPrivacy> findApprovedPrivacy(List<AttributeResponse> attributes, String attributeName) {
+    public static List<ApprovedPrivacyPolicy> findApprovedPrivacy(List<AttributeResponse> attributes, String attributeName) {
 
-        List<AttributeResponse> attributeResponses = findAttributesFromList(attributes, AttributeConstant.APPROVED_PRIVACY);
+        List<AttributeResponse> attributeResponses = findAttributesFromList(attributes, AttributeConstant.APPROVED_PRIVACY_POLICY);
         return attributeResponses.stream()
-                .map(attributeResponse -> parseAttributeValue(attributeResponse, ApprovedPrivacy.class))
+                .map(attributeResponse -> parseAttributeValue(attributeResponse, ApprovedPrivacyPolicy.class))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .collect(Collectors.toList());

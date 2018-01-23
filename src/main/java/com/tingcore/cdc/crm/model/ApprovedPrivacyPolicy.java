@@ -7,21 +7,21 @@ import com.tingcore.cdc.crm.constant.FieldConstant;
  * @author moa.mackegard
  * @since 2017-12-13.
  */
-public class ApprovedPrivacy extends BaseAttributeModel {
+public class ApprovedPrivacyPolicy extends BaseAttributeModel {
 
     private String value;
 
-    public ApprovedPrivacy (Long attributeValueId, String value) {
+    public ApprovedPrivacyPolicy(Long attributeValueId, String value) {
         this.id = attributeValueId;
         this.value = value;
     }
 
-    public ApprovedPrivacy () {
+    public ApprovedPrivacyPolicy() {
     }
 
     @Override
-    public ApprovedPrivacy copyWithoutId () {
-        return new ApprovedPrivacy(null, this.value);
+    public ApprovedPrivacyPolicy copyWithoutId () {
+        return new ApprovedPrivacyPolicy(null, this.value);
     }
 
     @JsonProperty(FieldConstant.VALUE)

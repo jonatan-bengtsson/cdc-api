@@ -47,7 +47,7 @@ public class AttributeValueMapperTest {
     @Test
     public void assertAttributeSavedWithCorrectId() throws Exception {
 
-        assertThat(findPrivateCustomerAttributeRequest(AttributeConstant.APPROVED_AGREEMENT).getValue()).contains(FieldConstant.AGREEMENT_ID);
+        assertThat(findPrivateCustomerAttributeRequest(AttributeConstant.APPROVED_TERMS_CONDITIONS).getValue()).contains(FieldConstant.AGREEMENT_ID);
         assertThat(findPrivateCustomerAttributeRequest(AttributeConstant.ADDRESS).getValue()).contains(FieldConstant.ADDRESS);
         assertThat(findPrivateCustomerAttributeRequest(AttributeConstant.SOCIAL_SECURITY_NUMBER).getValue()).contains(FieldConstant.SOCIAL_SECURITY_NUMBER);
         assertThat(findPrivateCustomerAttributeRequest(AttributeConstant.FIRST_NAME).getValue()).contains(FieldConstant.VALUE);
@@ -61,10 +61,10 @@ public class AttributeValueMapperTest {
         assertThat(findBusinessCustomerAttributeRequest(AttributeConstant.CONTACT_LAST_NAME).getValue()).contains(FieldConstant.VALUE);
         assertThat(findBusinessCustomerAttributeRequest(AttributeConstant.CONTACT_PHONE_NUMBER).getValue()).contains(FieldConstant.PHONE_NUMBER);
         assertThat(findBusinessCustomerAttributeRequest(AttributeConstant.CONTACT_EMAIL).getValue()).contains(FieldConstant.VALUE);
-        assertThat(findBusinessCustomerAttributeRequest(FieldConstant.LICENSE_PLATE).getValue()).contains(FieldConstant.LICENSE_PLATE);
+        assertThat(findBusinessCustomerAttributeRequest(AttributeConstant.LICENSE_PLATE).getValue()).contains(FieldConstant.LICENSE_PLATE);
 
-        assertThat(findBusinessCustomerAttributeRequest(FieldConstant.APPROVED_PRIVACIES).getValue()).contains(FieldConstant.APPROVED_PRIVACIES);
-        assertThat(findBusinessCustomerAttributeRequest(FieldConstant.APPROVED_MARKET_INFOS).getValue()).contains(FieldConstant.APPROVED_MARKET_INFOS);
+        assertThat(findBusinessCustomerAttributeRequest(AttributeConstant.APPROVED_PRIVACY_POLICY).getValue()).contains(FieldConstant.VALUE); // should APPROVED_PRIVACY_POLICIES be value?
+        assertThat(findBusinessCustomerAttributeRequest(AttributeConstant.APPROVED_MARKET_INFO).getValue()).contains(FieldConstant.VALUE); // should APPROVED_MARKET_INFO be value?
 
     }
 

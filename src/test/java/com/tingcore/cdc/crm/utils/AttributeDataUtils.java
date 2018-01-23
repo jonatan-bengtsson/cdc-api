@@ -95,11 +95,11 @@ public class AttributeDataUtils {
                 AttributeResponse.TypeEnum.JSON);
     }
 
-    static AttributeResponse createApprovedAgreementResponse() {
+    static AttributeResponse createApprovedTermsConditionsResponse() {
         final HashMap<String, Object> properties = newHashMap();
         properties.put(PROPERTY_ALLOW_MULTIPLE, true);
         properties.put(PROPERTY_REQUIRED, Arrays.asList("agreementId"));
-        return createAttributeResponse(properties, AttributeConstant.APPROVED_AGREEMENT, "{\"agreementId\": \"123456\"}",
+        return createAttributeResponse(properties, AttributeConstant.APPROVED_TERMS_CONDITIONS, "{\"agreementId\": \"123456\"}",
                 AttributeResponse.TypeEnum.JSON);
     }
 
@@ -127,8 +127,8 @@ public class AttributeDataUtils {
                 CommonDataUtils.randomNumberStr(1000,2000),CommonDataUtils.randomNumberStr(1000,2000),CommonDataUtils.randomNumberStr(1000,2000), CommonDataUtils.randomNumberStr(1000,2000));
     }
 
-    public static ApprovedAgreement createApprovedAgreement () {
-        return new ApprovedAgreement(CommonDataUtils.getNextId(), CommonDataUtils.randomNumberStr(1000,2000));
+    public static ApprovedTermsConditions createApprovedTermsConditions() {
+        return new ApprovedTermsConditions(CommonDataUtils.getNextId(), CommonDataUtils.randomNumberStr(1000,2000));
     }
 
     public static SocialSecurityNumber createSocialSecurityNumber () {
@@ -136,11 +136,11 @@ public class AttributeDataUtils {
     }
 
     public static ApprovedMarketInfo createApprovedMarketInfo () {
-        return new ApprovedMarketInfo(CommonDataUtils.getNextId(), FieldConstant.APPROVED_MARKET_INFOS);
+        return new ApprovedMarketInfo(CommonDataUtils.getNextId(), AttributeConstant.APPROVED_MARKET_INFO);
     }
 
-    public static ApprovedPrivacy createApprovedPrivacy () {
-        return new ApprovedPrivacy(CommonDataUtils.getNextId(),FieldConstant.APPROVED_PRIVACIES);
+    public static ApprovedPrivacyPolicy createApprovedPrivacy () {
+        return new ApprovedPrivacyPolicy(CommonDataUtils.getNextId(), AttributeConstant.APPROVED_PRIVACY_POLICY);
     }
 
     public static LicensePlate createLicensePlate () {
@@ -187,7 +187,7 @@ public class AttributeDataUtils {
             "  },\n" +
             "  {\n" +
             "    \"id\": 22,\n" +
-            "    \"name\": \"approvedAgreement\",\n" +
+            "    \"name\": \"approvedTermsConditions\",\n" +
             "    \"type\": \"json\",\n" +
             "    \"properties\": {\n" +
             "      \"allowMultiple\": true,\n" +
@@ -443,7 +443,7 @@ public class AttributeDataUtils {
             "  },\n" +
             "  {\n" +
             "    \"id\": 50,\n" +
-            "    \"name\": \"approvedPrivacies\",\n" +
+            "    \"name\": \"approvedPrivacyPolicy\",\n" +
             "    \"type\": \"string\",\n" +
             "    \"properties\": {\n" +
             "      \"allowMultiple\": true\n" +
@@ -451,7 +451,7 @@ public class AttributeDataUtils {
             "  },\n" +
             "  {\n" +
             "    \"id\": 51,\n" +
-            "    \"name\": \"approvedMarketInfos\",\n" +
+            "    \"name\": \"approvedMarketInfo\",\n" +
             "    \"type\": \"string\",\n" +
             "    \"properties\": {\n" +
             "      \"allowMultiple\": true\n" +

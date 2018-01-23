@@ -49,14 +49,14 @@ public class AttributeValueMapper {
                 .ifPresent(firstName -> addAttributeToList(list, firstName, cachedAttributes, AttributeConstant.FIRST_NAME));
         Optional.ofNullable(privateCustomerRequest.getLastName())
                 .ifPresent(lastName -> addAttributeToList(list, lastName, cachedAttributes, AttributeConstant.LAST_NAME));
-        Optional.ofNullable(privateCustomerRequest.getApprovedMarketInfos())
-                .ifPresent(marketInfos -> marketInfos.stream().forEach(marketInfo -> addAttributeToList(list, marketInfo, cachedAttributes, AttributeConstant.APPROVED_MARKET_INFO)));
-        Optional.ofNullable(privateCustomerRequest.getApprovedPrivacies())
-                .ifPresent(privacies -> privacies.stream().forEach(privacy -> addAttributeToList(list, privacy, cachedAttributes, AttributeConstant.APPROVED_PRIVACY)));
+        Optional.ofNullable(privateCustomerRequest.getApprovedMarketInfo())
+                .ifPresent(marketInfoList -> marketInfoList.stream().forEach(marketInfo -> addAttributeToList(list, marketInfo, cachedAttributes, AttributeConstant.APPROVED_MARKET_INFO)));
+        Optional.ofNullable(privateCustomerRequest.getApprovedPrivacyPolicies())
+                .ifPresent(privacyPolicies -> privacyPolicies.stream().forEach(privacy -> addAttributeToList(list, privacy, cachedAttributes, AttributeConstant.APPROVED_PRIVACY_POLICY)));
         Optional.ofNullable(privateCustomerRequest.getLicensePlates())
                 .ifPresent(licensePlateList -> licensePlateList.stream().forEach(licensePlate -> addAttributeToList(list, licensePlate, cachedAttributes, FieldConstant.LICENSE_PLATE)));
-        Optional.ofNullable(privateCustomerRequest.getApprovedAgreements())
-                .ifPresent(agreements -> agreements.stream().forEach(agreement -> addAttributeToList(list, agreement, cachedAttributes, AttributeConstant.APPROVED_AGREEMENT)));
+        Optional.ofNullable(privateCustomerRequest.getApprovedTermsConditions())
+                .ifPresent(termsConditionsList -> termsConditionsList.stream().forEach(termsConditions -> addAttributeToList(list, termsConditions, cachedAttributes, AttributeConstant.APPROVED_TERMS_CONDITIONS)));
         return list;
     }
 
@@ -65,14 +65,14 @@ public class AttributeValueMapper {
                 .ifPresent(organizationNumber -> addAttributeToList(list, organizationNumber, cachedAttributes, AttributeConstant.ORGANIZATION_NUMBER));
         Optional.ofNullable(request.getName())
                 .ifPresent(name -> addAttributeToList(list,name, cachedAttributes, AttributeConstant.NAME));
-        Optional.ofNullable(request.getApprovedMarketInfos())
-                .ifPresent(marketInfos -> marketInfos.stream().forEach(marketInfo -> addAttributeToList(list, marketInfo, cachedAttributes, AttributeConstant.APPROVED_MARKET_INFO)));
-        Optional.ofNullable(request.getApprovedPrivacies())
-                .ifPresent(privacies -> privacies.stream().forEach(privacy -> addAttributeToList(list, privacy, cachedAttributes, AttributeConstant.APPROVED_PRIVACY)));
+        Optional.ofNullable(request.getApprovedMarketInfo())
+                .ifPresent(marketInfoList -> marketInfoList.stream().forEach(marketInfo -> addAttributeToList(list, marketInfo, cachedAttributes, AttributeConstant.APPROVED_MARKET_INFO)));
+        Optional.ofNullable(request.getApprovedPrivacyPolicies())
+                .ifPresent(privacyPolicies -> privacyPolicies.stream().forEach(privacy -> addAttributeToList(list, privacy, cachedAttributes, AttributeConstant.APPROVED_PRIVACY_POLICY)));
         Optional.ofNullable(request.getLicensePlates())
                 .ifPresent(licensePlates -> licensePlates.stream().forEach(licensePlate -> addAttributeToList(list,licensePlate, cachedAttributes, FieldConstant.LICENSE_PLATE)));
-        Optional.ofNullable(request.getApprovedAgreements())
-                .ifPresent(agreements -> agreements.stream().forEach(agreement -> addAttributeToList(list,agreement, cachedAttributes, AttributeConstant.APPROVED_AGREEMENT)));
+        Optional.ofNullable(request.getApprovedTermsConditions())
+                .ifPresent(termsConditionsList -> termsConditionsList.stream().forEach(termsConditions -> addAttributeToList(list,termsConditions, cachedAttributes, AttributeConstant.APPROVED_TERMS_CONDITIONS)));
         Optional.ofNullable(request.getContactEmail())
                 .ifPresent(contactEmail -> addAttributeToList(list, contactEmail, cachedAttributes, AttributeConstant.CONTACT_EMAIL));
         Optional.ofNullable(request.getContactFirstName())

@@ -49,7 +49,7 @@ public class UserDataUtils {
                 AttributeDataUtils.createPhoneNumberResponse(),
                 AttributeDataUtils.createPhoneNumberResponse(),
                 AttributeDataUtils.createPhoneNumberResponse(),
-                AttributeDataUtils.createApprovedAgreementResponse()
+                AttributeDataUtils.createApprovedTermsConditionsResponse()
         ));
         return response;
     }
@@ -57,9 +57,9 @@ public class UserDataUtils {
     public static UpdatePrivateCustomerRequest createUpdatePrivateCustomerRequest() {
         return UpdatePrivateCustomerRequest.createBuilder()
                 .address(Lists.newArrayList(AttributeDataUtils.createAddress(), AttributeDataUtils.createAddress()))
-                .approvedAgreements(Arrays.asList(AttributeDataUtils.createApprovedAgreement()))
-                .approvedMarketInfos(Arrays.asList(AttributeDataUtils.createApprovedMarketInfo()))
-                .approvedPrivacies(Arrays.asList(AttributeDataUtils.createApprovedPrivacy()))
+                .approvedTermsConditions(Arrays.asList(AttributeDataUtils.createApprovedTermsConditions()))
+                .approvedMarketInfo(Arrays.asList(AttributeDataUtils.createApprovedMarketInfo()))
+                .approvedPrivacyPolicies(Arrays.asList(AttributeDataUtils.createApprovedPrivacy()))
                 .firstName(AttributeDataUtils.createStringAttribute())
                 .lastName(AttributeDataUtils.createStringAttribute())
                 .phoneNumbers(Arrays.asList(AttributeDataUtils.createPhoneNumber()))
@@ -75,10 +75,10 @@ public class UserDataUtils {
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
                 .phoneNumbers(request.getPhoneNumbers())
-                .approvedMarketInfos(request.getApprovedMarketInfos())
+                .approvedMarketInfo(request.getApprovedMarketInfo())
                 .address(request.getAddresses())
                 .timezone(request.getTimezone())
-                .approvedAgreements(request.getApprovedAgreements())
+                .approvedTermsConditions(request.getApprovedTermsConditions())
                 .licensePlates(request.getLicensePlates())
                 .socialSecurityNumber(request.getSocialSecurityNumber())
                 .language(request.getLanguage())
@@ -88,9 +88,9 @@ public class UserDataUtils {
     public static UpdateBusinessCustomerRequest createUpdateBusinessCustomerRequest() {
         return UpdateBusinessCustomerRequest.createBuilder()
                 .address(Lists.newArrayList(AttributeDataUtils.createAddress(), AttributeDataUtils.createAddress()))
-                .approvedAgreements(Arrays.asList(AttributeDataUtils.createApprovedAgreement()))
-                .approvedMarketInfos(Arrays.asList(AttributeDataUtils.createApprovedMarketInfo()))
-                .approvedPrivacies(Arrays.asList(AttributeDataUtils.createApprovedPrivacy()))
+                .approvedTermsConditions(Arrays.asList(AttributeDataUtils.createApprovedTermsConditions()))
+                .approvedMarketInfo(Arrays.asList(AttributeDataUtils.createApprovedMarketInfo()))
+                .approvedPrivacyPolicies(Arrays.asList(AttributeDataUtils.createApprovedPrivacy()))
                 .phoneNumbers(Arrays.asList(AttributeDataUtils.createPhoneNumber()))
                 .licensePlates(Arrays.asList(AttributeDataUtils.createLicensePlate()))
                 .language(AttributeDataUtils.createStringAttribute())
@@ -108,11 +108,11 @@ public class UserDataUtils {
         return User.createBuilder()
                 .name(request.getName())
                 .phoneNumbers(request.getPhoneNumbers())
-                .approvedMarketInfos(request.getApprovedMarketInfos())
-                .approvedPrivacies(request.getApprovedPrivacies())
+                .approvedMarketInfo(request.getApprovedMarketInfo())
+                .approvedPrivacyPolicies(request.getApprovedPrivacyPolicies())
                 .address(request.getAddresses())
                 .timezone(request.getTimezone())
-                .approvedAgreements(request.getApprovedAgreements())
+                .approvedTermsConditions(request.getApprovedTermsConditions())
                 .licensePlates(request.getLicensePlates())
                 .organizationNumber(request.getOrganizationNumber())
                 .language(request.getLanguage())
@@ -130,7 +130,7 @@ public class UserDataUtils {
         AttributeResponseDataUtils.mockAddressResponse(listRequest, cachedAttributes).forEach(responses::add);
         responses.addAll(AttributeResponseDataUtils.mockLicensePlatesResponse(listRequest, cachedAttributes));
         responses.addAll(AttributeResponseDataUtils.mockPhoneNumbersResponse(listRequest, cachedAttributes));
-        AttributeResponseDataUtils.mockApprovedAgreementResponse(listRequest, cachedAttributes).forEach(approvedAgreement -> responses.add(approvedAgreement));
+        AttributeResponseDataUtils.mockApprovedTermsConditionsResponse(listRequest, cachedAttributes).forEach(approvedTermsConditions -> responses.add(approvedTermsConditions));
         AttributeResponseDataUtils.mockApprovedMarketInfoResponse(listRequest, cachedAttributes).ifPresent(approvedMarketInfo -> responses.add(approvedMarketInfo));
         AttributeResponseDataUtils.mockEmailResponse(listRequest, cachedAttributes).ifPresent(email -> responses.add(email));
         AttributeResponseDataUtils.mockApprovedPrivacyResponse(listRequest, cachedAttributes).ifPresent(approvedPrivacy -> responses.add(approvedPrivacy));

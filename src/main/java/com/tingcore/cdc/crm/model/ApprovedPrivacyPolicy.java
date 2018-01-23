@@ -5,17 +5,23 @@ import com.tingcore.cdc.crm.constant.FieldConstant;
 
 /**
  * @author moa.mackegard
- * @since 2017-11-14.
+ * @since 2017-12-13.
  */
-public class StringAttribute extends BaseAttributeModel {
+public class ApprovedPrivacyPolicy extends BaseAttributeModel {
+
     private String value;
 
-    public StringAttribute(Long valueId, String value) {
-        this.id = valueId;
+    public ApprovedPrivacyPolicy(Long attributeValueId, String value) {
+        this.id = attributeValueId;
         this.value = value;
     }
 
-    public StringAttribute() {
+    public ApprovedPrivacyPolicy() {
+    }
+
+    @Override
+    public ApprovedPrivacyPolicy copyWithoutId () {
+        return new ApprovedPrivacyPolicy(null, this.value);
     }
 
     @JsonProperty(FieldConstant.VALUE)
@@ -27,7 +33,5 @@ public class StringAttribute extends BaseAttributeModel {
         this.value = value;
     }
 
-    public StringAttribute copyWithoutId () {
-        return new StringAttribute(null, this.value);
-    }
+
 }

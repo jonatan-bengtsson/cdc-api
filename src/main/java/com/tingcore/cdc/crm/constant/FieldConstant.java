@@ -42,8 +42,8 @@ public class FieldConstant {
     public static final String LAST_NAME = "lastName";
     public static final String ADDRESS = "address";
     public static final String TIME_ZONE = "timeZone";
-    public static final String APPROVED_AGREEMENT = "approvedAgreements";
-    public static final String APPROVES_MARKET_INFO = "approvedMarketInfo";
+    public static final String APPROVED_TERMS_CONDITIONS = "approvedTermsConditions";
+    public static final String APPROVED_MARKET_INFO = "approvedMarketInfo";
     public static final String LICENSE_PLATES = "licensePlates";
     public static final String SOCIAL_SECURITY_NUMBER = "socialSecurityNumber";
     public static final String CUSTOMER_NUMBER = "customerNumber";
@@ -65,7 +65,7 @@ public class FieldConstant {
     public static final String PHONE_NUMBER = "phoneNumber";
     public static final String FORMATTER = "formatter";
     public static final String DEFAULT_CURRENCY = "defaultCurrency";
-    public static final String APPROVED_PRIVACY = "approvedPrivacy";
+    public static final String APPROVED_PRIVACY_POLICIES = "approvedPrivacyPolicies";
     public static final String PRIVACY_ID = "privacyId";
     public static final String TYPE_ID = "typeId";
     public static final String VALUE = "value";

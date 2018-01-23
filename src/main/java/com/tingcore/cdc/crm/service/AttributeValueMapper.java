@@ -50,13 +50,13 @@ public class AttributeValueMapper {
         Optional.ofNullable(privateCustomerRequest.getLastName())
                 .ifPresent(lastName -> addAttributeToList(list, lastName, cachedAttributes, AttributeConstant.LAST_NAME));
         Optional.ofNullable(privateCustomerRequest.getApprovedMarketInfo())
-                .ifPresent(approvedMarketInfo -> addAttributeToList(list, approvedMarketInfo, cachedAttributes, AttributeConstant.APPROVED_MARKET_INFO));
-        Optional.ofNullable(privateCustomerRequest.getApprovedPrivacy())
-                .ifPresent(approvedPrivacy -> addAttributeToList(list, approvedPrivacy, cachedAttributes, AttributeConstant.APPROVED_PRIVACY));
+                .ifPresent(marketInfoList -> marketInfoList.stream().forEach(marketInfo -> addAttributeToList(list, marketInfo, cachedAttributes, AttributeConstant.APPROVED_MARKET_INFO)));
+        Optional.ofNullable(privateCustomerRequest.getApprovedPrivacyPolicies())
+                .ifPresent(privacyPolicies -> privacyPolicies.stream().forEach(privacy -> addAttributeToList(list, privacy, cachedAttributes, AttributeConstant.APPROVED_PRIVACY_POLICY)));
         Optional.ofNullable(privateCustomerRequest.getLicensePlates())
                 .ifPresent(licensePlateList -> licensePlateList.stream().forEach(licensePlate -> addAttributeToList(list, licensePlate, cachedAttributes, FieldConstant.LICENSE_PLATE)));
-        Optional.ofNullable(privateCustomerRequest.getApprovedAgreements())
-                .ifPresent(agreements -> agreements.stream().forEach(agreement -> addAttributeToList(list, agreement, cachedAttributes, AttributeConstant.APPROVED_AGREEMENTS)));
+        Optional.ofNullable(privateCustomerRequest.getApprovedTermsConditions())
+                .ifPresent(termsConditionsList -> termsConditionsList.stream().forEach(termsConditions -> addAttributeToList(list, termsConditions, cachedAttributes, AttributeConstant.APPROVED_TERMS_CONDITIONS)));
         return list;
     }
 
@@ -66,13 +66,13 @@ public class AttributeValueMapper {
         Optional.ofNullable(request.getName())
                 .ifPresent(name -> addAttributeToList(list,name, cachedAttributes, AttributeConstant.NAME));
         Optional.ofNullable(request.getApprovedMarketInfo())
-                .ifPresent(marketInfo -> addAttributeToList(list,marketInfo, cachedAttributes, AttributeConstant.APPROVED_MARKET_INFO));
-        Optional.ofNullable(request.getApprovedPrivacy())
-                .ifPresent(privacy -> addAttributeToList(list,privacy, cachedAttributes, AttributeConstant.APPROVED_PRIVACY));
+                .ifPresent(marketInfoList -> marketInfoList.stream().forEach(marketInfo -> addAttributeToList(list, marketInfo, cachedAttributes, AttributeConstant.APPROVED_MARKET_INFO)));
+        Optional.ofNullable(request.getApprovedPrivacyPolicies())
+                .ifPresent(privacyPolicies -> privacyPolicies.stream().forEach(privacy -> addAttributeToList(list, privacy, cachedAttributes, AttributeConstant.APPROVED_PRIVACY_POLICY)));
         Optional.ofNullable(request.getLicensePlates())
                 .ifPresent(licensePlates -> licensePlates.stream().forEach(licensePlate -> addAttributeToList(list,licensePlate, cachedAttributes, FieldConstant.LICENSE_PLATE)));
-        Optional.ofNullable(request.getApprovedAgreements())
-                .ifPresent(agreements -> agreements.stream().forEach(agreement -> addAttributeToList(list,agreement, cachedAttributes, AttributeConstant.APPROVED_AGREEMENTS)));
+        Optional.ofNullable(request.getApprovedTermsConditions())
+                .ifPresent(termsConditionsList -> termsConditionsList.stream().forEach(termsConditions -> addAttributeToList(list,termsConditions, cachedAttributes, AttributeConstant.APPROVED_TERMS_CONDITIONS)));
         Optional.ofNullable(request.getContactEmail())
                 .ifPresent(contactEmail -> addAttributeToList(list, contactEmail, cachedAttributes, AttributeConstant.CONTACT_EMAIL));
         Optional.ofNullable(request.getContactFirstName())

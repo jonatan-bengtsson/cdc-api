@@ -14,12 +14,12 @@ import java.util.List;
 public abstract class BaseUpdateCustomerRequest {
     List<AddressCRM> addresses;
     StringAttribute timezone;
-    List<ApprovedAgreement> approvedAgreements;
-    ApprovedMarketInfo approvedMarketInfo;
+    List<ApprovedTermsConditions> approvedTermsConditions;
+    List<ApprovedMarketInfo> approvedMarketInfo;
     List<LicensePlate> licensePlates;
     List<PhoneNumber> phoneNumbers;
     StringAttribute language;
-    ApprovedPrivacy approvedPrivacy;
+    List<ApprovedPrivacyPolicy> approvedPrivacyPolicies;
 
 
     @JsonProperty(FieldConstant.ADDRESS)
@@ -34,15 +34,15 @@ public abstract class BaseUpdateCustomerRequest {
         return timezone;
     }
 
-    @JsonProperty(FieldConstant.APPROVED_AGREEMENT)
-    @ApiModelProperty(value = "The ids of all the approved agreements")
-    public List<ApprovedAgreement> getApprovedAgreements() {
-        return approvedAgreements;
+    @JsonProperty(FieldConstant.APPROVED_TERMS_CONDITIONS)
+    @ApiModelProperty(value = "The ids of all the approved Terms and Conditions agreements")
+    public List<ApprovedTermsConditions> getApprovedTermsConditions() {
+        return approvedTermsConditions;
     }
 
-    @JsonProperty(FieldConstant.APPROVES_MARKET_INFO)
-    @ApiModelProperty(value = "The id of the approved market info")
-    public ApprovedMarketInfo getApprovedMarketInfo() {
+    @JsonProperty(FieldConstant.APPROVED_MARKET_INFO)
+    @ApiModelProperty(value = "The ids of the approved Market Info agreements")
+    public List<ApprovedMarketInfo> getApprovedMarketInfo() {
         return approvedMarketInfo;
     }
 
@@ -64,10 +64,10 @@ public abstract class BaseUpdateCustomerRequest {
         return language;
     }
 
-    @JsonProperty(FieldConstant.APPROVED_PRIVACY)
-    @ApiModelProperty(value = "The id of the approved privacy agreement")
-    public ApprovedPrivacy getApprovedPrivacy () {
-        return approvedPrivacy;
+    @JsonProperty(FieldConstant.APPROVED_PRIVACY_POLICIES)
+    @ApiModelProperty(value = "The ids of the approved Privacy Policies")
+    public List<ApprovedPrivacyPolicy> getApprovedPrivacyPolicies() {
+        return approvedPrivacyPolicies;
     }
     
 }

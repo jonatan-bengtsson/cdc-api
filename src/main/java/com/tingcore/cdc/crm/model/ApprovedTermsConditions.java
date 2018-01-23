@@ -7,16 +7,16 @@ import com.tingcore.cdc.crm.constant.FieldConstant;
  * @author moa.mackegard
  * @since 2017-11-21.
  */
-public class ApprovedAgreement extends BaseAttributeModel {
+public class ApprovedTermsConditions extends BaseAttributeModel {
 
     private String agreementId;
 
-    public ApprovedAgreement(Long attributeValueId, String agreementId) {
+    public ApprovedTermsConditions(Long attributeValueId, String agreementId) {
         this.id = attributeValueId;
         this.agreementId = agreementId;
     }
 
-    public ApprovedAgreement() {
+    public ApprovedTermsConditions() {
     }
 
     @JsonProperty(FieldConstant.AGREEMENT_ID)
@@ -28,7 +28,7 @@ public class ApprovedAgreement extends BaseAttributeModel {
         this.agreementId = agreementId;
     }
 
-    public ApprovedAgreement copyWithoutId () {
-        return new ApprovedAgreement(null,this.agreementId);
+    public ApprovedTermsConditions copyWithoutId () {
+        return new ApprovedTermsConditions(null,this.agreementId);
     }
 }

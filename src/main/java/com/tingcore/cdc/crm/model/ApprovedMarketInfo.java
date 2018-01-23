@@ -2,7 +2,6 @@ package com.tingcore.cdc.crm.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tingcore.cdc.crm.constant.FieldConstant;
-import com.tingcore.cdc.crm.constant.JsonPropertyConstant;
 import io.swagger.annotations.ApiModelProperty;
 
 /**
@@ -10,40 +9,28 @@ import io.swagger.annotations.ApiModelProperty;
  * @since 2017-11-14.
  */
 public class ApprovedMarketInfo extends BaseAttributeModel {
-    private String marketInfoId;
-    private String formatter;
+    private String value;
 
-    public ApprovedMarketInfo(Long valueId, String marketInfoId, String formatter) {
+    public ApprovedMarketInfo(Long valueId, String value) {
         this.id = valueId;
-        this.marketInfoId = marketInfoId;
-        this.formatter = formatter;
+        this.value = value;
     }
 
     public ApprovedMarketInfo() {
     }
 
-    @JsonProperty(FieldConstant.MARKET_INFO_ID)
+    @JsonProperty(FieldConstant.VALUE)
     @ApiModelProperty(value = "The id of the approved market info")
-    public String getMarketInfoId() {
-        return marketInfoId;
+    public String getValue() {
+        return value;
     }
 
-    public void setMarketInfoId(String marketInfoId) {
-        this.marketInfoId = marketInfoId;
-    }
-
-    @JsonProperty(JsonPropertyConstant.FORMATTER)
-    @ApiModelProperty(value = "The requested formatter code", example = "SE")
-    public String getFormatter() {
-        return formatter;
-    }
-
-    public void setFormatter(String formatter) {
-        this.formatter = formatter;
+    public void setValue(String value) {
+        this.value = value;
     }
 
     @Override
     public ApprovedMarketInfo copyWithoutId () {
-        return new ApprovedMarketInfo(null, this.marketInfoId, this.formatter);
+        return new ApprovedMarketInfo(null, this.value);
     }
 }

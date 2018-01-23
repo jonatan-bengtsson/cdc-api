@@ -25,10 +25,10 @@ public class AttributeMapper {
     }
 
 
-    static List<ApprovedAgreement> findApprovedAgreements(final List<AttributeResponse> attributes) {
-        List<AttributeResponse> attributeResponses = findAttributesFromList(attributes, AttributeConstant.APPROVED_AGREEMENTS);
+    static List<ApprovedTermsConditions> findApprovedTermsConditions(final List<AttributeResponse> attributes) {
+        List<AttributeResponse> attributeResponses = findAttributesFromList(attributes, AttributeConstant.APPROVED_TERMS_CONDITIONS);
         return attributeResponses.stream()
-                .map(attributeResponse -> parseAttributeValue(attributeResponse, ApprovedAgreement.class))
+                .map(attributeResponse -> parseAttributeValue(attributeResponse, ApprovedTermsConditions.class))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .collect(Collectors.toList());
@@ -55,16 +55,14 @@ public class AttributeMapper {
         }
     }
 
-    static Optional<ApprovedMarketInfo> findApprovedMarketInfo(final List<AttributeResponse> attributes) {
-        Optional<AttributeResponse> attributeResponse = findAttributeFromList(attributes, AttributeConstant.APPROVED_MARKET_INFO);
+    static List<ApprovedMarketInfo> findApprovedMarketInfo(final List<AttributeResponse> attributes) {
 
-        if (attributeResponse.isPresent()) {
-            Optional<ApprovedMarketInfo> approvedMarketInfoResponse = parseAttributeValue(attributeResponse.get(), ApprovedMarketInfo.class);
-            approvedMarketInfoResponse.ifPresent(approvedMarketInfo1 -> approvedMarketInfo1.setId(attributeResponse.get().getAttributeValue().getId()));
-            return approvedMarketInfoResponse;
-        } else {
-            return Optional.empty();
-        }
+        List<AttributeResponse> attributeResponses = findAttributesFromList(attributes, AttributeConstant.APPROVED_MARKET_INFO);
+        return attributeResponses.stream()
+                .map(attributeResponse -> parseAttributeValue(attributeResponse, ApprovedMarketInfo.class))
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .collect(Collectors.toList());
     }
 
 
@@ -155,15 +153,14 @@ public class AttributeMapper {
         }
     }
 
-    public static Optional<ApprovedPrivacy> findApprovedPrivacy(List<AttributeResponse> attributes, String attributeName) {
-        Optional<AttributeResponse> attributeResponse = findAttributeFromList(attributes, attributeName);
-        if (attributeResponse.isPresent()) {
-            Optional<ApprovedPrivacy> approvedPrivacy = parseAttributeValue(attributeResponse.get(), ApprovedPrivacy.class);
-            approvedPrivacy.ifPresent(a -> a.setId(attributeResponse.get().getAttributeValue().getId()));
-            return approvedPrivacy;
-        } else {
-            return Optional.empty();
-        }
+    public static List<ApprovedPrivacyPolicy> findApprovedPrivacyPolicies(List<AttributeResponse> attributes, String attributeName) {
+
+        List<AttributeResponse> attributeResponses = findAttributesFromList(attributes, AttributeConstant.APPROVED_PRIVACY_POLICY);
+        return attributeResponses.stream()
+                .map(attributeResponse -> parseAttributeValue(attributeResponse, ApprovedPrivacyPolicy.class))
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .collect(Collectors.toList());
     }
 
     private static List<StringAttribute> findStringAttributes(final List<AttributeResponse> attributes, final String attributeName) {

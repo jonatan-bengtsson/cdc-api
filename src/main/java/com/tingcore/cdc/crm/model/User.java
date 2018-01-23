@@ -14,8 +14,8 @@ public class User {
     private final String email;
     private final List<AddressCRM> address;
     private final StringAttribute timezone;
-    private final List<ApprovedAgreement> approvedAgreements;
-    private final ApprovedMarketInfo approvedMarketInfo;
+    private final List<ApprovedTermsConditions> approvedTermsConditions;
+    private final List<ApprovedMarketInfo> approvedMarketInfo;
     private final List<LicensePlate> licensePlates;
     private final SocialSecurityNumber socialSecurityNumber;
     private final StringAttribute customerNumber;
@@ -25,7 +25,7 @@ public class User {
     private final OrganizationNumber organizationNumber;
     private final StringAttribute language;
     private final InstantAttribute activationDate;
-    private final ApprovedPrivacy approvedPrivacy;
+    private final List<ApprovedPrivacyPolicy> approvedPrivacyPolicies;
     private final StringAttribute name;
     private final StringAttribute contactFirstName;
     private final StringAttribute contactLastName;
@@ -39,8 +39,8 @@ public class User {
                 final String email,
                 final List<AddressCRM> address,
                 final StringAttribute timezone,
-                final List<ApprovedAgreement> approvedAgreements,
-                final ApprovedMarketInfo approvedMarketInfo,
+                final List<ApprovedTermsConditions> approvedTermsConditions,
+                final List<ApprovedMarketInfo> approvedMarketInfo,
                 final List<LicensePlate> licensePlates,
                 final SocialSecurityNumber socialSecurityNumber,
                 final StringAttribute customerNumber,
@@ -50,7 +50,7 @@ public class User {
                 final OrganizationNumber organizationNumber,
                 final StringAttribute language,
                 final InstantAttribute activationDate,
-                final ApprovedPrivacy approvedPrivacy,
+                final List<ApprovedPrivacyPolicy> approvedPrivacyPolicies,
                 final StringAttribute name,
                 final StringAttribute contactFirstName,
                 final StringAttribute contactLastName,
@@ -63,7 +63,7 @@ public class User {
         this.email = email;
         this.address = address;
         this.timezone = timezone;
-        this.approvedAgreements = approvedAgreements;
+        this.approvedTermsConditions = approvedTermsConditions;
         this.approvedMarketInfo = approvedMarketInfo;
         this.licensePlates = licensePlates;
         this.socialSecurityNumber = socialSecurityNumber;
@@ -74,7 +74,7 @@ public class User {
         this.organizationNumber = organizationNumber;
         this.language = language;
         this.activationDate = activationDate;
-        this.approvedPrivacy = approvedPrivacy;
+        this.approvedPrivacyPolicies = approvedPrivacyPolicies;
         this.name = name;
         this.contactFirstName = contactFirstName;
         this.contactLastName = contactLastName;
@@ -90,7 +90,7 @@ public class User {
         this.email = null;
         this.address = null;
         this.timezone = null;
-        this.approvedAgreements = null;
+        this.approvedTermsConditions = null;
         this.approvedMarketInfo = null;
         this.licensePlates = null;
         this.socialSecurityNumber = null;
@@ -101,7 +101,7 @@ public class User {
         this.organizationNumber = null;
         this.language = null;
         this.activationDate = null;
-        this.approvedPrivacy = null;
+        this.approvedPrivacyPolicies = null;
         this.name = null;
         this.contactFirstName = null;
         this.contactLastName = null;
@@ -147,15 +147,15 @@ public class User {
         return timezone;
     }
     
-    @JsonProperty(FieldConstant.APPROVED_AGREEMENT)
+    @JsonProperty(FieldConstant.APPROVED_TERMS_CONDITIONS)
     @ApiModelProperty(position = 7)
-    public List<ApprovedAgreement> getApprovedAgreements() {
-        return approvedAgreements;
+    public List<ApprovedTermsConditions> getApprovedTermsConditions() {
+        return approvedTermsConditions;
     }
     
-    @JsonProperty(FieldConstant.APPROVES_MARKET_INFO)
+    @JsonProperty(FieldConstant.APPROVED_MARKET_INFO)
     @ApiModelProperty(position = 8)
-    public ApprovedMarketInfo getApprovedMarketInfo() {
+    public List<ApprovedMarketInfo> getApprovedMarketInfo() {
         return approvedMarketInfo;
     }
     
@@ -219,10 +219,10 @@ public class User {
         return activationDate;
     }
 
-    @JsonProperty(FieldConstant.APPROVED_PRIVACY)
+    @JsonProperty(FieldConstant.APPROVED_PRIVACY_POLICIES)
     @ApiModelProperty(position = 20)
-    public ApprovedPrivacy getApprovedPrivacy() {
-        return approvedPrivacy;
+    public List<ApprovedPrivacyPolicy> getApprovedPrivacyPolicies() {
+        return approvedPrivacyPolicies;
     }
 
     @JsonProperty(FieldConstant.NAME)
@@ -268,8 +268,8 @@ public class User {
         private StringAttribute lastName;
         private List<AddressCRM> address;
         private StringAttribute timezone;
-        private List<ApprovedAgreement> approvedAgreements;
-        private ApprovedMarketInfo approvedMarketInfo;
+        private List<ApprovedTermsConditions> approvedTermsConditions;
+        private List<ApprovedMarketInfo> approvedMarketInfo;
         private List<LicensePlate> licensePlates;
         private SocialSecurityNumber socialSecurityNumber;
         private StringAttribute customerNumber;
@@ -279,7 +279,7 @@ public class User {
         private OrganizationNumber organizationNumber;
         private StringAttribute language;
         private InstantAttribute activationDate;
-        private ApprovedPrivacy approvedPrivacy;
+        private List<ApprovedPrivacyPolicy> approvedPrivacyPolicies;
         private StringAttribute name;
         private StringAttribute contactFirstName;
         private StringAttribute contactLastName;
@@ -324,12 +324,12 @@ public class User {
             return this;
         }
 
-        public Builder approvedAgreements(final List<ApprovedAgreement> approvedAgreements) {
-            this.approvedAgreements = approvedAgreements;
+        public Builder approvedTermsConditions(final List<ApprovedTermsConditions> approvedTermsConditions) {
+            this.approvedTermsConditions = approvedTermsConditions;
             return this;
         }
 
-        public Builder approvedMarketInfo(final ApprovedMarketInfo approvedMarketInfo) {
+        public Builder approvedMarketInfo(final List<ApprovedMarketInfo> approvedMarketInfo) {
             this.approvedMarketInfo = approvedMarketInfo;
             return this;
         }
@@ -380,8 +380,8 @@ public class User {
             return this;
         }
 
-        public Builder approvedPrivacy(final ApprovedPrivacy approvedPrivacy) {
-            this.approvedPrivacy = approvedPrivacy;
+        public Builder approvedPrivacyPolicies(final List<ApprovedPrivacyPolicy> approvedPrivacyPolicies) {
+            this.approvedPrivacyPolicies = approvedPrivacyPolicies;
             return this;
         }
 
@@ -412,10 +412,10 @@ public class User {
 
 
         public User build() {
-            return new User(id, organization, firstName, lastName, email, address, timezone, approvedAgreements, approvedMarketInfo, licensePlates,
+            return new User(id, organization, firstName, lastName, email, address, timezone, approvedTermsConditions, approvedMarketInfo, licensePlates,
                     socialSecurityNumber, customerNumber, hasChargingAccess, customerType, phoneNumbers,
                     organizationNumber, language,
-                    activationDate, approvedPrivacy, name, contactFirstName, contactLastName, contactPhoneNumber, contactEmail);
+                    activationDate, approvedPrivacyPolicies, name, contactFirstName, contactLastName, contactPhoneNumber, contactEmail);
         }
     }
 

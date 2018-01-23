@@ -10,7 +10,7 @@ public class AttributeConstant {
     public static final String APPROVED_MARKET_INFO = "approvedMarketInfo";
     public static final String ADDRESS = "address";
     public static final String TIMEZONE = "timeZone";
-    public static final String APPROVED_AGREEMENTS = "approvedAgreements";
+    public static final String APPROVED_TERMS_CONDITIONS = "approvedTermsConditions";
     public static final String LICENSE_PLATE = "licensePlate";
     public static final String SOCIAL_SECURITY_NUMBER = "socialSecurityNumber";
     public static final String CUSTOMER_NUMBER = "customerNumber";
@@ -35,6 +35,6 @@ public class AttributeConstant {
     public static final String HAS_CHARGING_ACCESS = "hasChargingAccess";
     public static final String LAST_NAME = "lastName";
     public static final String FIRST_NAME = "firstName";
-    public static final String APPROVED_PRIVACY = "approvedPrivacy";
+    public static final String APPROVED_PRIVACY_POLICY = "approvedPrivacyPolicy";
     public static final String NAME = "name";
 }

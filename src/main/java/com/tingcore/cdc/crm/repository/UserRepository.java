@@ -33,7 +33,7 @@ public class UserRepository extends AbstractUserServiceRepository {
     }
 
     public ApiResponse<List<AttributeResponse>> putUserAttributeValues (final Long userId, final AttributeValueListRequest attributeValueListRequests) {
-            return execute(usersApi.putUserAttributeValuesUsingPUT(userId, attributeValueListRequests, userId));
+        return execute(usersApi.putUserAttributeValuesUsingPUT(attributeValueListRequests, userId, userId));
     }
 
 }

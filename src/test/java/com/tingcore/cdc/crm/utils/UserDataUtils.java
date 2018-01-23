@@ -133,7 +133,7 @@ public class UserDataUtils {
         AttributeResponseDataUtils.mockApprovedTermsConditionsResponse(listRequest, cachedAttributes).forEach(approvedTermsConditions -> responses.add(approvedTermsConditions));
         AttributeResponseDataUtils.mockApprovedMarketInfoResponse(listRequest, cachedAttributes).ifPresent(approvedMarketInfo -> responses.add(approvedMarketInfo));
         AttributeResponseDataUtils.mockEmailResponse(listRequest, cachedAttributes).ifPresent(email -> responses.add(email));
-        AttributeResponseDataUtils.mockApprovedPrivacyResponse(listRequest, cachedAttributes).ifPresent(approvedPrivacy -> responses.add(approvedPrivacy));
+        AttributeResponseDataUtils.mockApprovedPrivacyPolicyResponse(listRequest, cachedAttributes).ifPresent(approvedPrivacy -> responses.add(approvedPrivacy));
         AttributeResponseDataUtils.mockTimeZoneResponse(listRequest, cachedAttributes).ifPresent(timezone -> responses.add(timezone));
         return responses;
     }

@@ -56,7 +56,7 @@ class UserMapper {
                 .customerType(AttributeMapper.findStringAttribute(attributes, AttributeConstant.CUSTOMER_TYPE).orElse(null))
                 .language(AttributeMapper.findStringAttribute(attributes, AttributeConstant.LANGUAGE).orElse(null))
                 .hasChargingAccess(AttributeMapper.findBooleanAttribute(attributes, AttributeConstant.HAS_CHARGING_ACCESS).orElse(null))
-                .approvedPrivacyPolicies(AttributeMapper.findApprovedPrivacy(attributes,AttributeConstant.APPROVED_PRIVACY_POLICY))
+                .approvedPrivacyPolicies(AttributeMapper.findApprovedPrivacyPolicies(attributes,AttributeConstant.APPROVED_PRIVACY_POLICY))
                 .build();
     }
 }

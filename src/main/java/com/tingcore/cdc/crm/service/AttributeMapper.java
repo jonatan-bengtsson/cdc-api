@@ -153,7 +153,7 @@ public class AttributeMapper {
         }
     }
 
-    public static List<ApprovedPrivacyPolicy> findApprovedPrivacy(List<AttributeResponse> attributes, String attributeName) {
+    public static List<ApprovedPrivacyPolicy> findApprovedPrivacyPolicies(List<AttributeResponse> attributes, String attributeName) {
 
         List<AttributeResponse> attributeResponses = findAttributesFromList(attributes, AttributeConstant.APPROVED_PRIVACY_POLICY);
         return attributeResponses.stream()

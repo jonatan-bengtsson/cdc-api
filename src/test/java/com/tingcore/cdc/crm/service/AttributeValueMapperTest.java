@@ -48,20 +48,20 @@ public class AttributeValueMapperTest {
     public void assertAttributeSavedWithCorrectId() throws Exception {
 
         assertThat(findPrivateCustomerAttributeRequest(AttributeConstant.APPROVED_TERMS_CONDITIONS).getValue()).contains(FieldConstant.AGREEMENT_ID);
-        assertThat(findPrivateCustomerAttributeRequest(AttributeConstant.ADDRESS).getValue()).contains(FieldConstant.ADDRESS);
-        assertThat(findPrivateCustomerAttributeRequest(AttributeConstant.SOCIAL_SECURITY_NUMBER).getValue()).contains(FieldConstant.SOCIAL_SECURITY_NUMBER);
-        assertThat(findPrivateCustomerAttributeRequest(AttributeConstant.FIRST_NAME).getValue()).contains(FieldConstant.VALUE);
-        assertThat(findPrivateCustomerAttributeRequest(AttributeConstant.LAST_NAME).getValue()).contains(FieldConstant.VALUE);
-        assertThat(findPrivateCustomerAttributeRequest(AttributeConstant.PHONE_NUMBER).getValue()).contains(FieldConstant.PHONE_NUMBER);
-        assertThat(findPrivateCustomerAttributeRequest(AttributeConstant.TIMEZONE).getValue()).contains(FieldConstant.VALUE);
+        assertThat(findPrivateCustomerAttributeRequest(AttributeConstant.ADDRESS).getValue()).contains(AttributeConstant.ADDRESS);
+        assertThat(findPrivateCustomerAttributeRequest(AttributeConstant.SOCIAL_SECURITY_NUMBER).getValue()).contains(AttributeConstant.SOCIAL_SECURITY_NUMBER);
+        assertThat(findPrivateCustomerAttributeRequest(AttributeConstant.FIRST_NAME).getValue()).contains(AttributeConstant.FIRST_NAME);
+        assertThat(findPrivateCustomerAttributeRequest(AttributeConstant.LAST_NAME).getValue()).contains(AttributeConstant.LAST_NAME);
+        assertThat(findPrivateCustomerAttributeRequest(AttributeConstant.PHONE_NUMBER).getValue()).contains(AttributeConstant.PHONE_NUMBER);
+        assertThat(findPrivateCustomerAttributeRequest(AttributeConstant.TIMEZONE).getValue()).contains(AttributeConstant.TIMEZONE);
 
-        assertThat(findBusinessCustomerAttributeRequest(AttributeConstant.NAME).getValue()).contains(FieldConstant.VALUE);
-        assertThat(findBusinessCustomerAttributeRequest(AttributeConstant.ORGANIZATION_NUMBER).getValue()).contains(FieldConstant.ORGANIZATION_NUMBER);
-        assertThat(findBusinessCustomerAttributeRequest(AttributeConstant.CONTACT_FIRST_NAME).getValue()).contains(FieldConstant.VALUE);
-        assertThat(findBusinessCustomerAttributeRequest(AttributeConstant.CONTACT_LAST_NAME).getValue()).contains(FieldConstant.VALUE);
+        assertThat(findBusinessCustomerAttributeRequest(AttributeConstant.NAME).getValue()).contains(AttributeConstant.NAME);
+        assertThat(findBusinessCustomerAttributeRequest(AttributeConstant.ORGANIZATION_NUMBER).getValue()).contains(AttributeConstant.ORGANIZATION_NUMBER);
+        assertThat(findBusinessCustomerAttributeRequest(AttributeConstant.CONTACT_FIRST_NAME).getValue()).contains(AttributeConstant.CONTACT_FIRST_NAME);
+        assertThat(findBusinessCustomerAttributeRequest(AttributeConstant.CONTACT_LAST_NAME).getValue()).contains(AttributeConstant.CONTACT_LAST_NAME);
         assertThat(findBusinessCustomerAttributeRequest(AttributeConstant.CONTACT_PHONE_NUMBER).getValue()).contains(FieldConstant.PHONE_NUMBER);
-        assertThat(findBusinessCustomerAttributeRequest(AttributeConstant.CONTACT_EMAIL).getValue()).contains(FieldConstant.VALUE);
-        assertThat(findBusinessCustomerAttributeRequest(AttributeConstant.LICENSE_PLATE).getValue()).contains(FieldConstant.LICENSE_PLATE);
+        assertThat(findBusinessCustomerAttributeRequest(AttributeConstant.CONTACT_EMAIL).getValue()).contains(AttributeConstant.CONTACT_EMAIL);
+        assertThat(findBusinessCustomerAttributeRequest(AttributeConstant.LICENSE_PLATE).getValue()).contains(AttributeConstant.LICENSE_PLATE);
 
         assertThat(findBusinessCustomerAttributeRequest(AttributeConstant.APPROVED_PRIVACY_POLICY).getValue()).contains(FieldConstant.VALUE);
         assertThat(findBusinessCustomerAttributeRequest(AttributeConstant.APPROVED_MARKET_INFO).getValue()).contains(FieldConstant.VALUE);

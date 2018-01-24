@@ -38,6 +38,6 @@ public class PaymentOptionsController {
             notes = "Route allows fetching the payment options the user has set up.",
             tags = SwaggerConstant.TAGS_PAYMENT_OPTIONS)
     public PageResponse<UserPaymentOption> getUserPaymentOptions() {
-        return paymentOptionService.findUserPaymentOptions(authorizedUser.getUser().getId());
+        return paymentOptionService.findUserPaymentOptions(authorizedUser.getId());
     }
 }

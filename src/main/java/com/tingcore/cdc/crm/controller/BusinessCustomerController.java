@@ -37,7 +37,7 @@ public class BusinessCustomerController {
             notes = "Route allows creating new or updating an existing business customer's attribute values",
             tags = SwaggerConstant.TAGS_USERS)
     public User updateBusinessCustomerAttributeValues(@Valid @RequestBody UpdateBusinessCustomerRequest userRequest) {
-        final Long authorizedUserId = authorizedUser.getUser().getId();
+        final Long authorizedUserId = authorizedUser.getId();
         return userService.putUserAttributeValues(authorizedUserId, userRequest);
     }
 

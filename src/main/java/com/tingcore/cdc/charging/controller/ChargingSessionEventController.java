@@ -63,7 +63,7 @@ public class ChargingSessionEventController {
                                                                  final String chargePointId) {
         // TODO return created response
         return ResponseEntity.ok(toApiObject(chargingSessionService.stopSession(
-                new TrustedUserId(authorizedUser.getUser().getId()),
+                new TrustedUserId(authorizedUser.getId()),
                 sessionIdFromRequest(sessionId),
                 chargePointIdFromRequest(chargePointId)
         )));

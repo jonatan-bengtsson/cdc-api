@@ -53,7 +53,7 @@ public class ChargingSessionController {
     public ResponseEntity<ChargingSession> createSession(final @RequestBody @Valid CreateChargingSessionRequest request) {
         // TODO return created response
         return ResponseEntity.ok(toApiObject(chargingSessionService.startSession(
-                new TrustedUserId(authorizedUser.getUser().getId()),
+                new TrustedUserId(authorizedUser.getId()),
                 customerKeyIdFromRequest(request),
                 chargePointIdFromRequest(request),
                 connectorIdFromRequest(request)

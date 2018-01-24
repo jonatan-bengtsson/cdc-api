@@ -39,11 +39,6 @@ app:
   charging-operations-service:
     base-url: http://${integration.charging-operations.hostname}
     default-timeout: 20
-  aws:
-    headers:
-      cognito-auth-provider: cognito-authentication-provider # api gateway forwarded headers are configured here:
-      cognito-identity-id: cognito-identity-id
-      cognito-user-id: cognito-user-id                       # when the cognito user id has been extracted from cognito-auth provider it is written to this header
 
 integration:
   payments:

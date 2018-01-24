@@ -53,7 +53,7 @@ public class CustomerKeyController {
             notes = "Route allows fetching the authorized user's customer keys",
             tags = SwaggerConstant.TAGS_CUSTOMER_KEYS)
     public PageResponse<CustomerKey> getCustomerKeys() {
-        return customerKeyService.findByUserId(authorizedUser.getUser().getId());
+        return customerKeyService.findByUserId(authorizedUser.getId());
     }
 
     @RequestMapping(
@@ -68,7 +68,7 @@ public class CustomerKeyController {
             @PathVariable(value = "customerKeyId") String encodedCustomerKeyId
     ) {
         return hashIdService.decode(encodedCustomerKeyId)
-                .map(customerKeyId -> customerKeyService.findByCustomerKeyId(authorizedUser.getUser().getId(), customerKeyId))
+                .map(customerKeyId -> customerKeyService.findByCustomerKeyId(authorizedUser.getId(), customerKeyId))
                 .orElseThrow(() -> new EntityNotFoundException(CustomerKey.class.getSimpleName(), encodedCustomerKeyId));
     }
 
@@ -84,6 +84,6 @@ public class CustomerKeyController {
     )
     public CustomerKey createCustomerKey(
             @Valid @RequestBody CustomerKeyPostRequest customerKeyRequest) {
-        return customerKeyService.create(authorizedUser.getUser().getId(), customerKeyRequest);
+        return customerKeyService.create(authorizedUser.getId(), customerKeyRequest);
     }
 }

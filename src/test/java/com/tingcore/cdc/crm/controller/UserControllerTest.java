@@ -38,7 +38,7 @@ public class UserControllerTest extends ControllerUnitTest {
     @Test
     public void getSelf() throws Exception {
         final User mockResponse = UserDataUtils.createGetUserResponse();
-        given(userService.getUserById(authorizedUser.getUser().getId(), true))
+        given(userService.getUserById(authorizedUser.getId(), true))
                 .willReturn(mockResponse);
         MvcResult result = mockMvc.perform(get("/v1/users/self")
                 .param("includeAttributes", "true"))
@@ -49,7 +49,7 @@ public class UserControllerTest extends ControllerUnitTest {
 
     @Test
     public void getSelfExternalApiError() throws Exception {
-        given(userService.getUserById(authorizedUser.getUser().getId(), true))
+        given(userService.getUserById(authorizedUser.getId(), true))
                 .willThrow(new UsersApiException(ErrorResponse.gatewayTimeout().build()));
         mockMvc.perform(get("/v1/users/self")
                 .param("includeAttributes", "true"))

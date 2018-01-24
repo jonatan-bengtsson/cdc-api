@@ -20,10 +20,12 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.Optional;
 
 import static com.tingcore.cdc.charging.controller.ChargingSessionController.SESSIONS;
 import static com.tingcore.cdc.charging.controller.ChargingSessionController.VERSION;
+import static java.util.stream.Collectors.toList;
 import static org.apache.commons.lang3.Validate.notNull;
 
 @Api
@@ -74,6 +76,23 @@ public class ChargingSessionController {
         }
     }
 
+    @GetMapping
+    @ApiOperation(value = "Get ongoing charging sessions.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Get ongoing charging sessions.", response = ChargingSession.class, responseContainer = "List"),
+            @ApiResponse(code = 404, message = "Charging sessions not found", response = Error.class)
+    })
+    public ResponseEntity getOngoingChargeSessions() {
+        try {
+            return ResponseEntity.ok(chargingSessionService.fetchOngoingSessions(new TrustedUserId(authorizedUser.getUser().getId()))
+            .stream()
+            .map(this::toApiObject)
+            .collect(toList()));
+        } catch (NoSessionFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     private ChargingSessionId sessionIdFromHash(final String sessionIdHash) {
         return hashIdService.decode(sessionIdHash)
                 .map(ChargingSessionId::new)
@@ -105,8 +124,10 @@ public class ChargingSessionController {
                 toApiObject(chargingSession.price),
                 chargingSession.startTime,
                 chargingSession.endTime,
-                ChargingSessionStatus.valueOf(chargingSession.status.name())
-        );
+                ChargingSessionStatus.valueOf(chargingSession.status.name()),
+                chargingSession.connectorId,
+                chargingSession.chargePointId,
+                chargingSession.chargeSiteId);
     }
 
     private com.tingcore.cdc.charging.api.Price toApiObject(final Price price) {

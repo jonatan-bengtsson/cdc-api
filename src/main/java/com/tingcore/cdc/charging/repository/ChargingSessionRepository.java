@@ -5,7 +5,6 @@ import com.google.common.collect.ImmutableMap;
 import com.tingcore.cdc.charging.model.*;
 import com.tingcore.cdc.exception.NoSessionFoundException;
 import com.tingcore.commons.api.repository.AbstractApiRepository;
-import com.tingcore.commons.external.ExternalApiException;
 import com.tingcore.payments.emp.api.ChargesApi;
 import com.tingcore.payments.emp.model.*;
 import org.springframework.stereotype.Repository;
@@ -13,8 +12,9 @@ import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestClientException;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 import static java.lang.String.format;
 import static java.util.Optional.ofNullable;
@@ -32,7 +32,7 @@ public class ChargingSessionRepository extends AbstractApiRepository {
         this.chargesApi = notNull(chargesApi);
     }
 
-    public ChargingSession fetchSession(final ChargingSessionId id) {
+    public ChargingSessionBuilder fetchSession(final ChargingSessionId id) {
         try {
             final ApiCharge charge = execute(chargesApi.getCharge(id.value)).getResponse();
             return apiSessionToModel(charge);
@@ -47,8 +47,25 @@ public class ChargingSessionRepository extends AbstractApiRepository {
         }
     }
 
-    public ChargingSession createSession(final TrustedUserId trustedUserId,
-                                         final CustomerKeyId targetUser) {
+    public List<ChargingSessionBuilder> fetchSessionsForUserId(final TrustedUserId id) {
+        try {
+            return execute(chargesApi.getOngoingCharges(id.value)).getResponse()
+                    .stream()
+                    .map(ChargingSessionRepository::apiSessionToModel)
+                    .collect(Collectors.toList());
+        } catch (final RestClientException exception) {
+            if (exception instanceof HttpStatusCodeException) {
+                final HttpStatusCodeException statusCodeException = HttpStatusCodeException.class.cast(exception);
+                if (statusCodeException.getStatusCode().equals(NOT_FOUND)) {
+                    throw new NoSessionFoundException("Sessions not found");
+                }
+            }
+            throw new RuntimeException(exception); // TODO better error handling
+        }
+    }
+
+    public ChargingSessionBuilder createSession(final TrustedUserId trustedUserId,
+                                                final CustomerKeyId targetUser) {
         try {
             final CreateChargeRequest createChargeRequest = new CreateChargeRequest();
             createChargeRequest.setUser(trustedUserId.value);
@@ -98,15 +115,14 @@ public class ChargingSessionRepository extends AbstractApiRepository {
         }
     }
 
-    static ChargingSession apiSessionToModel(final ApiCharge apiCharge) {
-        return new ChargingSession(
-                new ChargingSessionId(apiCharge.getId()),
-                new CustomerKeyId(apiCharge.getAccount()),
-                apiSessionPriceToModel(apiCharge.getPrice()),
-                apiTimeToNullableInstant(apiCharge.getStartTime()),
-                apiTimeToNullableInstant(apiCharge.getStopTime()),
-                apiSessionStateToModel(apiCharge.getState())
-        );
+    static ChargingSessionBuilder apiSessionToModel(final ApiCharge apiCharge) {
+        return new ChargingSessionBuilder().setId(new ChargingSessionId(apiCharge.getId()))
+                .setCustomerKeyId(new CustomerKeyId(apiCharge.getAccount()))
+                .setPrice(apiSessionPriceToModel(apiCharge.getPrice()))
+                .setStartTime(apiTimeToNullableInstant(apiCharge.getStartTime()))
+                .setEndTime(apiTimeToNullableInstant(apiCharge.getStopTime()))
+                .setStatus(apiSessionStateToModel(apiCharge.getState()))
+                .setConnectorId(new ConnectorId(apiCharge.getConnectorId()));
     }
 
     private static Price apiSessionPriceToModel(final ApiAmount apiPrice) {

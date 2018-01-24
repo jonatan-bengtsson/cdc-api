@@ -151,8 +151,8 @@ public class AttributeDataUtils {
         return new PhoneNumber(CommonDataUtils.getNextId(),CommonDataUtils.randomNumberStr(10000,20000),"SE",CommonDataUtils.randomNumberStr(1000,5000));
     }
 
-    public static StringAttribute createStringAttribute() {
-        return new StringAttribute(CommonDataUtils.getNextId(), CommonDataUtils.randomNumberStr(100,500));
+    public static StringAttribute createStringAttribute(final String value) {
+        return new StringAttribute(CommonDataUtils.getNextId(), value);
     }
 
     public static List<AttributeResponse> allAttributes () throws IOException {

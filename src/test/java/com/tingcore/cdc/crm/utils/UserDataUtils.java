@@ -1,6 +1,7 @@
 package com.tingcore.cdc.crm.utils;
 
 import com.google.common.collect.Lists;
+import com.tingcore.cdc.crm.constant.AttributeConstant;
 import com.tingcore.cdc.crm.model.StringAttribute;
 import com.tingcore.cdc.crm.model.User;
 import com.tingcore.cdc.crm.request.UpdateBusinessCustomerRequest;
@@ -10,6 +11,7 @@ import com.tingcore.users.model.AttributeResponse;
 import com.tingcore.users.model.AttributeValueListRequest;
 import com.tingcore.users.model.UserResponse;
 
+import java.lang.reflect.AccessibleObject;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -60,13 +62,13 @@ public class UserDataUtils {
                 .approvedTermsConditions(Arrays.asList(AttributeDataUtils.createApprovedTermsConditions()))
                 .approvedMarketInfo(Arrays.asList(AttributeDataUtils.createApprovedMarketInfo()))
                 .approvedPrivacyPolicies(Arrays.asList(AttributeDataUtils.createApprovedPrivacy()))
-                .firstName(AttributeDataUtils.createStringAttribute())
-                .lastName(AttributeDataUtils.createStringAttribute())
+                .firstName(AttributeDataUtils.createStringAttribute(AttributeConstant.FIRST_NAME))
+                .lastName(AttributeDataUtils.createStringAttribute(AttributeConstant.LAST_NAME))
                 .phoneNumbers(Arrays.asList(AttributeDataUtils.createPhoneNumber()))
                 .licensePlates(Arrays.asList(AttributeDataUtils.createLicensePlate()))
-                .language(AttributeDataUtils.createStringAttribute())
+                .language(AttributeDataUtils.createStringAttribute(AttributeConstant.LANGUAGE))
                 .socialSecurityNumber(AttributeDataUtils.createSocialSecurityNumber())
-                .timezone(AttributeDataUtils.createStringAttribute())
+                .timezone(AttributeDataUtils.createStringAttribute(AttributeConstant.TIMEZONE))
                 .build();
     }
 
@@ -93,13 +95,13 @@ public class UserDataUtils {
                 .approvedPrivacyPolicies(Arrays.asList(AttributeDataUtils.createApprovedPrivacy()))
                 .phoneNumbers(Arrays.asList(AttributeDataUtils.createPhoneNumber()))
                 .licensePlates(Arrays.asList(AttributeDataUtils.createLicensePlate()))
-                .language(AttributeDataUtils.createStringAttribute())
-                .timezone(AttributeDataUtils.createStringAttribute())
-                .name(AttributeDataUtils.createStringAttribute())
+                .language(AttributeDataUtils.createStringAttribute(AttributeConstant.LANGUAGE))
+                .timezone(AttributeDataUtils.createStringAttribute(AttributeConstant.TIMEZONE))
+                .name(AttributeDataUtils.createStringAttribute(AttributeConstant.NAME))
                 .organizationNumber(AttributeDataUtils.createOrganizationNumber())
-                .contactFirstName(AttributeDataUtils.createStringAttribute())
-                .contactLastName(AttributeDataUtils.createStringAttribute())
-                .contactEmail(AttributeDataUtils.createStringAttribute())
+                .contactFirstName(AttributeDataUtils.createStringAttribute(AttributeConstant.CONTACT_FIRST_NAME))
+                .contactLastName(AttributeDataUtils.createStringAttribute(AttributeConstant.CONTACT_LAST_NAME))
+                .contactEmail(AttributeDataUtils.createStringAttribute(AttributeConstant.CONTACT_EMAIL))
                 .contactPhoneNumber(Arrays.asList(AttributeDataUtils.createPhoneNumber()))
                 .build();
     }

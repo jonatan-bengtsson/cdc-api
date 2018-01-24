@@ -3,6 +3,7 @@ package com.tingcore.cdc.crm.service;
 import com.tingcore.cdc.crm.constant.AttributeConstant;
 import com.tingcore.cdc.crm.constant.FieldConstant;
 import com.tingcore.cdc.crm.model.BaseAttributeModel;
+import com.tingcore.cdc.crm.model.StringAttribute;
 import com.tingcore.cdc.crm.request.*;
 import com.tingcore.commons.api.utils.JsonUtils;
 import com.tingcore.users.model.AttributeResponse;
@@ -101,7 +102,11 @@ public class AttributeValueMapper {
     }
 
     private static <T extends BaseAttributeModel> AttributeValueRequest toAttributeValueRequest (T attributeModel, Long attributeId) {
-        return createAttributeValueRequest(attributeId, JsonUtils.toJson(attributeModel.copyWithoutId()).orElse(null), attributeModel.getId());
+        return attributeModel.getClass().equals(StringAttribute.class) ? createAttributeValueRequest((StringAttribute) attributeModel, attributeId) : createAttributeValueRequest(attributeId, JsonUtils.toJson(attributeModel.copyWithoutId()).orElse(null), attributeModel.getId());
+    }
+
+    private static AttributeValueRequest createAttributeValueRequest(StringAttribute attribute, Long attributeId) {
+        return createAttributeValueRequest(attributeId, attribute.getValue(), attribute.getId());
     }
 
 

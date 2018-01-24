@@ -27,6 +27,8 @@ public class AuthorizationFilter implements Filter {
 
     private static Logger LOG = LoggerFactory.getLogger(AuthorizationFilter.class);
     public static final String HEADER_CLAIM_USER_ID = "cd-claims-user-id";
+    public static final String HTTP_METHOD_OPTIONS = "OPTIONS";
+
 
     private final HashIdService hashIdService;
     private final FilterUtils filterUtils;
@@ -52,7 +54,7 @@ public class AuthorizationFilter implements Filter {
 
         // Unfortunately this needs to be done as filters can not be excluded for certain methods
         // It will however be removed when we introduce spring security
-        if ("OPTIONS".equals(request.getMethod())) {
+        if (HTTP_METHOD_OPTIONS.equalsIgnoreCase(request.getMethod())) {
             filterChain.doFilter(request, response);
         } else {
             final String encodedUserId = request.getHeader(HEADER_CLAIM_USER_ID);

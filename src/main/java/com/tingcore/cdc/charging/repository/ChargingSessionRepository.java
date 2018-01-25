@@ -122,7 +122,7 @@ public class ChargingSessionRepository extends AbstractApiRepository {
                 .setStartTime(apiTimeToNullableInstant(apiCharge.getStartTime()))
                 .setEndTime(apiTimeToNullableInstant(apiCharge.getStopTime()))
                 .setStatus(apiSessionStateToModel(apiCharge.getState()))
-                .setConnectorId(new ConnectorId(apiCharge.getConnectorId()));
+                .setConnectorId(apiCharge.getConnectorId() != null ? new ConnectorId(apiCharge.getConnectorId()) : null);
     }
 
     private static Price apiSessionPriceToModel(final ApiAmount apiPrice) {

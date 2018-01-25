@@ -41,7 +41,7 @@ public class UserController {
                     "The endpoint uses the authorization id affiliated with the user.",
             tags = SwaggerConstant.TAGS_USERS)
     public User getSelf(@RequestParam(value = "includeAttributes") Boolean includeAttributes) {
-        return userService.getUserById(authorizedUser.getUser().getId(), includeAttributes);
+        return userService.getUserById(authorizedUser.getId(), includeAttributes);
     }
 
 }

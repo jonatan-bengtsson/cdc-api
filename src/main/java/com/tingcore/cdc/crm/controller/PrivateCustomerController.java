@@ -37,7 +37,7 @@ public class PrivateCustomerController {
             notes = "Route allows creating new or updating an existing private customer's attribute values",
             tags = SwaggerConstant.TAGS_USERS)
     public User updatePrivateCustomerAttributeValues(@Valid @RequestBody UpdatePrivateCustomerRequest userRequest) {
-        final Long authorizedUserId = authorizedUser.getUser().getId();
+        final Long authorizedUserId = authorizedUser.getId();
         return userService.putUserAttributeValues(authorizedUserId, userRequest);
     }
 }

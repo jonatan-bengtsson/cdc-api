@@ -38,6 +38,6 @@ public class SupportedPaymentOptionsController {
             notes = "Route allows fetching the payment options that the user's organization supports.",
             tags = {SwaggerConstant.TAGS_CUSTOMER_KEYS, SwaggerConstant.TAGS_PAYMENT_OPTIONS})
     public List<PaymentOptionResponse> getSupportedPaymentOptions() {
-        return paymentOptionService.findSupportedPaymentOptions(authorizedUser.getUser().getId());
+        return paymentOptionService.findSupportedPaymentOptions(authorizedUser.getId());
     }
 }

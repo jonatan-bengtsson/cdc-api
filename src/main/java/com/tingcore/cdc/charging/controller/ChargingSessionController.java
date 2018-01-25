@@ -84,7 +84,7 @@ public class ChargingSessionController {
     })
     public ResponseEntity getOngoingChargeSessions() {
         try {
-            return ResponseEntity.ok(chargingSessionService.fetchOngoingSessions(new TrustedUserId(authorizedUser.getUser().getId()))
+            return ResponseEntity.ok(chargingSessionService.fetchOngoingSessions(new TrustedUserId(authorizedUser.getId()))
             .stream()
             .map(this::toApiObject)
             .collect(toList()));

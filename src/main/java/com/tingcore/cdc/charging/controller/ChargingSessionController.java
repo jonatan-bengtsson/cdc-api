@@ -69,11 +69,7 @@ public class ChargingSessionController {
             @ApiResponse(code = 404, message = "Charging session not found", response = Error.class)
     })
     public ResponseEntity<ChargingSession> getChargeSession(final @PathVariable("chargingSessionId") String chargingSessionId) {
-        try {
             return ResponseEntity.ok(toApiObject(chargingSessionService.fetchSession(sessionIdFromHash(chargingSessionId))));
-        } catch (NoSessionFoundException e) {
-            return ResponseEntity.notFound().build();
-        }
     }
 
     @GetMapping
@@ -83,14 +79,10 @@ public class ChargingSessionController {
             @ApiResponse(code = 404, message = "Charging sessions not found", response = Error.class)
     })
     public ResponseEntity getOngoingChargeSessions() {
-        try {
-            return ResponseEntity.ok(chargingSessionService.fetchOngoingSessions(new TrustedUserId(authorizedUser.getId()))
-            .stream()
-            .map(this::toApiObject)
-            .collect(toList()));
-        } catch (NoSessionFoundException e) {
-            return ResponseEntity.notFound().build();
-        }
+        return ResponseEntity.ok(chargingSessionService.fetchOngoingSessions(new TrustedUserId(authorizedUser.getId()))
+        .stream()
+        .map(this::toApiObject)
+        .collect(toList()));
     }
 
     private ChargingSessionId sessionIdFromHash(final String sessionIdHash) {

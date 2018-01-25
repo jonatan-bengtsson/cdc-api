@@ -1,6 +1,7 @@
 package com.tingcore.cdc.controller;
 
 
+import com.tingcore.cdc.charging.repository.ChargingSessionApiException;
 import com.tingcore.cdc.charging.repository.PriceApiException;
 import com.tingcore.cdc.charging.service.AssetServiceException;
 import com.tingcore.cdc.constant.ErrorCode;
@@ -167,6 +168,12 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = PriceApiException.class)
     public ResponseEntity<ErrorResponse> handlePriceApiException(final PriceApiException e) {
+        LOG.debug(e.getMessage(), e);
+        return errorResponseToResponseEntity(e.getErrorResponse());
+    }
+
+    @ExceptionHandler(value = ChargingSessionApiException.class)
+    public ResponseEntity<ErrorResponse> handleChargingSessionApiException(final ChargingSessionApiException e) {
         LOG.debug(e.getMessage(), e);
         return errorResponseToResponseEntity(e.getErrorResponse());
     }

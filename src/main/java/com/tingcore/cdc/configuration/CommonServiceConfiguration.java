@@ -16,6 +16,9 @@ import springfox.documentation.swagger2.mappers.ServiceModelToSwagger2Mapper;
 @Configuration
 public class CommonServiceConfiguration {
 
+
+    // MAKE SURE that if this salt is changed (moved to another service, or different between environments)
+    // to change it in cd-lambda pre_token_generation script
     private static final String SALT = "6d01516d-27a8-427d-ade2-0284efcd2c53";
     private static final int HASH_LENGTH = 10;
 

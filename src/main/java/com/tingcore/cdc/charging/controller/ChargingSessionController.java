@@ -9,7 +9,6 @@ import com.tingcore.cdc.configuration.AuthorizedUser;
 import com.tingcore.cdc.configuration.WebMvcConfiguration;
 import com.tingcore.cdc.crm.model.CustomerKey;
 import com.tingcore.cdc.exception.EntityNotFoundException;
-import com.tingcore.cdc.exception.NoSessionFoundException;
 import com.tingcore.commons.api.service.HashIdService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -20,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import java.util.Optional;
 
 import static com.tingcore.cdc.charging.controller.ChargingSessionController.SESSIONS;
@@ -33,7 +31,7 @@ import static org.apache.commons.lang3.Validate.notNull;
 @RequestMapping("/" + VERSION + "/" + SESSIONS)
 public class ChargingSessionController {
     static final String VERSION = "v1";
-    static final String SESSIONS = "chargingSessions";
+    static final String SESSIONS = "charging-sessions";
 
     @Resource(name = WebMvcConfiguration.AUTHORIZED_USER)
     private AuthorizedUser authorizedUser;
@@ -48,7 +46,7 @@ public class ChargingSessionController {
     }
 
     @PostMapping
-    @ApiOperation(code = 201, value = "Create a charging session", response = ChargingSession.class)
+    @ApiOperation(code = 201, value = "Create a charging session", response = ChargingSession.class, tags = {SESSIONS})
     @ApiResponses(value = {
             @ApiResponse(code = 404, message = "Charge site not found.", response = Error.class)
     })
@@ -63,7 +61,7 @@ public class ChargingSessionController {
     }
 
     @GetMapping(value = "/{chargingSessionId}")
-    @ApiOperation(value = "Get a charge session.")
+    @ApiOperation(value = "Get a charge session.", tags = {SESSIONS})
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Get a charging session", response = ChargingSession.class),
             @ApiResponse(code = 404, message = "Charging session not found", response = Error.class)
@@ -73,7 +71,7 @@ public class ChargingSessionController {
     }
 
     @GetMapping
-    @ApiOperation(value = "Get ongoing charging sessions.")
+    @ApiOperation(value = "Get ongoing charging sessions.", tags = {SESSIONS})
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Get ongoing charging sessions.", response = ChargingSession.class, responseContainer = "List"),
             @ApiResponse(code = 404, message = "Charging sessions not found", response = Error.class)

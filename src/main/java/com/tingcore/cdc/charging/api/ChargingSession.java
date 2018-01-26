@@ -18,9 +18,9 @@ public class ChargingSession {
     public final Instant startTime;
     public final Instant endTime;
     public final ChargingSessionStatus status;
-    public final ConnectorId connectorId;
-    public final ChargePointId chargePointId;
-    public final ChargeSiteId chargeSiteId;
+    public final String connectorId;
+    public final String chargePointId;
+    public final String chargeSiteId;
 
     public ChargingSession(final String chargingSessionId,
                            final CustomerKey customerKey,
@@ -28,9 +28,9 @@ public class ChargingSession {
                            final Instant startTime,
                            final Instant endTime,
                            final ChargingSessionStatus status,
-                           final ConnectorId connectorId,
-                           final ChargePointId chargePointId,
-                           final ChargeSiteId chargeSiteId) {
+                           final String connectorId,
+                           final String chargePointId,
+                           final String chargeSiteId) {
         this.chargingSessionId = notNull(chargingSessionId);
         this.customerKey = notNull(customerKey);
         this.price = price;

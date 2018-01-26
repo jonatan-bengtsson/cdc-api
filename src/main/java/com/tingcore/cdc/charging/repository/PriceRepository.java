@@ -43,7 +43,7 @@ public class PriceRepository extends AbstractApiRepository {
     }
 
     private List<Long> connectorIdsAsLong(List<ConnectorId> connectorIds) {
-        return connectorIds.stream().map(connectorId -> connectorId.value).collect(toList());
+        return connectorIds.stream().map(connectorId -> connectorId.id).collect(toList());
     }
 
     private <T, E extends ExternalApiException> T getResponseOrPriceError(CompletableFuture<T> request) throws E {

@@ -117,9 +117,9 @@ public class ChargingSessionController {
                 chargingSession.startTime,
                 chargingSession.endTime,
                 ChargingSessionStatus.valueOf(chargingSession.status.name()),
-                hashIdService.encode(chargingSession.connectorId.value),
-                hashIdService.encode(chargingSession.chargePointId.value),
-                hashIdService.encode(chargingSession.chargeSiteId.value));
+                chargingSession.connectorId.id,
+                chargingSession.chargePointId.id,
+                chargingSession.chargeSiteId.id);
     }
 
     private com.tingcore.cdc.charging.api.Price toApiObject(final Price price) {

@@ -1,8 +1,5 @@
 package com.tingcore.cdc.charging.api;
 
-import com.tingcore.cdc.charging.model.ChargePointId;
-import com.tingcore.cdc.charging.model.ChargeSiteId;
-import com.tingcore.cdc.charging.model.ConnectorId;
 import com.tingcore.cdc.crm.model.CustomerKey;
 import io.swagger.annotations.ApiModel;
 
@@ -18,9 +15,9 @@ public class ChargingSession {
     public final Instant startTime;
     public final Instant endTime;
     public final ChargingSessionStatus status;
-    public final String connectorId;
-    public final String chargePointId;
-    public final String chargeSiteId;
+    public final Long connectorId;
+    public final Long chargePointId;
+    public final Long chargeSiteId;
 
     public ChargingSession(final String chargingSessionId,
                            final CustomerKey customerKey,
@@ -28,9 +25,9 @@ public class ChargingSession {
                            final Instant startTime,
                            final Instant endTime,
                            final ChargingSessionStatus status,
-                           final String connectorId,
-                           final String chargePointId,
-                           final String chargeSiteId) {
+                           final Long connectorId,
+                           final Long chargePointId,
+                           final Long chargeSiteId) {
         this.chargingSessionId = notNull(chargingSessionId);
         this.customerKey = notNull(customerKey);
         this.price = price;

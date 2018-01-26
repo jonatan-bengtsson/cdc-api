@@ -26,7 +26,7 @@ public class AssetPaymentsRepository extends AbstractApiRepository {
     }
 
     public ChargePointInfo fetchChargePointInfo(final ConnectorId id) {
-        return getResponseOrAssetPaymentError(apiForPaymentsApi.findChargePointByConnectorIdUsingGET(id.value));
+        return getResponseOrAssetPaymentError(apiForPaymentsApi.findChargePointByConnectorIdUsingGET(id.id));
     }
 
     private <T, E extends ExternalApiException> T getResponseOrAssetPaymentError(CompletableFuture<T> request) throws E {

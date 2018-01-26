@@ -61,8 +61,8 @@ public class ChargingSessionRepository extends AbstractApiRepository {
         event.setNature(Event.NatureEnum.START_REQUESTED);
         event.setData(ImmutableMap.of(
                 "authorization", token.value,
-                "chargePoint", chargePointId.value,
-                "connector", connectorId.value
+                "chargePoint", chargePointId.id,
+                "connector", connectorId.id
         ));
         startEvent.setEvent(event);
         return apiEventToModel(sessionId, getResponseOrChargingSessionError(chargesApi.createChargeEvent(sessionId.value, startEvent)));
@@ -76,7 +76,7 @@ public class ChargingSessionRepository extends AbstractApiRepository {
         event.setNature(Event.NatureEnum.STOP_REQUESTED);
         event.setData(ImmutableMap.of(
                 "authorization", token.value,
-                "chargePoint", chargePointId.value
+                "chargePoint", chargePointId.id
         ));
         stopEvent.setEvent(event);
         return apiEventToModel(sessionId, getResponseOrChargingSessionError(chargesApi.createChargeEvent(sessionId.value, stopEvent)));

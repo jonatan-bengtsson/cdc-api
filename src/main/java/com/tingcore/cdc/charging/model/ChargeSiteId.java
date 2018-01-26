@@ -7,16 +7,16 @@ import java.util.Objects;
 import static org.apache.commons.lang3.Validate.notNull;
 
 public class ChargeSiteId {
-    public final Long value;
+    public final Long id;
 
-    public ChargeSiteId(final Long value) {
-        this.value = notNull(value);
+    public ChargeSiteId(final Long id) {
+        this.id = notNull(id);
     }
 
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
-                .add("value", value)
+                .add("value", id)
                 .toString();
     }
 
@@ -29,11 +29,11 @@ public class ChargeSiteId {
             return false;
         }
         ChargeSiteId that = (ChargeSiteId) o;
-        return Objects.equals(value, that.value);
+        return Objects.equals(id, that.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(value);
+        return Objects.hash(id);
     }
 }

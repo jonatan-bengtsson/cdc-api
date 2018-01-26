@@ -176,7 +176,7 @@ public class ChargePointSiteService {
                                               StatusBatchResponse statusBatchResponse,
                                               List<ConnectorPrice> connectorPrices) {
         final Map<Long, ConnectorStatusResponse> connectorStatusMap = ofNullable(statusBatchResponse).map(statuses -> ConnectorStatusMapper.getStatusMap(Collections.singletonList(chargePointSiteWithAvailabilityRules), statuses)).orElse(emptyMap());
-        final Map<Long, ConnectorPrice> connectorPriceMap = connectorPrices.stream().collect(toMap(price -> price.connectorId.value, identity()));
+        final Map<Long, ConnectorPrice> connectorPriceMap = connectorPrices.stream().collect(toMap(price -> price.connectorId.id, identity()));
 
         return ChargePointSiteMapper.toChargePointSite(
                 chargePointSiteWithAvailabilityRules.getChargePointSite(),

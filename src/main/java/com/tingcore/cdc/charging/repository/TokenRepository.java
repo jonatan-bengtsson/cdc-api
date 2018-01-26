@@ -42,7 +42,7 @@ public class TokenRepository extends AbstractApiRepository {
             authorization.setData(ImmutableMap.of("id", trustedUserId.value));
             request.setAuthorization(authorization);
             request.setAccount(customerKeyId.value);
-            request.setChargePoint(chargePointId.value);
+            request.setChargePoint(chargePointId.id);
             request.setTime(Instant.now().toEpochMilli());
             return apiTokenToModel(execute(tokensApi.createAuthorizationToken(request)).getResponse());
         } catch (final RestClientException exception) {

@@ -5,10 +5,10 @@ import java.util.Objects;
 import static org.apache.commons.lang3.Validate.notNull;
 
 public class ConnectorId {
-    public final Long value;
+    public final Long id;
 
-    public ConnectorId(final Long value) {
-        this.value = notNull(value);
+    public ConnectorId(final Long id) {
+        this.id = notNull(id);
     }
 
     @Override
@@ -20,11 +20,11 @@ public class ConnectorId {
             return false;
         }
         ConnectorId that = (ConnectorId) o;
-        return Objects.equals(value, that.value);
+        return Objects.equals(id, that.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(value);
+        return Objects.hash(id);
     }
 }

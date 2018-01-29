@@ -24,6 +24,7 @@ import java.util.Optional;
 import static com.tingcore.cdc.charging.controller.ChargingSessionController.SESSIONS;
 import static com.tingcore.cdc.charging.controller.ChargingSessionController.VERSION;
 import static java.util.stream.Collectors.toList;
+import static org.apache.commons.lang3.Validate.isAssignableFrom;
 import static org.apache.commons.lang3.Validate.notNull;
 
 @Api
@@ -115,9 +116,9 @@ public class ChargingSessionController {
                 chargingSession.startTime,
                 chargingSession.endTime,
                 ChargingSessionStatus.valueOf(chargingSession.status.name()),
-                chargingSession.connectorId.id,
-                chargingSession.chargePointId.id,
-                chargingSession.chargeSiteId.id);
+                Optional.ofNullable(chargingSession.connectorId).map(connectorId -> connectorId.id).orElse(null),
+                Optional.ofNullable(chargingSession.chargePointId).map(chargePointId -> chargePointId.id).orElse(null),
+                Optional.ofNullable(chargingSession.chargeSiteId).map(chargeSiteId -> chargeSiteId.id).orElse(null));
     }
 
     private com.tingcore.cdc.charging.api.Price toApiObject(final Price price) {

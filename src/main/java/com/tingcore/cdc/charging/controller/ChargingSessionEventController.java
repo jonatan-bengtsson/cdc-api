@@ -11,6 +11,7 @@ import com.tingcore.cdc.configuration.AuthorizedUser;
 import com.tingcore.cdc.configuration.WebMvcConfiguration;
 import com.tingcore.cdc.exception.EntityNotFoundException;
 import com.tingcore.commons.api.service.HashIdService;
+import com.tingcore.commons.rest.ErrorResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -48,7 +49,7 @@ public class ChargingSessionEventController {
     @PostMapping("/{chargingSessionId}/" + EVENTS)
     @ApiOperation(code = 201, value = "Create a session event.", response = ChargingSessionEvent.class, tags = {SESSIONS})
     @ApiResponses(value = {
-            @ApiResponse(code = 404, message = "The session with the supplied id could not be found.", response = Error.class)
+            @ApiResponse(code = 404, message = "The session with the supplied id could not be found.", response = ErrorResponse.class)
     })
     public ResponseEntity<ChargingSessionEvent> addEvent(final @PathVariable("chargingSessionId") String chargingSessionId,
                                                          final @RequestBody @Valid AddChargingSessionEventRequest request) {

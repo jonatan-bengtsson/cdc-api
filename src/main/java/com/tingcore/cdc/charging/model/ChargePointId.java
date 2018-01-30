@@ -16,7 +16,7 @@ public class ChargePointId {
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
-                .add("value", id)
+                .add("id", id)
                 .toString();
     }
 

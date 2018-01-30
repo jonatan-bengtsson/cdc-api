@@ -10,6 +10,7 @@ import com.tingcore.cdc.configuration.WebMvcConfiguration;
 import com.tingcore.cdc.crm.model.CustomerKey;
 import com.tingcore.cdc.exception.EntityNotFoundException;
 import com.tingcore.commons.api.service.HashIdService;
+import com.tingcore.commons.rest.ErrorResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -24,7 +25,6 @@ import java.util.Optional;
 import static com.tingcore.cdc.charging.controller.ChargingSessionController.SESSIONS;
 import static com.tingcore.cdc.charging.controller.ChargingSessionController.VERSION;
 import static java.util.stream.Collectors.toList;
-import static org.apache.commons.lang3.Validate.isAssignableFrom;
 import static org.apache.commons.lang3.Validate.notNull;
 
 @Api
@@ -65,7 +65,7 @@ public class ChargingSessionController {
     @ApiOperation(value = "Get a charge session.", tags = {SESSIONS})
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Get a charging session", response = ChargingSession.class),
-            @ApiResponse(code = 404, message = "Charging session not found", response = Error.class)
+            @ApiResponse(code = 404, message = "Charging session not found", response = ErrorResponse.class)
     })
     public ResponseEntity<ChargingSession> getChargeSession(final @PathVariable("chargingSessionId") String chargingSessionId) {
             return ResponseEntity.ok(toApiObject(chargingSessionService.fetchSession(sessionIdFromHash(chargingSessionId))));
@@ -75,7 +75,7 @@ public class ChargingSessionController {
     @ApiOperation(value = "Get ongoing charging sessions.", tags = {SESSIONS})
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Get ongoing charging sessions.", response = ChargingSession.class, responseContainer = "List"),
-            @ApiResponse(code = 404, message = "Charging sessions not found", response = Error.class)
+            @ApiResponse(code = 404, message = "Charging sessions not found", response = ErrorResponse.class)
     })
     public ResponseEntity getOngoingChargeSessions() {
         return ResponseEntity.ok(chargingSessionService.fetchOngoingSessions(new TrustedUserId(authorizedUser.getId()))

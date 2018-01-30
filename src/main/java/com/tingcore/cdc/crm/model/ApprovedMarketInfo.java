@@ -9,28 +9,40 @@ import io.swagger.annotations.ApiModelProperty;
  * @since 2017-11-14.
  */
 public class ApprovedMarketInfo extends BaseAttributeModel {
-    private String value;
+    private String url;
+    private String version;
 
-    public ApprovedMarketInfo(Long valueId, String value) {
+    public ApprovedMarketInfo(Long valueId, String url, String version) {
         this.id = valueId;
-        this.value = value;
+        this.url = url;
+        this.version = version;
     }
 
     public ApprovedMarketInfo() {
     }
 
-    @JsonProperty(FieldConstant.VALUE)
-    @ApiModelProperty(value = "The id of the approved market info")
-    public String getValue() {
-        return value;
+    @JsonProperty(FieldConstant.URL)
+    @ApiModelProperty(value = "The url to the approved market info document.")
+    public String getUrl() {
+        return url;
     }
 
-    public void setValue(String value) {
-        this.value = value;
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    @JsonProperty(FieldConstant.VERSION)
+    @ApiModelProperty(value = "The version of the approved market info document.")
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
     }
 
     @Override
     public ApprovedMarketInfo copyWithoutId () {
-        return new ApprovedMarketInfo(null, this.value);
+        return new ApprovedMarketInfo(null, this.url, this.version);
     }
 }

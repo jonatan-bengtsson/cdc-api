@@ -2,7 +2,7 @@ integration:
   payments:
     hostname: payments-service.tingcore-test.com
   user:
-    hostname: user-service.tingcore-test.com
+    hostname: user-service-test.tingcore-infra.com
   asset:
     hostname: asset-service.tingcore-test.com
   charging-operations:

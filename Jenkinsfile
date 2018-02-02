@@ -1,7 +1,7 @@
 
 apigwProxyPipeline {
     appName = 'cdc-api'
-    availability = 'private'
+    availability = 'public'
     desiredCountTest = 1
     desiredCountProd = 2
     businessUnit = 'ChargeAndDrive'

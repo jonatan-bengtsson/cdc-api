@@ -114,7 +114,7 @@ public class AddressCRM extends BaseAttributeModel {
         this.name = name;
     }
 
-    public AddressCRM copyWithoutId () {
+    public AddressCRM copyWithoutId() {
         return new AddressCRM(null, this.address, this.addressLine2, this.postalCode, this.city, this.country, this.formatter, this.name);
     }
 

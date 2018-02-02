@@ -1,10 +1,6 @@
 package com.tingcore.cdc.controller;
 
 
-import com.tingcore.cdc.charging.repository.AssetPaymentsApiException;
-import com.tingcore.cdc.charging.repository.AssetPaymentsRepository;
-import com.tingcore.cdc.charging.repository.ChargingSessionApiException;
-import com.tingcore.cdc.charging.repository.PriceApiException;
 import com.tingcore.cdc.charging.service.AssetServiceException;
 import com.tingcore.cdc.constant.ErrorCode;
 import com.tingcore.cdc.crm.service.InvalidAttributeValueException;
@@ -164,24 +160,6 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = ExternalApiException.class)
     public ResponseEntity<ErrorResponse> handleExternalApiException(final ExternalApiException e) {
-        LOG.debug(e.getMessage(), e);
-        return errorResponseToResponseEntity(e.getErrorResponse());
-    }
-
-    @ExceptionHandler(value = PriceApiException.class)
-    public ResponseEntity<ErrorResponse> handlePriceApiException(final PriceApiException e) {
-        LOG.debug(e.getMessage(), e);
-        return errorResponseToResponseEntity(e.getErrorResponse());
-    }
-
-    @ExceptionHandler(value = AssetPaymentsApiException.class)
-    public ResponseEntity<ErrorResponse> handleAssetPaymentApiException(final AssetPaymentsApiException e) {
-        LOG.debug(e.getMessage(), e);
-        return errorResponseToResponseEntity(e.getErrorResponse());
-    }
-
-    @ExceptionHandler(value = ChargingSessionApiException.class)
-    public ResponseEntity<ErrorResponse> handleChargingSessionApiException(final ChargingSessionApiException e) {
         LOG.debug(e.getMessage(), e);
         return errorResponseToResponseEntity(e.getErrorResponse());
     }

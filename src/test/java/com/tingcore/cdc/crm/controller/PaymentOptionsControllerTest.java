@@ -47,6 +47,8 @@ public class PaymentOptionsControllerTest extends ControllerUnitTest {
 
     @Test
     public void failGetUserPaymentOptionsGatewayTimeout() throws Exception {
+        final Long decode150 = hashIdService.decode("1w3jazYnLr").get();
+
         final Long id = CommonDataUtils.getNextId();
         final String encodedId = hashIdService.encode(id);
         given(paymentOptionService.findUserPaymentOptions(authorizedUser.getId()))

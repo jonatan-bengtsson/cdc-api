@@ -31,7 +31,7 @@ app:
     base-url: http://${integration.payments.hostname}
     default-timeout: 20 # timeout in seconds
   user-service:
-    base-url: http://${integration.user.hostname}
+    base-url: https://${integration.user.hostname}
     default-timeout: 20 # timeout in seconds
   asset-service:
     base-url: http://${integration.asset.hostname}

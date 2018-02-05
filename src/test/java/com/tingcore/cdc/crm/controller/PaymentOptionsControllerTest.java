@@ -55,5 +55,4 @@ public class PaymentOptionsControllerTest extends ControllerUnitTest {
                 .andExpect(status().isGatewayTimeout())
                 .andExpect(content().string("{\"statusCode\":504,\"status\":\"Gateway Timeout\"}"));
     }
-
 }

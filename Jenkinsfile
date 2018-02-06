@@ -1,5 +1,6 @@
 
-apigwProxyPipeline {
+applicationPipeline {
+    createApigw = true
     appName = 'cdc-api'
     availability = 'public'
     desiredCountTest = 1

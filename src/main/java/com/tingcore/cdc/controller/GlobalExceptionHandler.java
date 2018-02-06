@@ -39,9 +39,9 @@ import java.util.List;
 public class GlobalExceptionHandler {
 
     private static final Logger LOG = LoggerFactory.getLogger(GlobalExceptionHandler.class);
-    private final ErrorMappingService errorMappingService;
 
-    private MessageByLocaleService messageByLocaleService;
+    private final MessageByLocaleService messageByLocaleService;
+    private final ErrorMappingService errorMappingService;
 
     @Autowired
     public GlobalExceptionHandler(final MessageByLocaleService messageByLocaleService, final ErrorMappingService errorMappingService) {

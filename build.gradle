@@ -77,7 +77,7 @@ configurations.all {
 ext {
     versionSwagger = "2.7.0"
     versionOkHttp = "3.9.0"
-    versionCommonsApi = "1.0.2"
+    versionCommonsApi = "1.0.4"
     versionUserServiceClient = "1.0.3.1-SNAPSHOT"
     versionAssetServiceClient = "0.1.7-SNAPSHOT"
     versionOperationServiceClient = "0.1.9-SNAPSHOT"

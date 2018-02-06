@@ -47,7 +47,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = Exception.class)
     public ResponseEntity<ErrorResponse> handleUnexpectedException(final Exception e) {
-        LOG.error(e.getMessage(), e);
+        LOG.warn(e.getMessage(), e);
         ErrorCode errorCode = ErrorCode.INTERNAL_SERVER_ERROR;
         return errorResponseToResponseEntity(ErrorResponse
                 .serverError()
@@ -131,7 +131,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = MissingServletRequestParameterException.class)
     public ResponseEntity<ErrorResponse> handleRequestBodyMissing(final MissingServletRequestParameterException e) {
-        LOG.debug(e.getMessage(), e);
+        LOG.trace(e.getMessage(), e);
         final ErrorCode errorCode = ErrorCode.MISSING_REQUIRED_QUERY_PARAM;
         return errorResponseToResponseEntity(
                 ErrorResponse.badRequest()
@@ -166,7 +166,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = InvalidAttributeValueException.class)
     public ResponseEntity<ErrorResponse> handleResourceNotFoundException(final InvalidAttributeValueException e) {
-        LOG.error("Data was invalid for some attribute value - please check!", e);
+        LOG.warn("Data was invalid for some attribute value - please check!", e);
         return handleServiceException(e, ErrorResponse.serverError());
     }
 

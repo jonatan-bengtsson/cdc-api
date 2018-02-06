@@ -3,7 +3,9 @@ package com.tingcore.cdc.controller;
 
 import com.tingcore.cdc.charging.service.AssetServiceException;
 import com.tingcore.cdc.constant.ErrorCode;
+import com.tingcore.cdc.crm.service.ErrorMappingService;
 import com.tingcore.cdc.crm.service.InvalidAttributeValueException;
+import com.tingcore.cdc.crm.service.UsersApiException;
 import com.tingcore.cdc.exception.EntityNotFoundException;
 import com.tingcore.cdc.service.MessageByLocaleService;
 import com.tingcore.commons.api.service.ServiceException;
@@ -37,12 +39,14 @@ import java.util.List;
 public class GlobalExceptionHandler {
 
     private static final Logger LOG = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+    private final ErrorMappingService errorMappingService;
 
     private MessageByLocaleService messageByLocaleService;
 
     @Autowired
-    public GlobalExceptionHandler(final MessageByLocaleService messageByLocaleService) {
+    public GlobalExceptionHandler(final MessageByLocaleService messageByLocaleService, final ErrorMappingService errorMappingService) {
         this.messageByLocaleService = messageByLocaleService;
+        this.errorMappingService = errorMappingService;
     }
 
     @ExceptionHandler(value = Exception.class)
@@ -161,6 +165,9 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = ExternalApiException.class)
     public ResponseEntity<ErrorResponse> handleExternalApiException(final ExternalApiException e) {
         LOG.debug(e.getMessage(), e);
+        if (e instanceof UsersApiException) {
+            return errorResponseToResponseEntity(errorMappingService.prepareErrorResponse(e.getErrorResponse()));
+        }
         return errorResponseToResponseEntity(e.getErrorResponse());
     }
 

@@ -5,6 +5,7 @@ import com.tingcore.commons.rest.ErrorResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 import java.util.regex.Matcher;
@@ -15,6 +16,7 @@ import java.util.stream.Collectors;
  * @author palmithor
  * @since 2018-02-06
  */
+@Component
 public class ErrorMappingService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ErrorMappingService.class);

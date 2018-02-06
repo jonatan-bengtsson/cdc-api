@@ -13,10 +13,6 @@ logging:
         organizstion: DEBUG
     root: INFO
 
-app:
-  user-service:
-    base-url: http://${integration.user.hostname}
-
 integration:
   payments:
     hostname: payments-service.tingcore-test.com

@@ -98,8 +98,8 @@ public class AttributeDataUtils {
     static AttributeResponse createApprovedTermsConditionsResponse() {
         final HashMap<String, Object> properties = newHashMap();
         properties.put(PROPERTY_ALLOW_MULTIPLE, true);
-        properties.put(PROPERTY_REQUIRED, Arrays.asList("agreementId"));
-        return createAttributeResponse(properties, AttributeConstant.APPROVED_TERMS_CONDITIONS, "{\"agreementId\": \"123456\"}",
+        properties.put(PROPERTY_REQUIRED, Arrays.asList("url", "version"));
+        return createAttributeResponse(properties, AttributeConstant.APPROVED_TERMS_CONDITIONS, "{\"url\": \"http://chargedrive.com/terms-and-conditions\", \"version\": \"1.1\"}",
                 AttributeResponse.TypeEnum.JSON);
     }
 
@@ -128,7 +128,7 @@ public class AttributeDataUtils {
     }
 
     public static ApprovedTermsConditions createApprovedTermsConditions() {
-        return new ApprovedTermsConditions(CommonDataUtils.getNextId(), CommonDataUtils.randomNumberStr(1000,2000));
+        return new ApprovedTermsConditions(CommonDataUtils.getNextId(), AttributeConstant.APPROVED_TERMS_CONDITIONS, CommonDataUtils.randomNumberStr(1, 2));
     }
 
     public static SocialSecurityNumber createSocialSecurityNumber () {
@@ -136,11 +136,11 @@ public class AttributeDataUtils {
     }
 
     public static ApprovedMarketInfo createApprovedMarketInfo () {
-        return new ApprovedMarketInfo(CommonDataUtils.getNextId(), AttributeConstant.APPROVED_MARKET_INFO);
+        return new ApprovedMarketInfo(CommonDataUtils.getNextId(), AttributeConstant.APPROVED_MARKET_INFO, CommonDataUtils.randomNumberStr(1, 2));
     }
 
     public static ApprovedPrivacyPolicy createApprovedPrivacy () {
-        return new ApprovedPrivacyPolicy(CommonDataUtils.getNextId(), AttributeConstant.APPROVED_PRIVACY_POLICY);
+        return new ApprovedPrivacyPolicy(CommonDataUtils.getNextId(), AttributeConstant.APPROVED_PRIVACY_POLICY, CommonDataUtils.randomNumberStr(1, 2));
     }
 
     public static LicensePlate createLicensePlate () {

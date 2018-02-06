@@ -47,7 +47,7 @@ public class AttributeValueMapperTest {
     @Test
     public void assertAttributeSavedWithCorrectId() throws Exception {
 
-        assertThat(findPrivateCustomerAttributeRequest(AttributeConstant.APPROVED_TERMS_CONDITIONS).getValue()).contains(FieldConstant.AGREEMENT_ID);
+        assertThat(findPrivateCustomerAttributeRequest(AttributeConstant.APPROVED_TERMS_CONDITIONS).getValue()).contains(FieldConstant.URL);
         assertThat(findPrivateCustomerAttributeRequest(AttributeConstant.ADDRESS).getValue()).contains(AttributeConstant.ADDRESS);
         assertThat(findPrivateCustomerAttributeRequest(AttributeConstant.SOCIAL_SECURITY_NUMBER).getValue()).contains(AttributeConstant.SOCIAL_SECURITY_NUMBER);
         assertThat(findPrivateCustomerAttributeRequest(AttributeConstant.FIRST_NAME).getValue()).contains(AttributeConstant.FIRST_NAME);
@@ -63,8 +63,8 @@ public class AttributeValueMapperTest {
         assertThat(findBusinessCustomerAttributeRequest(AttributeConstant.CONTACT_EMAIL).getValue()).contains(AttributeConstant.CONTACT_EMAIL);
         assertThat(findBusinessCustomerAttributeRequest(AttributeConstant.LICENSE_PLATE).getValue()).contains(AttributeConstant.LICENSE_PLATE);
 
-        assertThat(findBusinessCustomerAttributeRequest(AttributeConstant.APPROVED_PRIVACY_POLICY).getValue()).contains(FieldConstant.VALUE);
-        assertThat(findBusinessCustomerAttributeRequest(AttributeConstant.APPROVED_MARKET_INFO).getValue()).contains(FieldConstant.VALUE);
+        assertThat(findBusinessCustomerAttributeRequest(AttributeConstant.APPROVED_PRIVACY_POLICY).getValue()).contains(FieldConstant.URL);
+        assertThat(findBusinessCustomerAttributeRequest(AttributeConstant.APPROVED_MARKET_INFO).getValue()).contains(FieldConstant.URL);
 
     }
 

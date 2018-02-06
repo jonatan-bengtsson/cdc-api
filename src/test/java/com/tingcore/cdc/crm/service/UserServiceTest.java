@@ -125,7 +125,7 @@ public class UserServiceTest {
         assertThat(response.getPhoneNumbers().get(0).getPhoneNumber()).isEqualTo(mockUserRequest.getPhoneNumbers().get(0).getPhoneNumber());
         assertThat(response.getTimezone().getValue()).contains(mockUserRequest.getTimezone().getValue());
         assertThat(response.getLicensePlates().get(0).getLicensePlate()).isEqualTo(mockUserRequest.getLicensePlates().get(0).getLicensePlate());
-        assertThat(response.getApprovedTermsConditions().get(0).getAgreementId()).isEqualTo(mockUserRequest.getApprovedTermsConditions().get(0).getAgreementId());
+        assertThat(response.getApprovedTermsConditions().get(0).getUrl()).isEqualTo(mockUserRequest.getApprovedTermsConditions().get(0).getUrl());
 
     }
 

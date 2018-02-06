@@ -27,6 +27,7 @@ class UserMapper {
                 .organizationNumber(AttributeMapper.findOrganizationNumber(attributes).orElse(null))
                 .phoneNumbers(AttributeMapper.findPhoneNumbers(attributes, AttributeConstant.PHONE_NUMBER))
                 .approvedMarketInfo(AttributeMapper.findApprovedMarketInfo(attributes))
+                .approvedPrivacyPolicies(AttributeMapper.findApprovedPrivacyPolicies(attributes))
                 .address(AttributeMapper.findAddress(attributes))
                 .timezone(AttributeMapper.findStringAttribute(attributes, AttributeConstant.TIMEZONE).orElse(null))
                 .approvedTermsConditions(AttributeMapper.findApprovedTermsConditions(attributes))
@@ -56,7 +57,7 @@ class UserMapper {
                 .customerType(AttributeMapper.findStringAttribute(attributes, AttributeConstant.CUSTOMER_TYPE).orElse(null))
                 .language(AttributeMapper.findStringAttribute(attributes, AttributeConstant.LANGUAGE).orElse(null))
                 .hasChargingAccess(AttributeMapper.findBooleanAttribute(attributes, AttributeConstant.HAS_CHARGING_ACCESS).orElse(null))
-                .approvedPrivacyPolicies(AttributeMapper.findApprovedPrivacyPolicies(attributes,AttributeConstant.APPROVED_PRIVACY_POLICY))
+                .approvedPrivacyPolicies(AttributeMapper.findApprovedPrivacyPolicies(attributes))
                 .build();
     }
 }

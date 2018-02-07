@@ -3,7 +3,7 @@ spring:
     name: cdc-api
   cloud:
     config:
-      uri: http://cloud-config-server.tingcore-central.com
+      uri: https://cloud-config.tingcore-central.com
 #      Uncomment if you wish to fail the app from starting if no Config Server is available
 #      fail-fast: true
 #      retry:

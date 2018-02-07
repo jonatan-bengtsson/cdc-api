@@ -26,18 +26,18 @@ info:
     version: ${VERSION:unknown}
 
 app:
-  allowed-origins: http://localhost:3000
+  allowed-origins: https://localhost:3000
   payments-service:
-    base-url: http://${integration.payments.hostname}
+    base-url: https://${integration.payments.hostname}
     default-timeout: 20 # timeout in seconds
   user-service:
-    base-url: http://${integration.user.hostname}
+    base-url: https://${integration.user.hostname}
     default-timeout: 20 # timeout in seconds
   asset-service:
-    base-url: http://${integration.asset.hostname}
+    base-url: https://${integration.asset.hostname}
     default-timeout: 20
   charging-operations-service:
-    base-url: http://${integration.charging-operations.hostname}
+    base-url: https://${integration.charging-operations.hostname}
     default-timeout: 20
 
 integration:

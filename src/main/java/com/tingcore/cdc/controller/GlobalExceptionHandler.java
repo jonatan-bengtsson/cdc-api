@@ -3,7 +3,9 @@ package com.tingcore.cdc.controller;
 
 import com.tingcore.cdc.charging.service.AssetServiceException;
 import com.tingcore.cdc.constant.ErrorCode;
+import com.tingcore.cdc.crm.service.ErrorMappingService;
 import com.tingcore.cdc.crm.service.InvalidAttributeValueException;
+import com.tingcore.cdc.crm.service.UsersApiException;
 import com.tingcore.cdc.exception.EntityNotFoundException;
 import com.tingcore.cdc.service.MessageByLocaleService;
 import com.tingcore.commons.api.service.ServiceException;
@@ -38,16 +40,18 @@ public class GlobalExceptionHandler {
 
     private static final Logger LOG = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
-    private MessageByLocaleService messageByLocaleService;
+    private final MessageByLocaleService messageByLocaleService;
+    private final ErrorMappingService errorMappingService;
 
     @Autowired
-    public GlobalExceptionHandler(final MessageByLocaleService messageByLocaleService) {
+    public GlobalExceptionHandler(final MessageByLocaleService messageByLocaleService, final ErrorMappingService errorMappingService) {
         this.messageByLocaleService = messageByLocaleService;
+        this.errorMappingService = errorMappingService;
     }
 
     @ExceptionHandler(value = Exception.class)
     public ResponseEntity<ErrorResponse> handleUnexpectedException(final Exception e) {
-        LOG.error(e.getMessage(), e);
+        LOG.warn(e.getMessage(), e);
         ErrorCode errorCode = ErrorCode.INTERNAL_SERVER_ERROR;
         return errorResponseToResponseEntity(ErrorResponse
                 .serverError()
@@ -131,7 +135,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = MissingServletRequestParameterException.class)
     public ResponseEntity<ErrorResponse> handleRequestBodyMissing(final MissingServletRequestParameterException e) {
-        LOG.debug(e.getMessage(), e);
+        LOG.trace(e.getMessage(), e);
         final ErrorCode errorCode = ErrorCode.MISSING_REQUIRED_QUERY_PARAM;
         return errorResponseToResponseEntity(
                 ErrorResponse.badRequest()
@@ -161,12 +165,15 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = ExternalApiException.class)
     public ResponseEntity<ErrorResponse> handleExternalApiException(final ExternalApiException e) {
         LOG.debug(e.getMessage(), e);
+        if (e instanceof UsersApiException) {
+            return errorResponseToResponseEntity(errorMappingService.prepareErrorResponse(e.getErrorResponse()));
+        }
         return errorResponseToResponseEntity(e.getErrorResponse());
     }
 
     @ExceptionHandler(value = InvalidAttributeValueException.class)
     public ResponseEntity<ErrorResponse> handleResourceNotFoundException(final InvalidAttributeValueException e) {
-        LOG.error("Data was invalid for some attribute value - please check!", e);
+        LOG.warn("Data was invalid for some attribute value - please check!", e);
         return handleServiceException(e, ErrorResponse.serverError());
     }
 

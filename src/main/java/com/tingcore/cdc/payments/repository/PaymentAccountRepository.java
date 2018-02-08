@@ -5,6 +5,7 @@ import com.tingcore.commons.api.repository.AbstractApiRepository;
 import com.tingcore.commons.external.ExternalApiException;
 import com.tingcore.payments.emp.api.PaymentaccountsApi;
 import com.tingcore.payments.emp.model.ApiPaymentAccount;
+import com.tingcore.payments.emp.model.Card;
 import com.tingcore.payments.emp.model.CreateAccountRequest;
 import org.springframework.stereotype.Repository;
 
@@ -39,8 +40,16 @@ public class PaymentAccountRepository extends AbstractApiRepository {
         return GetResponseOrPaymentAccountError(paymentaccountsApi.getUserPaymentAccounts(keyId, userId));
     }
 
+    public Card getCardInformation(final String stripeId){
+        return GetResponseOrCardInformationError(paymentaccountsApi.getCardInformation(stripeId));
+    }
+
     private <T, E extends ExternalApiException> T GetResponseOrPaymentAccountError(CompletableFuture<T> request) throws E {
         return getResponseOrThrowError(execute(request), GetPaymentAccountApiException::new);
+    }
+
+    private <T, E extends ExternalApiException> T GetResponseOrCardInformationError(CompletableFuture<T> request) throws E {
+        return getResponseOrThrowError(execute(request), GetCardInformationApiException::new);
     }
 
     @Override

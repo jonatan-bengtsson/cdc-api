@@ -3,6 +3,7 @@ package com.tingcore.cdc.configuration;
 import com.tingcore.payments.cpo.ApiClient;
 import com.tingcore.payments.cpo.api.PricesApi;
 import com.tingcore.payments.emp.api.ChargesApi;
+import com.tingcore.payments.emp.api.PaymentaccountsApi;
 import com.tingcore.payments.emp.api.TokensApi;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,6 +28,10 @@ public class PaymentsServiceConfiguration {
         return notNull(paymentsClient).createService(PricesApi.class);
     }
 
+    @Bean
+    public PaymentaccountsApi paymentaccountsApi(final ApiClient paymentsClient) {
+        return notNull(paymentsClient).createService(PaymentaccountsApi.class);
+    }
 
     @Bean
     public ApiClient paymentsClient(final Environment environment) {

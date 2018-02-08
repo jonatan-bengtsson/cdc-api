@@ -5,7 +5,9 @@ import com.tingcore.cdc.payments.api.ApiCreateAccountRequest;
 import com.tingcore.cdc.payments.service.PaymentAccountService;
 import com.tingcore.commons.api.service.HashIdService;
 import com.tingcore.payments.emp.model.ApiPaymentAccount;
+import com.tingcore.payments.emp.model.Card;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -20,6 +22,7 @@ public class PaymentAccountController {
     static final String VERSION = "v1";
     static final String ACCOUNTS = "paymentaccounts";
     static final String USERS = "users";
+    static final String CARD = "card";
 
     private final PaymentAccountService paymentAccountService;
     private HashIdService hashIdService;
@@ -61,5 +64,11 @@ public class PaymentAccountController {
                     .orElseThrow(() -> new PaymentAccountFailureException(userId));
         }
         return paymentAccountService.getAllAccountsById(key, user);
+    }
+
+    @GetMapping("/" + USERS + "/{stripetoken}" + "/" + CARD)
+    @ApiOperation(value = "Get card details from stripe", response = Card.class, tags = {ACCOUNTS})
+    public Card getCardInformation(@PathVariable("stripetoken") final String stripeToken) {
+        return paymentAccountService.getCardInformation(stripeToken);
     }
 }

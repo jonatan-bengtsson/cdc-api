@@ -5,9 +5,9 @@ import com.tingcore.cdc.payments.api.ApiCreateAccountRequest;
 import com.tingcore.cdc.payments.service.PaymentAccountService;
 import com.tingcore.commons.api.service.HashIdService;
 import com.tingcore.commons.rest.ErrorResponse;
+import com.tingcore.payments.emp.model.ApiCard;
+import com.tingcore.payments.emp.model.ApiDeletedCustomer;
 import com.tingcore.payments.emp.model.ApiPaymentAccount;
-import com.tingcore.payments.emp.model.Card;
-import com.tingcore.payments.emp.model.DeletedCustomer;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -52,12 +52,12 @@ public class PaymentAccountController {
     }
 
     @DeleteMapping("/" + USERS + "/{paymentOptionReference}")
-    @ApiOperation(code = 204, value = "Delete a users payment account.", response = DeletedCustomer.class, tags = {ACCOUNTS})
+    @ApiOperation(code = 204, value = "Delete a users payment account.", response = ApiDeletedCustomer.class, tags = {ACCOUNTS})
     @ApiResponses(value = {
             @ApiResponse(code = 400, message = "Could not parse the request.", response = ErrorResponse.class),
             @ApiResponse(code = 404, message = "Payment account with the supplied id was not found.", response = ErrorResponse.class)
     })
-    public DeletedCustomer deleteUserAccount(final @PathVariable("paymentOptionReference") @NotNull String strPaymentOption) {
+    public ApiDeletedCustomer deleteUserAccount(final @PathVariable("paymentOptionReference") @NotNull String strPaymentOption) {
         return paymentAccountService.deleteUserAccount(strPaymentOption);
     }
 
@@ -80,8 +80,8 @@ public class PaymentAccountController {
     }
 
     @GetMapping("/" + USERS + "/{stripetoken}" + "/" + CARD)
-    @ApiOperation(value = "Get card details from stripe", response = Card.class, tags = {ACCOUNTS})
-    public Card getCardInformation(@PathVariable("stripetoken") final String stripeToken) {
+    @ApiOperation(value = "Get card details from stripe", response = ApiCard.class, tags = {ACCOUNTS})
+    public ApiCard getCardInformation(@PathVariable("stripetoken") final String stripeToken) {
         return paymentAccountService.getCardInformation(stripeToken);
     }
 }

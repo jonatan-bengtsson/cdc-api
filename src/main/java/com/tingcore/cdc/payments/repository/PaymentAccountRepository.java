@@ -4,11 +4,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tingcore.commons.api.repository.AbstractApiRepository;
 import com.tingcore.commons.external.ExternalApiException;
 import com.tingcore.payments.emp.api.PaymentaccountsApi;
+import com.tingcore.payments.emp.model.ApiCard;
+import com.tingcore.payments.emp.model.ApiDeletedCustomer;
 import com.tingcore.payments.emp.model.ApiPaymentAccount;
-import com.tingcore.payments.emp.model.Card;
 import com.tingcore.payments.emp.model.CreateAccountRequest;
-import com.tingcore.payments.emp.model.DeletedCustomer;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -37,7 +36,7 @@ public class PaymentAccountRepository extends AbstractApiRepository {
         return GetResponseOrPaymentAccountError(paymentaccountsApi.getUserAccount(paymentAccountId));
     }
 
-    public DeletedCustomer deleteUserAccount(final String strPaymentOption) {
+    public ApiDeletedCustomer deleteUserAccount(final String strPaymentOption) {
         return GetResponseOrPaymentAccountError(paymentaccountsApi.deleteUserAccount(strPaymentOption));
     }
 
@@ -46,7 +45,7 @@ public class PaymentAccountRepository extends AbstractApiRepository {
         return GetResponseOrPaymentAccountError(paymentaccountsApi.getUserPaymentAccounts(keyId, userId));
     }
 
-    public Card getCardInformation(final String stripeId){
+    public ApiCard getCardInformation(final String stripeId){
         return GetResponseOrCardInformationError(paymentaccountsApi.getCardInformation(stripeId));
     }
 

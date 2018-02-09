@@ -3,7 +3,6 @@ package com.tingcore.cdc.payments.service;
 import com.tingcore.cdc.payments.api.ApiCreateAccountRequest;
 import com.tingcore.cdc.payments.repository.PaymentAccountRepository;
 import com.tingcore.payments.emp.model.*;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -37,11 +36,11 @@ public class PaymentAccountService {
         return paymentAccountRepository.getAllAccountsById(keyId, userId);
     }
 
-    public Card getCardInformation(final String stripeId){
+    public ApiCard getCardInformation(final String stripeId){
         return paymentAccountRepository.getCardInformation(stripeId);
     }
 
-    public DeletedCustomer deleteUserAccount(final String strPaymentOption) {
+    public ApiDeletedCustomer deleteUserAccount(final String strPaymentOption) {
         return paymentAccountRepository.deleteUserAccount(strPaymentOption);
     }
 }

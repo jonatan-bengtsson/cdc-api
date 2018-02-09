@@ -4,10 +4,13 @@ import com.tingcore.cdc.exception.PaymentAccountFailureException;
 import com.tingcore.cdc.payments.api.ApiCreateAccountRequest;
 import com.tingcore.cdc.payments.service.PaymentAccountService;
 import com.tingcore.commons.api.service.HashIdService;
+import com.tingcore.commons.rest.ErrorResponse;
 import com.tingcore.payments.emp.model.ApiPaymentAccount;
 import com.tingcore.payments.emp.model.Card;
+import com.tingcore.payments.emp.model.DeletedCustomer;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.http.ResponseEntity;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -46,6 +49,16 @@ public class PaymentAccountController {
     public ApiPaymentAccount getUserAccount(final @PathVariable("paymentOptionReference") @NotNull String paymentOptionReference) {
         return paymentAccountService.getAccount(paymentOptionReference);
 
+    }
+
+    @DeleteMapping("/" + USERS + "/{paymentOptionReference}")
+    @ApiOperation(code = 204, value = "Delete a users payment account.", response = DeletedCustomer.class, tags = {ACCOUNTS})
+    @ApiResponses(value = {
+            @ApiResponse(code = 400, message = "Could not parse the request.", response = ErrorResponse.class),
+            @ApiResponse(code = 404, message = "Payment account with the supplied id was not found.", response = ErrorResponse.class)
+    })
+    public DeletedCustomer deleteUserAccount(final @PathVariable("paymentOptionReference") @NotNull String strPaymentOption) {
+        return paymentAccountService.deleteUserAccount(strPaymentOption);
     }
 
     @GetMapping("/" + USERS)

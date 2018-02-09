@@ -7,6 +7,8 @@ import com.tingcore.payments.emp.api.PaymentaccountsApi;
 import com.tingcore.payments.emp.model.ApiPaymentAccount;
 import com.tingcore.payments.emp.model.Card;
 import com.tingcore.payments.emp.model.CreateAccountRequest;
+import com.tingcore.payments.emp.model.DeletedCustomer;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -33,6 +35,10 @@ public class PaymentAccountRepository extends AbstractApiRepository {
 
     public ApiPaymentAccount getAccount(final String paymentAccountId) {
         return GetResponseOrPaymentAccountError(paymentaccountsApi.getUserAccount(paymentAccountId));
+    }
+
+    public DeletedCustomer deleteUserAccount(final String strPaymentOption) {
+        return GetResponseOrPaymentAccountError(paymentaccountsApi.deleteUserAccount(strPaymentOption));
     }
 
     public List<ApiPaymentAccount> getAllAccountsById(final Long keyId,

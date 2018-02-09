@@ -18,7 +18,6 @@ public class ConnectorDataUtils {
     public static ConnectorEntity createConnector(Long chargePointId, Long connectorId, Long connectorModelId, int connectorNumber, BasicConnector.ConnectorTypeEnum type, double power) {
         BasicConnector basicConnector = new BasicConnector()
                 .chargePointId(chargePointId)
-                .connectorModelId(connectorModelId)
                 .connectorNumber(connectorNumber)
                 .connectorType(type)
                 .operationalStatus(BasicConnector.OperationalStatusEnum.OPERATIONAL);

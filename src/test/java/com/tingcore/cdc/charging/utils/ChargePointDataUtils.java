@@ -2,7 +2,7 @@ package com.tingcore.cdc.charging.utils;
 
 import com.tingcore.charging.assets.model.BasicChargePoint;
 import com.tingcore.charging.assets.model.ChargePoint;
-import com.tingcore.charging.assets.model.ChargePointConfiguration;
+import com.tingcore.charging.assets.model.ChargePointSetting;
 import com.tingcore.charging.assets.model.ChargePointEntity;
 import com.tingcore.charging.assets.model.CompleteChargePoint;
 import com.tingcore.charging.assets.model.ConnectorEntity;
@@ -21,11 +21,11 @@ public class ChargePointDataUtils {
                 .chargePointModelId(chargePointModelId)
                 .operationalStatus(status);
 
-        ChargePointConfiguration conf = new ChargePointConfiguration();
+        ChargePointSetting settings = new ChargePointSetting();
 
         ChargePoint chargePoint  = new ChargePoint()
                 .basicChargePoint(basicChargePoint)
-                .chargePointConfiguration(conf);
+                .chargePointSetting(settings);
 
         EntityMetadata meta = new EntityMetadata()
                 .id(chargePointId);

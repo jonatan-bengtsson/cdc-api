@@ -142,7 +142,6 @@ public class ChargePointSiteMapperTest {
                 .data(new Connector()
                 .basicConnector(new BasicConnector()
                         .chargePointId(chargePointId)
-                        .connectorModelId(connectorModelId)
                         .connectorNumber(number)
                         .connectorType(connectorType)
                         .operationalStatus(operationalStatus)

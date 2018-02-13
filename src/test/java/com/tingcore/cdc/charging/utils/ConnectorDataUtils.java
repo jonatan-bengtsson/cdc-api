@@ -20,7 +20,7 @@ public class ConnectorDataUtils {
                 .chargePointId(chargePointId)
                 .connectorNumber(connectorNumber)
                 .connectorType(type)
-                .operationalStatus(BasicConnector.OperationalStatusEnum.OPERATIONAL);
+                .adminStatus(BasicConnector.AdminStatusEnum.OPERATIONAL);
         ConnectorCapability connectorCapability = new ConnectorCapability()
                 .power(power)
                 .current(120d)

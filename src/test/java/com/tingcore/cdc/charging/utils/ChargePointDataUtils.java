@@ -14,12 +14,12 @@ import java.util.List;
 
 public class ChargePointDataUtils {
 
-    public static CompleteChargePoint createCompleteChargePoint(Long chargePointId, Long chargePointModelId, List<ConnectorEntity> connectors, BasicChargePoint.OperationalStatusEnum status) {
+    public static CompleteChargePoint createCompleteChargePoint(Long chargePointId, Long chargePointModelId, List<ConnectorEntity> connectors, BasicChargePoint.AdminStatusEnum status) {
 
         BasicChargePoint basicChargePoint = new BasicChargePoint()
                 .assetName(String.format("ASSET%d", chargePointId))
                 .chargePointModelId(chargePointModelId)
-                .operationalStatus(status);
+                .adminStatus(status);
 
         ChargePointSetting settings = new ChargePointSetting();
 

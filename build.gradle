@@ -81,8 +81,8 @@ ext {
     versionUserServiceClient = "1.0.5"
     versionAssetServiceClient = "0.1.10-SNAPSHOT"
     versionOperationServiceClient = "0.1.10-SNAPSHOT"
-    versionPaymentsEmpClient = "0.8.3-SNAPSHOT"
-    versionPaymentsCpoClient = "0.8.3-SNAPSHOT"
+    versionPaymentsEmpClient = "0.8.3"
+    versionPaymentsCpoClient = "0.8.3"
 }
 
 dependencies {

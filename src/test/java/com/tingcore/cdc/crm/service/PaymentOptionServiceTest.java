@@ -41,23 +41,6 @@ public class PaymentOptionServiceTest {
     }
 
     @Test
-    public void findSupportedPaymentOptions() {
-        final PaymentOptionResponse paymentOption = PaymentOptionDataUtils.randomPaymentOption();
-        final Long id = CommonDataUtils.getNextId();
-        given(paymentOptionRepository.findSupportedPaymentOptions(id)).willReturn(new ApiResponse<>(Collections.singletonList(paymentOption)));
-        assertThat(service.findSupportedPaymentOptions(id)).containsExactly(paymentOption);
-    }
-
-    @Test
-    public void failFindSupportedPaymentOptions() {
-        final Long id = CommonDataUtils.getNextId();
-        given(paymentOptionRepository.findSupportedPaymentOptions(id)).willReturn(new ApiResponse<>(ErrorResponse.forbidden().build()));
-        assertThatExceptionOfType(UsersApiException.class)
-                .isThrownBy(() -> service.findSupportedPaymentOptions(id))
-                .withNoCause();
-    }
-
-    @Test
     public void findUserPaymentOptions() {
         final Long userId = CommonDataUtils.getNextId();
         final UserPaymentOptionResponse mockResponse = PaymentOptionDataUtils.randomUserPaymentOptionResponse();

@@ -1,105 +1,95 @@
 package com.tingcore.cdc.charging.repository;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableMap;
 import com.tingcore.cdc.charging.model.*;
-import com.tingcore.cdc.exception.NoSessionFoundException;
+import com.tingcore.commons.api.repository.AbstractApiRepository;
+import com.tingcore.commons.external.ExternalApiException;
 import com.tingcore.payments.emp.api.ChargesApi;
 import com.tingcore.payments.emp.model.*;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.client.HttpStatusCodeException;
-import org.springframework.web.client.RestClientException;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
+import static com.tingcore.cdc.controller.ApiUtils.getResponseOrThrowError;
 import static java.lang.String.format;
 import static java.util.Optional.ofNullable;
 import static org.apache.commons.lang3.Validate.notNull;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @Repository
-public class ChargingSessionRepository {
+public class ChargingSessionRepository extends AbstractApiRepository {
     private final ChargesApi chargesApi;
+    private static final Integer DEFAULT_TIME_OUT = 60;
 
-    public ChargingSessionRepository(final ChargesApi chargesApi) {
+    public ChargingSessionRepository(final ObjectMapper objectMapper,
+                                     final ChargesApi chargesApi) {
+        super(notNull(objectMapper));
         this.chargesApi = notNull(chargesApi);
     }
 
-    public ChargingSession fetchSession(final ChargingSessionId id) {
-        try {
-            final ApiCharge charge = chargesApi.getCharge(id.value);
-            return apiSessionToModel(charge);
-        } catch (final RestClientException exception) {
-            if (exception instanceof HttpStatusCodeException) {
-                final HttpStatusCodeException statusCodeException = HttpStatusCodeException.class.cast(exception);
-                if (statusCodeException.getStatusCode().equals(NOT_FOUND)) {
-                    throw new NoSessionFoundException("Session not found");
-                }
-            }
-            throw new RuntimeException(exception); // TODO better error handling
-        }
+    public ChargingSessionBuilder fetchSession(final ChargingSessionId id) {
+        final ApiCharge charge = getResponseOrChargingSessionError(chargesApi.getCharge(id.value));
+        return apiSessionToModel(charge);
     }
 
-    public ChargingSession createSession(final TrustedUserId trustedUserId,
-                                         final CustomerKeyId targetUser) {
-        try {
-            final CreateChargeRequest createChargeRequest = new CreateChargeRequest();
-            createChargeRequest.setUser(trustedUserId.value);
-            createChargeRequest.setAccount(targetUser.value);
-            final ApiCharge charge = chargesApi.createCharge(createChargeRequest);
-            return apiSessionToModel(charge);
-        } catch (final RestClientException exception) {
-            throw new RuntimeException(exception); // TODO better error handling
-        }
+    public List<ChargingSessionBuilder> fetchSessionsForUserId(final TrustedUserId id) {
+        return getResponseOrChargingSessionError(chargesApi.getOngoingCharges(id.value))
+                .stream()
+                .map(ChargingSessionRepository::apiSessionToModel)
+                .collect(Collectors.toList());
+    }
+
+    public ChargingSessionBuilder createSession(final TrustedUserId trustedUserId,
+                                                final CustomerKeyId targetUser) {
+        final CreateChargeRequest createChargeRequest = new CreateChargeRequest();
+        createChargeRequest.setUser(trustedUserId.value);
+        createChargeRequest.setAccount(targetUser.value);
+        final ApiCharge charge = getResponseOrChargingSessionError(chargesApi.createCharge(createChargeRequest));
+        return apiSessionToModel(charge);
     }
 
     public ChargingSessionEvent startSession(final ChargingSessionId sessionId,
                                              final AuthorizationToken token,
                                              final ChargePointId chargePointId,
                                              final ConnectorId connectorId) {
-        try {
-            final CreateChargeEventRequest startEvent = new CreateChargeEventRequest();
-            final Event event = new Event();
-            event.setNature(Event.NatureEnum.START_REQUESTED);
-            event.setData(ImmutableMap.of(
-                    "authorization", token.value,
-                    "chargePoint", chargePointId.value,
-                    "connector", connectorId.value
-            ));
-            startEvent.setEvent(event);
-            return apiEventToModel(sessionId, chargesApi.createChargeEvent(sessionId.value, startEvent));
-        } catch (final RestClientException exception) {
-            throw new RuntimeException(exception); // TODO better error handling
-        }
+        final CreateChargeEventRequest startEvent = new CreateChargeEventRequest();
+        final Event event = new Event();
+        event.setNature(Event.NatureEnum.START_REQUESTED);
+        event.setData(ImmutableMap.of(
+                "authorization", token.value,
+                "chargePoint", chargePointId.id,
+                "connector", connectorId.id
+        ));
+        startEvent.setEvent(event);
+        return apiEventToModel(sessionId, getResponseOrChargingSessionError(chargesApi.createChargeEvent(sessionId.value, startEvent)));
     }
 
     public ChargingSessionEvent stopSession(final ChargingSessionId sessionId,
                                             final AuthorizationToken token,
                                             final ChargePointId chargePointId) {
-        try {
-            final CreateChargeEventRequest stopEvent = new CreateChargeEventRequest();
-            final Event event = new Event();
-            event.setNature(Event.NatureEnum.STOP_REQUESTED);
-            event.setData(ImmutableMap.of(
-                    "authorization", token.value,
-                    "chargePoint", chargePointId.value
-            ));
-            stopEvent.setEvent(event);
-            return apiEventToModel(sessionId, chargesApi.createChargeEvent(sessionId.value, stopEvent));
-        } catch (final RestClientException exception) {
-            throw new RuntimeException(exception); // TODO better error handling
-        }
+        final CreateChargeEventRequest stopEvent = new CreateChargeEventRequest();
+        final Event event = new Event();
+        event.setNature(Event.NatureEnum.STOP_REQUESTED);
+        event.setData(ImmutableMap.of(
+                "authorization", token.value,
+                "chargePoint", chargePointId.id
+        ));
+        stopEvent.setEvent(event);
+        return apiEventToModel(sessionId, getResponseOrChargingSessionError(chargesApi.createChargeEvent(sessionId.value, stopEvent)));
     }
 
-    static ChargingSession apiSessionToModel(final ApiCharge apiCharge) {
-        return new ChargingSession(
-                new ChargingSessionId(apiCharge.getId()),
-                new CustomerKeyId(apiCharge.getAccount()),
-                apiSessionPriceToModel(apiCharge.getPrice()),
-                apiTimeToNullableInstant(apiCharge.getStartTime()),
-                apiTimeToNullableInstant(apiCharge.getStopTime()),
-                apiSessionStateToModel(apiCharge.getState())
-        );
+    static ChargingSessionBuilder apiSessionToModel(final ApiCharge apiCharge) {
+        return new ChargingSessionBuilder().setId(new ChargingSessionId(apiCharge.getId()))
+                .setCustomerKeyId(new CustomerKeyId(apiCharge.getAccount()))
+                .setPrice(apiSessionPriceToModel(apiCharge.getPrice()))
+                .setStartTime(apiTimeToNullableInstant(apiCharge.getStartTime()))
+                .setEndTime(apiTimeToNullableInstant(apiCharge.getStopTime()))
+                .setStatus(apiSessionStateToModel(apiCharge.getState()))
+                .setConnectorId(apiCharge.getConnectorId() != null ? new ConnectorId(apiCharge.getConnectorId()) : null);
     }
 
     private static Price apiSessionPriceToModel(final ApiAmount apiPrice) {
@@ -145,7 +135,16 @@ public class ChargingSessionRepository {
         );
     }
 
+    private <T, E extends ExternalApiException> T getResponseOrChargingSessionError(CompletableFuture<T> request) throws E {
+        return getResponseOrThrowError(execute(request), ChargingSessionApiException::new);
+    }
+
     private static Instant apiTimeToNullableInstant(final Long time) {
         return ofNullable(time).map(Instant::ofEpochMilli).orElse(null);
+    }
+
+    @Override
+    public Integer getTimeout() {
+        return DEFAULT_TIME_OUT;
     }
 }

@@ -46,13 +46,8 @@ public class CustomerKeyDataUtils {
         ));
         c.setIsEnabled(true);
 
-        final CustomerKeyTypeResponse type = new CustomerKeyTypeResponse();
-        type.setId(CommonDataUtils.getNextId());
-        type.setName(CommonDataUtils.randomUUID());
-        type.setDescription(CommonDataUtils.randomUUID());
-        type.setCreated(now);
-        type.setUpdated(now);
-        c.setType(type);
+
+        c.setType(randomCustomerKeyTypeResponse());
         return c;
     }
 
@@ -87,5 +82,16 @@ public class CustomerKeyDataUtils {
                 .name(CommonDataUtils.randomUUID())
                 .keyIdentifier(CommonDataUtils.randomUUID().substring(0, 20))
                 .addUserPaymentOption(CommonDataUtils.getNextId());
+    }
+
+    public static CustomerKeyTypeResponse randomCustomerKeyTypeResponse() {
+        final Long now = Instant.now().toEpochMilli();
+        final CustomerKeyTypeResponse type = new CustomerKeyTypeResponse();
+        type.setId(CommonDataUtils.getNextId());
+        type.setName(CommonDataUtils.randomUUID());
+        type.setDescription(CommonDataUtils.randomUUID());
+        type.setCreated(now);
+        type.setUpdated(now);
+        return type;
     }
 }

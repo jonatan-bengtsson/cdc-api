@@ -131,7 +131,7 @@ public class ChargePointSiteMapperTest {
         double current = 120;
         ConnectorCapability.ModeEnum mode = ConnectorCapability.ModeEnum.MODE1;
         double voltage = 20;
-        BasicConnector.OperationalStatusEnum operationalStatus = BasicConnector.OperationalStatusEnum.OPERATIONAL;
+        BasicConnector.AdminStatusEnum adminStatus = BasicConnector.AdminStatusEnum.OPERATIONAL;
         ConnectorStatusResponse status = ConnectorDataUtils.createConnectorStatusResponse(connectorId, ConnectorStatusResponse.ConnectorStatusEnum.AVAILABLE);
         ConnectorPrice price = new ConnectorPrice(new ConnectorId(connectorId), "123.45 SEK/min");
 
@@ -142,10 +142,9 @@ public class ChargePointSiteMapperTest {
                 .data(new Connector()
                 .basicConnector(new BasicConnector()
                         .chargePointId(chargePointId)
-                        .connectorModelId(connectorModelId)
                         .connectorNumber(number)
                         .connectorType(connectorType)
-                        .operationalStatus(operationalStatus)
+                        .adminStatus(adminStatus)
                 )
                 .connectorCapability(new ConnectorCapability()
                 .current(current)
@@ -175,7 +174,7 @@ public class ChargePointSiteMapperTest {
         List<ConnectorEntity> connectors = Arrays.asList(
                 createConnector(chargePointId, connectorId, connectorModelId, connectorNumber)
         );
-        BasicChargePoint.OperationalStatusEnum status = BasicChargePoint.OperationalStatusEnum.IN_OPERATION;
+        BasicChargePoint.AdminStatusEnum status = BasicChargePoint.AdminStatusEnum.IN_OPERATION;
 
         CompleteChargePoint ccp = createCompleteChargePoint(chargePointId, chargePointTypeId, connectors, status);
 
@@ -202,7 +201,7 @@ public class ChargePointSiteMapperTest {
         Long locationId = 6L;
         String siteName = "Tingcore HQ";
 
-        BasicChargePoint.OperationalStatusEnum chargePointOperationalStatus = BasicChargePoint.OperationalStatusEnum.IN_OPERATION;
+        BasicChargePoint.AdminStatusEnum chargePointAdminStatus = BasicChargePoint.AdminStatusEnum.IN_OPERATION;
         Address address = new Address()
                 .city("City")
                 .countryIsoCode("SE")
@@ -233,7 +232,7 @@ public class ChargePointSiteMapperTest {
                         .locationId(locationId))
                 .metadata(new EntityMetadata().id(siteId)))
                 .chargePoints(Collections.singletonList(
-                        createCompleteChargePoint(chargePointId, chargePointTypeId, connectors, chargePointOperationalStatus))
+                        createCompleteChargePoint(chargePointId, chargePointTypeId, connectors, chargePointAdminStatus))
                 )
                 .locationEntity(location);
 

@@ -36,4 +36,8 @@ public class SocialSecurityNumber extends BaseAttributeModel {
     public void setFormatter(String formatter) {
         this.formatter = formatter;
     }
+
+    public SocialSecurityNumber copyWithoutId () {
+        return new SocialSecurityNumber(null, this.socialSecurityNumber,this.formatter);
+    }
 }

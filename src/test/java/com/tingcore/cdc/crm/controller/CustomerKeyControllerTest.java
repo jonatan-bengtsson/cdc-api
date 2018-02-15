@@ -44,7 +44,7 @@ public class CustomerKeyControllerTest extends ControllerUnitTest {
     public void getCustomerKeys() throws Exception {
         final PageResponse<CustomerKey> mockResponse = new PageResponse<>(
                 newArrayList(CustomerKeyDataUtils.randomCustomerKey().build(), CustomerKeyDataUtils.randomCustomerKey().build()));
-        given(customerKeyService.findByUserId(authorizedUser.getUser().getId())).willReturn(mockResponse);
+        given(customerKeyService.findByUserId(authorizedUser.getId())).willReturn(mockResponse);
         MvcResult result = mockMvc.perform(get("/v1/customer-keys"))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -57,7 +57,7 @@ public class CustomerKeyControllerTest extends ControllerUnitTest {
     public void failGetCustomerKeyByIdExternalGatewayTimeout() throws Exception {
         final Long id = CommonDataUtils.getNextId();
         final String encodedId = hashIdService.encode(id);
-        given(customerKeyService.findByCustomerKeyId(authorizedUser.getUser().getId(), id)).willThrow(new UsersApiException(ErrorResponse.gatewayTimeout().build()));
+        given(customerKeyService.findByCustomerKeyId(authorizedUser.getId(), id)).willThrow(new UsersApiException(ErrorResponse.gatewayTimeout().build()));
         mockMvc.perform(get("/v1/customer-keys/{id}", encodedId))
                 .andExpect(status().isGatewayTimeout())
                 .andExpect(content().string("{\"statusCode\":504,\"status\":\"Gateway Timeout\"}"));
@@ -68,7 +68,7 @@ public class CustomerKeyControllerTest extends ControllerUnitTest {
         final CustomerKey mockResponse = CustomerKeyDataUtils.randomCustomerKey().build();
         final Long id = CommonDataUtils.getNextId();
         final String encodedId = hashIdService.encode(id);
-        given(customerKeyService.findByCustomerKeyId(authorizedUser.getUser().getId(), id)).willReturn(mockResponse);
+        given(customerKeyService.findByCustomerKeyId(authorizedUser.getId(), id)).willReturn(mockResponse);
         MvcResult result = mockMvc.perform(get("/v1/customer-keys/{id}", encodedId))
                 .andExpect(status().isOk())
                 .andReturn();

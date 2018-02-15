@@ -43,7 +43,10 @@ public abstract class ControllerUnitTest {
     public void setUp() {
         final UserResponse authorizedUserMock = mock(UserResponse.class);
         when(authorizedUserMock.getId()).thenReturn(CommonDataUtils.getNextId());
-        given(authorizedUser.getUser()).willReturn(authorizedUserMock);
+        final Long authorizedUserId = CommonDataUtils.getNextId();
+        final String encodedAuthorizedUserId = hashIdService.encode(authorizedUserId);
+        given(authorizedUser.getId()).willReturn(authorizedUserId);
+        given(authorizedUser.getEncodedId()).willReturn(encodedAuthorizedUserId);
     }
 }
 

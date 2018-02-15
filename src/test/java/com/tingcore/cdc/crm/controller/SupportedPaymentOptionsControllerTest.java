@@ -41,7 +41,7 @@ public class SupportedPaymentOptionsControllerTest extends ControllerUnitTest {
     @Test
     public void getSupportedPaymentOptions() throws Exception {
         final PaymentOptionResponse mockResponse = PaymentOptionDataUtils.randomPaymentOption();
-        given(paymentOptionService.findSupportedPaymentOptions(authorizedUser.getUser().getId())).willReturn(Collections.singletonList(mockResponse));
+        given(paymentOptionService.findSupportedPaymentOptions(authorizedUser.getId())).willReturn(Collections.singletonList(mockResponse));
         MvcResult result = mockMvc.perform(get("/v1/supported-payment-options"))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -53,7 +53,7 @@ public class SupportedPaymentOptionsControllerTest extends ControllerUnitTest {
 
     @Test
     public void failGetSupportedPaymentOptionsUnauthorized() throws Exception {
-        given(paymentOptionService.findSupportedPaymentOptions(authorizedUser.getUser().getId())).willThrow(new UsersApiException(ErrorResponse.unauthorized().build()));
+        given(paymentOptionService.findSupportedPaymentOptions(authorizedUser.getId())).willThrow(new UsersApiException(ErrorResponse.unauthorized().build()));
         mockMvc.perform(get("/v1/supported-payment-options"))
                 .andExpect(status().isUnauthorized())
                 .andExpect(content().string("{\"statusCode\":401,\"status\":\"Unauthorized\"}"));

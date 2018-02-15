@@ -1,7 +1,7 @@
 package com.tingcore.cdc.crm.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.tingcore.cdc.crm.constant.JsonPropertyConstant;
+import com.tingcore.cdc.crm.constant.FieldConstant;
 
 import java.time.Instant;
 
@@ -20,12 +20,17 @@ public class InstantAttribute extends BaseAttributeModel {
     public InstantAttribute() {
     }
 
-    @JsonProperty(JsonPropertyConstant.VALUE)
+    @JsonProperty(FieldConstant.VALUE)
     public Instant getValue() {
         return value;
     }
 
     public void setValue(final Instant value) {
         this.value = value;
+    }
+
+    @Override
+    public InstantAttribute copyWithoutId () {
+        return new InstantAttribute(null, this.value);
     }
 }

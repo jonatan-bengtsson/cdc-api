@@ -11,7 +11,6 @@ import com.tingcore.cdc.charging.repository.PriceRepository;
 import com.tingcore.cdc.controller.ApiUtils;
 import com.tingcore.charging.assets.api.ChargeSitesApi;
 import com.tingcore.charging.assets.model.ChargePointSiteEntity;
-import com.tingcore.charging.assets.model.ChargePointSiteWithAvailabilityRules;
 import com.tingcore.charging.assets.model.CompleteChargePointSite;
 import com.tingcore.charging.operations.api.OperationsApi;
 import com.tingcore.charging.operations.model.ConnectorStatusResponse;
@@ -23,7 +22,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -65,7 +63,7 @@ public class ChargePointSiteService {
      * @return response with basic versions of sites within the bounding box represented by the first and second coordinates.
      */
     public PageResponse<BasicChargeSite> getChargeSiteByCoordinate(double lat1, double lng1, double lat2, double lng2) {
-        List<ChargePointSiteWithAvailabilityRules> chargeSiteWithAvailabilityRules = ApiUtils.getResponseOrThrowError(
+        List<CompleteChargePointSite> completeChargePointSites = ApiUtils.getResponseOrThrowError(
                 assetRepository.execute(chargeSitesApi.findChargePointSitesByLocationUsingGET(lat1, lng1, lat2, lng2)),
                 AssetServiceException::new
         );
@@ -73,7 +71,7 @@ public class ChargePointSiteService {
         ApiResponse<StatusBatchResponse> response = operationsRepository.execute(
                 operationsApi.getChargePointStatusUsingPOST(
                         OperationsApiMapper.toBatchStatusRequest(
-                                chargeSiteWithAvailabilityRules.stream().map(ChargePointSiteWithAvailabilityRules::getChargePointSite)
+                                completeChargePointSites.stream()
                         ))
         );
 
@@ -84,14 +82,13 @@ public class ChargePointSiteService {
         }
 
         return response.getResponseOptional()
-                .map(statusBatchResponse -> toChargeSiteWithStatus(chargeSiteWithAvailabilityRules, statusBatchResponse))
-                .orElse(toChargeSiteWithStatusUnknown(chargeSiteWithAvailabilityRules));
+                .map(statusBatchResponse -> toChargeSiteWithStatus(completeChargePointSites, statusBatchResponse))
+                .orElse(toChargeSiteWithStatusUnknown(completeChargePointSites));
     }
 
-    private PageResponse<BasicChargeSite> toChargeSiteWithStatusUnknown(List<ChargePointSiteWithAvailabilityRules> chargeSiteWithAvailabilityRules) {
-        List<BasicChargeSite> previewChargeSites = chargeSiteWithAvailabilityRules.stream()
-                .map(cs -> {
-                    CompleteChargePointSite ccps = cs.getChargePointSite();
+    private PageResponse<BasicChargeSite> toChargeSiteWithStatusUnknown(List<CompleteChargePointSite> completeChargePointSites) {
+        List<BasicChargeSite> previewChargeSites = completeChargePointSites.stream()
+                .map(ccps -> {
                     ChargePointSiteEntity chargePointSiteEntity = ccps.getChargePointSiteEntity();
                     long chargePointSiteId = chargePointSiteEntity.getMetadata().getId();
                     String chargePointSiteName = chargePointSiteEntity.getData().getName();
@@ -108,12 +105,11 @@ public class ChargePointSiteService {
         return new PageResponse<>(previewChargeSites);
     }
 
-    private PageResponse<BasicChargeSite> toChargeSiteWithStatus(List<ChargePointSiteWithAvailabilityRules> chargeSiteWithAvailabilityRules, StatusBatchResponse statusBatchResponse) {
-        Map<Long, ConnectorStatusResponse> connectorStatusMap = ConnectorStatusMapper.getStatusMap(chargeSiteWithAvailabilityRules, statusBatchResponse);
+    private PageResponse<BasicChargeSite> toChargeSiteWithStatus(List<CompleteChargePointSite> completeChargePointSites, StatusBatchResponse statusBatchResponse) {
+        Map<Long, ConnectorStatusResponse> connectorStatusMap = ConnectorStatusMapper.getStatusMap(statusBatchResponse);
 
-        List<BasicChargeSite> previewChargeSites = chargeSiteWithAvailabilityRules.stream()
-                .map(cs -> {
-                    CompleteChargePointSite ccps = cs.getChargePointSite();
+        List<BasicChargeSite> previewChargeSites = completeChargePointSites.stream()
+                .map(ccps -> {
                     ChargePointSiteStatuses aggergatedSitesStatues = ChargePointSiteMapper.getAggregatedSitesStatues(
                             ccps.getChargePoints().stream().flatMap(cp -> cp.getConnectorEntities().stream()).collect(toList()),
                             connectorStatusMap
@@ -141,16 +137,15 @@ public class ChargePointSiteService {
      * @return A detailed answer of the charge point site including statuses on charge points and connectors
      */
     public com.tingcore.cdc.charging.model.ChargePointSite getChargeSite(long id) {
-        ChargePointSiteWithAvailabilityRules chargePointSiteWithAvailabilityRules = ApiUtils.getResponseOrThrowError(
-                assetRepository.execute(chargeSitesApi.findChargePointSiteWithAvailabilityRulesByIdUsingGET(id)),
+        CompleteChargePointSite completeChargePointSite = ApiUtils.getResponseOrThrowError(
+                assetRepository.execute(chargeSitesApi.findCompleteChargeSiteByIdUsingGET(id)),
                 AssetServiceException::new
         );
 
-        CompleteChargePointSite ccps = chargePointSiteWithAvailabilityRules.getChargePointSite();
 
         ApiResponse<StatusBatchResponse> statusResponse = operationsRepository.execute(
                 operationsApi.getChargePointStatusUsingPOST(
-                        OperationsApiMapper.toBatchStatusRequest(ccps)
+                        OperationsApiMapper.toBatchStatusRequest(completeChargePointSite)
                 )
         );
 
@@ -159,27 +154,26 @@ public class ChargePointSiteService {
             LOG.warn("Error from operations", statusResponse.getError());
         }
 
-        List<ConnectorPrice> connectorPrices = priceRepository.priceForConnectors(chargePointSiteWithAvailabilityRules
-                .getChargePointSite()
+        List<ConnectorPrice> connectorPrices = priceRepository.priceForConnectors(completeChargePointSite
                 .getChargePoints()
                 .stream()
                 .flatMap(chargePoint -> chargePoint.getConnectorEntities().stream()).map(connector -> new ConnectorId(connector.getMetadata().getId())).collect(toList()));
 
         return toChargePointSite(
-                chargePointSiteWithAvailabilityRules,
+                completeChargePointSite,
                 statusResponse.getResponseOptional().orElse(null),
                 connectorPrices
         );
     }
 
-    private ChargePointSite toChargePointSite(ChargePointSiteWithAvailabilityRules chargePointSiteWithAvailabilityRules,
+    private ChargePointSite toChargePointSite(CompleteChargePointSite completeChargePointSite,
                                               StatusBatchResponse statusBatchResponse,
                                               List<ConnectorPrice> connectorPrices) {
-        final Map<Long, ConnectorStatusResponse> connectorStatusMap = ofNullable(statusBatchResponse).map(statuses -> ConnectorStatusMapper.getStatusMap(Collections.singletonList(chargePointSiteWithAvailabilityRules), statuses)).orElse(emptyMap());
-        final Map<Long, ConnectorPrice> connectorPriceMap = connectorPrices.stream().collect(toMap(price -> price.connectorId.value, identity()));
+        final Map<Long, ConnectorStatusResponse> connectorStatusMap = ofNullable(statusBatchResponse).map(statuses -> ConnectorStatusMapper.getStatusMap(statuses)).orElse(emptyMap());
+        final Map<Long, ConnectorPrice> connectorPriceMap = connectorPrices.stream().collect(toMap(price -> price.connectorId.id, identity()));
 
         return ChargePointSiteMapper.toChargePointSite(
-                chargePointSiteWithAvailabilityRules.getChargePointSite(),
+                completeChargePointSite,
                 connectorStatusMap::get,
                 connectorPriceMap::get
         );

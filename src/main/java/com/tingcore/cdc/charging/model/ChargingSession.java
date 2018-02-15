@@ -12,19 +12,28 @@ public class ChargingSession {
     public final Instant startTime;
     public final Instant endTime;
     public final ChargingSessionStatus status;
+    public final ConnectorId connectorId;
+    public final ChargePointId chargePointId;
+    public final ChargeSiteId chargeSiteId;
 
     public ChargingSession(final ChargingSessionId id,
                            final CustomerKeyId customerKeyId,
                            final Price price,
                            final Instant startTime,
                            final Instant endTime,
-                           final ChargingSessionStatus status) {
+                           final ChargingSessionStatus status,
+                           final ConnectorId connectorId,
+                           final ChargePointId chargePointId,
+                           final ChargeSiteId chargeSiteId) {
         this.id = notNull(id);
         this.customerKeyId = notNull(customerKeyId);
         this.price = price;
         this.startTime = startTime;
         this.endTime = endTime;
         this.status = notNull(status);
+        this.connectorId = connectorId;
+        this.chargePointId = chargePointId;
+        this.chargeSiteId = chargeSiteId;
     }
 
     @Override

@@ -25,16 +25,16 @@ public class AttributeMapper {
     }
 
 
-    static List<ApprovedAgreement> findApprovedAgreements(final List<AttributeResponse> attributes) {
-        List<AttributeResponse> attributeResponses = findAttributesFromList(attributes, AttributeConstant.APPROVED_AGREEMENTS);
+    static List<ApprovedTermsConditions> findApprovedTermsConditions(final List<AttributeResponse> attributes) {
+        List<AttributeResponse> attributeResponses = findAttributesFromList(attributes, AttributeConstant.APPROVED_TERMS_CONDITIONS);
         return attributeResponses.stream()
-                .map(attributeResponse -> parseAttributeValue(attributeResponse, ApprovedAgreement.class))
+                .map(attributeResponse -> parseAttributeValue(attributeResponse, ApprovedTermsConditions.class))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .collect(Collectors.toList());
     }
 
-    static List<PhoneNumber> findPhoneNumberResponses(final List<AttributeResponse> attributes, final String phoneNumberAttributeName) {
+    static List<PhoneNumber> findPhoneNumbers(final List<AttributeResponse> attributes, final String phoneNumberAttributeName) {
         List<AttributeResponse> attributeResponses = findAttributesFromList(attributes, phoneNumberAttributeName);
         return attributeResponses.stream()
                 .map(attributeResponse -> parseAttributeValue(attributeResponse, PhoneNumber.class))
@@ -43,7 +43,7 @@ public class AttributeMapper {
                 .collect(Collectors.toList());
     }
 
-    static Optional<AddressCRM> findBillingAddressResponse(final List<AttributeResponse> attributes) {
+    static Optional<AddressCRM> findBillingAddress(final List<AttributeResponse> attributes) {
         Optional<AttributeResponse> attributeResponse = findAttributeFromList(attributes, AttributeConstant.ADDRESS);
 
         if (attributeResponse.isPresent()) {
@@ -55,20 +55,18 @@ public class AttributeMapper {
         }
     }
 
-    static Optional<ApprovedMarketInfo> findApprovedMarketInfo(final List<AttributeResponse> attributes) {
-        Optional<AttributeResponse> attributeResponse = findAttributeFromList(attributes, AttributeConstant.APPROVED_MARKET_INFO);
+    static List<ApprovedMarketInfo> findApprovedMarketInfo(final List<AttributeResponse> attributes) {
 
-        if (attributeResponse.isPresent()) {
-            Optional<ApprovedMarketInfo> approvedMarketInfoResponse = parseAttributeValue(attributeResponse.get(), ApprovedMarketInfo.class);
-            approvedMarketInfoResponse.ifPresent(approvedMarketInfo1 -> approvedMarketInfo1.setId(attributeResponse.get().getAttributeValue().getId()));
-            return approvedMarketInfoResponse;
-        } else {
-            return Optional.empty();
-        }
+        List<AttributeResponse> attributeResponses = findAttributesFromList(attributes, AttributeConstant.APPROVED_MARKET_INFO);
+        return attributeResponses.stream()
+                .map(attributeResponse -> parseAttributeValue(attributeResponse, ApprovedMarketInfo.class))
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .collect(Collectors.toList());
     }
 
 
-    static List<AddressCRM> findAddressResponse(final List<AttributeResponse> attributes) {
+    static List<AddressCRM> findAddress(final List<AttributeResponse> attributes) {
         List<AttributeResponse> attributeResponses = findAttributesFromList(attributes, AttributeConstant.ADDRESS);
         return attributeResponses.stream()
                 .map(attributeResponse -> parseAttributeValue(attributeResponse, AddressCRM.class))
@@ -77,8 +75,8 @@ public class AttributeMapper {
                 .collect(Collectors.toList());
     }
 
-    static List<LicensePlate> findLicensePlateResponse(final List<AttributeResponse> attributes) {
-        List<AttributeResponse> attributeResponses = findAttributesFromList(attributes, AttributeConstant.LICENSE_PLATES);
+    static List<LicensePlate> findLicensePlates(final List<AttributeResponse> attributes) {
+        List<AttributeResponse> attributeResponses = findAttributesFromList(attributes, AttributeConstant.LICENSE_PLATE);
         return attributeResponses.stream()
                 .map(attributeResponse -> parseAttributeValue(attributeResponse, LicensePlate.class))
                 .filter(Optional::isPresent)
@@ -122,7 +120,7 @@ public class AttributeMapper {
         }
     }
 
-    static List<AddressCRM> findVisitingAddressResponse(final List<AttributeResponse> attributes) {
+    static List<AddressCRM> findVisitingAddress(final List<AttributeResponse> attributes) {
         List<AttributeResponse> attributeResponses = findAttributesFromList(attributes, AttributeConstant.VISITING_ADDRESS);
         return attributeResponses.stream()
                 .map(attributeResponse -> parseAttributeValue(attributeResponse, AddressCRM.class))
@@ -143,7 +141,7 @@ public class AttributeMapper {
         }
     }
 
-    static Optional<InstantAttribute> findDateResponse(List<AttributeResponse> attributes, String attributeName) {
+    static Optional<InstantAttribute> findDate(List<AttributeResponse> attributes, String attributeName) {
         Optional<AttributeResponse> attributeResponse = findAttributeFromList(attributes, attributeName);
 
         if (attributeResponse.isPresent()) {
@@ -153,6 +151,16 @@ public class AttributeMapper {
         } else {
             return Optional.empty();
         }
+    }
+
+    public static List<ApprovedPrivacyPolicy> findApprovedPrivacyPolicies(List<AttributeResponse> attributes) {
+
+        List<AttributeResponse> attributeResponses = findAttributesFromList(attributes, AttributeConstant.APPROVED_PRIVACY_POLICY);
+        return attributeResponses.stream()
+                .map(attributeResponse -> parseAttributeValue(attributeResponse, ApprovedPrivacyPolicy.class))
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .collect(Collectors.toList());
     }
 
     private static List<StringAttribute> findStringAttributes(final List<AttributeResponse> attributes, final String attributeName) {

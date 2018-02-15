@@ -1,10 +1,8 @@
 package com.tingcore.cdc.filter;
 
 import com.tingcore.cdc.constant.SpringProfilesConstant;
-import com.tingcore.cdc.crm.repository.UserRepository;
-import com.tingcore.commons.api.filter.CognitoParamsFilter;
+import com.tingcore.commons.api.service.HashIdService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,37 +25,20 @@ import java.util.Collections;
 })
 public class FilterConfiguration {
 
+    private final HashIdService hashIdService;
     private final FilterUtils filterUtils;
-    private final UserRepository userRepository;
-    private String cognitoUserIdHeaderName;
-    private String cognitoAuthProviderHeaderName;
 
     @Autowired
-    public FilterConfiguration(final UserRepository userRepository, final FilterUtils filterUtils) {
-        this.userRepository = userRepository;
+    public FilterConfiguration(final HashIdService hashIdService, final FilterUtils filterUtils) {
+        this.hashIdService = hashIdService;
         this.filterUtils = filterUtils;
     }
 
     @Bean
     AuthorizationFilter authorizationFilter() {
-        return new AuthorizationFilter(userRepository, filterUtils, cognitoAuthProviderHeaderName, cognitoUserIdHeaderName);
+        return new AuthorizationFilter(hashIdService, filterUtils);
     }
 
-    /**
-     * Registration of the filter which sets the cognito user id.
-     * No verification is done in this filter, it only extracts the values from the cognitoAuthProviderHeaderName and
-     * stores it in cognitoUserIdHeaderName. Thus it is okay to apply it to all resources
-     */
-    @Bean
-    public FilterRegistrationBean registerCognitoParamsFilter() {
-        FilterRegistrationBean registrationBean = new FilterRegistrationBean();
-
-        registrationBean.setFilter(new CognitoParamsFilter(cognitoAuthProviderHeaderName, cognitoUserIdHeaderName));
-        registrationBean.setOrder(1);
-        registrationBean.setUrlPatterns(Collections.singletonList("*"));
-
-        return registrationBean;
-    }
 
     /**
      * Registration of the filter which verifies with the user service that the authenticated user exists.
@@ -72,15 +53,5 @@ public class FilterConfiguration {
         registrationBean.setUrlPatterns(Collections.singletonList("/v1/*"));
 
         return registrationBean;
-    }
-
-    @Value("${app.aws.headers.cognito-auth-provider}")
-    public void setCognitoAuthProviderHeaderName(final String cognitoAuthProviderHeaderName) {
-        this.cognitoAuthProviderHeaderName = cognitoAuthProviderHeaderName;
-    }
-
-    @Value("${app.aws.headers.cognito-user-id}")
-    public void setCognitoUserIdHeaderName(final String cognitoUserIdHeaderName) {
-        this.cognitoUserIdHeaderName = cognitoUserIdHeaderName;
     }
 }

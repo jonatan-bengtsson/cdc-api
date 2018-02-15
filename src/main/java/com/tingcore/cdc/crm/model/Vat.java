@@ -37,4 +37,9 @@ public class Vat extends BaseAttributeModel {
     public void setFormatter(String formatter) {
         this.formatter = formatter;
     }
+
+    @Override
+    public Vat copyWithoutId () {
+        return new Vat(null, this.vat, this.formatter);
+    }
 }

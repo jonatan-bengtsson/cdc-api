@@ -36,7 +36,7 @@ public class PaymentOptionsControllerTest extends ControllerUnitTest {
     public void getUserPaymentOptions() throws Exception {
         final PageResponse<UserPaymentOption> mockResponse = new PageResponse<>(
                 newArrayList(PaymentOptionDataUtils.randomUserPaymentOption().build(), PaymentOptionDataUtils.randomUserPaymentOption().build()));
-        given(paymentOptionService.findUserPaymentOptions(authorizedUser.getUser().getId())).willReturn(mockResponse);
+        given(paymentOptionService.findUserPaymentOptions(authorizedUser.getId())).willReturn(mockResponse);
         MvcResult result = mockMvc.perform(get("/v1/payment-options"))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -49,7 +49,7 @@ public class PaymentOptionsControllerTest extends ControllerUnitTest {
     public void failGetUserPaymentOptionsGatewayTimeout() throws Exception {
         final Long id = CommonDataUtils.getNextId();
         final String encodedId = hashIdService.encode(id);
-        given(paymentOptionService.findUserPaymentOptions(authorizedUser.getUser().getId()))
+        given(paymentOptionService.findUserPaymentOptions(authorizedUser.getId()))
                 .willThrow(new UsersApiException(ErrorResponse.gatewayTimeout().build()));
         mockMvc.perform(get("/v1/payment-options", encodedId))
                 .andExpect(status().isGatewayTimeout())

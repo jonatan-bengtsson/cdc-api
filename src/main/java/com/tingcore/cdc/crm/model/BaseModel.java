@@ -5,6 +5,7 @@ import com.tingcore.cdc.crm.constant.FieldConstant;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.time.Instant;
+import java.util.Objects;
 
 abstract class BaseModel {
 
@@ -40,5 +41,18 @@ abstract class BaseModel {
     @ApiModelProperty(value = "The date that this entity was last modified, formatted as epoch (ms)", example = "1509006978565", required = true)
     public Instant getUpdated() {
         return updated;
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        final BaseModel baseModel = (BaseModel) o;
+        return Objects.equals(id, baseModel.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

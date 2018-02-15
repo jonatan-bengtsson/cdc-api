@@ -14,18 +14,23 @@ public class User {
     private final String email;
     private final List<AddressCRM> address;
     private final StringAttribute timezone;
-    private final List<ApprovedAgreement> approvedAgreements;
-    private final ApprovedMarketInfo approvedMarketInfo;
+    private final List<ApprovedTermsConditions> approvedTermsConditions;
+    private final List<ApprovedMarketInfo> approvedMarketInfo;
     private final List<LicensePlate> licensePlates;
     private final SocialSecurityNumber socialSecurityNumber;
     private final StringAttribute customerNumber;
     private final BooleanAttribute hasChargingAccess;
     private final StringAttribute customerType;
     private final List<PhoneNumber> phoneNumbers;
-    private final StringAttribute organizationNumber;
+    private final OrganizationNumber organizationNumber;
     private final StringAttribute language;
     private final InstantAttribute activationDate;
-    private final InstantAttribute expirationDate;
+    private final List<ApprovedPrivacyPolicy> approvedPrivacyPolicies;
+    private final StringAttribute name;
+    private final StringAttribute contactFirstName;
+    private final StringAttribute contactLastName;
+    private final List<PhoneNumber> contactPhoneNumber;
+    private final StringAttribute contactEmail;
 
     public User(final Long id,
                 final Organization organization,
@@ -34,19 +39,23 @@ public class User {
                 final String email,
                 final List<AddressCRM> address,
                 final StringAttribute timezone,
-                final List<ApprovedAgreement> approvedAgreements,
-                final ApprovedMarketInfo approvedMarketInfo,
+                final List<ApprovedTermsConditions> approvedTermsConditions,
+                final List<ApprovedMarketInfo> approvedMarketInfo,
                 final List<LicensePlate> licensePlates,
                 final SocialSecurityNumber socialSecurityNumber,
                 final StringAttribute customerNumber,
                 final BooleanAttribute hasChargingAccess,
                 final StringAttribute customerType,
                 final List<PhoneNumber> phoneNumbers,
-                final StringAttribute organizationNumber,
-                final List<StringAttribute> roles,
+                final OrganizationNumber organizationNumber,
                 final StringAttribute language,
                 final InstantAttribute activationDate,
-                final InstantAttribute expirationDate) {
+                final List<ApprovedPrivacyPolicy> approvedPrivacyPolicies,
+                final StringAttribute name,
+                final StringAttribute contactFirstName,
+                final StringAttribute contactLastName,
+                final List<PhoneNumber> contactPhoneNumber,
+                final StringAttribute contactEmail) {
         this.id = id;
         this.organization = organization;
         this.firstName = firstName;
@@ -54,7 +63,7 @@ public class User {
         this.email = email;
         this.address = address;
         this.timezone = timezone;
-        this.approvedAgreements = approvedAgreements;
+        this.approvedTermsConditions = approvedTermsConditions;
         this.approvedMarketInfo = approvedMarketInfo;
         this.licensePlates = licensePlates;
         this.socialSecurityNumber = socialSecurityNumber;
@@ -65,7 +74,12 @@ public class User {
         this.organizationNumber = organizationNumber;
         this.language = language;
         this.activationDate = activationDate;
-        this.expirationDate = expirationDate;
+        this.approvedPrivacyPolicies = approvedPrivacyPolicies;
+        this.name = name;
+        this.contactFirstName = contactFirstName;
+        this.contactLastName = contactLastName;
+        this.contactPhoneNumber = contactPhoneNumber;
+        this.contactEmail = contactEmail;
     }
 
     public User() {
@@ -76,7 +90,7 @@ public class User {
         this.email = null;
         this.address = null;
         this.timezone = null;
-        this.approvedAgreements = null;
+        this.approvedTermsConditions = null;
         this.approvedMarketInfo = null;
         this.licensePlates = null;
         this.socialSecurityNumber = null;
@@ -87,7 +101,12 @@ public class User {
         this.organizationNumber = null;
         this.language = null;
         this.activationDate = null;
-        this.expirationDate = null;
+        this.approvedPrivacyPolicies = null;
+        this.name = null;
+        this.contactFirstName = null;
+        this.contactLastName = null;
+        this.contactEmail = null;
+        this.contactPhoneNumber = null;
     }
     
     
@@ -128,15 +147,15 @@ public class User {
         return timezone;
     }
     
-    @JsonProperty(FieldConstant.APPROVED_AGREEMENT)
+    @JsonProperty(FieldConstant.APPROVED_TERMS_CONDITIONS)
     @ApiModelProperty(position = 7)
-    public List<ApprovedAgreement> getApprovedAgreements() {
-        return approvedAgreements;
+    public List<ApprovedTermsConditions> getApprovedTermsConditions() {
+        return approvedTermsConditions;
     }
     
-    @JsonProperty(FieldConstant.APPROVES_MARKET_INFO)
+    @JsonProperty(FieldConstant.APPROVED_MARKET_INFO)
     @ApiModelProperty(position = 8)
-    public ApprovedMarketInfo getApprovedMarketInfo() {
+    public List<ApprovedMarketInfo> getApprovedMarketInfo() {
         return approvedMarketInfo;
     }
     
@@ -184,7 +203,7 @@ public class User {
     
     @JsonProperty(FieldConstant.ORGANIZATION_NUMBER)
     @ApiModelProperty(position = 16)
-    public StringAttribute getOrganizationNumber() {
+    public OrganizationNumber getOrganizationNumber() {
         return organizationNumber;
     }
     
@@ -199,11 +218,41 @@ public class User {
     public InstantAttribute getActivationDate() {
         return activationDate;
     }
-    
-    @JsonProperty(FieldConstant.EXPIRATION_DATE)
-    @ApiModelProperty(position = 19)
-    public InstantAttribute getExpirationDate() {
-        return expirationDate;
+
+    @JsonProperty(FieldConstant.APPROVED_PRIVACY_POLICIES)
+    @ApiModelProperty(position = 20)
+    public List<ApprovedPrivacyPolicy> getApprovedPrivacyPolicies() {
+        return approvedPrivacyPolicies;
+    }
+
+    @JsonProperty(FieldConstant.NAME)
+    @ApiModelProperty(position = 21)
+    public StringAttribute getName() {
+        return name;
+    }
+
+    @JsonProperty(FieldConstant.CONTACT_FIRST_NAME)
+    @ApiModelProperty(position = 22)
+    public StringAttribute getContactFirstName() {
+        return contactFirstName;
+    }
+
+    @JsonProperty(FieldConstant.CONTACT_LAST_NAME)
+    @ApiModelProperty(position = 23)
+    public StringAttribute getContactLastName() {
+        return contactLastName;
+    }
+
+    @JsonProperty(FieldConstant.CONTACT_EMAIL)
+    @ApiModelProperty(position = 24)
+    public StringAttribute getContactEmail() {
+        return contactEmail;
+    }
+
+    @JsonProperty(FieldConstant.CONTACT_PHONE_NUMBER)
+    @ApiModelProperty(position = 25)
+    public List<PhoneNumber> getContactPhoneNumber() {
+        return contactPhoneNumber;
     }
     
     
@@ -219,19 +268,23 @@ public class User {
         private StringAttribute lastName;
         private List<AddressCRM> address;
         private StringAttribute timezone;
-        private List<ApprovedAgreement> approvedAgreements;
-        private ApprovedMarketInfo approvedMarketInfo;
+        private List<ApprovedTermsConditions> approvedTermsConditions;
+        private List<ApprovedMarketInfo> approvedMarketInfo;
         private List<LicensePlate> licensePlates;
         private SocialSecurityNumber socialSecurityNumber;
         private StringAttribute customerNumber;
         private BooleanAttribute hasChargingAccess;
         private StringAttribute customerType;
         private List<PhoneNumber> phoneNumbers;
-        private StringAttribute organizationNumber;
-        private List<StringAttribute> roles;
+        private OrganizationNumber organizationNumber;
         private StringAttribute language;
         private InstantAttribute activationDate;
-        private InstantAttribute expirationDate;
+        private List<ApprovedPrivacyPolicy> approvedPrivacyPolicies;
+        private StringAttribute name;
+        private StringAttribute contactFirstName;
+        private StringAttribute contactLastName;
+        private List<PhoneNumber> contactPhoneNumber;
+        private StringAttribute contactEmail;
 
         Builder() {
         }
@@ -245,7 +298,6 @@ public class User {
             this.organization = organization;
             return this;
         }
-
 
         public Builder firstName(final StringAttribute firstName) {
             this.firstName = firstName;
@@ -272,12 +324,12 @@ public class User {
             return this;
         }
 
-        public Builder approvedAgreements(final List<ApprovedAgreement> approvedAgreements) {
-            this.approvedAgreements = approvedAgreements;
+        public Builder approvedTermsConditions(final List<ApprovedTermsConditions> approvedTermsConditions) {
+            this.approvedTermsConditions = approvedTermsConditions;
             return this;
         }
 
-        public Builder approvedMarketInfo(final ApprovedMarketInfo approvedMarketInfo) {
+        public Builder approvedMarketInfo(final List<ApprovedMarketInfo> approvedMarketInfo) {
             this.approvedMarketInfo = approvedMarketInfo;
             return this;
         }
@@ -308,23 +360,13 @@ public class User {
         }
 
         // organizationNumber is the id for a business customer
-        public Builder organizationNumber(final StringAttribute organizationNumber) {
+        public Builder organizationNumber(final OrganizationNumber organizationNumber) {
             this.organizationNumber = organizationNumber;
-            return this;
-        }
-
-        public Builder roles(final List<StringAttribute> roles) {
-            this.roles = roles;
             return this;
         }
 
         public Builder activationDate(final InstantAttribute activationDate) {
             this.activationDate = activationDate;
-            return this;
-        }
-
-        public Builder expirationDate(final InstantAttribute expirationDate) {
-            this.expirationDate = expirationDate;
             return this;
         }
 
@@ -338,12 +380,42 @@ public class User {
             return this;
         }
 
+        public Builder approvedPrivacyPolicies(final List<ApprovedPrivacyPolicy> approvedPrivacyPolicies) {
+            this.approvedPrivacyPolicies = approvedPrivacyPolicies;
+            return this;
+        }
+
+        public Builder name(final StringAttribute name) {
+            this.name = name;
+            return this;
+        }
+
+        public Builder contactFirstName(final StringAttribute contactFirstName) {
+            this.contactFirstName = contactFirstName;
+            return this;
+        }
+
+        public Builder contactLastName(final StringAttribute contactLastName) {
+            this.contactLastName= contactLastName;
+            return this;
+        }
+
+        public Builder contactEmail(final StringAttribute contactEmail) {
+            this.contactEmail = contactEmail;
+            return this;
+        }
+
+        public Builder contactPhoneNumber(final List<PhoneNumber> contactPhoneNumber) {
+            this.contactPhoneNumber = contactPhoneNumber;
+            return this;
+        }
+
 
         public User build() {
-            return new User(id, organization, firstName, lastName, email, address, timezone, approvedAgreements, approvedMarketInfo, licensePlates,
+            return new User(id, organization, firstName, lastName, email, address, timezone, approvedTermsConditions, approvedMarketInfo, licensePlates,
                     socialSecurityNumber, customerNumber, hasChargingAccess, customerType, phoneNumbers,
-                    organizationNumber, roles, language,
-                    activationDate, expirationDate);
+                    organizationNumber, language,
+                    activationDate, approvedPrivacyPolicies, name, contactFirstName, contactLastName, contactPhoneNumber, contactEmail);
         }
     }
 

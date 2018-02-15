@@ -17,11 +17,10 @@ public class ConnectorStatusMapper {
     /**
      * Given a list of sites with availability rule from the asset service and a status batch response from the operations service
      * a map is created with mapping connector id with a status
-     * @param sites list of ChargePointSiteWithAvailabilityRules
      * @param statusBatchResponse a status batch response that must contain statuses for each charge point and connector part of the list of sites provided
      * @return a status map mapping connector id to respective status
      */
-    public static Map<Long, ConnectorStatusResponse> getStatusMap(List<ChargePointSiteWithAvailabilityRules> sites, StatusBatchResponse statusBatchResponse) {
+    public static Map<Long, ConnectorStatusResponse> getStatusMap(StatusBatchResponse statusBatchResponse) {
         Map<Long, ConnectorStatusResponse> connectorStatusMap = new HashMap<>();
 
         statusBatchResponse.getStatusResponses()

@@ -4,8 +4,13 @@ import com.tingcore.cdc.exception.PaymentAccountFailureException;
 import com.tingcore.cdc.payments.api.ApiCreateAccountRequest;
 import com.tingcore.cdc.payments.service.PaymentAccountService;
 import com.tingcore.commons.api.service.HashIdService;
+import com.tingcore.commons.rest.ErrorResponse;
+import com.tingcore.payments.emp.model.ApiCard;
+import com.tingcore.payments.emp.model.ApiDeletedCustomer;
 import com.tingcore.payments.emp.model.ApiPaymentAccount;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -20,6 +25,7 @@ public class PaymentAccountController {
     static final String VERSION = "v1";
     static final String ACCOUNTS = "paymentaccounts";
     static final String USERS = "users";
+    static final String CARD = "card";
 
     private final PaymentAccountService paymentAccountService;
     private HashIdService hashIdService;
@@ -45,6 +51,16 @@ public class PaymentAccountController {
 
     }
 
+    @DeleteMapping("/" + USERS + "/{paymentOptionReference}")
+    @ApiOperation(code = 204, value = "Delete a users payment account.", response = ApiDeletedCustomer.class, tags = {ACCOUNTS})
+    @ApiResponses(value = {
+            @ApiResponse(code = 400, message = "Could not parse the request.", response = ErrorResponse.class),
+            @ApiResponse(code = 404, message = "Payment account with the supplied id was not found.", response = ErrorResponse.class)
+    })
+    public ApiDeletedCustomer deleteUserAccount(final @PathVariable("paymentOptionReference") @NotNull String strPaymentOption) {
+        return paymentAccountService.deleteUserAccount(strPaymentOption);
+    }
+
     @GetMapping("/" + USERS)
     @ApiOperation(value = "Get a users payment accounts.", response = ApiPaymentAccount.class, responseContainer = "List", tags = {ACCOUNTS})
     public List<ApiPaymentAccount> getUserPaymentAccounts(final @RequestParam(value = "keyId", required = false) String keyId,
@@ -61,5 +77,11 @@ public class PaymentAccountController {
                     .orElseThrow(() -> new PaymentAccountFailureException(userId));
         }
         return paymentAccountService.getAllAccountsById(key, user);
+    }
+
+    @GetMapping("/" + USERS + "/{stripetoken}" + "/" + CARD)
+    @ApiOperation(value = "Get card details from stripe", response = ApiCard.class, tags = {ACCOUNTS})
+    public ApiCard getCardInformation(@PathVariable("stripetoken") final String stripeToken) {
+        return paymentAccountService.getCardInformation(stripeToken);
     }
 }

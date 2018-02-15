@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tingcore.commons.api.repository.AbstractApiRepository;
 import com.tingcore.commons.external.ExternalApiException;
 import com.tingcore.payments.emp.api.PaymentaccountsApi;
+import com.tingcore.payments.emp.model.ApiCard;
+import com.tingcore.payments.emp.model.ApiDeletedCustomer;
 import com.tingcore.payments.emp.model.ApiPaymentAccount;
 import com.tingcore.payments.emp.model.CreateAccountRequest;
 import org.springframework.stereotype.Repository;
@@ -34,13 +36,25 @@ public class PaymentAccountRepository extends AbstractApiRepository {
         return GetResponseOrPaymentAccountError(paymentaccountsApi.getUserAccount(paymentAccountId));
     }
 
+    public ApiDeletedCustomer deleteUserAccount(final String strPaymentOption) {
+        return GetResponseOrPaymentAccountError(paymentaccountsApi.deleteUserAccount(strPaymentOption));
+    }
+
     public List<ApiPaymentAccount> getAllAccountsById(final Long keyId,
                                                       final Long userId) {
         return GetResponseOrPaymentAccountError(paymentaccountsApi.getUserPaymentAccounts(keyId, userId));
     }
 
+    public ApiCard getCardInformation(final String stripeId){
+        return GetResponseOrCardInformationError(paymentaccountsApi.getCardInformation(stripeId));
+    }
+
     private <T, E extends ExternalApiException> T GetResponseOrPaymentAccountError(CompletableFuture<T> request) throws E {
         return getResponseOrThrowError(execute(request), GetPaymentAccountApiException::new);
+    }
+
+    private <T, E extends ExternalApiException> T GetResponseOrCardInformationError(CompletableFuture<T> request) throws E {
+        return getResponseOrThrowError(execute(request), GetCardInformationApiException::new);
     }
 
     @Override

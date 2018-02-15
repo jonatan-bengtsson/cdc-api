@@ -2,7 +2,6 @@
 applicationPipeline {
     createApigw = true
     appName = 'cdc-api'
-    availability = 'public'
     desiredCountTest = 1
     desiredCountProd = 2
     businessUnit = 'ChargeAndDrive'

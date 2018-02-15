@@ -25,12 +25,6 @@ public class PaymentOptionService {
         this.paymentOptionsRepository = paymentOptionsRepository;
     }
 
-    public List<PaymentOptionResponse> findSupportedPaymentOptions(final Long userId) {
-        final ApiResponse<List<PaymentOptionResponse>> apiResponse = paymentOptionsRepository.findSupportedPaymentOptions(userId);
-        return apiResponse
-                .getResponseOptional()
-                .orElseThrow(() -> new UsersApiException(apiResponse.getError()));
-    }
 
     public PageResponse<UserPaymentOption> findUserPaymentOptions(final Long userId) {
         final ApiResponse<PageResponseUserPaymentOptionResponse> apiResponse = paymentOptionsRepository.findUserPaymentOptions(userId);

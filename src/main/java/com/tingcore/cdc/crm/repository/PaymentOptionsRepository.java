@@ -23,10 +23,6 @@ public class PaymentOptionsRepository extends AbstractUserServiceRepository {
         this.paymentOptionsApi = paymentOptionsApi;
     }
 
-    public ApiResponse<List<PaymentOptionResponse>> findSupportedPaymentOptions(final Long authorizedUserId) {
-        return execute(paymentOptionsApi.getSupportedPaymentOptionsUsingGET(authorizedUserId, authorizedUserId));
-    }
-
     public ApiResponse<PageResponseUserPaymentOptionResponse> findUserPaymentOptions(final Long authorizedUserId) {
         return execute(paymentOptionsApi.getUserPaymentOptionsUsingGET(authorizedUserId, authorizedUserId));
     }

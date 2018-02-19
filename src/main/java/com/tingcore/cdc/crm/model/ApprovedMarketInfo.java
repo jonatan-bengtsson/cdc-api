@@ -13,7 +13,7 @@ public class ApprovedMarketInfo extends BaseAttributeModel {
     private String version;
 
     public ApprovedMarketInfo(Long valueId, String url, String version) {
-        this.id = valueId;
+        super(valueId);
         this.url = url;
         this.version = version;
     }
@@ -22,23 +22,19 @@ public class ApprovedMarketInfo extends BaseAttributeModel {
     }
 
     @JsonProperty(FieldConstant.URL)
-    @ApiModelProperty(value = "The url to the approved market info document.")
+    @ApiModelProperty(value = "The url to the stored market info", example = "http://chargedrive.com/market-info")
     public String getUrl() {
         return url;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
     @JsonProperty(FieldConstant.VERSION)
-    @ApiModelProperty(value = "The version of the approved market info document.")
+    @ApiModelProperty(value = "The version of the approved market info", example = "1.0")
     public String getVersion() {
         return version;
     }
 
-    public void setVersion(String version) {
-        this.version = version;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     @Override

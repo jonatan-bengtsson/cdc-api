@@ -10,9 +10,14 @@ import io.swagger.annotations.ApiModelProperty;
  * @since 2017-11-14.
  */
 public abstract class BaseAttributeModel {
-    Long id;
+    private Long id;
+
+    public BaseAttributeModel(final Long id) {
+        this.id = id;
+    }
 
     public BaseAttributeModel() {
+        this.id = null;
     }
 
     @JsonProperty(FieldConstant.ID)
@@ -22,7 +27,7 @@ public abstract class BaseAttributeModel {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 

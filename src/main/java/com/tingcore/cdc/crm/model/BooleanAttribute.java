@@ -8,18 +8,17 @@ import com.tingcore.cdc.crm.constant.FieldConstant;
  * @since 2017-11-14.
  */
 public class BooleanAttribute extends BaseAttributeModel {
-    private Boolean value;
 
-    public BooleanAttribute(final Long valueId, final Boolean value) {
-        this.id = valueId;
-        this.value = value;
-    }
+    private final Boolean value;
 
-    public BooleanAttribute(final boolean value) {
+    public BooleanAttribute(final Long valueId,
+                            final Boolean value) {
+        super(valueId);
         this.value = value;
     }
 
     public BooleanAttribute() {
+        this.value = null;
     }
 
     @JsonProperty(FieldConstant.VALUE)
@@ -27,12 +26,35 @@ public class BooleanAttribute extends BaseAttributeModel {
         return value;
     }
 
-    public void setValue(final Boolean value) {
-        this.value = value;
-    }
-
     @Override
     public BooleanAttribute copyWithoutId () {
         return new BooleanAttribute(null, this.value);
+    }
+
+    public static Builder createBuilder() {
+        return new Builder();
+    }
+
+
+    public static final class Builder {
+        private Boolean value;
+        private Long id;
+
+        private Builder() {
+        }
+
+        public Builder value(Boolean value) {
+            this.value = value;
+            return this;
+        }
+
+        public Builder id(Long id) {
+            this.id = id;
+            return this;
+        }
+
+        public BooleanAttribute build() {
+            return new BooleanAttribute(id, value);
+        }
     }
 }

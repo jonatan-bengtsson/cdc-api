@@ -12,19 +12,24 @@ import javax.validation.constraints.Size;
  */
 public class AddressCRM extends BaseAttributeModel {
 
-    private String address;
-    private String addressLine2;
-    private String postalCode;
-    private String city;
-    private String country;
-    private String formatter;
-    private String name;
+    private final String address;
+    private final String addressLine2;
+    private final String postalCode;
+    private final String city;
+    private final String country;
+    private final String formatter;
+    private final String name;
 
 
-    public AddressCRM(final Long valueId, final String address, final String addressLine2,
-                      final String postalCode, final String city, final String country,
-                      final String formatter, final String name) {
-        this.id = valueId;
+    public AddressCRM(final Long valueId,
+                      final String address,
+                      final String addressLine2,
+                      final String postalCode,
+                      final String city,
+                      final String country,
+                      final String formatter,
+                      final String name) {
+        super(valueId);
         this.address = address;
         this.addressLine2 = addressLine2;
         this.postalCode = postalCode;
@@ -35,6 +40,13 @@ public class AddressCRM extends BaseAttributeModel {
     }
 
     public AddressCRM() {
+        this.address = null;
+        this.addressLine2 = null;
+        this.postalCode = null;
+        this.city = null;
+        this.country = null;
+        this.formatter = null;
+        this.name = null;
     }
 
     @JsonProperty(FieldConstant.ADDRESS)
@@ -44,19 +56,11 @@ public class AddressCRM extends BaseAttributeModel {
         return address;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
     @JsonProperty(FieldConstant.ADDRESS_LINE_2)
     @ApiModelProperty(value = "Second line of address", example = "Apartment 2")
     @Size(min = 1, max = 50)
     public String getAddressLine2() {
         return addressLine2;
-    }
-
-    public void setAddressLine2(final String addressLine2) {
-        this.addressLine2 = addressLine2;
     }
 
     @JsonProperty(FieldConstant.POSTAL_CODE)
@@ -66,19 +70,11 @@ public class AddressCRM extends BaseAttributeModel {
         return postalCode;
     }
 
-    public void setPostalCode(String postalCode) {
-        this.postalCode = postalCode;
-    }
-
     @JsonProperty(FieldConstant.CITY)
     @ApiModelProperty(value = "City or region", example = "Stockholm")
     @Size(min = 1, max = 50)
     public String getCity() {
         return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
     }
 
     @JsonProperty(FieldConstant.COUNTRY)
@@ -88,9 +84,6 @@ public class AddressCRM extends BaseAttributeModel {
         return country;
     }
 
-    public void setCountry(String country) {
-        this.country = country;
-    }
 
     @JsonProperty(FieldConstant.FORMATTER)
     @ApiModelProperty(value = "Country code for formatting address", example = "SE")
@@ -99,23 +92,14 @@ public class AddressCRM extends BaseAttributeModel {
         return formatter;
     }
 
-    public void setFormatter(String formatter) {
-        this.formatter = formatter;
-    }
-
     @JsonProperty(FieldConstant.NAME)
-    @ApiModelProperty(value = "Name to distinguish different types of addresses", example = "Home address")
+    @ApiModelProperty(value = "Name to distinguish different addresses", example = "Home address")
     @Size(min = 1, max = 25)
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public AddressCRM copyWithoutId() {
         return new AddressCRM(null, this.address, this.addressLine2, this.postalCode, this.city, this.country, this.formatter, this.name);
     }
-
 }

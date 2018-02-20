@@ -9,16 +9,18 @@ import com.tingcore.cdc.crm.constant.FieldConstant;
  */
 public class OrganizationNumber extends BaseAttributeModel {
 
-    private String organizationNumber;
-    private String formatter;
+    private final String organizationNumber;
+    private final String formatter;
 
     public OrganizationNumber(final Long attributeValueId, final String organizationNumber, final String formatter) {
-        this.id = attributeValueId;
+        super(attributeValueId);
         this.organizationNumber = organizationNumber;
         this.formatter = formatter;
     }
 
     public OrganizationNumber() {
+        this.organizationNumber = null;
+        this.formatter = null;
     }
 
     @JsonProperty(FieldConstant.ORGANIZATION_NUMBER)
@@ -26,17 +28,9 @@ public class OrganizationNumber extends BaseAttributeModel {
         return organizationNumber;
     }
 
-    public void setOrganizationNumber(String organizationNumber) {
-        this.organizationNumber = organizationNumber;
-    }
-
     @JsonProperty(FieldConstant.FORMATTER)
     public String getFormatter() {
         return formatter;
-    }
-
-    public void setFormatter(String formatter) {
-        this.formatter = formatter;
     }
 
     public OrganizationNumber copyWithoutId () {

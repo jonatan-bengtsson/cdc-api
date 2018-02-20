@@ -9,39 +9,36 @@ import io.swagger.annotations.ApiModelProperty;
  * @since 2017-11-21.
  */
 public class ApprovedTermsConditions extends BaseAttributeModel {
-    private String url;
-    private String version;
 
-    public ApprovedTermsConditions(Long attributeValueId, String url, String version) {
-        this.id = attributeValueId;
+    private final String url;
+    private final String version;
+
+    public ApprovedTermsConditions(final Long attributeValueId,
+                                   final String url,
+                                   final String version) {
+        super(attributeValueId);
         this.url = url;
         this.version = version;
     }
 
     public ApprovedTermsConditions() {
+        this.url = null;
+        this.version = null;
     }
 
     @JsonProperty(FieldConstant.URL)
-    @ApiModelProperty(value = "The url to the approved terms and conditions.")
+    @ApiModelProperty(value = "The url to the stored approved terms and conditions", example = "http://chargedrive.com/terms-and-conditions")
     public String getUrl() {
         return url;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
     @JsonProperty(FieldConstant.VERSION)
-    @ApiModelProperty(value = "The version of the approved terms and conditions.")
+    @ApiModelProperty(value = "The version of the approved terms and conditions", example = "1.0")
     public String getVersion() {
         return version;
     }
 
-    public void setVersion(String version) {
-        this.version = version;
-    }
-
-    public ApprovedTermsConditions copyWithoutId () {
+    public ApprovedTermsConditions copyWithoutId() {
         return new ApprovedTermsConditions(null, this.url, this.version);
     }
 }

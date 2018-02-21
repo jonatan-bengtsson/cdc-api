@@ -47,7 +47,7 @@ public class ChargingSessionRepository extends AbstractApiRepository {
                                                 final CustomerKeyId targetUser) {
         final CreateChargeRequest createChargeRequest = new CreateChargeRequest();
         createChargeRequest.setUser(trustedUserId.value);
-        createChargeRequest.setAccount(targetUser.value);
+        createChargeRequest.setCustomerKey(targetUser.value);
         final ApiCharge charge = getResponseOrChargingSessionError(chargesApi.createCharge(createChargeRequest));
         return apiSessionToModel(charge);
     }
@@ -84,7 +84,7 @@ public class ChargingSessionRepository extends AbstractApiRepository {
 
     static ChargingSessionBuilder apiSessionToModel(final ApiCharge apiCharge) {
         return new ChargingSessionBuilder().setId(new ChargingSessionId(apiCharge.getId()))
-                .setCustomerKeyId(new CustomerKeyId(apiCharge.getAccount()))
+                .setCustomerKeyId(new CustomerKeyId(apiCharge.getCustomerKey()))
                 .setPrice(apiSessionPriceToModel(apiCharge.getPrice()))
                 .setStartTime(apiTimeToNullableInstant(apiCharge.getStartTime()))
                 .setEndTime(apiTimeToNullableInstant(apiCharge.getStopTime()))

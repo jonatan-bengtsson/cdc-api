@@ -43,7 +43,7 @@ public class TokenRepository extends AbstractApiRepository {
         authorization.setMethod(Authorization.MethodEnum.TRUSTED_USER);
         authorization.setData(ImmutableMap.of("id", trustedUserId.value));
         request.setAuthorization(authorization);
-        request.setAccount(customerKeyId.value);
+        request.setCustomerKey(customerKeyId.value);
         request.setChargePoint(chargePointId.id);
         request.setTime(Instant.now().toEpochMilli());
 

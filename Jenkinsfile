@@ -1,4 +1,3 @@
-@Library('tingcore@feature/not-fail-on-client-publishing') _
 
 applicationPipeline {
     createApigw = true

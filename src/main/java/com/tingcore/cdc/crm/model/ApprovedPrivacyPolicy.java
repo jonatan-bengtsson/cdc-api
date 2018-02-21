@@ -9,42 +9,37 @@ import io.swagger.annotations.ApiModelProperty;
  * @since 2017-12-13.
  */
 public class ApprovedPrivacyPolicy extends BaseAttributeModel {
-    private String url;
-    private String version;
 
-    public ApprovedPrivacyPolicy(Long attributeValueId, String url, String version) {
-        this.id = attributeValueId;
+    private final String url;
+    private final String version;
+
+    public ApprovedPrivacyPolicy(final Long attributeValueId,
+                                 final String url,
+                                 final String version) {
+        super(attributeValueId);
         this.url = url;
         this.version = version;
     }
 
     public ApprovedPrivacyPolicy() {
-    }
-
-    @Override
-    public ApprovedPrivacyPolicy copyWithoutId () {
-        return new ApprovedPrivacyPolicy(null, this.url, this.version);
+        this.url = null;
+        this.version = null;
     }
 
     @JsonProperty(FieldConstant.URL)
-    @ApiModelProperty(value = "The url to the approved privacy policy.")
+    @ApiModelProperty(value = "The url to the stored privacy policy", example = "http://chargedrive.com/privacy-policy")
     public String getUrl() {
         return url;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
     @JsonProperty(FieldConstant.VERSION)
-    @ApiModelProperty(value = "The version of the approved privacy policy.")
+    @ApiModelProperty(value = "The version of the approved privacy policy", example = "1.0")
     public String getVersion() {
         return version;
     }
 
-    public void setVersion(String version) {
-        this.version = version;
+    @Override
+    public ApprovedPrivacyPolicy copyWithoutId() {
+        return new ApprovedPrivacyPolicy(null, this.url, this.version);
     }
-
-
 }

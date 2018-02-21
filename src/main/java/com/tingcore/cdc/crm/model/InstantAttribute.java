@@ -10,23 +10,22 @@ import java.time.Instant;
  * @since 2017-11-14.
  */
 public class InstantAttribute extends BaseAttributeModel {
-    private Instant value;
 
-    public InstantAttribute(final Long valueId, final Instant value) {
-        this.id = valueId;
+    private final Instant value;
+
+    public InstantAttribute(final Long valueId,
+                            final Instant value) {
+        super(valueId);
         this.value = value;
     }
 
     public InstantAttribute() {
+        this.value = null;
     }
 
     @JsonProperty(FieldConstant.VALUE)
     public Instant getValue() {
         return value;
-    }
-
-    public void setValue(final Instant value) {
-        this.value = value;
     }
 
     @Override

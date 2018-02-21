@@ -8,16 +8,19 @@ import com.tingcore.cdc.crm.constant.FieldConstant;
  * @since 2017-11-21.
  */
 public class LicensePlate extends BaseAttributeModel {
-    private String licensePlate;
-    private String formatter;
 
-    public LicensePlate(Long id, String licensePlate, String formatter) {
-        this.id = id;
+    private final String licensePlate;
+    private final String formatter;
+
+    public LicensePlate(final Long id, final String licensePlate, final String formatter) {
+        super(id);
         this.licensePlate = licensePlate;
         this.formatter = formatter;
     }
 
     public LicensePlate() {
+        this.licensePlate = null;
+        this.formatter = null;
     }
 
     @JsonProperty(FieldConstant.LICENSE_PLATE)
@@ -25,17 +28,9 @@ public class LicensePlate extends BaseAttributeModel {
         return licensePlate;
     }
 
-    public void setLicensePlate(String licensePlate) {
-        this.licensePlate = licensePlate;
-    }
-
     @JsonProperty(FieldConstant.FORMATTER)
     public String getFormatter() {
         return formatter;
-    }
-
-    public void setFormatter(String formatter) {
-        this.formatter = formatter;
     }
 
     public LicensePlate copyWithoutId () {

@@ -3,8 +3,11 @@ package com.tingcore.cdc.crm.service;
 import com.tingcore.cdc.crm.constant.AttributeConstant;
 import com.tingcore.cdc.crm.constant.FieldConstant;
 import com.tingcore.cdc.crm.model.BaseAttributeModel;
+import com.tingcore.cdc.crm.model.BooleanAttribute;
 import com.tingcore.cdc.crm.model.StringAttribute;
-import com.tingcore.cdc.crm.request.*;
+import com.tingcore.cdc.crm.request.BaseUpdateCustomerRequest;
+import com.tingcore.cdc.crm.request.UpdateBusinessCustomerRequest;
+import com.tingcore.cdc.crm.request.UpdatePrivateCustomerRequest;
 import com.tingcore.commons.api.utils.JsonUtils;
 import com.tingcore.users.model.AttributeResponse;
 import com.tingcore.users.model.AttributeValueListRequest;
@@ -28,9 +31,9 @@ public class AttributeValueMapper {
         Optional.ofNullable(request.getTimezone())
                 .ifPresent(timeZone -> addAttributeToList(list, timeZone, cachedAttributes, AttributeConstant.TIMEZONE));
         Optional.ofNullable(request.getAddresses())
-                .ifPresent(addressList -> addressList.stream().forEach(address -> addAttributeToList(list, address, cachedAttributes, AttributeConstant.ADDRESS)));
+                .ifPresent(addressList -> addressList.forEach(address -> addAttributeToList(list, address, cachedAttributes, AttributeConstant.ADDRESS)));
         Optional.ofNullable(request.getPhoneNumbers())
-                .ifPresent(numberList -> numberList.stream().forEach(phoneNumber -> addAttributeToList(list, phoneNumber, cachedAttributes, AttributeConstant.PHONE_NUMBER)));
+                .ifPresent(numberList -> numberList.forEach(phoneNumber -> addAttributeToList(list, phoneNumber, cachedAttributes, AttributeConstant.PHONE_NUMBER)));
         Optional.ofNullable(request.getLanguage())
                 .ifPresent(language -> addAttributeToList(list, language, cachedAttributes, AttributeConstant.LANGUAGE));
 
@@ -51,13 +54,13 @@ public class AttributeValueMapper {
         Optional.ofNullable(privateCustomerRequest.getLastName())
                 .ifPresent(lastName -> addAttributeToList(list, lastName, cachedAttributes, AttributeConstant.LAST_NAME));
         Optional.ofNullable(privateCustomerRequest.getApprovedMarketInfo())
-                .ifPresent(marketInfoList -> marketInfoList.stream().forEach(marketInfo -> addAttributeToList(list, marketInfo, cachedAttributes, AttributeConstant.APPROVED_MARKET_INFO)));
+                .ifPresent(marketInfoList -> marketInfoList.forEach(marketInfo -> addAttributeToList(list, marketInfo, cachedAttributes, AttributeConstant.APPROVED_MARKET_INFO)));
         Optional.ofNullable(privateCustomerRequest.getApprovedPrivacyPolicies())
-                .ifPresent(privacyPolicies -> privacyPolicies.stream().forEach(privacy -> addAttributeToList(list, privacy, cachedAttributes, AttributeConstant.APPROVED_PRIVACY_POLICY)));
+                .ifPresent(privacyPolicies -> privacyPolicies.forEach(privacy -> addAttributeToList(list, privacy, cachedAttributes, AttributeConstant.APPROVED_PRIVACY_POLICY)));
         Optional.ofNullable(privateCustomerRequest.getLicensePlates())
-                .ifPresent(licensePlateList -> licensePlateList.stream().forEach(licensePlate -> addAttributeToList(list, licensePlate, cachedAttributes, FieldConstant.LICENSE_PLATE)));
+                .ifPresent(licensePlateList -> licensePlateList.forEach(licensePlate -> addAttributeToList(list, licensePlate, cachedAttributes, FieldConstant.LICENSE_PLATE)));
         Optional.ofNullable(privateCustomerRequest.getApprovedTermsConditions())
-                .ifPresent(termsConditionsList -> termsConditionsList.stream().forEach(termsConditions -> addAttributeToList(list, termsConditions, cachedAttributes, AttributeConstant.APPROVED_TERMS_CONDITIONS)));
+                .ifPresent(termsConditionsList -> termsConditionsList.forEach(termsConditions -> addAttributeToList(list, termsConditions, cachedAttributes, AttributeConstant.APPROVED_TERMS_CONDITIONS)));
         return list;
     }
 
@@ -67,13 +70,13 @@ public class AttributeValueMapper {
         Optional.ofNullable(request.getName())
                 .ifPresent(name -> addAttributeToList(list,name, cachedAttributes, AttributeConstant.NAME));
         Optional.ofNullable(request.getApprovedMarketInfo())
-                .ifPresent(marketInfoList -> marketInfoList.stream().forEach(marketInfo -> addAttributeToList(list, marketInfo, cachedAttributes, AttributeConstant.APPROVED_MARKET_INFO)));
+                .ifPresent(marketInfoList -> marketInfoList.forEach(marketInfo -> addAttributeToList(list, marketInfo, cachedAttributes, AttributeConstant.APPROVED_MARKET_INFO)));
         Optional.ofNullable(request.getApprovedPrivacyPolicies())
-                .ifPresent(privacyPolicies -> privacyPolicies.stream().forEach(privacy -> addAttributeToList(list, privacy, cachedAttributes, AttributeConstant.APPROVED_PRIVACY_POLICY)));
+                .ifPresent(privacyPolicies -> privacyPolicies.forEach(privacy -> addAttributeToList(list, privacy, cachedAttributes, AttributeConstant.APPROVED_PRIVACY_POLICY)));
         Optional.ofNullable(request.getLicensePlates())
-                .ifPresent(licensePlates -> licensePlates.stream().forEach(licensePlate -> addAttributeToList(list,licensePlate, cachedAttributes, FieldConstant.LICENSE_PLATE)));
+                .ifPresent(licensePlates -> licensePlates.forEach(licensePlate -> addAttributeToList(list, licensePlate, cachedAttributes, FieldConstant.LICENSE_PLATE)));
         Optional.ofNullable(request.getApprovedTermsConditions())
-                .ifPresent(termsConditionsList -> termsConditionsList.stream().forEach(termsConditions -> addAttributeToList(list,termsConditions, cachedAttributes, AttributeConstant.APPROVED_TERMS_CONDITIONS)));
+                .ifPresent(termsConditionsList -> termsConditionsList.forEach(termsConditions -> addAttributeToList(list, termsConditions, cachedAttributes, AttributeConstant.APPROVED_TERMS_CONDITIONS)));
         Optional.ofNullable(request.getContactEmail())
                 .ifPresent(contactEmail -> addAttributeToList(list, contactEmail, cachedAttributes, AttributeConstant.CONTACT_EMAIL));
         Optional.ofNullable(request.getContactFirstName())
@@ -81,7 +84,7 @@ public class AttributeValueMapper {
         Optional.ofNullable(request.getContactLastName())
                 .ifPresent(contactLastName -> addAttributeToList(list, contactLastName, cachedAttributes, AttributeConstant.CONTACT_LAST_NAME));
         Optional.ofNullable(request.getContactPhoneNumber())
-                .ifPresent(contactPhoneNumbers -> contactPhoneNumbers.stream().forEach(contactPhoneNumber -> addAttributeToList(list, contactPhoneNumber, cachedAttributes, AttributeConstant.CONTACT_PHONE_NUMBER)));
+                .ifPresent(contactPhoneNumbers -> contactPhoneNumbers.forEach(contactPhoneNumber -> addAttributeToList(list, contactPhoneNumber, cachedAttributes, AttributeConstant.CONTACT_PHONE_NUMBER)));
 
         return list;
     }
@@ -90,8 +93,8 @@ public class AttributeValueMapper {
         list.addAttributeValuesItem(toAttributeValueRequest(stringAttribute,findAttributeId(cachedAttributes, attributeName).orElse(null)));
     }
 
-    public static Optional<Long> findAttributeId (List<AttributeResponse> attributes, String attributeName) {
-        return attributes.stream().filter(attributeResponse -> attributeResponse.getName().equals(attributeName)).map(attributeResponse -> attributeResponse.getId()).findAny();
+    private static Optional<Long> findAttributeId(List<AttributeResponse> attributes, String attributeName) {
+        return attributes.stream().filter(attributeResponse -> attributeResponse.getName().equals(attributeName)).map(AttributeResponse::getId).findAny();
     }
 
     private static AttributeValueListRequest createAttributeValueListRequest () {
@@ -101,8 +104,14 @@ public class AttributeValueMapper {
         return attributeValueListRequest;
     }
 
-    private static <T extends BaseAttributeModel> AttributeValueRequest toAttributeValueRequest (T attributeModel, Long attributeId) {
-        return attributeModel.getClass().equals(StringAttribute.class) ? createAttributeValueRequest((StringAttribute) attributeModel, attributeId) : createAttributeValueRequest(attributeId, JsonUtils.toJson(attributeModel.copyWithoutId()).orElse(null), attributeModel.getId());
+    private static <T extends BaseAttributeModel> AttributeValueRequest toAttributeValueRequest(final T attributeModel, final Long attributeId) {
+        if (attributeModel instanceof StringAttribute) {
+            return createAttributeValueRequest((StringAttribute) attributeModel, attributeId);
+        } else if (attributeModel instanceof BooleanAttribute) {
+            return createAttributeValueRequest(attributeId, ((BooleanAttribute) attributeModel).getValue().toString(), attributeModel.getId());
+        } else {
+            return createAttributeValueRequest(attributeId, JsonUtils.toJson(attributeModel.copyWithoutId()).orElse(null), attributeModel.getId());
+        }
     }
 
     private static AttributeValueRequest createAttributeValueRequest(StringAttribute attribute, Long attributeId) {
@@ -120,7 +129,7 @@ public class AttributeValueMapper {
 
     public static Map<String, Long> createAttributeIdMap (List<AttributeResponse> mockCachedAttributes) {
         Map<String, Long> attributeIdMap =new HashMap<>();
-        mockCachedAttributes.stream().forEach(attributeResponse -> attributeIdMap.put(attributeResponse.getName(),attributeResponse.getId()));
+        mockCachedAttributes.forEach(attributeResponse -> attributeIdMap.put(attributeResponse.getName(), attributeResponse.getId()));
         return attributeIdMap;
     }
 

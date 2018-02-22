@@ -130,15 +130,12 @@ public class AttributeMapper {
     }
 
     static Optional<BooleanAttribute> findBooleanAttribute(List<AttributeResponse> attributes, final String attributeName) {
-        Optional<AttributeResponse> attributeResponse = findAttributeFromList(attributes, attributeName);
-
-        if (attributeResponse.isPresent()) {
-            Optional<BooleanAttribute> booleanAttributeResponse = parseAttributeValue(attributeResponse.get(), BooleanAttribute.class);
-            booleanAttributeResponse.ifPresent(booleanAttribute1 -> booleanAttribute1.setId(attributeResponse.get().getAttributeValue().getId()));
-            return booleanAttributeResponse;
-        } else {
-            return Optional.empty();
-        }
+        return findAttributeFromList(attributes, attributeName)
+                .map(attributeResponse -> BooleanAttribute
+                        .createBuilder()
+                        .id(attributeResponse.getAttributeValue().getId())
+                        .value(Boolean.valueOf(attributeResponse.getAttributeValue().getValue()))
+                        .build());
     }
 
     static Optional<InstantAttribute> findDate(List<AttributeResponse> attributes, String attributeName) {

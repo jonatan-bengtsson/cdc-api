@@ -17,7 +17,6 @@ import static com.google.common.collect.Maps.newHashMap;
 public class AttributeResponseDataUtils {
     private static final String PROPERTY_ALLOW_MULTIPLE = "allowMultiple";
     private static final String PROPERTY_REQUIRED = "required";
-    private static final String REQUIRED_FIELD_FORMATTER = "formatter";
 
     public static Optional<AttributeResponse> mockOrganizationNumberResponse (AttributeValueListRequest listRequest, Map<String, Long> cachedAttributes) {
         final HashMap<String, Object> properties = newHashMap();
@@ -28,7 +27,7 @@ public class AttributeResponseDataUtils {
     public static Optional<AttributeResponse> mockSocialSecurityNumberResponse (AttributeValueListRequest listRequest, Map<String, Long> cachedAttributes) {
         final HashMap<String, Object> properties = newHashMap();
         properties.put(PROPERTY_ALLOW_MULTIPLE, false);
-        properties.put(PROPERTY_REQUIRED, Arrays.asList(AttributeConstant.SOCIAL_SECURITY_NUMBER, REQUIRED_FIELD_FORMATTER));
+        properties.put(PROPERTY_REQUIRED, Collections.singletonList(AttributeConstant.SOCIAL_SECURITY_NUMBER));
         return findAttributeValue(listRequest, AttributeConstant.SOCIAL_SECURITY_NUMBER, cachedAttributes).map(s -> AttributeDataUtils.createAttributeResponse(properties, AttributeConstant.SOCIAL_SECURITY_NUMBER, s, AttributeResponse.TypeEnum.STRING));
     }
 
@@ -88,14 +87,13 @@ public class AttributeResponseDataUtils {
     public static List<AttributeResponse> mockContactPhoneNumberResponse (AttributeValueListRequest listRequest, Map<String, Long> cachedAttributes) {
         final HashMap<String, Object> properties = newHashMap();
         properties.put(PROPERTY_ALLOW_MULTIPLE, true);
-        properties.put(PROPERTY_REQUIRED, Arrays.asList(FieldConstant.PHONE_NUMBER, REQUIRED_FIELD_FORMATTER));
+        properties.put(PROPERTY_REQUIRED, Collections.singletonList(FieldConstant.PHONE_NUMBER));
         return findAttributeValues(listRequest, AttributeConstant.CONTACT_PHONE_NUMBER, cachedAttributes).stream().map(s -> AttributeDataUtils.createAttributeResponse(properties, AttributeConstant.CONTACT_PHONE_NUMBER, s, AttributeResponse.TypeEnum.JSON)).collect(Collectors.toList());
     }
 
     public static List<AttributeResponse> mockAddressResponse (AttributeValueListRequest listRequest, Map<String, Long> cachedAttributes) {
         final HashMap<String, Object> properties = newHashMap();
         properties.put(PROPERTY_ALLOW_MULTIPLE, true);
-        properties.put(PROPERTY_REQUIRED, Collections.singletonList(REQUIRED_FIELD_FORMATTER));
         return findAttributeValues(listRequest, AttributeConstant.ADDRESS, cachedAttributes).stream().map(s -> AttributeDataUtils.createAttributeResponse(properties, AttributeConstant.ADDRESS, s, AttributeResponse.TypeEnum.JSON)).collect(Collectors.toList());
     }
 
@@ -109,14 +107,14 @@ public class AttributeResponseDataUtils {
     public static List<AttributeResponse> mockLicensePlatesResponse (AttributeValueListRequest listRequest, Map<String, Long> cachedAttributes) {
         final HashMap<String, Object> properties = newHashMap();
         properties.put(PROPERTY_ALLOW_MULTIPLE, true);
-        properties.put(PROPERTY_REQUIRED, Arrays.asList(FieldConstant.LICENSE_PLATE, REQUIRED_FIELD_FORMATTER));
+        properties.put(PROPERTY_REQUIRED, Collections.singletonList(FieldConstant.LICENSE_PLATE));
         return findAttributeValues(listRequest, FieldConstant.LICENSE_PLATE, cachedAttributes).stream().map(s -> AttributeDataUtils.createAttributeResponse(properties, FieldConstant.LICENSE_PLATE, s, AttributeResponse.TypeEnum.JSON)).collect(Collectors.toList());
     }
 
     public static List<AttributeResponse> mockPhoneNumbersResponse (AttributeValueListRequest listRequest, Map<String, Long> cachedAttributes) {
         final HashMap<String, Object> properties = newHashMap();
         properties.put(PROPERTY_ALLOW_MULTIPLE, true);
-        properties.put(PROPERTY_REQUIRED, Arrays.asList(AttributeConstant.PHONE_NUMBER, REQUIRED_FIELD_FORMATTER));
+        properties.put(PROPERTY_REQUIRED, Collections.singletonList(AttributeConstant.PHONE_NUMBER));
         return findAttributeValues(listRequest, AttributeConstant.PHONE_NUMBER, cachedAttributes).stream().map(s -> AttributeDataUtils.createAttributeResponse(properties, AttributeConstant.PHONE_NUMBER, s, AttributeResponse.TypeEnum.JSON)).collect(Collectors.toList());
     }
 

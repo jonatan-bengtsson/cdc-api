@@ -3,7 +3,6 @@ package com.tingcore.cdc.crm.utils;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.GsonBuilder;
 import com.tingcore.cdc.crm.constant.AttributeConstant;
-import com.tingcore.cdc.crm.constant.FieldConstant;
 import com.tingcore.cdc.crm.model.*;
 import com.tingcore.cdc.utils.CommonDataUtils;
 import com.tingcore.users.model.AttributeResponse;
@@ -22,7 +21,6 @@ public class AttributeDataUtils {
 
     private static final String PROPERTY_ALLOW_MULTIPLE = "allowMultiple";
     private static final String PROPERTY_REQUIRED = "required";
-    private static final String REQUIRED_FIELD_FORMATTER = "formatter";
 
     static AttributeResponse createEmailAttributeResponse() {
         final HashMap<String, Object> properties = newHashMap();
@@ -34,18 +32,17 @@ public class AttributeDataUtils {
     static AttributeResponse createOrganizationResponse() {
         final HashMap<String, Object> properties = newHashMap();
         properties.put(PROPERTY_ALLOW_MULTIPLE, false);
-        properties.put(PROPERTY_REQUIRED, Arrays.asList(AttributeConstant.ORGANIZATION_NUMBER, REQUIRED_FIELD_FORMATTER));
+        properties.put(PROPERTY_REQUIRED, Collections.singletonList(AttributeConstant.ORGANIZATION_NUMBER));
         return createAttributeResponse(properties, AttributeConstant.ORGANIZATION_NUMBER,
-                "{\"organizationNumber\": \"124354564\", \"formatter\": \"SE\"}",
+                "{\"organizationNumber\": \"124354564\"}",
                 AttributeResponse.TypeEnum.JSON);
     }
 
     static AttributeResponse createBillingAddressResponse() {
         final HashMap<String, Object> properties = newHashMap();
         properties.put(PROPERTY_ALLOW_MULTIPLE, true);
-        properties.put(PROPERTY_REQUIRED, Collections.singletonList(REQUIRED_FIELD_FORMATTER));
         return createAttributeResponse(properties, AttributeConstant.BILLING_ADDRESS,
-                "{\"address\": \"Serenity Road 42\", \"postalCode\": \"123 45\", \"city\": \"Stockholm\", \"country\": \"Sweden\", \"formatter\": \"SE\"}",
+                "{\"address\": \"Serenity Road 42\", \"postalCode\": \"123 45\", \"city\": \"Stockholm\", \"country\": \"Sweden\"}",
                 AttributeResponse.TypeEnum.JSON);
     }
 
@@ -71,9 +68,8 @@ public class AttributeDataUtils {
     static AttributeResponse createVisitingAddress() {
         final HashMap<String, Object> properties = newHashMap();
         properties.put(PROPERTY_ALLOW_MULTIPLE, true);
-        properties.put(PROPERTY_REQUIRED, Collections.singletonList(REQUIRED_FIELD_FORMATTER));
         return createAttributeResponse(properties, AttributeConstant.VISITING_ADDRESS,
-                "{\"address\": \"Serenity Road 42\", \"postalCode\": \"123 45\", \"city\": \"Stockholm\", \"country\": \"Sweden\", \"formatter\": \"SE\"}",
+                "{\"address\": \"Serenity Road 42\", \"postalCode\": \"123 45\", \"city\": \"Stockholm\", \"country\": \"Sweden\"}",
                 AttributeResponse.TypeEnum.JSON);
 
     }
@@ -81,8 +77,8 @@ public class AttributeDataUtils {
     static AttributeResponse createVatResponse() {
         final HashMap<String, Object> properties = newHashMap();
         properties.put(PROPERTY_ALLOW_MULTIPLE, true);
-        properties.put(PROPERTY_REQUIRED, Arrays.asList(REQUIRED_FIELD_FORMATTER, AttributeConstant.VAT));
-        return createAttributeResponse(properties, AttributeConstant.VAT, "{\"VAT\": \"SE999999999901\", \"formatter\": \"SE\"}",
+        properties.put(PROPERTY_REQUIRED, Collections.singletonList(AttributeConstant.VAT));
+        return createAttributeResponse(properties, AttributeConstant.VAT, "{\"VAT\": \"SE999999999901\"}",
                 AttributeResponse.TypeEnum.JSON);
 
     }
@@ -90,8 +86,8 @@ public class AttributeDataUtils {
     static AttributeResponse createPhoneNumberResponse() {
         final HashMap<String, Object> properties = newHashMap();
         properties.put(PROPERTY_ALLOW_MULTIPLE, true);
-        properties.put(PROPERTY_REQUIRED, Arrays.asList(REQUIRED_FIELD_FORMATTER, AttributeConstant.PHONE_NUMBER));
-        return createAttributeResponse(properties, AttributeConstant.PHONE_NUMBER, "{\"phoneNumber\": \"0731111111\", \"formatter\": \"SE\"}",
+        properties.put(PROPERTY_REQUIRED, Collections.singletonList(AttributeConstant.PHONE_NUMBER));
+        return createAttributeResponse(properties, AttributeConstant.PHONE_NUMBER, "{\"phoneNumber\": \"0731111111\"}",
                 AttributeResponse.TypeEnum.JSON);
     }
 
@@ -119,12 +115,12 @@ public class AttributeDataUtils {
     }
 
     public static OrganizationNumber createOrganizationNumber () {
-        return new OrganizationNumber(CommonDataUtils.getNextId(), CommonDataUtils.randomNumberStr(1000,9999), "SE");
+        return new OrganizationNumber(CommonDataUtils.getNextId(), CommonDataUtils.randomNumberStr(1000,9999));
     }
 
     public static AddressCRM createAddress () {
         return new AddressCRM(CommonDataUtils.getNextId(), CommonDataUtils.randomNumberStr(1000,2000), CommonDataUtils.randomNumberStr(1000,2000), CommonDataUtils.randomNumberStr(1000,2000),
-                CommonDataUtils.randomNumberStr(1000,2000),CommonDataUtils.randomNumberStr(1000,2000),CommonDataUtils.randomNumberStr(1000,2000), CommonDataUtils.randomNumberStr(1000,2000));
+                CommonDataUtils.randomNumberStr(1000,2000),CommonDataUtils.randomNumberStr(1000,2000), CommonDataUtils.randomNumberStr(1000,2000));
     }
 
     public static ApprovedTermsConditions createApprovedTermsConditions() {
@@ -132,7 +128,7 @@ public class AttributeDataUtils {
     }
 
     public static SocialSecurityNumber createSocialSecurityNumber () {
-        return new SocialSecurityNumber(CommonDataUtils.getNextId(), CommonDataUtils.randomNumberStr(19000101,20180000), "SE");
+        return new SocialSecurityNumber(CommonDataUtils.getNextId(), CommonDataUtils.randomNumberStr(19000101,20180000));
     }
 
     public static ApprovedMarketInfo createApprovedMarketInfo () {
@@ -144,11 +140,11 @@ public class AttributeDataUtils {
     }
 
     public static LicensePlate createLicensePlate () {
-        return new LicensePlate(CommonDataUtils.getNextId(), CommonDataUtils.randomNumberStr(000,999)+"-"+CommonDataUtils.randomNumberStr(000,999), "SE");
+        return new LicensePlate(CommonDataUtils.getNextId(), CommonDataUtils.randomNumberStr(000,999)+"-"+CommonDataUtils.randomNumberStr(000,999));
     }
 
     public static PhoneNumber createPhoneNumber () {
-        return new PhoneNumber(CommonDataUtils.getNextId(),CommonDataUtils.randomNumberStr(10000,20000),"SE",CommonDataUtils.randomNumberStr(1000,5000));
+        return new PhoneNumber(CommonDataUtils.getNextId(),CommonDataUtils.randomNumberStr(10000,20000), CommonDataUtils.randomNumberStr(1000,5000));
     }
 
     public static StringAttribute createStringAttribute(final String value) {
@@ -166,7 +162,11 @@ public class AttributeDataUtils {
             "    \"name\": \"name\",\n" +
             "    \"type\": \"string\",\n" +
             "    \"properties\": {\n" +
-            "      \"allowMultiple\": false\n" +
+            "      \"allowMultiple\": false,\n" +
+            "      \"size\": {\n" +
+            "        \"min\": 1,\n" +
+            "        \"max\": 100\n" +
+            "      }\n" +
             "    }\n" +
             "  },\n" +
             "  {\n" +
@@ -174,7 +174,11 @@ public class AttributeDataUtils {
             "    \"name\": \"firstName\",\n" +
             "    \"type\": \"string\",\n" +
             "    \"properties\": {\n" +
-            "      \"allowMultiple\": false\n" +
+            "      \"allowMultiple\": false,\n" +
+            "      \"size\": {\n" +
+            "        \"min\": 1,\n" +
+            "        \"max\": 50\n" +
+            "      }\n" +
             "    }\n" +
             "  },\n" +
             "  {\n" +
@@ -182,7 +186,11 @@ public class AttributeDataUtils {
             "    \"name\": \"lastName\",\n" +
             "    \"type\": \"string\",\n" +
             "    \"properties\": {\n" +
-            "      \"allowMultiple\": false\n" +
+            "      \"allowMultiple\": false,\n" +
+            "      \"size\": {\n" +
+            "        \"min\": 1,\n" +
+            "        \"max\": 50\n" +
+            "      }\n" +
             "    }\n" +
             "  },\n" +
             "  {\n" +
@@ -192,7 +200,8 @@ public class AttributeDataUtils {
             "    \"properties\": {\n" +
             "      \"allowMultiple\": true,\n" +
             "      \"required\": [\n" +
-            "        \"agreementId\"\n" +
+            "        \"url\",\n" +
+            "        \"version\"\n" +
             "      ]\n" +
             "    }\n" +
             "  },\n" +
@@ -202,9 +211,9 @@ public class AttributeDataUtils {
             "    \"type\": \"json\",\n" +
             "    \"properties\": {\n" +
             "      \"allowMultiple\": true,\n" +
+            "      \"allowOptional\": false,\n" +
             "      \"required\": [\n" +
-            "        \"licensePlate\",\n" +
-            "        \"formatter\"\n" +
+            "        \"licensePlate\"\n" +
             "      ]\n" +
             "    }\n" +
             "  },\n" +
@@ -213,7 +222,8 @@ public class AttributeDataUtils {
             "    \"name\": \"customerNumber\",\n" +
             "    \"type\": \"string\",\n" +
             "    \"properties\": {\n" +
-            "      \"allowMultiple\": false\n" +
+            "      \"allowMultiple\": false,\n" +
+            "      \"pattern\": \"^[a-zA-Z0-9- .:]*$\"\n" +
             "    }\n" +
             "  },\n" +
             "  {\n" +
@@ -229,7 +239,8 @@ public class AttributeDataUtils {
             "    \"name\": \"customerType\",\n" +
             "    \"type\": \"string\",\n" +
             "    \"properties\": {\n" +
-            "      \"allowMultiple\": false\n" +
+            "      \"allowMultiple\": false,\n" +
+            "      \"pattern\": \"^private|business$\"\n" +
             "    }\n" +
             "  },\n" +
             "  {\n" +
@@ -239,8 +250,7 @@ public class AttributeDataUtils {
             "    \"properties\": {\n" +
             "      \"allowMultiple\": true,\n" +
             "      \"required\": [\n" +
-            "        \"phoneNumber\",\n" +
-            "        \"formatter\"\n" +
+            "        \"phoneNumber\"\n" +
             "      ]\n" +
             "    }\n" +
             "  },\n" +
@@ -249,7 +259,8 @@ public class AttributeDataUtils {
             "    \"name\": \"language\",\n" +
             "    \"type\": \"string\",\n" +
             "    \"properties\": {\n" +
-            "      \"allowMultiple\": false\n" +
+            "      \"allowMultiple\": false,\n" +
+            "      \"pattern\": \"^[a-z]{2}$\"\n" +
             "    }\n" +
             "  },\n" +
             "  {\n" +
@@ -257,7 +268,8 @@ public class AttributeDataUtils {
             "    \"name\": \"timeZone\",\n" +
             "    \"type\": \"string\",\n" +
             "    \"properties\": {\n" +
-            "      \"allowMultiple\": false\n" +
+            "      \"allowMultiple\": false,\n" +
+            "      \"pattern\": \"^[U][T][C]([+]|[-])([1-9]|1[012])$\"\n" +
             "    }\n" +
             "  },\n" +
             "  {\n" +
@@ -266,21 +278,21 @@ public class AttributeDataUtils {
             "    \"type\": \"json\",\n" +
             "    \"properties\": {\n" +
             "      \"allowMultiple\": false,\n" +
+            "      \"allowOptional\": false,\n" +
             "      \"required\": [\n" +
-            "        \"organizationNumber\",\n" +
-            "        \"formatter\"\n" +
+            "        \"organizationNumber\"\n" +
             "      ]\n" +
             "    }\n" +
             "  },\n" +
             "  {\n" +
             "    \"id\": 33,\n" +
             "    \"name\": \"socialSecurityNumber\",\n" +
-            "    \"type\": \"string\",\n" +
+            "    \"type\": \"json\",\n" +
             "    \"properties\": {\n" +
             "      \"allowMultiple\": false,\n" +
+            "      \"allowOptional\": false,\n" +
             "      \"required\": [\n" +
-            "        \"socialSecurityNumber\",\n" +
-            "        \"formatter\"\n" +
+            "        \"socialSecurityNumber\"\n" +
             "      ]\n" +
             "    }\n" +
             "  },\n" +
@@ -289,10 +301,7 @@ public class AttributeDataUtils {
             "    \"name\": \"address\",\n" +
             "    \"type\": \"json\",\n" +
             "    \"properties\": {\n" +
-            "      \"allowMultiple\": true,\n" +
-            "      \"required\": [\n" +
-            "        \"formatter\"\n" +
-            "      ]\n" +
+            "      \"allowMultiple\": true\n" +
             "    }\n" +
             "  },\n" +
             "  {\n" +
@@ -316,9 +325,9 @@ public class AttributeDataUtils {
             "    \"name\": \"VAT\",\n" +
             "    \"type\": \"json\",\n" +
             "    \"properties\": {\n" +
-            "      \"allowMultiple\": false,\n" +
+            "      \"allowMultiple\": true,\n" +
+            "      \"allowOptional\": false,\n" +
             "      \"required\": [\n" +
-            "        \"formatter\",\n" +
             "        \"VAT\"\n" +
             "      ]\n" +
             "    }\n" +
@@ -326,9 +335,10 @@ public class AttributeDataUtils {
             "  {\n" +
             "    \"id\": 38,\n" +
             "    \"name\": \"defaultCurrency\",\n" +
-            "    \"type\": \"json\",\n" +
+            "    \"type\": \"string\",\n" +
             "    \"properties\": {\n" +
-            "      \"allowMultiple\": false\n" +
+            "      \"allowMultiple\": false,\n" +
+            "      \"pattern\": \"^([A-Z]){3}$\"\n" +
             "    }\n" +
             "  },\n" +
             "  {\n" +
@@ -336,10 +346,7 @@ public class AttributeDataUtils {
             "    \"name\": \"billingAddress\",\n" +
             "    \"type\": \"json\",\n" +
             "    \"properties\": {\n" +
-            "      \"allowMultiple\": true,\n" +
-            "      \"required\": [\n" +
-            "        \"formatter\"\n" +
-            "      ]\n" +
+            "      \"allowMultiple\": true\n" +
             "    }\n" +
             "  },\n" +
             "  {\n" +
@@ -349,8 +356,7 @@ public class AttributeDataUtils {
             "    \"properties\": {\n" +
             "      \"allowMultiple\": true,\n" +
             "      \"required\": [\n" +
-            "        \"phoneNumber\",\n" +
-            "        \"formatter\"\n" +
+            "        \"phoneNumber\"\n" +
             "      ]\n" +
             "    }\n" +
             "  },\n" +
@@ -372,10 +378,7 @@ public class AttributeDataUtils {
             "    \"name\": \"contactAddress\",\n" +
             "    \"type\": \"json\",\n" +
             "    \"properties\": {\n" +
-            "      \"allowMultiple\": true,\n" +
-            "      \"required\": [\n" +
-            "        \"formatter\"\n" +
-            "      ]\n" +
+            "      \"allowMultiple\": true\n" +
             "    }\n" +
             "  },\n" +
             "  {\n" +
@@ -385,8 +388,7 @@ public class AttributeDataUtils {
             "    \"properties\": {\n" +
             "      \"allowMultiple\": true,\n" +
             "      \"required\": [\n" +
-            "        \"phoneNumber\",\n" +
-            "        \"formatter\"\n" +
+            "        \"phoneNumber\"\n" +
             "      ]\n" +
             "    }\n" +
             "  },\n" +
@@ -395,7 +397,11 @@ public class AttributeDataUtils {
             "    \"name\": \"contactFirstName\",\n" +
             "    \"type\": \"string\",\n" +
             "    \"properties\": {\n" +
-            "      \"allowMultiple\": false\n" +
+            "      \"allowMultiple\": false,\n" +
+            "      \"size\": {\n" +
+            "        \"min\": 1,\n" +
+            "        \"max\": 50\n" +
+            "      }\n" +
             "    }\n" +
             "  },\n" +
             "  {\n" +
@@ -403,7 +409,11 @@ public class AttributeDataUtils {
             "    \"name\": \"contactLastName\",\n" +
             "    \"type\": \"string\",\n" +
             "    \"properties\": {\n" +
-            "      \"allowMultiple\": false\n" +
+            "      \"allowMultiple\": false,\n" +
+            "      \"size\": {\n" +
+            "        \"min\": 1,\n" +
+            "        \"max\": 50\n" +
+            "      }\n" +
             "    }\n" +
             "  },\n" +
             "  {\n" +
@@ -411,7 +421,11 @@ public class AttributeDataUtils {
             "    \"name\": \"contactNotes\",\n" +
             "    \"type\": \"string\",\n" +
             "    \"properties\": {\n" +
-            "      \"allowMultiple\": false\n" +
+            "      \"allowMultiple\": false,\n" +
+            "      \"size\": {\n" +
+            "        \"min\": 1,\n" +
+            "        \"max\": 140\n" +
+            "      }\n" +
             "    }\n" +
             "  },\n" +
             "  {\n" +
@@ -419,7 +433,8 @@ public class AttributeDataUtils {
             "    \"name\": \"contactEmail\",\n" +
             "    \"type\": \"string\",\n" +
             "    \"properties\": {\n" +
-            "      \"allowMultiple\": false\n" +
+            "      \"allowMultiple\": false,\n" +
+            "      \"pattern\": \"^[a-z0-9!#$%&*+/=?^_`{|}~.-]+@[a-z0-9-_]+[.][a-z]+$\"\n" +
             "    }\n" +
             "  },\n" +
             "  {\n" +
@@ -427,10 +442,7 @@ public class AttributeDataUtils {
             "    \"name\": \"visitingAddress\",\n" +
             "    \"type\": \"json\",\n" +
             "    \"properties\": {\n" +
-            "      \"allowMultiple\": true,\n" +
-            "      \"required\": [\n" +
-            "        \"formatter\"\n" +
-            "      ]\n" +
+            "      \"allowMultiple\": true\n" +
             "    }\n" +
             "  },\n" +
             "  {\n" +
@@ -438,29 +450,46 @@ public class AttributeDataUtils {
             "    \"name\": \"organizationType\",\n" +
             "    \"type\": \"string\",\n" +
             "    \"properties\": {\n" +
-            "      \"allowMultiple\": false\n" +
+            "      \"allowMultiple\": true,\n" +
+            "      \"pattern\": \"^CPO|EMP|AO|CSO$\"\n" +
             "    }\n" +
             "  },\n" +
             "  {\n" +
             "    \"id\": 50,\n" +
             "    \"name\": \"approvedPrivacyPolicy\",\n" +
-            "    \"type\": \"string\",\n" +
+            "    \"type\": \"json\",\n" +
             "    \"properties\": {\n" +
-            "      \"allowMultiple\": true\n" +
+            "      \"allowMultiple\": true,\n" +
+            "      \"required\": [\n" +
+            "        \"url\",\n" +
+            "        \"version\"\n" +
+            "      ]\n" +
             "    }\n" +
             "  },\n" +
             "  {\n" +
             "    \"id\": 51,\n" +
             "    \"name\": \"approvedMarketInfo\",\n" +
-            "    \"type\": \"string\",\n" +
+            "    \"type\": \"json\",\n" +
             "    \"properties\": {\n" +
-            "      \"allowMultiple\": true\n" +
+            "      \"allowMultiple\": true,\n" +
+            "      \"required\": [\n" +
+            "        \"url\",\n" +
+            "        \"version\"\n" +
+            "      ]\n" +
             "    }\n" +
             "  },\n" +
             "  {\n" +
             "    \"id\": 52,\n" +
             "    \"name\": \"activationDate\",\n" +
-            "    \"type\": \"string\",\n" +
+            "    \"type\": \"number\",\n" +
+            "    \"properties\": {\n" +
+            "      \"allowMultiple\": false\n" +
+            "    }\n" +
+            "  },\n" +
+            "  {\n" +
+            "    \"id\": 53,\n" +
+            "    \"name\": \"systemUser\",\n" +
+            "    \"type\": \"boolean\",\n" +
             "    \"properties\": {\n" +
             "      \"allowMultiple\": false\n" +
             "    }\n" +

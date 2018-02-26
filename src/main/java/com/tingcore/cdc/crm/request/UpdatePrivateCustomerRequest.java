@@ -53,7 +53,7 @@ public class UpdatePrivateCustomerRequest extends BaseUpdateCustomerRequest {
     }
 
     @JsonProperty(FieldConstant.SOCIAL_SECURITY_NUMBER)
-    @ApiModelProperty(value = "The social security number and the formatter code", example = "YYYYMMDD-XXXX")
+    @ApiModelProperty(value = "The social security number", example = "YYYYMMDD-XXXX")
     public SocialSecurityNumber getSocialSecurityNumber() {
         return socialSecurityNumber;
     }

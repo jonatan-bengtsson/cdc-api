@@ -17,7 +17,6 @@ public class AddressCRM extends BaseAttributeModel {
     private final String postalCode;
     private final String city;
     private final String country;
-    private final String formatter;
     private final String name;
 
 
@@ -27,7 +26,6 @@ public class AddressCRM extends BaseAttributeModel {
                       final String postalCode,
                       final String city,
                       final String country,
-                      final String formatter,
                       final String name) {
         super(valueId);
         this.address = address;
@@ -35,7 +33,6 @@ public class AddressCRM extends BaseAttributeModel {
         this.postalCode = postalCode;
         this.city = city;
         this.country = country;
-        this.formatter = formatter;
         this.name = name;
     }
 
@@ -45,7 +42,6 @@ public class AddressCRM extends BaseAttributeModel {
         this.postalCode = null;
         this.city = null;
         this.country = null;
-        this.formatter = null;
         this.name = null;
     }
 
@@ -85,13 +81,6 @@ public class AddressCRM extends BaseAttributeModel {
     }
 
 
-    @JsonProperty(FieldConstant.FORMATTER)
-    @ApiModelProperty(value = "Country code for formatting address", example = "SE")
-    @Size(min = 1, max = 4)
-    public String getFormatter() {
-        return formatter;
-    }
-
     @JsonProperty(FieldConstant.NAME)
     @ApiModelProperty(value = "Name to distinguish different addresses", example = "Home address")
     @Size(min = 1, max = 25)
@@ -100,6 +89,6 @@ public class AddressCRM extends BaseAttributeModel {
     }
 
     public AddressCRM copyWithoutId() {
-        return new AddressCRM(null, this.address, this.addressLine2, this.postalCode, this.city, this.country, this.formatter, this.name);
+        return new AddressCRM(null, this.address, this.addressLine2, this.postalCode, this.city, this.country, this.name);
     }
 }

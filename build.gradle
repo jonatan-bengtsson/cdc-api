@@ -78,6 +78,7 @@ ext {
     versionSwagger = "2.7.0"
     versionOkHttp = "3.9.0"
     versionCommonsApi = "1.0.4"
+    versionCommonsRest = "1.0.16"
     versionUserServiceClient = "1.0.9-SNAPSHOT"
     versionAssetServiceClient = "0.1.11"
     versionOperationServiceClient = "0.1.10"
@@ -105,6 +106,7 @@ dependencies {
     compile "com.tingcore:library-eventprocessing:0.0.8"
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
     compile 'com.google.code.gson:gson:2.8.2'
+    compile("com.tingcore.commons:commons-rest:$versionCommonsRest")
 
     // Retrofit + OKHttp
     compile("com.squareup.okhttp3:okhttp:$versionOkHttp")

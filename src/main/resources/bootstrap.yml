@@ -10,3 +10,18 @@ spring:
 #        multiplier: 2
 #        max-interval: 10000
 
+---
+spring:
+  profiles: dev
+  profiles.include: monitoring
+
+---
+spring:
+  profiles: test
+  profiles.include: monitoring
+
+---
+spring:
+  profiles: stage
+  profiles.include: monitoring
+

@@ -8,6 +8,7 @@ import com.tingcore.commons.rest.ErrorResponse;
 import com.tingcore.payments.emp.model.ApiCard;
 import com.tingcore.payments.emp.model.ApiDeletedCustomer;
 import com.tingcore.payments.emp.model.ApiPaymentAccount;
+import com.tingcore.payments.emp.model.DeleteAccountRequest;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -51,14 +52,14 @@ public class PaymentAccountController {
 
     }
 
-    @DeleteMapping("/" + USERS + "/{paymentOptionReference}")
+    @DeleteMapping("/" + USERS)
     @ApiOperation(code = 204, value = "Delete a users payment account.", response = ApiDeletedCustomer.class, tags = {ACCOUNTS})
     @ApiResponses(value = {
             @ApiResponse(code = 400, message = "Could not parse the request.", response = ErrorResponse.class),
             @ApiResponse(code = 404, message = "Payment account with the supplied id was not found.", response = ErrorResponse.class)
     })
-    public ApiDeletedCustomer deleteUserAccount(final @PathVariable("paymentOptionReference") @NotNull String strPaymentOption) {
-        return paymentAccountService.deleteUserAccount(strPaymentOption);
+    public ApiDeletedCustomer deleteUserAccount(@RequestBody @NotNull DeleteAccountRequest request) {
+        return paymentAccountService.deleteUserAccount(request);
     }
 
     @GetMapping("/" + USERS)

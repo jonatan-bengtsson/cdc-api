@@ -40,7 +40,7 @@ public class PaymentAccountService {
         return paymentAccountRepository.getCardInformation(stripeId);
     }
 
-    public ApiDeletedCustomer deleteUserAccount(final String strPaymentOption) {
-        return paymentAccountRepository.deleteUserAccount(strPaymentOption);
+    public ApiDeletedCustomer deleteUserAccount(final DeleteAccountRequest request) {
+        return paymentAccountRepository.deleteUserAccount(request);
     }
 }

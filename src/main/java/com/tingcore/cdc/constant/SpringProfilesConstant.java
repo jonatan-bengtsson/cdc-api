@@ -16,6 +16,7 @@ public class SpringProfilesConstant {
     public static final String CUCUMBER = "cucumber";
     public static final String INTEGRATION_TEST = "it";
     public static final String FUNCTIONAL_TEST = "ft";
+    public static final String MONITORING = "monitoring";
 
     private SpringProfilesConstant() {
 

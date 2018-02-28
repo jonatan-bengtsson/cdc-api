@@ -9,8 +9,10 @@ import com.tingcore.cdc.charging.repository.AssetRepository;
 import com.tingcore.cdc.charging.repository.OperationsRepository;
 import com.tingcore.cdc.charging.repository.PriceRepository;
 import com.tingcore.cdc.controller.ApiUtils;
+import com.tingcore.cdc.exception.EntityNotFoundException;
 import com.tingcore.charging.assets.api.ChargeSitesApi;
 import com.tingcore.charging.assets.model.ChargePointSiteEntity;
+import com.tingcore.charging.assets.model.ChargePointSiteSettings;
 import com.tingcore.charging.assets.model.CompleteChargePointSite;
 import com.tingcore.charging.operations.api.OperationsApi;
 import com.tingcore.charging.operations.model.ConnectorStatusResponse;
@@ -24,6 +26,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
 
 import static java.util.Collections.emptyMap;
 import static java.util.Optional.ofNullable;
@@ -63,15 +66,19 @@ public class ChargePointSiteService {
      * @return response with basic versions of sites within the bounding box represented by the first and second coordinates.
      */
     public PageResponse<BasicChargeSite> getChargeSiteByCoordinate(double lat1, double lng1, double lat2, double lng2) {
-        List<CompleteChargePointSite> completeChargePointSites = ApiUtils.getResponseOrThrowError(
+        List<CompleteChargePointSite> allSites = ApiUtils.getResponseOrThrowError(
                 assetRepository.execute(chargeSitesApi.findChargePointSitesByLocationUsingGET(lat1, lng1, lat2, lng2)),
                 AssetServiceException::new
         );
 
+        List<CompleteChargePointSite> publishedSites = allSites.stream()
+                .filter(shouldChargePointSiteBePublished())
+                .collect(toList());
+
         ApiResponse<StatusBatchResponse> response = operationsRepository.execute(
                 operationsApi.getChargePointStatusUsingPOST(
                         OperationsApiMapper.toBatchStatusRequest(
-                                completeChargePointSites.stream()
+                                publishedSites.stream()
                         ))
         );
 
@@ -82,8 +89,12 @@ public class ChargePointSiteService {
         }
 
         return response.getResponseOptional()
-                .map(statusBatchResponse -> toChargeSiteWithStatus(completeChargePointSites, statusBatchResponse))
-                .orElse(toChargeSiteWithStatusUnknown(completeChargePointSites));
+                .map(statusBatchResponse -> toChargeSiteWithStatus(publishedSites, statusBatchResponse))
+                .orElse(toChargeSiteWithStatusUnknown(publishedSites));
+    }
+
+    private Predicate<CompleteChargePointSite> shouldChargePointSiteBePublished() {
+        return s -> s.getSettings().getPublishingChannels().contains(ChargePointSiteSettings.PublishingChannelsEnum.CHARGE_AND_DRIVE_CONNECT_API);
     }
 
     private PageResponse<BasicChargeSite> toChargeSiteWithStatusUnknown(List<CompleteChargePointSite> completeChargePointSites) {
@@ -142,6 +153,9 @@ public class ChargePointSiteService {
                 AssetServiceException::new
         );
 
+        if(!shouldChargePointSiteBePublished().test(completeChargePointSite)) {
+            throw new EntityNotFoundException("ChargePointSite", Long.toString(id));
+        }
 
         ApiResponse<StatusBatchResponse> statusResponse = operationsRepository.execute(
                 operationsApi.getChargePointStatusUsingPOST(
@@ -169,7 +183,7 @@ public class ChargePointSiteService {
     private ChargePointSite toChargePointSite(CompleteChargePointSite completeChargePointSite,
                                               StatusBatchResponse statusBatchResponse,
                                               List<ConnectorPrice> connectorPrices) {
-        final Map<Long, ConnectorStatusResponse> connectorStatusMap = ofNullable(statusBatchResponse).map(statuses -> ConnectorStatusMapper.getStatusMap(statuses)).orElse(emptyMap());
+        final Map<Long, ConnectorStatusResponse> connectorStatusMap = ofNullable(statusBatchResponse).map(ConnectorStatusMapper::getStatusMap).orElse(emptyMap());
         final Map<Long, ConnectorPrice> connectorPriceMap = connectorPrices.stream().collect(toMap(price -> price.connectorId.id, identity()));
 
         return ChargePointSiteMapper.toChargePointSite(

@@ -77,7 +77,7 @@ configurations.all {
 ext {
     versionSwagger = "2.7.0"
     versionOkHttp = "3.9.0"
-    versionCommonsApi = "1.0.4"
+    versionCommonsApi = "1.0.5"
     versionUserServiceClient = "1.0.9-SNAPSHOT"
     versionAssetServiceClient = "SC-850-site-publishing-channels-0.1.16-SNAPSHOT"
     versionOperationServiceClient = "0.1.10"
@@ -133,6 +133,10 @@ dependencies {
     compile("com.lmax:disruptor:3.3.6")
 
     compileOnly("org.springframework.boot:spring-boot-configuration-processor")
+
+    // Metrics
+    compile("io.micrometer:micrometer-spring-legacy:1.0.0")
+    compile("io.micrometer:micrometer-registry-prometheus:1.0.0")
 
     // Test
     testCompile("org.springframework.boot:spring-boot-starter-test")

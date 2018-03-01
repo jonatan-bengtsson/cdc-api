@@ -93,9 +93,6 @@ public class ChargePointSiteService {
                 .orElse(toChargeSiteWithStatusUnknown(publishedSites));
     }
 
-    private Predicate<CompleteChargePointSite> shouldChargePointSiteBePublished() {
-        return s -> s.getSettings().getPublishingChannels().contains(ChargePointSiteSettings.PublishingChannelsEnum.CHARGE_AND_DRIVE_CONNECT_API);
-    }
 
     private PageResponse<BasicChargeSite> toChargeSiteWithStatusUnknown(List<CompleteChargePointSite> completeChargePointSites) {
         List<BasicChargeSite> previewChargeSites = completeChargePointSites.stream()
@@ -193,5 +190,9 @@ public class ChargePointSiteService {
         );
     }
 
+
+    private Predicate<CompleteChargePointSite> shouldChargePointSiteBePublished() {
+        return s -> s.getChargePointSiteEntity().getData().getSettings().getPublishingChannels().contains(ChargePointSiteSettings.PublishingChannelsEnum.CHARGE_AND_DRIVE_CONNECT_API);
+    }
 
 }

@@ -12,17 +12,14 @@ import javax.validation.constraints.NotNull;
 public class Vat extends BaseAttributeModel {
 
     private final String vat;
-    private final String formatter;
 
-    public Vat(final Long attributeValueId, final String vat, final String formatter) {
+    public Vat(final Long attributeValueId, final String vat) {
         super(attributeValueId);
         this.vat = vat;
-        this.formatter = formatter;
     }
 
     public Vat() {
         this.vat = null;
-        this.formatter = null;
     }
 
     @JsonProperty(FieldConstant.VAT)
@@ -31,13 +28,8 @@ public class Vat extends BaseAttributeModel {
         return vat;
     }
 
-    @JsonProperty(FieldConstant.FORMATTER)
-    public String getFormatter() {
-        return formatter;
-    }
-
     @Override
     public Vat copyWithoutId() {
-        return new Vat(null, this.vat, this.formatter);
+        return new Vat(null, this.vat);
     }
 }

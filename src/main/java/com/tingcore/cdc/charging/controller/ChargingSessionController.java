@@ -111,7 +111,7 @@ public class ChargingSessionController {
     private ChargingSession toApiObject(final com.tingcore.cdc.charging.model.ChargingSession chargingSession) {
         return new ChargingSession(
                 hashIdService.encode(chargingSession.id.value),
-                CustomerKey.createBuilder().id(chargingSession.customerKeyId.value).build(), // TODO lookup value and mask
+                chargingSession.customerKeyId.value,
                 toApiObject(chargingSession.price),
                 chargingSession.startTime,
                 chargingSession.endTime,

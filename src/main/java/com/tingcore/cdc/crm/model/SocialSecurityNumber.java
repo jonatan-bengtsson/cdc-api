@@ -9,14 +9,12 @@ import com.tingcore.cdc.crm.constant.FieldConstant;
  */
 public class SocialSecurityNumber extends BaseAttributeModel {
     private String socialSecurityNumber;
-    private String formatter;
 
     public SocialSecurityNumber() {
     }
 
-    public SocialSecurityNumber(Long id, String socialSecurityNumber, String formatter) {
+    public SocialSecurityNumber(Long id, String socialSecurityNumber) {
         this.socialSecurityNumber = socialSecurityNumber;
-        this.formatter = formatter;
     }
 
     @JsonProperty(FieldConstant.SOCIAL_SECURITY_NUMBER)
@@ -28,16 +26,7 @@ public class SocialSecurityNumber extends BaseAttributeModel {
         this.socialSecurityNumber = socialSecurityNumber;
     }
 
-    @JsonProperty(FieldConstant.FORMATTER)
-    public String getFormatter() {
-        return formatter;
-    }
-
-    public void setFormatter(String formatter) {
-        this.formatter = formatter;
-    }
-
     public SocialSecurityNumber copyWithoutId () {
-        return new SocialSecurityNumber(null, this.socialSecurityNumber,this.formatter);
+        return new SocialSecurityNumber(null, this.socialSecurityNumber);
     }
 }

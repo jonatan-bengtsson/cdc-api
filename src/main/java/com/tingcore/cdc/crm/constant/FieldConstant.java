@@ -63,7 +63,6 @@ public class FieldConstant {
     public static final String VALUE_ID = "valueId";
     public static final String LICENSE_PLATE = "licensePlate";
     public static final String PHONE_NUMBER = "phoneNumber";
-    public static final String FORMATTER = "formatter";
     public static final String DEFAULT_CURRENCY = "defaultCurrency";
     public static final String APPROVED_PRIVACY_POLICIES = "approvedPrivacyPolicies";
     public static final String PRIVACY_ID = "privacyId";

@@ -1,7 +1,9 @@
 package com.tingcore.cdc.filter;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tingcore.cdc.configuration.AuthorizedUser;
 import com.tingcore.cdc.configuration.WebMvcConfiguration;
+import com.tingcore.commons.api.security.ClaimsHeaderParser;
 import com.tingcore.commons.api.service.DefaultErrorCode;
 import com.tingcore.commons.api.service.HashIdService;
 import com.tingcore.commons.rest.ErrorResponse;
@@ -26,19 +28,20 @@ import java.util.Optional;
 public class AuthorizationFilter implements Filter {
 
     private static Logger LOG = LoggerFactory.getLogger(AuthorizationFilter.class);
-    public static final String HEADER_CLAIM_USER_ID = "cd-claims-user-id";
     public static final String HTTP_METHOD_OPTIONS = "OPTIONS";
 
 
     private final HashIdService hashIdService;
     private final FilterUtils filterUtils;
+    private final ObjectMapper objectMapper;
 
     @Resource(name = WebMvcConfiguration.AUTHORIZED_USER)
     private AuthorizedUser authorizedUser;
 
-    AuthorizationFilter(final HashIdService hashIdService, final FilterUtils filterUtils) {
+    AuthorizationFilter(final HashIdService hashIdService, final FilterUtils filterUtils, final ObjectMapper objectMapper) {
         this.hashIdService = hashIdService;
         this.filterUtils = filterUtils;
+        this.objectMapper = objectMapper;
     }
 
 
@@ -57,13 +60,13 @@ public class AuthorizationFilter implements Filter {
         if (HTTP_METHOD_OPTIONS.equalsIgnoreCase(request.getMethod())) {
             filterChain.doFilter(request, response);
         } else {
-            final String encodedUserId = request.getHeader(HEADER_CLAIM_USER_ID);
-            final Optional<Long> idOptional = Optional.ofNullable(encodedUserId)
-                    .flatMap(hashIdService::decode);
+            final ClaimsHeaderParser parser = new ClaimsHeaderParser(this.hashIdService,objectMapper,request);
+            final Optional<Long> idOptional = parser.getUserId();
 
             if (idOptional.isPresent()) {
-                authorizedUser.setEncodedId(encodedUserId);
+                authorizedUser.setEncodedId(parser.getEncodedUserId().orElse(null));
                 authorizedUser.setId(idOptional.get());
+                authorizedUser.setOrganization(parser.getOrganization().orElse(null));
                 filterChain.doFilter(servletRequest, servletResponse);
             } else {
                 filterUtils.setError(response, ErrorResponse.unauthorized(), DefaultErrorCode.UNAUTHORIZED);

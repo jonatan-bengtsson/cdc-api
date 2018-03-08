@@ -79,7 +79,7 @@ ext {
     versionOkHttp = "3.9.0"
     versionCommonsApi = "SC-802-user-model-1.0.6-SNAPSHOT"
     versionUserServiceClient = "1.0.9"
-    versionAssetServiceClient = "0.1.16"
+    versionAssetServiceClient = "SC-802-cpo-for-cdc-0.1.18-SNAPSHOT"
     versionOperationServiceClient = "0.1.12"
     versionPaymentsEmpClient = "0.8.6"
     versionPaymentsCpoClient = "0.8.6"

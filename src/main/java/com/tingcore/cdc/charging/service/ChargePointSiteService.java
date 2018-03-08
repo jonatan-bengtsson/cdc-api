@@ -18,6 +18,7 @@ import com.tingcore.charging.operations.api.OperationsApi;
 import com.tingcore.charging.operations.model.ConnectorStatusResponse;
 import com.tingcore.charging.operations.model.StatusBatchResponse;
 import com.tingcore.commons.api.repository.ApiResponse;
+import com.tingcore.commons.api.service.ForbiddenException;
 import com.tingcore.commons.rest.PageResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -63,11 +64,12 @@ public class ChargePointSiteService {
      * @param lng1 longitude component of first coordinate
      * @param lat2 latitude component of second coordinate
      * @param lng2 longitude component of second coordinate
+     * @param chargePointOperatorId include sites operated by this CPO.
      * @return response with basic versions of sites within the bounding box represented by the first and second coordinates.
      */
-    public PageResponse<BasicChargeSite> getChargeSiteByCoordinate(double lat1, double lng1, double lat2, double lng2) {
+    public PageResponse<BasicChargeSite> getChargeSiteByCoordinate(double lat1, double lng1, double lat2, double lng2, long chargePointOperatorId) {
         List<CompleteChargePointSite> allSites = ApiUtils.getResponseOrThrowError(
-                assetRepository.execute(chargeSitesApi.findChargePointSitesByLocationUsingGET(lat1, lng1, lat2, lng2)),
+                assetRepository.execute(chargeSitesApi.findChargePointSitesByLocationUsingGET(lat1, lng1, lat2, lng2,chargePointOperatorId)),
                 AssetServiceException::new
         );
 
@@ -142,13 +144,18 @@ public class ChargePointSiteService {
      * Fetch a detailed version of a charge point site
      *
      * @param id the id of a charge point site
+     * @param chargePointOperatorId the CPO operating the charge point site
      * @return A detailed answer of the charge point site including statuses on charge points and connectors
      */
-    public com.tingcore.cdc.charging.model.ChargePointSite getChargeSite(long id) {
+    public com.tingcore.cdc.charging.model.ChargePointSite getChargeSite(long id, long chargePointOperatorId) {
         CompleteChargePointSite completeChargePointSite = ApiUtils.getResponseOrThrowError(
                 assetRepository.execute(chargeSitesApi.findCompleteChargeSiteByIdUsingGET(id)),
                 AssetServiceException::new
         );
+
+        if(completeChargePointSite.getChargePointSiteEntity().getData().getOperatorOrganizationId() != chargePointOperatorId) {
+            throw new ForbiddenException("Mismatch between requesting operator id and site charge point operator id!");
+        }
 
         if(!shouldChargePointSiteBePublished().test(completeChargePointSite)) {
             throw new EntityNotFoundException("ChargePointSite", Long.toString(id));

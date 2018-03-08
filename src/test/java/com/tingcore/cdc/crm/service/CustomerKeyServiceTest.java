@@ -4,7 +4,6 @@ import com.tingcore.cdc.crm.model.CustomerKey;
 import com.tingcore.cdc.crm.model.CustomerKeyType;
 import com.tingcore.cdc.crm.repository.CustomerKeyRepository;
 import com.tingcore.cdc.crm.utils.CustomerKeyDataUtils;
-import com.tingcore.cdc.crm.utils.PaymentOptionDataUtils;
 import com.tingcore.cdc.utils.CommonDataUtils;
 import com.tingcore.commons.api.repository.ApiResponse;
 import com.tingcore.commons.rest.ErrorResponse;

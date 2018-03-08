@@ -63,9 +63,9 @@ public class CustomerKeyService {
                 .orElseThrow(() -> new UsersApiException(apiResponse.getError()));
     }
 
-    public CustomerKey addUserPaymentOption(Long authorizedUserId, Long customerKeyId, Long paymentOptionId) {
+    public CustomerKey addUserPaymentOption(Long authorizedUserId, Long customerKeyId, Long userPaymentOptionId) {
         UserPaymentOptionIdRequest apiRequest = new UserPaymentOptionIdRequest();
-        apiRequest.setUserPaymentOptionId(paymentOptionId);
+        apiRequest.setUserPaymentOptionId(userPaymentOptionId);
         final ApiResponse<CustomerKeyResponse> apiResponse = customerKeyRepository.addUserPaymentOption(customerKeyId, apiRequest, authorizedUserId, authorizedUserId);
         return apiResponse
                 .getResponseOptional()

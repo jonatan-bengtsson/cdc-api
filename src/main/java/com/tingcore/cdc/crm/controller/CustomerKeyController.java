@@ -90,7 +90,7 @@ public class CustomerKeyController {
 
     @RequestMapping(
             method = RequestMethod.POST,
-            path = "/{customerKeyId}/user-payment-options/{paymentOptionId}",
+            path = "/{customerKeyId}/user-payment-options/{userPaymentOptionId}",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
     @ApiOperation(
@@ -100,9 +100,9 @@ public class CustomerKeyController {
     )
     public CustomerKey addUserPaymentOption(
             @PathVariable(value = "customerKeyId") String encodedCustomerKeyId,
-            @PathVariable(value = "paymentOptionId") String encodedPaymentOptionId) {
+            @PathVariable(value = "userPaymentOptionId") String encodedUserPaymentOptionId) {
         final Long customerKeyId = hashIdService.decode(encodedCustomerKeyId).get();
-        final Long paymentOptionId = hashIdService.decode(encodedPaymentOptionId).get();
-        return customerKeyService.addUserPaymentOption(authorizedUser.getId(), customerKeyId, paymentOptionId);
+        final Long userPaymentOptionId = hashIdService.decode(encodedUserPaymentOptionId).get();
+        return customerKeyService.addUserPaymentOption(authorizedUser.getId(), customerKeyId, userPaymentOptionId);
     }
 }

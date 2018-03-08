@@ -118,10 +118,10 @@ public class CustomerKeyControllerTest extends ControllerUnitTest {
         final CustomerKey mockResponse = CustomerKeyDataUtils.randomCustomerKey().build();
         final Long customerKeyId = CommonDataUtils.getNextId();
         final String encodedCustomerKeyId = hashIdService.encode(customerKeyId);
-        final Long paymentOptionId = CommonDataUtils.getNextId();
-        final String encodedPaymentOptionId = hashIdService.encode(paymentOptionId);
-        given(customerKeyService.addUserPaymentOption(authorizedUser.getId(), customerKeyId, paymentOptionId)).willReturn(mockResponse);
-        MvcResult result = mockMvc.perform(post("/v1/customer-keys/{customerKeyId}/user-payment-options/{paymentOptionId}", encodedCustomerKeyId, encodedPaymentOptionId))
+        final Long userPaymentOptionId = CommonDataUtils.getNextId();
+        final String encodedUserPaymentOptionId = hashIdService.encode(userPaymentOptionId);
+        given(customerKeyService.addUserPaymentOption(authorizedUser.getId(), customerKeyId, userPaymentOptionId)).willReturn(mockResponse);
+        MvcResult result = mockMvc.perform(post("/v1/customer-keys/{customerKeyId}/user-payment-options/{userPaymentOptionId}", encodedCustomerKeyId, encodedUserPaymentOptionId))
                 .andExpect(status().isOk())
                 .andReturn();
         assertThat(mockMvcUtils.fromJson(result.getResponse().getContentAsString(), CustomerKey.class)).isEqualToComparingFieldByFieldRecursively(mockResponse);
@@ -131,11 +131,11 @@ public class CustomerKeyControllerTest extends ControllerUnitTest {
     public void failAddUserPaymentOption() throws Exception {
         final Long customerKeyId = CommonDataUtils.getNextId();
         final String encodedCustomerKeyId = hashIdService.encode(customerKeyId);
-        final Long paymentOptionId = CommonDataUtils.getNextId();
-        final String encodedPaymentOptionId = hashIdService.encode(paymentOptionId);
+        final Long userPaymentOptionId = CommonDataUtils.getNextId();
+        final String encodedUserPaymentOptionId = hashIdService.encode(userPaymentOptionId);
         given(customerKeyService.addUserPaymentOption(anyLong(), anyLong(), anyLong()))
                 .willThrow(new EntityNotFoundException(CustomerKey.class.getSimpleName()));
-        mockMvc.perform(post("/v1/customer-keys/{customerKeyId}/user-payment-options/{paymentOptionId}", encodedCustomerKeyId, encodedPaymentOptionId))
+        mockMvc.perform(post("/v1/customer-keys/{customerKeyId}/user-payment-options/{userPaymentOptionId}", encodedCustomerKeyId, encodedUserPaymentOptionId))
                 .andExpect(status().isNotFound())
                 .andExpect(ErrorBodyMatcher.entityNotFoundMatcher("CustomerKey"));
     }

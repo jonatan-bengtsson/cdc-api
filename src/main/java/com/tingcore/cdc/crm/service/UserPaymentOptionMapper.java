@@ -26,11 +26,4 @@ class UserPaymentOptionMapper {
                 .build();
     }
 
-    /*
-    public static UserPaymentOptionIdRequest toApiRequest(final Long userPaymentOptionId) {
-        final UserPaymentOptionIdRequest apiRequest = new UserPaymentOptionIdRequest();
-        apiRequest.setUserPaymentOptionId(userPaymentOptionId);
-        return apiRequest;
-    }
-    */
 }

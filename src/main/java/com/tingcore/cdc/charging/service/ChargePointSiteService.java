@@ -60,16 +60,16 @@ public class ChargePointSiteService {
      * Given two coordinates representing a bounding box
      * returns basic versions of all charge point sites within the bounding box with some aggregated status
      *
-     * @param lat1 latitude component of first coordinate
-     * @param lng1 longitude component of first coordinate
-     * @param lat2 latitude component of second coordinate
-     * @param lng2 longitude component of second coordinate
+     * @param lat1                  latitude component of first coordinate
+     * @param lng1                  longitude component of first coordinate
+     * @param lat2                  latitude component of second coordinate
+     * @param lng2                  longitude component of second coordinate
      * @param chargePointOperatorId include sites operated by this CPO.
      * @return response with basic versions of sites within the bounding box represented by the first and second coordinates.
      */
     public PageResponse<BasicChargeSite> getChargeSiteByCoordinate(double lat1, double lng1, double lat2, double lng2, long chargePointOperatorId) {
         List<CompleteChargePointSite> allSites = ApiUtils.getResponseOrThrowError(
-                assetRepository.execute(chargeSitesApi.findChargePointSitesByLocationUsingGET(lat1, lng1, lat2, lng2,chargePointOperatorId)),
+                assetRepository.execute(chargeSitesApi.findChargePointSitesByLocationUsingGET(lat1, lng1, lat2, lng2, chargePointOperatorId)),
                 AssetServiceException::new
         );
 
@@ -143,7 +143,7 @@ public class ChargePointSiteService {
     /**
      * Fetch a detailed version of a charge point site
      *
-     * @param id the id of a charge point site
+     * @param id                    the id of a charge point site
      * @param chargePointOperatorId the CPO operating the charge point site
      * @return A detailed answer of the charge point site including statuses on charge points and connectors
      */
@@ -153,11 +153,11 @@ public class ChargePointSiteService {
                 AssetServiceException::new
         );
 
-        if(completeChargePointSite.getChargePointSiteEntity().getData().getOperatorOrganizationId() != chargePointOperatorId) {
+        if (completeChargePointSite.getChargePointSiteEntity().getData().getOperatorOrganizationId() != chargePointOperatorId) {
             throw new ForbiddenException("Mismatch between requesting operator id and site charge point operator id!");
         }
 
-        if(!shouldChargePointSiteBePublished().test(completeChargePointSite)) {
+        if (!shouldChargePointSiteBePublished().test(completeChargePointSite)) {
             throw new EntityNotFoundException("ChargePointSite", Long.toString(id));
         }
 

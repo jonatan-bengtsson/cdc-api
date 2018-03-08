@@ -64,12 +64,12 @@ public class ChargeSiteController {
     )
     public ChargePointSite getChargePointSite(@PathVariable("id") String id) {
         long chargePointOperatorId = this.authorizedUser.getOrganization().getId();
-        return chargeSiteService.getChargeSite(getId(id),chargePointOperatorId);
+        return chargeSiteService.getChargeSite(getId(id), chargePointOperatorId);
     }
 
     private long getId(String hashId) {
         Optional<Long> decode = hashIdService.decode(hashId);
-        if(decode.isPresent()) {
+        if (decode.isPresent()) {
             return decode.get();
         } else {
             throw new EntityNotFoundException();

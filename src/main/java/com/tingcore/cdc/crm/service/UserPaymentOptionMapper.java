@@ -1,6 +1,9 @@
 package com.tingcore.cdc.crm.service;
 
 import com.tingcore.cdc.crm.model.UserPaymentOption;
+import com.tingcore.cdc.crm.request.CustomerKeyPostRequest;
+import com.tingcore.users.model.CustomerKeyRequest;
+import com.tingcore.users.model.UserPaymentOptionIdRequest;
 import com.tingcore.users.model.UserPaymentOptionResponse;
 
 import java.time.Instant;
@@ -22,4 +25,12 @@ class UserPaymentOptionMapper {
                 .paymentOptionReference(userPaymentOption.getPaymentOptionReference())
                 .build();
     }
+
+    /*
+    public static UserPaymentOptionIdRequest toApiRequest(final Long userPaymentOptionId) {
+        final UserPaymentOptionIdRequest apiRequest = new UserPaymentOptionIdRequest();
+        apiRequest.setUserPaymentOptionId(userPaymentOptionId);
+        return apiRequest;
+    }
+    */
 }

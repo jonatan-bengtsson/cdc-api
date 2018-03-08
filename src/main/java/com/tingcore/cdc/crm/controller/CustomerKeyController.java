@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.nio.file.OpenOption;
+import java.util.Optional;
 
 /**
  * @author palmithor
@@ -85,5 +87,24 @@ public class CustomerKeyController {
     public CustomerKey createCustomerKey(
             @Valid @RequestBody CustomerKeyPostRequest customerKeyRequest) {
         return customerKeyService.create(authorizedUser.getId(), customerKeyRequest);
+    }
+
+
+    @RequestMapping(
+            method = RequestMethod.POST,
+            path = "/{customerKeyId}/user-payment-options/{paymentOptionId}",
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE
+    )
+    @ApiOperation(
+            value = "Add a user payment option to a customer key",
+            notes = "Route allows adding a user payment option to a customer key.",
+            tags = SwaggerConstant.TAGS_CUSTOMER_KEYS
+    )
+    public CustomerKey addUserPaymentOption(
+            @PathVariable(value = "customerKeyId") String encodedCustomerKeyId,
+            @PathVariable(value = "paymentOptionId") String encodedPaymentOptionId) {
+        final Long customerKeyId = hashIdService.decode(encodedCustomerKeyId).get();
+        final Long paymentOptionId = hashIdService.decode(encodedPaymentOptionId).get();
+        return customerKeyService.addUserPaymentOption(authorizedUser.getId(), customerKeyId, paymentOptionId);
     }
 }

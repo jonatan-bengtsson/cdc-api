@@ -112,4 +112,31 @@ public class CustomerKeyControllerTest extends ControllerUnitTest {
                 .andExpect(status().isNotFound())
                 .andExpect(ErrorBodyMatcher.entityNotFoundMatcher("User"));
     }
+
+    @Test
+    public void addUserPaymentOption() throws Exception {
+        final CustomerKey mockResponse = CustomerKeyDataUtils.randomCustomerKey().build();
+        final Long customerKeyId = CommonDataUtils.getNextId();
+        final String encodedCustomerKeyId = hashIdService.encode(customerKeyId);
+        final Long paymentOptionId = CommonDataUtils.getNextId();
+        final String encodedPaymentOptionId = hashIdService.encode(paymentOptionId);
+        given(customerKeyService.addUserPaymentOption(authorizedUser.getId(), customerKeyId, paymentOptionId)).willReturn(mockResponse);
+        MvcResult result = mockMvc.perform(post("/v1/customer-keys/{customerKeyId}/user-payment-options/{paymentOptionId}", encodedCustomerKeyId, encodedPaymentOptionId))
+                .andExpect(status().isOk())
+                .andReturn();
+        assertThat(mockMvcUtils.fromJson(result.getResponse().getContentAsString(), CustomerKey.class)).isEqualToComparingFieldByFieldRecursively(mockResponse);
+    }
+
+    @Test
+    public void failAddUserPaymentOption() throws Exception {
+        final Long customerKeyId = CommonDataUtils.getNextId();
+        final String encodedCustomerKeyId = hashIdService.encode(customerKeyId);
+        final Long paymentOptionId = CommonDataUtils.getNextId();
+        final String encodedPaymentOptionId = hashIdService.encode(paymentOptionId);
+        given(customerKeyService.addUserPaymentOption(anyLong(), anyLong(), anyLong()))
+                .willThrow(new EntityNotFoundException(CustomerKey.class.getSimpleName()));
+        mockMvc.perform(post("/v1/customer-keys/{customerKeyId}/user-payment-options/{paymentOptionId}", encodedCustomerKeyId, encodedPaymentOptionId))
+                .andExpect(status().isNotFound())
+                .andExpect(ErrorBodyMatcher.entityNotFoundMatcher("CustomerKey"));
+    }
 }

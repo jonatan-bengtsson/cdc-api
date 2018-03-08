@@ -4,14 +4,12 @@ import com.tingcore.cdc.crm.model.CustomerKey;
 import com.tingcore.cdc.crm.model.CustomerKeyType;
 import com.tingcore.cdc.crm.repository.CustomerKeyRepository;
 import com.tingcore.cdc.crm.utils.CustomerKeyDataUtils;
+import com.tingcore.cdc.crm.utils.PaymentOptionDataUtils;
 import com.tingcore.cdc.utils.CommonDataUtils;
 import com.tingcore.commons.api.repository.ApiResponse;
 import com.tingcore.commons.rest.ErrorResponse;
 import com.tingcore.commons.rest.PageResponse;
-import com.tingcore.users.model.CustomerKeyRequest;
-import com.tingcore.users.model.CustomerKeyResponse;
-import com.tingcore.users.model.CustomerKeyTypeResponse;
-import com.tingcore.users.model.PageResponseCustomerKeyResponse;
+import com.tingcore.users.model.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -121,6 +119,27 @@ public class CustomerKeyServiceTest {
                 .willReturn(new ApiResponse<>(ErrorResponse.serverError().build()));
         assertThatExceptionOfType(UsersApiException.class)
                 .isThrownBy(() -> customerKeyService.getCustomerKeyTypes())
+                .withNoCause();
+    }
+
+    @Test
+    public void addUserPaymentOption() {
+        final CustomerKeyResponse expectedResponse = CustomerKeyDataUtils.randomCustomerKeyResponse();
+        given(customerKeyRepository.addUserPaymentOption(anyLong(), any(UserPaymentOptionIdRequest.class), anyLong(), anyLong()))
+                .willReturn(new ApiResponse<>(expectedResponse));
+        final CustomerKey customerKey = customerKeyService.addUserPaymentOption(
+                expectedResponse.getUserId(),
+                expectedResponse.getId(),
+                expectedResponse.getUserPaymentOptions().get(0).getId());
+        assertMapping(expectedResponse, customerKey);
+    }
+
+    @Test
+    public void failAddUserPaymentOptionApiError() {
+        given(customerKeyRepository.addUserPaymentOption(anyLong(), any(UserPaymentOptionIdRequest.class), anyLong(), anyLong()))
+                .willReturn(new ApiResponse<>(ErrorResponse.forbidden().build()));
+        assertThatExceptionOfType(UsersApiException.class)
+                .isThrownBy(() -> customerKeyService.addUserPaymentOption(CommonDataUtils.getNextId(), CommonDataUtils.getNextId(), CommonDataUtils.getNextId()))
                 .withNoCause();
     }
 

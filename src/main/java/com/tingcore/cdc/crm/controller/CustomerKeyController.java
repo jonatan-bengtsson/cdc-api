@@ -86,4 +86,23 @@ public class CustomerKeyController {
             @Valid @RequestBody CustomerKeyPostRequest customerKeyRequest) {
         return customerKeyService.create(authorizedUser.getId(), customerKeyRequest);
     }
+
+
+    @RequestMapping(
+            method = RequestMethod.POST,
+            path = "/{customerKeyId}/user-payment-options/{userPaymentOptionId}",
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE
+    )
+    @ApiOperation(
+            value = "Add a user payment option to a customer key",
+            notes = "Route allows adding a user payment option to a customer key.",
+            tags = SwaggerConstant.TAGS_CUSTOMER_KEYS
+    )
+    public CustomerKey addUserPaymentOption(
+            @PathVariable(value = "customerKeyId") String encodedCustomerKeyId,
+            @PathVariable(value = "userPaymentOptionId") String encodedUserPaymentOptionId) {
+        final Long customerKeyId = hashIdService.decode(encodedCustomerKeyId).get();
+        final Long userPaymentOptionId = hashIdService.decode(encodedUserPaymentOptionId).get();
+        return customerKeyService.addUserPaymentOption(authorizedUser.getId(), customerKeyId, userPaymentOptionId);
+    }
 }

@@ -33,8 +33,8 @@ public class PaymentAccountRepository extends AbstractApiRepository {
         return GetResponseOrPaymentAccountError(paymentaccountsApi.getUserAccount(paymentAccountId));
     }
 
-    public ApiDeletedCustomer deleteUserAccount(final DeleteAccountRequest request) {
-        return GetResponseOrPaymentAccountError(paymentaccountsApi.deleteUserAccount(request));
+    public ApiDeletedCustomer deleteUserAccount(final Long userID, final String paymentOption) {
+        return GetResponseOrPaymentAccountError(paymentaccountsApi.deleteUserAccount_0(userID, paymentOption));
     }
 
     public List<ApiPaymentAccount> getAllAccountsById(final Long keyId,
@@ -42,16 +42,8 @@ public class PaymentAccountRepository extends AbstractApiRepository {
         return GetResponseOrPaymentAccountError(paymentaccountsApi.getUserPaymentAccounts(keyId, userId));
     }
 
-    public ApiCard getCardInformation(final String stripeId){
-        return GetResponseOrCardInformationError(paymentaccountsApi.getCardInformation(stripeId));
-    }
-
     private <T, E extends ExternalApiException> T GetResponseOrPaymentAccountError(CompletableFuture<T> request) throws E {
         return getResponseOrThrowError(execute(request), GetPaymentAccountApiException::new);
-    }
-
-    private <T, E extends ExternalApiException> T GetResponseOrCardInformationError(CompletableFuture<T> request) throws E {
-        return getResponseOrThrowError(execute(request), GetCardInformationApiException::new);
     }
 
     @Override

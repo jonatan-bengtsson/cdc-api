@@ -102,7 +102,7 @@ public class CustomerKeyController {
             tags = SwaggerConstant.TAGS_CUSTOMER_KEYS
     )
     public CustomerKey addUserPaymentOption(
-            @ApiParam(value = "The internal user payment option id, encoded.", example = SwaggerDocConstants.EXAMPLE_ID)
+            @ApiParam(value = "The internal customer key id, encoded.", example = SwaggerDocConstants.EXAMPLE_ID)
             @PathVariable(value = "customerKeyId") String encodedCustomerKeyId,
             @ApiParam(value = "The internal user payment option id, encoded.", example = SwaggerDocConstants.EXAMPLE_ID)
             @PathVariable(value = "userPaymentOptionId") String encodedUserPaymentOptionId) {

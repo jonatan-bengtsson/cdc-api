@@ -6,6 +6,7 @@ import com.tingcore.payments.emp.model.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PaymentAccountService {
@@ -36,11 +37,8 @@ public class PaymentAccountService {
         return paymentAccountRepository.getAllAccountsById(keyId, userId);
     }
 
-    public ApiCard getCardInformation(final String stripeId){
-        return paymentAccountRepository.getCardInformation(stripeId);
-    }
-
-    public ApiDeletedCustomer deleteUserAccount(final DeleteAccountRequest request) {
-        return paymentAccountRepository.deleteUserAccount(request);
+    public ApiDeletedCustomer deleteUserAccount(final Long userId,
+                                                final String paymentOption) {
+        return paymentAccountRepository.deleteUserAccount(userId, paymentOption);
     }
 }

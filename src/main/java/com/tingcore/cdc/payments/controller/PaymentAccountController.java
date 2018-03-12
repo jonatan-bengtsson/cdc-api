@@ -5,7 +5,6 @@ import com.tingcore.cdc.payments.api.ApiCreateAccountRequest;
 import com.tingcore.cdc.payments.service.PaymentAccountService;
 import com.tingcore.commons.api.service.HashIdService;
 import com.tingcore.commons.rest.ErrorResponse;
-import com.tingcore.payments.emp.model.ApiCard;
 import com.tingcore.payments.emp.model.ApiDeletedCustomer;
 import com.tingcore.payments.emp.model.ApiPaymentAccount;
 import com.tingcore.payments.emp.model.DeleteAccountRequest;
@@ -26,7 +25,7 @@ public class PaymentAccountController {
     static final String VERSION = "v1";
     static final String ACCOUNTS = "paymentaccounts";
     static final String USERS = "users";
-    static final String CARD = "card";
+    static final String PAYMENT_OPTION = "paymentoption";
 
     private final PaymentAccountService paymentAccountService;
     private HashIdService hashIdService;
@@ -52,14 +51,17 @@ public class PaymentAccountController {
 
     }
 
-    @DeleteMapping("/" + USERS)
-    @ApiOperation(code = 204, value = "Delete a users payment account.", response = ApiDeletedCustomer.class, tags = {ACCOUNTS})
+    @DeleteMapping("/" + USERS + "/{userid}" + "/" + PAYMENT_OPTION + "/{paymentoption}")
+    @ApiOperation(value = "Delete a users payment account.", response = ApiDeletedCustomer.class, tags = {ACCOUNTS})
     @ApiResponses(value = {
             @ApiResponse(code = 400, message = "Could not parse the request.", response = ErrorResponse.class),
             @ApiResponse(code = 404, message = "Payment account with the supplied id was not found.", response = ErrorResponse.class)
     })
-    public ApiDeletedCustomer deleteUserAccount(@RequestBody @NotNull DeleteAccountRequest request) {
-        return paymentAccountService.deleteUserAccount(request);
+    public ApiDeletedCustomer deleteUserAccount(@PathVariable("userid") String userId,
+                                                @PathVariable("paymentoption") String paymentOption) {
+        return hashIdService.decode(userId)
+                .map(id -> paymentAccountService.deleteUserAccount(id, paymentOption))
+                .orElseThrow(() -> new IllegalStateException("Could not decode userId"));
     }
 
     @GetMapping("/" + USERS)
@@ -78,11 +80,5 @@ public class PaymentAccountController {
                     .orElseThrow(() -> new PaymentAccountFailureException(userId));
         }
         return paymentAccountService.getAllAccountsById(key, user);
-    }
-
-    @GetMapping("/" + USERS + "/{stripetoken}" + "/" + CARD)
-    @ApiOperation(value = "Get card details from stripe", response = ApiCard.class, tags = {ACCOUNTS})
-    public ApiCard getCardInformation(@PathVariable("stripetoken") final String stripeToken) {
-        return paymentAccountService.getCardInformation(stripeToken);
     }
 }

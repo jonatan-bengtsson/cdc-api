@@ -37,8 +37,8 @@ public class PaymentAccountService {
         return paymentAccountRepository.getAllAccountsById(keyId, userId);
     }
 
-    public ApiDeletedCustomer deleteUserAccount(final Long userID,
+    public ApiDeletedCustomer deleteUserAccount(final Long userId,
                                                 final String paymentOption) {
-        return paymentAccountRepository.deleteUserAccount(userID, paymentOption);
+        return paymentAccountRepository.deleteUserAccount(userId, paymentOption);
     }
 }

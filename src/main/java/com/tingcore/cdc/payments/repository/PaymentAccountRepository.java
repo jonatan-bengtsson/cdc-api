@@ -26,23 +26,23 @@ public class PaymentAccountRepository extends AbstractApiRepository {
 
     public ApiPaymentAccount createUserAccount(final CreateAccountRequest request) {
 
-        return GetResponseOrPaymentAccountError(paymentaccountsApi.createUserAccount(request));
+        return getResponseOrPaymentAccountError(paymentaccountsApi.createUserAccount(request));
     }
 
     public ApiPaymentAccount getAccount(final String paymentAccountId) {
-        return GetResponseOrPaymentAccountError(paymentaccountsApi.getUserAccount(paymentAccountId));
+        return getResponseOrPaymentAccountError(paymentaccountsApi.getUserAccount(paymentAccountId));
     }
 
-    public ApiDeletedCustomer deleteUserAccount(final Long userID, final String paymentOption) {
-        return GetResponseOrPaymentAccountError(paymentaccountsApi.deleteUserAccount_0(userID, paymentOption));
+    public ApiDeletedCustomer deleteUserAccount(final Long userId, final String paymentOption) {
+        return getResponseOrPaymentAccountError(paymentaccountsApi.deleteUserAccount_0(userId, paymentOption));
     }
 
     public List<ApiPaymentAccount> getAllAccountsById(final Long keyId,
                                                       final Long userId) {
-        return GetResponseOrPaymentAccountError(paymentaccountsApi.getUserPaymentAccounts(keyId, userId));
+        return getResponseOrPaymentAccountError(paymentaccountsApi.getUserPaymentAccounts(keyId, userId));
     }
 
-    private <T, E extends ExternalApiException> T GetResponseOrPaymentAccountError(CompletableFuture<T> request) throws E {
+    private <T, E extends ExternalApiException> T getResponseOrPaymentAccountError(CompletableFuture<T> request) throws E {
         return getResponseOrThrowError(execute(request), GetPaymentAccountApiException::new);
     }
 

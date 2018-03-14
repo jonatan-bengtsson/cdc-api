@@ -26,32 +26,24 @@ public class PaymentAccountRepository extends AbstractApiRepository {
 
     public ApiPaymentAccount createUserAccount(final CreateAccountRequest request) {
 
-        return GetResponseOrPaymentAccountError(paymentaccountsApi.createUserAccount(request));
+        return getResponseOrPaymentAccountError(paymentaccountsApi.createUserAccount(request));
     }
 
     public ApiPaymentAccount getAccount(final String paymentAccountId) {
-        return GetResponseOrPaymentAccountError(paymentaccountsApi.getUserAccount(paymentAccountId));
+        return getResponseOrPaymentAccountError(paymentaccountsApi.getUserAccount(paymentAccountId));
     }
 
-    public ApiDeletedCustomer deleteUserAccount(final DeleteAccountRequest request) {
-        return GetResponseOrPaymentAccountError(paymentaccountsApi.deleteUserAccount(request));
+    public ApiDeletedCustomer deleteUserAccount(final Long userId, final String paymentOption) {
+        return getResponseOrPaymentAccountError(paymentaccountsApi.deleteUserAccount_0(userId, paymentOption));
     }
 
     public List<ApiPaymentAccount> getAllAccountsById(final Long keyId,
                                                       final Long userId) {
-        return GetResponseOrPaymentAccountError(paymentaccountsApi.getUserPaymentAccounts(keyId, userId));
+        return getResponseOrPaymentAccountError(paymentaccountsApi.getUserPaymentAccounts(keyId, userId));
     }
 
-    public ApiCard getCardInformation(final String stripeId){
-        return GetResponseOrCardInformationError(paymentaccountsApi.getCardInformation(stripeId));
-    }
-
-    private <T, E extends ExternalApiException> T GetResponseOrPaymentAccountError(CompletableFuture<T> request) throws E {
+    private <T, E extends ExternalApiException> T getResponseOrPaymentAccountError(CompletableFuture<T> request) throws E {
         return getResponseOrThrowError(execute(request), GetPaymentAccountApiException::new);
-    }
-
-    private <T, E extends ExternalApiException> T GetResponseOrCardInformationError(CompletableFuture<T> request) throws E {
-        return getResponseOrThrowError(execute(request), GetCardInformationApiException::new);
     }
 
     @Override

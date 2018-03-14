@@ -4,6 +4,7 @@ import com.tingcore.cdc.configuration.AuthorizedUser;
 import com.tingcore.cdc.configuration.WebMvcConfiguration;
 import com.tingcore.cdc.constant.SwaggerDocConstants;
 import com.tingcore.cdc.crm.model.CustomerKey;
+import com.tingcore.cdc.crm.model.UserPaymentOption;
 import com.tingcore.cdc.crm.request.CustomerKeyPostRequest;
 import com.tingcore.cdc.crm.service.CustomerKeyService;
 import com.tingcore.cdc.exception.EntityNotFoundException;
@@ -12,6 +13,7 @@ import com.tingcore.commons.rest.ErrorResponse;
 import com.tingcore.commons.rest.PageResponse;
 import com.tingcore.commons.rest.SwaggerDefaultConstant;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.http.MediaType;
@@ -86,5 +88,28 @@ public class CustomerKeyController {
     public CustomerKey createCustomerKey(
             @Valid @RequestBody CustomerKeyPostRequest customerKeyRequest) {
         return customerKeyService.create(authorizedUser.getId(), customerKeyRequest);
+    }
+
+
+    @RequestMapping(
+            method = RequestMethod.POST,
+            path = "/{customerKeyId}/user-payment-options/{userPaymentOptionId}",
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE
+    )
+    @ApiOperation(
+            value = "Add a user payment option to a customer key",
+            notes = "Route allows adding a user payment option to a customer key.",
+            tags = SwaggerConstant.TAGS_CUSTOMER_KEYS
+    )
+    public CustomerKey addUserPaymentOption(
+            @ApiParam(value = "The internal customer key id, encoded.", example = SwaggerDocConstants.EXAMPLE_ID)
+            @PathVariable(value = "customerKeyId") String encodedCustomerKeyId,
+            @ApiParam(value = "The internal user payment option id, encoded.", example = SwaggerDocConstants.EXAMPLE_ID)
+            @PathVariable(value = "userPaymentOptionId") String encodedUserPaymentOptionId) {
+
+        final Long customerKeyId = hashIdService.decode(encodedCustomerKeyId).orElseThrow(() -> new EntityNotFoundException(CustomerKey.class.getSimpleName(), encodedCustomerKeyId));
+        final Long userPaymentOptionId = hashIdService.decode(encodedUserPaymentOptionId).orElseThrow(() -> new EntityNotFoundException(UserPaymentOption.class.getSimpleName(), encodedCustomerKeyId));
+
+        return customerKeyService.addUserPaymentOption(authorizedUser.getId(), customerKeyId, userPaymentOptionId);
     }
 }

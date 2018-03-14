@@ -9,6 +9,7 @@ import com.tingcore.commons.rest.PageResponse;
 import com.tingcore.users.model.CustomerKeyResponse;
 import com.tingcore.users.model.CustomerKeyTypeResponse;
 import com.tingcore.users.model.PageResponseCustomerKeyResponse;
+import com.tingcore.users.model.UserPaymentOptionIdRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -59,6 +60,16 @@ public class CustomerKeyService {
         final ApiResponse<List<CustomerKeyTypeResponse>> apiResponse = customerKeyRepository.findCustomerKeyTypes();
         return apiResponse.getResponseOptional()
                 .map(customerKeyTypeResponses -> customerKeyTypeResponses.stream().map(CustomerKeyTypeMapper::toModel).collect(Collectors.toList()))
+                .orElseThrow(() -> new UsersApiException(apiResponse.getError()));
+    }
+
+    public CustomerKey addUserPaymentOption(Long authorizedUserId, Long customerKeyId, Long userPaymentOptionId) {
+        UserPaymentOptionIdRequest apiRequest = new UserPaymentOptionIdRequest();
+        apiRequest.setUserPaymentOptionId(userPaymentOptionId);
+        final ApiResponse<CustomerKeyResponse> apiResponse = customerKeyRepository.addUserPaymentOption(customerKeyId, apiRequest, authorizedUserId, authorizedUserId);
+        return apiResponse
+                .getResponseOptional()
+                .map(CustomerKeyMapper::toModel)
                 .orElseThrow(() -> new UsersApiException(apiResponse.getError()));
     }
 }

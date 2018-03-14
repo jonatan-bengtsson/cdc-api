@@ -2,6 +2,7 @@ package com.tingcore.cdc.crm.controller;
 
 import com.tingcore.cdc.configuration.AuthorizedUser;
 import com.tingcore.cdc.configuration.WebMvcConfiguration;
+import com.tingcore.cdc.constant.SwaggerDocConstants;
 import com.tingcore.cdc.crm.model.User;
 import com.tingcore.cdc.crm.request.UpdatePrivateCustomerRequest;
 import com.tingcore.cdc.crm.service.UserService;
@@ -35,7 +36,7 @@ public class PrivateCustomerController {
     @RequestMapping(value="/self", method = PUT, produces = "application/json")
     @ApiOperation(value = "Create or update a private customer's attribute values",
             notes = "Route allows creating new or updating an existing private customer's attribute values",
-            tags = SwaggerConstant.TAGS_USERS)
+            tags = SwaggerDocConstants.TAGS_USERS)
     public User updatePrivateCustomerAttributeValues(@Valid @RequestBody UpdatePrivateCustomerRequest userRequest) {
         final Long authorizedUserId = authorizedUser.getId();
         return userService.putUserAttributeValues(authorizedUserId, userRequest);

@@ -1,5 +1,6 @@
 package com.tingcore.cdc.payments.controller;
 
+import com.tingcore.cdc.constant.SwaggerDocConstants;
 import com.tingcore.cdc.exception.PaymentAccountFailureException;
 import com.tingcore.cdc.payments.api.ApiCreateAccountRequest;
 import com.tingcore.cdc.payments.service.PaymentAccountService;
@@ -18,13 +19,14 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
+import static com.tingcore.cdc.payments.controller.PaymentAccountController.ACCOUNTS;
 import static org.apache.commons.lang3.Validate.notNull;
 
 @RestController
-@RequestMapping("/" + PaymentAccountController.VERSION + "/" + PaymentAccountController.ACCOUNTS)
+@RequestMapping("/" + PaymentAccountController.VERSION + "/" + ACCOUNTS)
 public class PaymentAccountController {
     static final String VERSION = "v1";
-    static final String ACCOUNTS = "paymentaccounts";
+    static final String ACCOUNTS = "payment-accounts";
     static final String USERS = "users";
     static final String CARD = "card";
 
@@ -38,7 +40,7 @@ public class PaymentAccountController {
     }
 
     @PostMapping("/" + USERS)
-    @ApiOperation(code = 201, value = "Create a user payment account", response = ApiPaymentAccount.class, tags = {ACCOUNTS})
+    @ApiOperation(code = 201, value = "Create a user payment account", response = ApiPaymentAccount.class, tags = {SwaggerDocConstants.TAGS_PAYMENT_ACCOUNTS})
     public ApiPaymentAccount createUserAccount(final @RequestBody @Valid ApiCreateAccountRequest request) {
         return hashIdService.decode(request.getAccount().getAccountOwnerId())
                 .map(longId -> paymentAccountService.createUserAccount(longId, request))
@@ -46,14 +48,14 @@ public class PaymentAccountController {
     }
 
     @GetMapping("/" + USERS + "/{paymentOptionReference}")
-    @ApiOperation(value = "Get a users payment account.", response = ApiPaymentAccount.class, tags = {ACCOUNTS})
+    @ApiOperation(value = "Get a users payment account.", response = ApiPaymentAccount.class, tags = {SwaggerDocConstants.TAGS_PAYMENT_ACCOUNTS})
     public ApiPaymentAccount getUserAccount(final @PathVariable("paymentOptionReference") @NotNull String paymentOptionReference) {
         return paymentAccountService.getAccount(paymentOptionReference);
 
     }
 
     @DeleteMapping("/" + USERS)
-    @ApiOperation(code = 204, value = "Delete a users payment account.", response = ApiDeletedCustomer.class, tags = {ACCOUNTS})
+    @ApiOperation(code = 204, value = "Delete a users payment account.", response = ApiDeletedCustomer.class, tags = {SwaggerDocConstants.TAGS_PAYMENT_ACCOUNTS})
     @ApiResponses(value = {
             @ApiResponse(code = 400, message = "Could not parse the request.", response = ErrorResponse.class),
             @ApiResponse(code = 404, message = "Payment account with the supplied id was not found.", response = ErrorResponse.class)
@@ -63,7 +65,7 @@ public class PaymentAccountController {
     }
 
     @GetMapping("/" + USERS)
-    @ApiOperation(value = "Get a users payment accounts.", response = ApiPaymentAccount.class, responseContainer = "List", tags = {ACCOUNTS})
+    @ApiOperation(value = "Get a users payment accounts.", response = ApiPaymentAccount.class, responseContainer = "List", tags = {SwaggerDocConstants.TAGS_PAYMENT_ACCOUNTS})
     public List<ApiPaymentAccount> getUserPaymentAccounts(final @RequestParam(value = "keyId", required = false) String keyId,
                                                           final @RequestParam(value = "userId", required = false) String userId) {
         Long key = null;
@@ -81,7 +83,7 @@ public class PaymentAccountController {
     }
 
     @GetMapping("/" + USERS + "/{stripetoken}" + "/" + CARD)
-    @ApiOperation(value = "Get card details from stripe", response = ApiCard.class, tags = {ACCOUNTS})
+    @ApiOperation(value = "Get card details from stripe", response = ApiCard.class, tags = {SwaggerDocConstants.TAGS_PAYMENT_ACCOUNTS})
     public ApiCard getCardInformation(@PathVariable("stripetoken") final String stripeToken) {
         return paymentAccountService.getCardInformation(stripeToken);
     }

@@ -2,6 +2,7 @@ package com.tingcore.cdc.crm.controller;
 
 import com.tingcore.cdc.configuration.AuthorizedUser;
 import com.tingcore.cdc.configuration.WebMvcConfiguration;
+import com.tingcore.cdc.constant.SwaggerDocConstants;
 import com.tingcore.cdc.crm.model.User;
 import com.tingcore.cdc.crm.request.UpdateBusinessCustomerRequest;
 import com.tingcore.cdc.crm.service.UserService;
@@ -35,7 +36,7 @@ public class BusinessCustomerController {
     @RequestMapping(value="/self", method = PUT, produces = "application/json")
     @ApiOperation(value = "Create or update a business customer's attribute values",
             notes = "Route allows creating new or updating an existing business customer's attribute values",
-            tags = SwaggerConstant.TAGS_USERS)
+            tags = SwaggerDocConstants.TAGS_USERS)
     public User updateBusinessCustomerAttributeValues(@Valid @RequestBody UpdateBusinessCustomerRequest userRequest) {
         final Long authorizedUserId = authorizedUser.getId();
         return userService.putUserAttributeValues(authorizedUserId, userRequest);

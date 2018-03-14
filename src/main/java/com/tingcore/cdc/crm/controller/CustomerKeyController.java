@@ -2,6 +2,7 @@ package com.tingcore.cdc.crm.controller;
 
 import com.tingcore.cdc.configuration.AuthorizedUser;
 import com.tingcore.cdc.configuration.WebMvcConfiguration;
+import com.tingcore.cdc.constant.SwaggerDocConstants;
 import com.tingcore.cdc.crm.model.CustomerKey;
 import com.tingcore.cdc.crm.request.CustomerKeyPostRequest;
 import com.tingcore.cdc.crm.service.CustomerKeyService;
@@ -51,7 +52,7 @@ public class CustomerKeyController {
     )
     @ApiOperation(value = "Get customer keys",
             notes = "Route allows fetching the authorized user's customer keys",
-            tags = SwaggerConstant.TAGS_CUSTOMER_KEYS)
+            tags = SwaggerDocConstants.TAGS_CUSTOMER_KEYS)
     public PageResponse<CustomerKey> getCustomerKeys() {
         return customerKeyService.findByUserId(authorizedUser.getId());
     }
@@ -63,7 +64,7 @@ public class CustomerKeyController {
     )
     @ApiOperation(value = "Get customer key by id",
             notes = "Route allows fetching a single customer key by its id",
-            tags = SwaggerConstant.TAGS_CUSTOMER_KEYS)
+            tags = SwaggerDocConstants.TAGS_CUSTOMER_KEYS)
     public CustomerKey getCustomerKeyById(
             @PathVariable(value = "customerKeyId") String encodedCustomerKeyId
     ) {
@@ -80,7 +81,7 @@ public class CustomerKeyController {
     @ApiOperation(
             value = "Create a customer key",
             notes = "Route allows creating a customer key.",
-            tags = SwaggerConstant.TAGS_CUSTOMER_KEYS
+            tags = SwaggerDocConstants.TAGS_CUSTOMER_KEYS
     )
     public CustomerKey createCustomerKey(
             @Valid @RequestBody CustomerKeyPostRequest customerKeyRequest) {

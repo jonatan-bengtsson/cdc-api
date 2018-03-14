@@ -2,6 +2,7 @@ package com.tingcore.cdc.crm.controller;
 
 import com.tingcore.cdc.configuration.AuthorizedUser;
 import com.tingcore.cdc.configuration.WebMvcConfiguration;
+import com.tingcore.cdc.constant.SwaggerDocConstants;
 import com.tingcore.cdc.crm.model.User;
 import com.tingcore.cdc.crm.service.UserService;
 import io.swagger.annotations.ApiOperation;
@@ -39,7 +40,7 @@ public class UserController {
     @ApiOperation(value = "Get the authorized user",
             notes = "Route allows fetching the user that is currently logged in. " +
                     "The endpoint uses the authorization id affiliated with the user.",
-            tags = SwaggerConstant.TAGS_USERS)
+            tags = SwaggerDocConstants.TAGS_USERS)
     public User getSelf(@RequestParam(value = "includeAttributes") Boolean includeAttributes) {
         return userService.getUserById(authorizedUser.getId(), includeAttributes);
     }

@@ -33,7 +33,7 @@ public class MockMvcUtils {
         return mapper.readValue(json, clazz);
     }
 
-    public <T> PageResponse<T> pageFromJson(final String json, final TypeReference<PageResponse<T>> typeReference) throws IOException {
+    public <T> PageResponse<T, String> pageFromJson(final String json, final TypeReference<PageResponse<T, String>> typeReference) throws IOException {
         return mapper.readValue(json, typeReference);
     }
 }

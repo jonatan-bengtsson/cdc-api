@@ -8,7 +8,7 @@ import com.tingcore.cdc.crm.model.StringAttribute;
 import com.tingcore.cdc.crm.request.BaseUpdateCustomerRequest;
 import com.tingcore.cdc.crm.request.UpdateBusinessCustomerRequest;
 import com.tingcore.cdc.crm.request.UpdatePrivateCustomerRequest;
-import com.tingcore.commons.api.utils.JsonUtils;
+import com.tingcore.commons.utils.JsonUtils;
 import com.tingcore.users.model.AttributeResponse;
 import com.tingcore.users.model.AttributeValueListRequest;
 import com.tingcore.users.model.AttributeValueRequest;

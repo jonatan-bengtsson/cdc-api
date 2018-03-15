@@ -67,7 +67,7 @@ public class ChargePointSiteService {
      * @param chargePointOperatorId include sites operated by this CPO.
      * @return response with basic versions of sites within the bounding box represented by the first and second coordinates.
      */
-    public PageResponse<BasicChargeSite> getChargeSiteByCoordinate(double lat1, double lng1, double lat2, double lng2, long chargePointOperatorId) {
+    public PageResponse<BasicChargeSite, String> getChargeSiteByCoordinate(double lat1, double lng1, double lat2, double lng2, long chargePointOperatorId) {
         List<CompleteChargePointSite> allSites = ApiUtils.getResponseOrThrowError(
                 assetRepository.execute(chargeSitesApi.findChargePointSitesByLocationUsingGET(lat1, lng1, lat2, lng2, chargePointOperatorId)),
                 AssetServiceException::new
@@ -96,7 +96,7 @@ public class ChargePointSiteService {
     }
 
 
-    private PageResponse<BasicChargeSite> toChargeSiteWithStatusUnknown(List<CompleteChargePointSite> completeChargePointSites) {
+    private PageResponse<BasicChargeSite, String> toChargeSiteWithStatusUnknown(List<CompleteChargePointSite> completeChargePointSites) {
         List<BasicChargeSite> previewChargeSites = completeChargePointSites.stream()
                 .map(ccps -> {
                     ChargePointSiteEntity chargePointSiteEntity = ccps.getChargePointSiteEntity();
@@ -115,7 +115,7 @@ public class ChargePointSiteService {
         return new PageResponse<>(previewChargeSites);
     }
 
-    private PageResponse<BasicChargeSite> toChargeSiteWithStatus(List<CompleteChargePointSite> completeChargePointSites, StatusBatchResponse statusBatchResponse) {
+    private PageResponse<BasicChargeSite, String> toChargeSiteWithStatus(List<CompleteChargePointSite> completeChargePointSites, StatusBatchResponse statusBatchResponse) {
         Map<Long, ConnectorStatusResponse> connectorStatusMap = ConnectorStatusMapper.getStatusMap(statusBatchResponse);
 
         List<BasicChargeSite> previewChargeSites = completeChargePointSites.stream()

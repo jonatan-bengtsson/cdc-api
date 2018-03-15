@@ -77,8 +77,8 @@ configurations.all {
 ext {
     versionSwagger = "2.7.0"
     versionOkHttp = "3.9.0"
-    versionCommonsApi = "1.0.6-SNAPSHOT"
-    versionUserServiceClient = "1.0.9"
+    versionUserServiceClient = "feature-OrganizationUsersPagination-1.0.10-SNAPSHOT"
+    versionCommonsApi = "feature-PaginationRefactoring-1.0.6-SNAPSHOT"
     versionAssetServiceClient = "0.1.18-SNAPSHOT"
     versionOperationServiceClient = "0.1.12"
     versionPaymentsEmpClient = "0.8.8-SNAPSHOT"

@@ -55,7 +55,7 @@ public class CustomerKeyController {
     @ApiOperation(value = "Get customer keys",
             notes = "Route allows fetching the authorized user's customer keys",
             tags = SwaggerConstant.TAGS_CUSTOMER_KEYS)
-    public PageResponse<CustomerKey> getCustomerKeys() {
+    public PageResponse<CustomerKey, String> getCustomerKeys() {
         return customerKeyService.findByUserId(authorizedUser.getId());
     }
 

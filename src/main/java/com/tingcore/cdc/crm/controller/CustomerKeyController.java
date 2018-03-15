@@ -99,7 +99,7 @@ public class CustomerKeyController {
     @ApiOperation(
             value = "Add a user payment option to a customer key",
             notes = "Route allows adding a user payment option to a customer key.",
-            tags = SwaggerConstant.TAGS_CUSTOMER_KEYS
+            tags = SwaggerDocConstants.TAGS_CUSTOMER_KEYS
     )
     public CustomerKey addUserPaymentOption(
             @ApiParam(value = "The internal customer key id, encoded.", example = SwaggerDocConstants.EXAMPLE_ID)

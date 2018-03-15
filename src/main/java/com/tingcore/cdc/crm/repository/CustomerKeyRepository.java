@@ -36,7 +36,7 @@ public class CustomerKeyRepository extends AbstractUserServiceRepository {
     }
 
     public ApiResponse<CustomerKeyResponse> post(final Long authorizedUserId, final CustomerKeyRequest customerKeyRequest) {
-        return execute(customerKeysApi.postUsingPOST2(customerKeyRequest, authorizedUserId, authorizedUserId));
+        return execute(customerKeysApi.postUsingPOST1(customerKeyRequest, authorizedUserId, authorizedUserId));
     }
 
     public ApiResponse<List<CustomerKeyTypeResponse>> findCustomerKeyTypes() {

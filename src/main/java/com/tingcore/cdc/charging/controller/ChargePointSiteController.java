@@ -44,10 +44,10 @@ public class ChargePointSiteController {
     )
 
     public PageResponse<BasicChargeSite> chargePointSitesByCoordinates(
-            @RequestParam("latitude1") double latitude1,
-            @RequestParam("longitude1") double longitude1,
-            @RequestParam("latitude2") double latitude2,
-            @RequestParam("longitude2") double longitude2) {
+            @RequestParam("northWestLatitude") double latitude1,
+            @RequestParam("northWestLongitude") double longitude1,
+            @RequestParam("southEastLatitude") double latitude2,
+            @RequestParam("southEastLongitude") double longitude2) {
 
         // The organization id is the EMP id, but for now we have no choice
         // but to assume that the EMP is also the CPO to use.

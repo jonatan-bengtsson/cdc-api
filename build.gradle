@@ -79,8 +79,8 @@ ext {
     versionOkHttp = "3.9.0"
     versionCommonsApi = "1.0.6-SNAPSHOT"
     versionUserServiceClient = "1.0.10"
-    versionAssetServiceClient = "0.1.18-SNAPSHOT"
-    versionOperationServiceClient = "0.1.12"
+    versionAssetServiceClient = "0.1.18"
+    versionOperationServiceClient = "0.1.13"
     versionPaymentsEmpClient = "0.8.9"
     versionPaymentsCpoClient = "0.8.9"
 }

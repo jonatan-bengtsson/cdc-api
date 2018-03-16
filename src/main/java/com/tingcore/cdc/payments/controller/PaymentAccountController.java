@@ -1,11 +1,12 @@
 package com.tingcore.cdc.payments.controller;
 
+import com.tingcore.cdc.configuration.AuthorizedUser;
+import com.tingcore.cdc.configuration.WebMvcConfiguration;
 import com.tingcore.cdc.exception.PaymentAccountFailureException;
 import com.tingcore.cdc.payments.api.ApiCreateAccountRequest;
 import com.tingcore.cdc.payments.service.PaymentAccountService;
 import com.tingcore.commons.api.service.HashIdService;
 import com.tingcore.commons.rest.ErrorResponse;
-import com.tingcore.payments.emp.model.ApiCard;
 import com.tingcore.payments.emp.model.ApiDeletedCustomer;
 import com.tingcore.payments.emp.model.ApiPaymentAccount;
 import com.tingcore.payments.emp.model.DeleteAccountRequest;
@@ -14,6 +15,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -26,7 +28,10 @@ public class PaymentAccountController {
     static final String VERSION = "v1";
     static final String ACCOUNTS = "paymentaccounts";
     static final String USERS = "users";
-    static final String CARD = "card";
+    static final String PAYMENT_OPTION = "paymentoption";
+
+    @Resource(name = WebMvcConfiguration.AUTHORIZED_USER)
+    private AuthorizedUser authorizedUser;
 
     private final PaymentAccountService paymentAccountService;
     private HashIdService hashIdService;
@@ -52,37 +57,29 @@ public class PaymentAccountController {
 
     }
 
-    @DeleteMapping("/" + USERS)
-    @ApiOperation(code = 204, value = "Delete a users payment account.", response = ApiDeletedCustomer.class, tags = {ACCOUNTS})
+    @DeleteMapping("/" + PAYMENT_OPTION + "/{paymentoption}")
+    @ApiOperation(value = "Delete a users payment account.", response = ApiDeletedCustomer.class, tags = {ACCOUNTS})
     @ApiResponses(value = {
             @ApiResponse(code = 400, message = "Could not parse the request.", response = ErrorResponse.class),
             @ApiResponse(code = 404, message = "Payment account with the supplied id was not found.", response = ErrorResponse.class)
     })
-    public ApiDeletedCustomer deleteUserAccount(@RequestBody @NotNull DeleteAccountRequest request) {
-        return paymentAccountService.deleteUserAccount(request);
+    public ApiDeletedCustomer deleteUserAccount(@PathVariable("paymentoption") String paymentOption) {
+        return paymentAccountService.deleteUserAccount(authorizedUser.getId(), paymentOption);
     }
 
     @GetMapping("/" + USERS)
     @ApiOperation(value = "Get a users payment accounts.", response = ApiPaymentAccount.class, responseContainer = "List", tags = {ACCOUNTS})
-    public List<ApiPaymentAccount> getUserPaymentAccounts(final @RequestParam(value = "keyId", required = false) String keyId,
-                                                          final @RequestParam(value = "userId", required = false) String userId) {
+    public List<ApiPaymentAccount> getUserPaymentAccounts(final @RequestParam(value = "keyId", required = false) String keyId) {
         Long key = null;
         Long user = null;
 
         if (keyId != null) {
             key = hashIdService.decode(keyId)
                     .orElseThrow(() -> new PaymentAccountFailureException(keyId));
+        } else {
+            user = authorizedUser.getId();
         }
-        if (userId != null) {
-            user = hashIdService.decode(userId)
-                    .orElseThrow(() -> new PaymentAccountFailureException(userId));
-        }
-        return paymentAccountService.getAllAccountsById(key, user);
-    }
 
-    @GetMapping("/" + USERS + "/{stripetoken}" + "/" + CARD)
-    @ApiOperation(value = "Get card details from stripe", response = ApiCard.class, tags = {ACCOUNTS})
-    public ApiCard getCardInformation(@PathVariable("stripetoken") final String stripeToken) {
-        return paymentAccountService.getCardInformation(stripeToken);
+        return paymentAccountService.getAllAccountsById(key, user);
     }
 }

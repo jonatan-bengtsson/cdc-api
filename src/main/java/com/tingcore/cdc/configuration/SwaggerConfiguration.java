@@ -3,7 +3,7 @@ package com.tingcore.cdc.configuration;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
 import com.tingcore.cdc.constant.SpringProfilesConstant;
-import com.tingcore.cdc.filter.AuthorizationFilter;
+import com.tingcore.commons.api.security.ClaimsHeader;
 import com.tingcore.commons.constant.SuppressWarningConstant;
 import com.tingcore.commons.rest.SwaggerDefaultConstant;
 import io.swagger.annotations.ApiOperation;
@@ -55,7 +55,7 @@ public class SwaggerConfiguration {
             // This allows adding the cognito auth header in swagger in dev and test
             docket.globalOperationParameters(Lists.newArrayList(
                     new ParameterBuilder()
-                            .name(AuthorizationFilter.HEADER_CLAIM_USER_ID)
+                            .name(ClaimsHeader.HEADER_CLAIM_USER_ID)
                             .description("The authorized user id")
                             .modelRef(new ModelRef("string"))
                             .parameterType("header")

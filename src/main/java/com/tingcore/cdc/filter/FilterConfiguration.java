@@ -1,5 +1,6 @@
 package com.tingcore.cdc.filter;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tingcore.cdc.constant.SpringProfilesConstant;
 import com.tingcore.commons.api.service.HashIdService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,16 +28,18 @@ public class FilterConfiguration {
 
     private final HashIdService hashIdService;
     private final FilterUtils filterUtils;
+    private final ObjectMapper objectMapper;
 
     @Autowired
-    public FilterConfiguration(final HashIdService hashIdService, final FilterUtils filterUtils) {
+    public FilterConfiguration(final HashIdService hashIdService, final FilterUtils filterUtils, final ObjectMapper objectMapper) {
         this.hashIdService = hashIdService;
         this.filterUtils = filterUtils;
+        this.objectMapper = objectMapper;
     }
 
     @Bean
     AuthorizationFilter authorizationFilter() {
-        return new AuthorizationFilter(hashIdService, filterUtils);
+        return new AuthorizationFilter(hashIdService, filterUtils, objectMapper);
     }
 
 

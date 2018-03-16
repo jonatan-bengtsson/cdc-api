@@ -77,12 +77,13 @@ configurations.all {
 ext {
     versionSwagger = "2.7.0"
     versionOkHttp = "3.9.0"
-    versionCommonsApi = "1.0.5"
-    versionUserServiceClient = "1.0.9"
-    versionAssetServiceClient = "0.1.16"
-    versionOperationServiceClient = "0.1.12"
-    versionPaymentsEmpClient = "0.8.6"
-    versionPaymentsCpoClient = "0.8.6"
+    versionCommonsApi = "1.0.6-SNAPSHOT"
+    versionUserServiceClient = "1.0.10"
+    versionAssetServiceClient = "0.1.18"
+    versionOperationServiceClient = "0.1.13"
+    versionPaymentsEmpClient = "0.8.9"
+    versionPaymentsCpoClient = "0.8.9"
+    versionJackson = '2.8.11'
 }
 
 dependencies {
@@ -116,8 +117,9 @@ dependencies {
     compile("io.springfox:springfox-bean-validators:$versionSwagger")
 
     // Jackson
-    compile("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml")
-    compile("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
+    compile("com.fasterxml.jackson.core:jackson-databind:$versionJackson")
+    compile("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:$versionJackson")
+    compile("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$versionJackson")
 
     // Apache commons
     compile("org.apache.commons:commons-lang3:3.5")

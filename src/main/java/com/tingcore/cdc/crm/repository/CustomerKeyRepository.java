@@ -4,10 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tingcore.commons.api.repository.ApiResponse;
 import com.tingcore.users.api.CustomerKeysApi;
 import com.tingcore.users.api.UsersApi;
-import com.tingcore.users.model.CustomerKeyRequest;
-import com.tingcore.users.model.CustomerKeyResponse;
-import com.tingcore.users.model.CustomerKeyTypeResponse;
-import com.tingcore.users.model.PageResponseCustomerKeyResponse;
+import com.tingcore.users.model.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -39,10 +36,14 @@ public class CustomerKeyRepository extends AbstractUserServiceRepository {
     }
 
     public ApiResponse<CustomerKeyResponse> post(final Long authorizedUserId, final CustomerKeyRequest customerKeyRequest) {
-        return execute(customerKeysApi.postUsingPOST2(customerKeyRequest, authorizedUserId, authorizedUserId));
+        return execute(customerKeysApi.postUsingPOST1(customerKeyRequest, authorizedUserId, authorizedUserId));
     }
 
     public ApiResponse<List<CustomerKeyTypeResponse>> findCustomerKeyTypes() {
         return execute(customerKeysApi.getCustomerKeyTypesUsingGET());
+    }
+
+    public ApiResponse<CustomerKeyResponse> addUserPaymentOption(Long customerKeyId, UserPaymentOptionIdRequest userPaymentOptionIdRequest, Long userId, Long authorizedUserId) {
+        return execute(customerKeysApi.addPaymentOptionToCustomerKeyUsingPOST(customerKeyId, userPaymentOptionIdRequest, userId, authorizedUserId));
     }
 }

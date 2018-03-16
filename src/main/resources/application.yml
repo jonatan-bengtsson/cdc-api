@@ -40,7 +40,7 @@ app:
     base-url: https://${integration.charging-operations.hostname}
     default-timeout: 20
   customer-key-order-service:
-    base-url: http://${integration.customer-key-order.hostname}
+    base-url: https://${integration.customer-key-order.hostname}
     default-timeout: 20
 
 integration:
@@ -53,4 +53,4 @@ integration:
   charging-operations:
     hostname: charging-operations.tingcore-test.com
   customer-key-order:
-    hostname: localhost:8080
+    hostname: customer-key-order.tingcore-test.com

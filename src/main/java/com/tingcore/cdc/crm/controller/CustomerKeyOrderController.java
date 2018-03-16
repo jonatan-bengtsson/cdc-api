@@ -35,7 +35,7 @@ public class CustomerKeyOrderController {
     @ApiOperation(value = "Create customer key order",
             notes = "Route allows to create a customer key order on behalf of the user logged in",
             tags = SwaggerConstant.TAGS_CUSTOMER_KEY_ORDERS)
-    public Order getCustomerKeys(@Valid @RequestBody CustomerKeyOrderRequest request) {
+    public Order createCustomerKeyOrder(@Valid @RequestBody CustomerKeyOrderRequest request) {
         return customerKeyOrderService.createOrder(authorizedUser.getId(), request);
     }
 

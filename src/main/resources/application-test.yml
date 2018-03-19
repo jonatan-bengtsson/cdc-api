@@ -7,6 +7,8 @@ integration:
     hostname: asset-service.tingcore-test.com
   charging-operations:
     hostname: charging-operations.tingcore-test.com
+  customer-key-order:
+    hostname: customer-key-order.tingcore-test.com
 
 app:
   allowed-origins: http://localhost:3000

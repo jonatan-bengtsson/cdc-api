@@ -12,7 +12,7 @@ public class CustomerKeyOrderRepository extends AbstractUserServiceRepository {
 
     private final CustomerKeyOrderServiceApi customerKeyOrderServiceApi;
 
-    public CustomerKeyOrderRepository(final ObjectMapper objectMapper, CustomerKeyOrderServiceApi customerKeyOrderServiceApi) {
+    public CustomerKeyOrderRepository(final ObjectMapper objectMapper, final CustomerKeyOrderServiceApi customerKeyOrderServiceApi) {
         super(objectMapper);
         this.customerKeyOrderServiceApi = customerKeyOrderServiceApi;
     }

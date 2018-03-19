@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 public class CustomerKeyOrderService {
 
     private final CustomerKeyOrderRepository repository;
-    private static final Long DEFAULT_CUSTOMER_KEY_TYPE = 1L;
+    private static final Long CUSTOMER_KEY_RFID_TAG_TYPE_ID = 1L;
 
     public CustomerKeyOrderService(final CustomerKeyOrderRepository repository) {
         this.repository = repository;
@@ -30,7 +30,7 @@ public class CustomerKeyOrderService {
                 userId,
                 restRequest.getAddress(),
                 restRequest.getQuantity(),
-                DEFAULT_CUSTOMER_KEY_TYPE);
+                CUSTOMER_KEY_RFID_TAG_TYPE_ID);
     }
 
 }

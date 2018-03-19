@@ -42,13 +42,13 @@ public class CustomerKeyControllerTest extends ControllerUnitTest {
 
     @Test
     public void getCustomerKeys() throws Exception {
-        final PageResponse<CustomerKey, String> mockResponse = new PageResponse<>(
+        final PageResponse<CustomerKey> mockResponse = new PageResponse<>(
                 newArrayList(CustomerKeyDataUtils.randomCustomerKey().build(), CustomerKeyDataUtils.randomCustomerKey().build()));
         given(customerKeyService.findByUserId(authorizedUser.getId())).willReturn(mockResponse);
         MvcResult result = mockMvc.perform(get("/v1/customer-keys"))
                 .andExpect(status().isOk())
                 .andReturn();
-        assertThat(mockMvcUtils.pageFromJson(result.getResponse().getContentAsString(), new TypeReference<PageResponse<CustomerKey, String>>() {
+        assertThat(mockMvcUtils.pageFromJson(result.getResponse().getContentAsString(), new TypeReference<PageResponse<CustomerKey>>() {
         })).isEqualToComparingFieldByFieldRecursively(mockResponse);
     }
 

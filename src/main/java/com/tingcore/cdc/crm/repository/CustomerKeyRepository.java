@@ -28,8 +28,8 @@ public class CustomerKeyRepository extends AbstractUserServiceRepository {
         this.usersApi = usersApi;
     }
 
-    public ApiResponse<PageResponse<CustomerKeyResponse, Long>> findByUserId(final Long authorizedUserId) {
-        final ApiResponse<PageResponseCustomerKeyResponselong> apiResponse = execute(usersApi.getUsingGET(authorizedUserId, authorizedUserId));
+    public ApiResponse<PageResponse<CustomerKeyResponse>> findByUserId(final Long authorizedUserId) {
+        final ApiResponse<PageResponseCustomerKeyResponse> apiResponse = execute(usersApi.getUsingGET(authorizedUserId, authorizedUserId));
 
         return apiResponse.getResponseOptional()
                 .map(response -> new ApiResponse<>(new PageResponse<>(response.getContent(), convertGeneratedPagination(response.getPagination()))))

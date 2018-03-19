@@ -7,7 +7,6 @@ import com.tingcore.cdc.crm.utils.CustomerKeyDataUtils;
 import com.tingcore.cdc.utils.CommonDataUtils;
 import com.tingcore.commons.api.repository.ApiResponse;
 import com.tingcore.commons.api.service.HashIdService;
-import com.tingcore.commons.api.utils.PaginationConverterService;
 import com.tingcore.commons.rest.ErrorResponse;
 import com.tingcore.commons.rest.PageResponse;
 import com.tingcore.users.model.*;
@@ -41,16 +40,15 @@ public class CustomerKeyServiceTest {
 
     @Before
     public void setUp() {
-        final PaginationConverterService paginationConverterService = new PaginationConverterService(new HashIdService(new Hashids(CommonDataUtils.randomUUID())));
-        customerKeyService = new CustomerKeyService(customerKeyRepository, paginationConverterService);
+        customerKeyService = new CustomerKeyService(customerKeyRepository);
     }
 
     @Test
     public void findByUserId() {
         final Long userId = CommonDataUtils.getNextId();
-        final PageResponse<CustomerKeyResponse, Long> mockResponse = CustomerKeyDataUtils.randomPageResponse();
+        final PageResponse<CustomerKeyResponse> mockResponse = CustomerKeyDataUtils.randomPageResponse();
         given(customerKeyRepository.findByUserId(userId)).willReturn(new ApiResponse<>(mockResponse));
-        final PageResponse<CustomerKey, String> response = customerKeyService.findByUserId(userId);
+        final PageResponse<CustomerKey> response = customerKeyService.findByUserId(userId);
         final List<CustomerKey> content = response.getContent();
         assertThat(content).hasSize(mockResponse.getContent().size());
         content.forEach(customerKey -> {

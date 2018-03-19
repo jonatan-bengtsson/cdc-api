@@ -4,8 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tingcore.commons.api.repository.AbstractApiRepository;
 import com.tingcore.commons.rest.Pagination;
 import com.tingcore.commons.rest.PagingCursor;
-import com.tingcore.users.model.Paginationlong;
-import com.tingcore.users.model.PagingCursorlong;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.util.Optional;
@@ -34,10 +32,10 @@ abstract class AbstractUserServiceRepository extends AbstractApiRepository {
     }
 
 
-    Pagination<Long> convertGeneratedPagination(final Paginationlong responsePagination) {
+    Pagination convertGeneratedPagination(final com.tingcore.users.model.Pagination responsePagination) {
         return Optional.ofNullable(responsePagination)
                 .map(pagination -> {
-                    Pagination<Long> result = new Pagination<>();
+                    Pagination result = new Pagination();
                     Optional.ofNullable(pagination.getPrev()).ifPresent(pagingCursor -> result.setPrev(convertGeneratedCursor(pagingCursor)));
                     Optional.ofNullable(pagination.getNext()).ifPresent(pagingCursor -> result.setNext(convertGeneratedCursor(pagingCursor)));
                     return result;
@@ -45,7 +43,7 @@ abstract class AbstractUserServiceRepository extends AbstractApiRepository {
                 .orElse(null);
     }
 
-    private PagingCursor<Long> convertGeneratedCursor(final PagingCursorlong pagingCursor) {
-        return new PagingCursor<>(pagingCursor.getSortField(), pagingCursor.getSortFieldCursor(), pagingCursor.getSortFieldSortOrder(), pagingCursor.getIdField(), pagingCursor.getIdFieldCursor(), pagingCursor.getIdFieldSortOrder());
+    private PagingCursor convertGeneratedCursor(final com.tingcore.users.model.PagingCursor pagingCursor) {
+        return new PagingCursor(pagingCursor.getSortField(), pagingCursor.getSortFieldCursor(), pagingCursor.getSortFieldSortOrder(), pagingCursor.getIdField(), pagingCursor.getIdFieldCursor(), pagingCursor.getIdFieldSortOrder());
     }
 }

@@ -5,7 +5,6 @@ import com.tingcore.cdc.crm.model.CustomerKeyType;
 import com.tingcore.cdc.crm.repository.CustomerKeyRepository;
 import com.tingcore.cdc.crm.request.CustomerKeyPostRequest;
 import com.tingcore.commons.api.repository.ApiResponse;
-import com.tingcore.commons.api.utils.PaginationConverterService;
 import com.tingcore.commons.rest.PageResponse;
 import com.tingcore.users.model.CustomerKeyResponse;
 import com.tingcore.users.model.CustomerKeyTypeResponse;
@@ -23,23 +22,20 @@ import java.util.stream.Collectors;
 public class CustomerKeyService {
 
     private final CustomerKeyRepository customerKeyRepository;
-    private final PaginationConverterService paginationConverterService;
 
 
-    CustomerKeyService(final CustomerKeyRepository customerKeyRepository,
-                       final PaginationConverterService paginationConverterService) {
+    CustomerKeyService(final CustomerKeyRepository customerKeyRepository) {
         this.customerKeyRepository = customerKeyRepository;
-        this.paginationConverterService = paginationConverterService;
     }
 
-    public PageResponse<CustomerKey, String> findByUserId(final Long authorizedUserId) {
-        final ApiResponse<PageResponse<CustomerKeyResponse, Long>> apiResponse = customerKeyRepository.findByUserId(authorizedUserId);
+    public PageResponse<CustomerKey> findByUserId(final Long authorizedUserId) {
+        final ApiResponse<PageResponse<CustomerKeyResponse>> apiResponse = customerKeyRepository.findByUserId(authorizedUserId);
         return apiResponse
                 .getResponseOptional()
                 .map(apiPageResponse -> new PageResponse<>(apiPageResponse.getContent()
                         .stream()
                         .map(CustomerKeyMapper::toModel)
-                        .collect(Collectors.toList()), paginationConverterService.convertToExternal(apiPageResponse.getPagination()).orElse(null)))
+                        .collect(Collectors.toList()), apiPageResponse.getPagination()))
                 .orElseThrow(() -> new UsersApiException(apiResponse.getError()));
     }
 

@@ -6,7 +6,6 @@ import com.tingcore.cdc.crm.utils.PaymentOptionDataUtils;
 import com.tingcore.cdc.utils.CommonDataUtils;
 import com.tingcore.commons.api.repository.ApiResponse;
 import com.tingcore.commons.api.service.HashIdService;
-import com.tingcore.commons.api.utils.PaginationConverterService;
 import com.tingcore.commons.rest.ErrorResponse;
 import com.tingcore.commons.rest.PageResponse;
 import com.tingcore.users.model.UserPaymentOptionResponse;
@@ -37,17 +36,16 @@ public class PaymentOptionServiceTest {
 
     @Before
     public void setUp() {
-        final PaginationConverterService paginationConverterService = new PaginationConverterService(new HashIdService(new Hashids(CommonDataUtils.randomUUID())));
-        this.service = new PaymentOptionService(paymentOptionRepository, paginationConverterService);
+        this.service = new PaymentOptionService(paymentOptionRepository);
     }
 
     @Test
     public void findUserPaymentOptions() {
         final Long userId = CommonDataUtils.getNextId();
         final UserPaymentOptionResponse mockResponse = PaymentOptionDataUtils.randomUserPaymentOptionResponse();
-        final PageResponse<UserPaymentOptionResponse, Long> mockPageResponse = new PageResponse<>(Collections.singletonList(mockResponse));
+        final PageResponse<UserPaymentOptionResponse> mockPageResponse = new PageResponse<>(Collections.singletonList(mockResponse));
         given(paymentOptionRepository.findUserPaymentOptions(userId)).willReturn(new ApiResponse<>(mockPageResponse));
-        final PageResponse<UserPaymentOption, String> results = service.findUserPaymentOptions(userId);
+        final PageResponse<UserPaymentOption> results = service.findUserPaymentOptions(userId);
         assertThat(results.getPagination()).isNull();
         assertThat(results.getContent()).hasSize(1);
         assertThat(results.getContent().get(0).getId()).isEqualTo(mockResponse.getId());

@@ -34,13 +34,13 @@ public class PaymentOptionsControllerTest extends ControllerUnitTest {
 
     @Test
     public void getUserPaymentOptions() throws Exception {
-        final PageResponse<UserPaymentOption, String> mockResponse = new PageResponse<>(
+        final PageResponse<UserPaymentOption> mockResponse = new PageResponse<>(
                 newArrayList(PaymentOptionDataUtils.randomUserPaymentOption().build(), PaymentOptionDataUtils.randomUserPaymentOption().build()));
         given(paymentOptionService.findUserPaymentOptions(authorizedUser.getId())).willReturn(mockResponse);
         MvcResult result = mockMvc.perform(get("/v1/payment-options"))
                 .andExpect(status().isOk())
                 .andReturn();
-        assertThat(mockMvcUtils.pageFromJson(result.getResponse().getContentAsString(), new TypeReference<PageResponse<UserPaymentOption, String>>() {
+        assertThat(mockMvcUtils.pageFromJson(result.getResponse().getContentAsString(), new TypeReference<PageResponse<UserPaymentOption>>() {
         })).isEqualToComparingFieldByFieldRecursively(mockResponse);
     }
 

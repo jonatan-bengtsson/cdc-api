@@ -24,7 +24,7 @@ public class CustomerKeyDataUtils {
     }
 
 
-    public static PageResponse<CustomerKeyResponse, Long> randomPageResponse() {
+    public static PageResponse<CustomerKeyResponse> randomPageResponse() {
         return new PageResponse<>(
                 newArrayList(randomCustomerKeyResponse(), randomCustomerKeyResponse())
         );

@@ -37,7 +37,7 @@ public class PaymentOptionsController {
     @ApiOperation(value = "Get payment options",
             notes = "Route allows fetching the payment options the user has set up.",
             tags = SwaggerConstant.TAGS_PAYMENT_OPTIONS)
-    public PageResponse<UserPaymentOption, String> getUserPaymentOptions() {
+    public PageResponse<UserPaymentOption> getUserPaymentOptions() {
         return paymentOptionService.findUserPaymentOptions(authorizedUser.getId());
     }
 }

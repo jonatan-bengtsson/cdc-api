@@ -42,7 +42,7 @@ public class ChargeSiteController {
             notes = "Get preview versions of Charge Point Sites bounded by the box representing the two coordinates. The bounds are not inclusive"
     )
 
-    public PageResponse<BasicChargeSite, String> chargeSitesByCoordinates(
+    public PageResponse<BasicChargeSite> chargeSitesByCoordinates(
             @RequestParam("latitude1") double latitude1,
             @RequestParam("longitude1") double longitude1,
             @RequestParam("latitude2") double latitude2,

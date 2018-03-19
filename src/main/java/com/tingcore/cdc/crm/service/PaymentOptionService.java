@@ -3,9 +3,7 @@ package com.tingcore.cdc.crm.service;
 import com.tingcore.cdc.crm.model.UserPaymentOption;
 import com.tingcore.cdc.crm.repository.PaymentOptionsRepository;
 import com.tingcore.commons.api.repository.ApiResponse;
-import com.tingcore.commons.api.utils.PaginationConverterService;
 import com.tingcore.commons.rest.PageResponse;
-import com.tingcore.users.model.PageResponseUserPaymentOptionResponselong;
 import com.tingcore.users.model.UserPaymentOptionResponse;
 import org.springframework.stereotype.Service;
 
@@ -22,24 +20,21 @@ import java.util.stream.Collectors;
 public class PaymentOptionService {
 
     private final PaymentOptionsRepository paymentOptionsRepository;
-    private final PaginationConverterService paginationConverterService;
 
-    PaymentOptionService(final PaymentOptionsRepository paymentOptionsRepository,
-                         final PaginationConverterService paginationConverterService) {
+    PaymentOptionService(final PaymentOptionsRepository paymentOptionsRepository) {
         this.paymentOptionsRepository = paymentOptionsRepository;
-        this.paginationConverterService = paginationConverterService;
     }
 
 
-    public PageResponse<UserPaymentOption, String> findUserPaymentOptions(final Long userId) {
-        final ApiResponse<PageResponse<UserPaymentOptionResponse, Long>> apiResponse = paymentOptionsRepository.findUserPaymentOptions(userId);
+    public PageResponse<UserPaymentOption> findUserPaymentOptions(final Long userId) {
+        final ApiResponse<PageResponse<UserPaymentOptionResponse>> apiResponse = paymentOptionsRepository.findUserPaymentOptions(userId);
         return apiResponse.getResponseOptional()
                 .map(apiPageResponse -> {
                     final List<UserPaymentOption> content = apiPageResponse.getContent()
                             .stream()
                             .map(UserPaymentOptionMapper::toModel)
                             .collect(Collectors.toList());
-                    return new PageResponse<>(content, paginationConverterService.convertToExternal(apiPageResponse.getPagination()).orElse(null));
+                    return new PageResponse<>(content, apiPageResponse.getPagination());
                 })
                 .orElseThrow(() -> new UsersApiException(apiResponse.getError()));
     }

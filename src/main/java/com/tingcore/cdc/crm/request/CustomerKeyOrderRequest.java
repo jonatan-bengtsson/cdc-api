@@ -9,9 +9,7 @@ import javax.validation.constraints.Size;
 
 public class CustomerKeyOrderRequest {
 
-    @NotNull
     private final String address;
-    @Range(min = 1, max = 10)
     private final Integer quantity;
 
     public CustomerKeyOrderRequest(String address, Integer quantity) {

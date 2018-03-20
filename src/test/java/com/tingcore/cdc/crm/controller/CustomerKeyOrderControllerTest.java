@@ -4,6 +4,7 @@ import com.tingcore.cdc.ControllerUnitTest;
 import com.tingcore.cdc.crm.request.CustomerKeyOrderRequest;
 import com.tingcore.cdc.crm.service.CustomerKeyOrderService;
 import com.tingcore.cdc.crm.utils.CustomerKeyDataUtils;
+import com.tingcore.commons.api.crm.model.Organization;
 import com.tingcore.commons.rest.ErrorResponse;
 import com.tingcore.customerkeyorder.client.model.response.Order;
 import org.junit.Test;
@@ -30,7 +31,8 @@ public class CustomerKeyOrderControllerTest extends ControllerUnitTest {
 
         Order mockResponse = CustomerKeyDataUtils.randomCustomerKeyOrderResponse();
 
-        given(service.createOrder(anyLong(), any(CustomerKeyOrderRequest.class))).willReturn(mockResponse);
+        given(authorizedUser.getOrganization()).willReturn(Organization.createBuilder().id(1L).build());
+        given(service.createOrder(anyLong(), anyLong(), any(CustomerKeyOrderRequest.class))).willReturn(mockResponse);
 
         MockHttpServletRequestBuilder request = post("/v1/customer-keys-orders")
                 .content(mockMvcUtils.toJson(CustomerKeyDataUtils.randomCustomerKeyOrderRequest()))
@@ -46,11 +48,31 @@ public class CustomerKeyOrderControllerTest extends ControllerUnitTest {
     }
 
     @Test
+    public void failCreateCustomerKeyOrderNoOrg() throws Exception {
+
+        Order mockResponse = CustomerKeyDataUtils.randomCustomerKeyOrderResponse();
+
+        given(service.createOrder(anyLong(), anyLong(), any(CustomerKeyOrderRequest.class))).willReturn(mockResponse);
+
+        MockHttpServletRequestBuilder request = post("/v1/customer-keys-orders")
+                .content(mockMvcUtils.toJson(CustomerKeyDataUtils.randomCustomerKeyOrderRequest()))
+                .contentType(MediaType.APPLICATION_JSON_UTF8);
+
+        MvcResult result = mockMvc.perform(request)
+                .andExpect(status().isBadRequest())
+                .andReturn();
+
+        assertThat(mockMvcUtils.fromJson(result.getResponse().getContentAsString(), ErrorResponse.class))
+                .hasFieldOrPropertyWithValue("message","Current user has no organization");
+
+    }
+
+    @Test
     public void failCreateCustomerKeyOrder() throws Exception {
 
         Order mockResponse = CustomerKeyDataUtils.randomCustomerKeyOrderResponse();
 
-        given(service.createOrder(anyLong(), any(CustomerKeyOrderRequest.class))).willReturn(mockResponse);
+        given(service.createOrder(anyLong(), anyLong(), any(CustomerKeyOrderRequest.class))).willReturn(mockResponse);
 
         MockHttpServletRequestBuilder request = post("/v1/customer-keys-orders")
                 .content(mockMvcUtils.toJson(CustomerKeyDataUtils.randomInvalidCustomerKeyOrderRequest()))

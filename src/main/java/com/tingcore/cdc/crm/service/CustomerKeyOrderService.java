@@ -18,19 +18,21 @@ public class CustomerKeyOrderService {
         this.repository = repository;
     }
 
-    public Order createOrder(Long userId, CustomerKeyOrderRequest request) {
-        ApiResponse<Order> orderResponse = repository.createOrder(map(userId, request));
+    public Order createOrder(Long userId, Long orgId, CustomerKeyOrderRequest request) {
+        ApiResponse<Order> orderResponse = repository.createOrder(map(userId, orgId, request));
         return orderResponse
                 .getResponseOptional()
                 .orElseThrow(() -> new CustomerKeyOrderServiceException(orderResponse.getError()));
     }
 
-    private OrderRequest map(Long userId, CustomerKeyOrderRequest restRequest) {
-        return new OrderRequest(
-                userId,
-                restRequest.getAddress(),
-                restRequest.getQuantity(),
-                CUSTOMER_KEY_RFID_TAG_TYPE_ID);
+    private OrderRequest map(Long userId, Long orgId, CustomerKeyOrderRequest restRequest) {
+        return new OrderRequest.Builder()
+                .withUserId(userId)
+                .withOrganizationId(orgId)
+                .withAddress(restRequest.getAddress())
+                .withQuantity(restRequest.getQuantity())
+                .withCustomerKeyType(CUSTOMER_KEY_RFID_TAG_TYPE_ID)
+                .build();
     }
 
 }

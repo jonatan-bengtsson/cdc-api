@@ -14,6 +14,7 @@ import java.time.Instant;
 import java.util.Collections;
 import java.util.concurrent.ThreadLocalRandom;
 
+import static java.util.Collections.emptySet;
 import static org.assertj.core.util.Lists.newArrayList;
 
 /**
@@ -115,11 +116,14 @@ public class CustomerKeyDataUtils {
     public static Order randomCustomerKeyOrderResponse() {
         Order order = new Order();
         order.setId(CommonDataUtils.getNextId());
-        order.setUser(CommonDataUtils.getNextId());
+        order.setUserId(CommonDataUtils.getNextId());
+        order.setOrganizationId(CommonDataUtils.getNextId());
         order.setAddress(CommonDataUtils.randomUUID());
         order.setQuantity(ThreadLocalRandom.current().nextInt(2, 7));
         order.setCustomerKeyType(CommonDataUtils.getNextId());
         order.setCreated(Instant.now());
+        order.setState(Order.States.ORDER_PLACED);
+        order.setCustomerKeys(emptySet());
 
         return order;
     }

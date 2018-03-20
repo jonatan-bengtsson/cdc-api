@@ -25,6 +25,9 @@ public class CustomerKeyOrderServiceTest {
 
     private CustomerKeyOrderService unitUnderTest;
 
+    private final Long USER_ID = 1L;
+    private final Long ORG_ID = 1L;
+
     @Before
     public void setUp() {
         unitUnderTest = new CustomerKeyOrderService(repository);
@@ -36,9 +39,9 @@ public class CustomerKeyOrderServiceTest {
                 .thenReturn(new ApiResponse<>(CustomerKeyDataUtils.randomCustomerKeyOrderResponse()));
 
 
-        Order result = unitUnderTest.createOrder(1L, CustomerKeyDataUtils.randomCustomerKeyOrderRequest());
+        Order result = unitUnderTest.createOrder(USER_ID, ORG_ID, CustomerKeyDataUtils.randomCustomerKeyOrderRequest());
 
-        assertThat(result).isNotNull();
+        assertThat(result).hasNoNullFieldsOrPropertiesExcept("updated");
     }
 
     @Test
@@ -48,7 +51,7 @@ public class CustomerKeyOrderServiceTest {
 
 
         assertThatExceptionOfType(CustomerKeyOrderServiceException.class)
-                .isThrownBy(() -> unitUnderTest.createOrder(1L, CustomerKeyDataUtils.randomCustomerKeyOrderRequest()))
+                .isThrownBy(() -> unitUnderTest.createOrder(USER_ID, ORG_ID, CustomerKeyDataUtils.randomCustomerKeyOrderRequest()))
                 .withNoCause();
     }
 

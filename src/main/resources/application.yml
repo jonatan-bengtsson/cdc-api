@@ -39,6 +39,9 @@ app:
   charging-operations-service:
     base-url: https://${integration.charging-operations.hostname}
     default-timeout: 20
+  customer-key-order-service:
+    base-url: https://${integration.customer-key-order.hostname}
+    default-timeout: 20
 
 integration:
   payments:
@@ -49,3 +52,5 @@ integration:
     hostname: asset-service.tingcore-test.com
   charging-operations:
     hostname: charging-operations.tingcore-test.com
+  customer-key-order:
+    hostname: customer-key-order.tingcore-test.com

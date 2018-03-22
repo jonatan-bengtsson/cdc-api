@@ -2,6 +2,7 @@ package com.tingcore.cdc.crm.controller;
 
 import com.tingcore.cdc.configuration.AuthorizedUser;
 import com.tingcore.cdc.configuration.WebMvcConfiguration;
+import com.tingcore.cdc.constant.SwaggerDocConstants;
 import com.tingcore.cdc.crm.model.CustomerKeyOrderServiceException;
 import com.tingcore.cdc.crm.request.CustomerKeyOrderRequest;
 import com.tingcore.cdc.crm.service.CustomerKeyOrderService;
@@ -36,7 +37,7 @@ public class CustomerKeyOrderController {
     )
     @ApiOperation(value = "Create customer key order",
             notes = "Route allows to create a customer key order on behalf of the user logged in",
-            tags = SwaggerConstant.TAGS_CUSTOMER_KEY_ORDERS)
+            tags = SwaggerDocConstants.TAGS_CUSTOMER_KEY_ORDERS)
     public Order createCustomerKeyOrder(@Valid @RequestBody CustomerKeyOrderRequest request) {
         if(authorizedUser.getOrganization() == null) {
             throw new CustomerKeyOrderServiceException(ErrorResponse.badRequest().message("Current user has no organization").build());

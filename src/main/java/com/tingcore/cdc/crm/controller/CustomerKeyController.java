@@ -120,7 +120,7 @@ public class CustomerKeyController {
     @ApiOperation(
             value = "Delete a user payment option from a customer key",
             notes = "Route allows deleting a user payment option from a customer key.",
-            tags = SwaggerConstant.TAGS_CUSTOMER_KEYS
+            tags = SwaggerDocConstants.TAGS_CUSTOMER_KEYS
     )
     public void deleteCustomerKeyPaymentOption(
             @ApiParam(value = "The internal customer key id, encoded.", example = SwaggerDocConstants.EXAMPLE_ID)

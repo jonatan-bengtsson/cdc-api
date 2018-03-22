@@ -8,6 +8,8 @@ import com.tingcore.customerkeyorder.client.model.request.OrderRequest;
 import com.tingcore.customerkeyorder.client.model.response.Order;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CustomerKeyOrderService {
 
@@ -23,6 +25,13 @@ public class CustomerKeyOrderService {
         return orderResponse
                 .getResponseOptional()
                 .orElseThrow(() -> new CustomerKeyOrderServiceException(orderResponse.getError()));
+    }
+
+    public List<Order> findOrdersByUserId(Long userId) {
+        ApiResponse<List<Order>> response = repository.findOrdersByUserId(userId);
+        return response
+                .getResponseOptional()
+                .orElseThrow(() -> new CustomerKeyOrderServiceException(response.getError()));
     }
 
     private OrderRequest map(Long userId, Long orgId, CustomerKeyOrderRequest restRequest) {

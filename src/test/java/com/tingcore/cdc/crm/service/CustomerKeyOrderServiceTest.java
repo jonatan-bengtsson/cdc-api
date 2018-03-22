@@ -13,9 +13,13 @@ import org.junit.runner.RunWith;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyLong;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
@@ -38,7 +42,6 @@ public class CustomerKeyOrderServiceTest {
         when(repository.createOrder(any(OrderRequest.class)))
                 .thenReturn(new ApiResponse<>(CustomerKeyDataUtils.randomCustomerKeyOrderResponse()));
 
-
         Order result = unitUnderTest.createOrder(USER_ID, ORG_ID, CustomerKeyDataUtils.randomCustomerKeyOrderRequest());
 
         assertThat(result).hasNoNullFieldsOrPropertiesExcept("updated");
@@ -49,9 +52,33 @@ public class CustomerKeyOrderServiceTest {
         when(repository.createOrder(any(OrderRequest.class)))
                 .thenReturn(new ApiResponse<>(ErrorResponse.notFound().build()));
 
-
         assertThatExceptionOfType(CustomerKeyOrderServiceException.class)
                 .isThrownBy(() -> unitUnderTest.createOrder(USER_ID, ORG_ID, CustomerKeyDataUtils.randomCustomerKeyOrderRequest()))
+                .withNoCause();
+    }
+
+    @Test
+    public void findOrdersByUserId() {
+
+        List<Order> response = new ArrayList<>();
+        response.add(CustomerKeyDataUtils.randomCustomerKeyOrderResponse());
+        response.add(CustomerKeyDataUtils.randomCustomerKeyOrderResponse());
+
+        when(repository.findOrdersByUserId(anyLong()))
+                .thenReturn(new ApiResponse<>(response));
+
+        List<Order> result = unitUnderTest.findOrdersByUserId(USER_ID);
+
+        assertThat(result).hasSize(2);
+    }
+
+    @Test
+    public void failFindOrdersByUserId() {
+        when(repository.findOrdersByUserId(anyLong()))
+                .thenReturn(new ApiResponse<>(ErrorResponse.notFound().build()));
+
+        assertThatExceptionOfType(CustomerKeyOrderServiceException.class)
+                .isThrownBy(() -> unitUnderTest.findOrdersByUserId(USER_ID))
                 .withNoCause();
     }
 

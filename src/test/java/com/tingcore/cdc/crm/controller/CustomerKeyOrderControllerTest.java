@@ -1,11 +1,13 @@
 package com.tingcore.cdc.crm.controller;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.tingcore.cdc.ControllerUnitTest;
 import com.tingcore.cdc.crm.request.CustomerKeyOrderRequest;
 import com.tingcore.cdc.crm.service.CustomerKeyOrderService;
 import com.tingcore.cdc.crm.utils.CustomerKeyDataUtils;
 import com.tingcore.commons.api.crm.model.Organization;
 import com.tingcore.commons.rest.ErrorResponse;
+import com.tingcore.commons.rest.PageResponse;
 import com.tingcore.customerkeyorder.client.model.response.Order;
 import org.junit.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -14,11 +16,15 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyLong;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(value = CustomerKeyOrderController.class)
@@ -85,6 +91,26 @@ public class CustomerKeyOrderControllerTest extends ControllerUnitTest {
         assertThat(mockMvcUtils.fromJson(result.getResponse().getContentAsString(), ErrorResponse.class))
                 .hasFieldOrPropertyWithValue("message","Validation failed")
                 .extracting("fieldViolations").hasSize(1);
+
+    }
+
+    @Test
+    public void getUserCustomerKeyOrders() throws Exception {
+
+        List<Order> response = new ArrayList<>();
+        response.add(CustomerKeyDataUtils.randomCustomerKeyOrderResponse());
+        response.add(CustomerKeyDataUtils.randomCustomerKeyOrderResponse());
+        given(service.findOrdersByUserId(anyLong())).willReturn(response);
+
+        MockHttpServletRequestBuilder request = get("/v1/customer-keys-orders")
+                .contentType(MediaType.APPLICATION_JSON_UTF8);
+
+        MvcResult result = mockMvc.perform(request)
+                .andExpect(status().isOk())
+                .andReturn();
+
+        assertThat(mockMvcUtils.fromJson(result.getResponse().getContentAsString(), new TypeReference<PageResponse<Order>>() {}))
+                .isEqualToComparingFieldByFieldRecursively(new PageResponse<>(response));
 
     }
 

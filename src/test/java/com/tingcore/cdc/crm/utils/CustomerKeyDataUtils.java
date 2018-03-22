@@ -2,15 +2,19 @@ package com.tingcore.cdc.crm.utils;
 
 import com.tingcore.cdc.crm.model.CustomerKey;
 import com.tingcore.cdc.crm.model.CustomerKeyType;
+import com.tingcore.cdc.crm.request.CustomerKeyOrderRequest;
 import com.tingcore.cdc.crm.request.CustomerKeyPostRequest;
 import com.tingcore.cdc.utils.CommonDataUtils;
+import com.tingcore.customerkeyorder.client.model.response.Order;
 import com.tingcore.users.model.CustomerKeyResponse;
 import com.tingcore.users.model.CustomerKeyTypeResponse;
 import com.tingcore.users.model.PageResponseCustomerKeyResponse;
 
 import java.time.Instant;
 import java.util.Collections;
+import java.util.concurrent.ThreadLocalRandom;
 
+import static java.util.Collections.emptySet;
 import static org.assertj.core.util.Lists.newArrayList;
 
 /**
@@ -93,5 +97,34 @@ public class CustomerKeyDataUtils {
         type.setCreated(now);
         type.setUpdated(now);
         return type;
+    }
+
+    public static CustomerKeyOrderRequest randomCustomerKeyOrderRequest() {
+        return new CustomerKeyOrderRequest(
+                CommonDataUtils.randomUUID(),
+                ThreadLocalRandom.current().nextInt(2, 7)
+        );
+    }
+
+    public static CustomerKeyOrderRequest randomInvalidCustomerKeyOrderRequest() {
+        return new CustomerKeyOrderRequest(
+                CommonDataUtils.randomUUID(),
+                CommonDataUtils.getNextId().intValue()
+        );
+    }
+
+    public static Order randomCustomerKeyOrderResponse() {
+        Order order = new Order();
+        order.setId(CommonDataUtils.getNextId());
+        order.setUserId(CommonDataUtils.getNextId());
+        order.setOrganizationId(CommonDataUtils.getNextId());
+        order.setAddress(CommonDataUtils.randomUUID());
+        order.setQuantity(ThreadLocalRandom.current().nextInt(2, 7));
+        order.setCustomerKeyType(CommonDataUtils.getNextId());
+        order.setCreated(Instant.now());
+        order.setState(Order.States.ORDER_PLACED);
+        order.setCustomerKeys(emptySet());
+
+        return order;
     }
 }

@@ -36,7 +36,7 @@ public class CustomerKeyRepository extends AbstractUserServiceRepository {
     }
 
     public ApiResponse<CustomerKeyResponse> post(final Long authorizedUserId, final CustomerKeyRequest customerKeyRequest) {
-        return execute(customerKeysApi.postUsingPOST2(customerKeyRequest, authorizedUserId, authorizedUserId));
+        return execute(customerKeysApi.postUsingPOST1(customerKeyRequest, authorizedUserId, authorizedUserId));
     }
 
     public ApiResponse<List<CustomerKeyTypeResponse>> findCustomerKeyTypes() {
@@ -45,5 +45,9 @@ public class CustomerKeyRepository extends AbstractUserServiceRepository {
 
     public ApiResponse<CustomerKeyResponse> addUserPaymentOption(Long customerKeyId, UserPaymentOptionIdRequest userPaymentOptionIdRequest, Long userId, Long authorizedUserId) {
         return execute(customerKeysApi.addPaymentOptionToCustomerKeyUsingPOST(customerKeyId, userPaymentOptionIdRequest, userId, authorizedUserId));
+    }
+
+    public ApiResponse<Void> deleteUserPaymentOption(Long customerKeyId, Long paymentOptionId, Long userId, Long authorizedUserId) {
+        return execute(customerKeysApi.deletePaymentOptionFromCustomerKeyByIdUsingDELETE(customerKeyId, paymentOptionId, userId, authorizedUserId));
     }
 }

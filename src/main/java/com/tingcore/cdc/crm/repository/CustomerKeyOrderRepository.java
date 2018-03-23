@@ -7,6 +7,8 @@ import com.tingcore.customerkeyorder.client.model.request.OrderRequest;
 import com.tingcore.customerkeyorder.client.model.response.Order;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class CustomerKeyOrderRepository extends AbstractUserServiceRepository {
 
@@ -19,5 +21,9 @@ public class CustomerKeyOrderRepository extends AbstractUserServiceRepository {
 
     public ApiResponse<Order> createOrder(final OrderRequest request) {
         return execute(customerKeyOrderServiceApi.createOrder(request));
+    }
+
+    public ApiResponse<List<Order>> findOrdersByUserId(final Long userId) {
+        return execute(customerKeyOrderServiceApi.findOrdersByUserId(userId));
     }
 }

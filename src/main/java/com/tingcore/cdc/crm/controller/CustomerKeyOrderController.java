@@ -7,6 +7,7 @@ import com.tingcore.cdc.crm.model.CustomerKeyOrderServiceException;
 import com.tingcore.cdc.crm.request.CustomerKeyOrderRequest;
 import com.tingcore.cdc.crm.service.CustomerKeyOrderService;
 import com.tingcore.commons.rest.ErrorResponse;
+import com.tingcore.commons.rest.PageResponse;
 import com.tingcore.customerkeyorder.client.model.response.Order;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.MediaType;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/v1/customer-keys-orders")
@@ -43,6 +45,18 @@ public class CustomerKeyOrderController {
             throw new CustomerKeyOrderServiceException(ErrorResponse.badRequest().message("Current user has no organization").build());
         }
         return customerKeyOrderService.createOrder(authorizedUser.getId(), authorizedUser.getOrganization().getId(), request);
+    }
+
+    @RequestMapping(
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE
+    )
+    @ApiOperation(value = "Get user's customer key orders",
+            notes = "Route allows to retrieve customer key orders on behalf of the user logged in",
+            tags = SwaggerConstant.TAGS_CUSTOMER_KEY_ORDERS)
+    public PageResponse<Order> getUserCustomerKeyOrders() {
+        List<Order> orders = customerKeyOrderService.findOrdersByUserId(authorizedUser.getId());
+        return new PageResponse<>(orders);
     }
 
 }

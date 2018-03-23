@@ -81,7 +81,7 @@ ext {
     versionUserServiceClient = "1.0.10"
     versionAssetServiceClient = "0.1.18"
     versionOperationServiceClient = "0.1.13"
-    versionPaymentsCpoClient = "0.8.9"
+    versionPaymentsCpoClient = "0.8.11-SNAPSHOT"
     versionJackson = '2.8.11'
 }
 
@@ -104,7 +104,7 @@ dependencies {
     compile "com.tingcore:library-eventprocessing:0.0.8"
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
     compile 'com.google.code.gson:gson:2.8.2'
-    compile("com.tingcore.customerkeyorder:customer-key-order-service-java-client:0.1.0-SNAPSHOT")
+    compile("com.tingcore.customerkeyorder:customer-key-order-service-java-client:0.2.0-SNAPSHOT")
 
     // Retrofit + OKHttp
     compile("com.squareup.okhttp3:okhttp:$versionOkHttp")

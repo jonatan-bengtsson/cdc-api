@@ -53,7 +53,7 @@ public class CustomerKeyOrderController {
     )
     @ApiOperation(value = "Get user's customer key orders",
             notes = "Route allows to retrieve customer key orders on behalf of the user logged in",
-            tags = SwaggerConstant.TAGS_CUSTOMER_KEY_ORDERS)
+            tags = SwaggerDocConstants.TAGS_CUSTOMER_KEY_ORDERS)
     public PageResponse<Order> getUserCustomerKeyOrders() {
         List<Order> orders = customerKeyOrderService.findOrdersByUserId(authorizedUser.getId());
         return new PageResponse<>(orders);

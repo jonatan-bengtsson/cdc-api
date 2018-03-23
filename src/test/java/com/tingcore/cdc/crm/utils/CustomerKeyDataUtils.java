@@ -5,7 +5,7 @@ import com.tingcore.cdc.crm.model.CustomerKeyType;
 import com.tingcore.cdc.crm.request.CustomerKeyOrderRequest;
 import com.tingcore.cdc.crm.request.CustomerKeyPostRequest;
 import com.tingcore.cdc.utils.CommonDataUtils;
-import com.tingcore.customerkeyorder.client.model.response.Order;
+import com.tingcore.customerkeyorder.client.model.response.CustomerKeyOrder;
 import com.tingcore.users.model.CustomerKeyResponse;
 import com.tingcore.users.model.CustomerKeyTypeResponse;
 import com.tingcore.users.model.PageResponseCustomerKeyResponse;
@@ -113,8 +113,8 @@ public class CustomerKeyDataUtils {
         );
     }
 
-    public static Order randomCustomerKeyOrderResponse() {
-        Order order = new Order();
+    public static CustomerKeyOrder randomCustomerKeyOrderResponse() {
+        CustomerKeyOrder order = new CustomerKeyOrder();
         order.setId(CommonDataUtils.getNextId());
         order.setUserId(CommonDataUtils.getNextId());
         order.setOrganizationId(CommonDataUtils.getNextId());
@@ -122,8 +122,8 @@ public class CustomerKeyDataUtils {
         order.setQuantity(ThreadLocalRandom.current().nextInt(2, 7));
         order.setCustomerKeyType(CommonDataUtils.getNextId());
         order.setCreated(Instant.now());
-        order.setState(Order.States.ORDER_PLACED);
-        order.setCustomerKeys(emptySet());
+        order.setState(CustomerKeyOrder.States.ORDER_PLACED);
+        order.setCustomerKeyOrderItems(emptySet());
 
         return order;
     }

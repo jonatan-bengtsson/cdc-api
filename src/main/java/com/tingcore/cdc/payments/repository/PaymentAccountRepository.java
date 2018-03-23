@@ -43,7 +43,7 @@ public class PaymentAccountRepository extends AbstractApiRepository {
     }
 
     private <T, E extends ExternalApiException> T getResponseOrPaymentAccountError(CompletableFuture<T> request) throws E {
-        return getResponseOrThrowError(execute(request), GetPaymentAccountApiException::new);
+        return getResponseOrThrowError(execute(request), PaymentAccountApiException::new);
     }
 
     @Override

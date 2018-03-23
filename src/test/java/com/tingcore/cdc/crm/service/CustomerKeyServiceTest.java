@@ -18,6 +18,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
@@ -25,6 +26,8 @@ import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyLong;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 /**
  * @author palmithor
@@ -142,6 +145,33 @@ public class CustomerKeyServiceTest {
                 .willReturn(new ApiResponse<>(ErrorResponse.forbidden().build()));
         assertThatExceptionOfType(UsersApiException.class)
                 .isThrownBy(() -> customerKeyService.addUserPaymentOption(CommonDataUtils.getNextId(), CommonDataUtils.getNextId(), CommonDataUtils.getNextId()))
+                .withNoCause();
+    }
+
+    @Test
+    public void deleteUserPaymentOption() {
+        given(customerKeyRepository.deleteUserPaymentOption(anyLong(), anyLong(), anyLong(), anyLong()))
+                .willReturn(new ApiResponse(Optional.empty()));
+
+        final CustomerKeyResponse customerKeyData = CustomerKeyDataUtils.randomCustomerKeyResponse();
+        customerKeyService.deleteUserPaymentOption(
+                customerKeyData.getUserId(),
+                customerKeyData.getId(),
+                customerKeyData.getUserPaymentOptions().get(0).getId());
+
+        verify(customerKeyRepository, times(1)).deleteUserPaymentOption(
+                customerKeyData.getId(),
+                customerKeyData.getUserPaymentOptions().get(0).getId(),
+                customerKeyData.getUserId(),
+                customerKeyData.getUserId());
+    }
+
+    @Test
+    public void failDeleteUserPaymentOptionApiError() {
+        given(customerKeyRepository.deleteUserPaymentOption(anyLong(), anyLong(), anyLong(), anyLong()))
+                .willReturn(new ApiResponse<>(ErrorResponse.forbidden().build()));
+        assertThatExceptionOfType(UsersApiException.class)
+                .isThrownBy(() -> customerKeyService.deleteUserPaymentOption(CommonDataUtils.getNextId(), CommonDataUtils.getNextId(), CommonDataUtils.getNextId()))
                 .withNoCause();
     }
 

@@ -25,6 +25,9 @@ import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyLong;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -135,6 +138,32 @@ public class CustomerKeyControllerTest extends ControllerUnitTest {
         final String encodedUserPaymentOptionId = hashIdService.encode(userPaymentOptionId);
         given(customerKeyService.addUserPaymentOption(anyLong(), anyLong(), anyLong()))
                 .willThrow(new EntityNotFoundException(CustomerKey.class.getSimpleName()));
+        mockMvc.perform(post("/v1/customer-keys/{customerKeyId}/user-payment-options/{userPaymentOptionId}", encodedCustomerKeyId, encodedUserPaymentOptionId))
+                .andExpect(status().isNotFound())
+                .andExpect(ErrorBodyMatcher.entityNotFoundMatcher("CustomerKey"));
+    }
+
+    @Test
+    public void deleteUserPaymentOption() throws Exception {
+        final String encodedCustomerKeyId = hashIdService.encode(CommonDataUtils.getNextId());
+        final String encodedUserPaymentOptionId = hashIdService.encode(CommonDataUtils.getNextId());
+        mockMvc.perform(delete("/v1/customer-keys/{customerKeyId}/user-payment-options/{userPaymentOptionId}", encodedCustomerKeyId, encodedUserPaymentOptionId))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        verify(customerKeyService, times(1)).deleteUserPaymentOption(
+                authorizedUser.getId(),
+                hashIdService.decode(encodedCustomerKeyId).get(),
+                hashIdService.decode(encodedUserPaymentOptionId).get());
+    }
+
+    @Test
+    public void failDeleteUserPaymentOption() throws Exception {
+        final String encodedCustomerKeyId = hashIdService.encode(CommonDataUtils.getNextId());
+        final String encodedUserPaymentOptionId = hashIdService.encode(CommonDataUtils.getNextId());
+        given(customerKeyService.addUserPaymentOption(anyLong(), anyLong(), anyLong()))
+                .willThrow(new EntityNotFoundException(CustomerKey.class.getSimpleName()));
+
         mockMvc.perform(post("/v1/customer-keys/{customerKeyId}/user-payment-options/{userPaymentOptionId}", encodedCustomerKeyId, encodedUserPaymentOptionId))
                 .andExpect(status().isNotFound())
                 .andExpect(ErrorBodyMatcher.entityNotFoundMatcher("CustomerKey"));

@@ -71,4 +71,11 @@ public class CustomerKeyService {
                 .map(CustomerKeyMapper::toModel)
                 .orElseThrow(() -> new UsersApiException(apiResponse.getError()));
     }
+
+    public void deleteUserPaymentOption(Long authorizedUserId, Long customerKeyId, Long userPaymentOptionId) {
+        final ApiResponse<Void> apiResponse = customerKeyRepository.deleteUserPaymentOption(customerKeyId, userPaymentOptionId, authorizedUserId, authorizedUserId);
+        apiResponse
+                .getErrorOptional()
+                .ifPresent(error -> { throw new UsersApiException(error); } );
+    }
 }

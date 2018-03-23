@@ -101,7 +101,7 @@ public class CustomerKeyController {
             notes = "Route allows adding a user payment option to a customer key.",
             tags = SwaggerConstant.TAGS_CUSTOMER_KEYS
     )
-    public CustomerKey addUserPaymentOption(
+    public CustomerKey addCustomerKeyPaymentOption(
             @ApiParam(value = "The internal customer key id, encoded.", example = SwaggerDocConstants.EXAMPLE_ID)
             @PathVariable(value = "customerKeyId") String encodedCustomerKeyId,
             @ApiParam(value = "The internal user payment option id, encoded.", example = SwaggerDocConstants.EXAMPLE_ID)
@@ -111,5 +111,26 @@ public class CustomerKeyController {
         final Long userPaymentOptionId = hashIdService.decode(encodedUserPaymentOptionId).orElseThrow(() -> new EntityNotFoundException(UserPaymentOption.class.getSimpleName(), encodedCustomerKeyId));
 
         return customerKeyService.addUserPaymentOption(authorizedUser.getId(), customerKeyId, userPaymentOptionId);
+    }
+
+    @RequestMapping(
+            method = RequestMethod.DELETE,
+            path = "/{customerKeyId}/user-payment-options/{userPaymentOptionId}"
+    )
+    @ApiOperation(
+            value = "Delete a user payment option from a customer key",
+            notes = "Route allows deleting a user payment option from a customer key.",
+            tags = SwaggerConstant.TAGS_CUSTOMER_KEYS
+    )
+    public void deleteCustomerKeyPaymentOption(
+            @ApiParam(value = "The internal customer key id, encoded.", example = SwaggerDocConstants.EXAMPLE_ID)
+            @PathVariable(value = "customerKeyId") String encodedCustomerKeyId,
+            @ApiParam(value = "The internal user payment option id, encoded.", example = SwaggerDocConstants.EXAMPLE_ID)
+            @PathVariable(value = "userPaymentOptionId") String encodedUserPaymentOptionId) {
+
+        final Long customerKeyId = hashIdService.decode(encodedCustomerKeyId).orElseThrow(() -> new EntityNotFoundException(CustomerKey.class.getSimpleName(), encodedCustomerKeyId));
+        final Long userPaymentOptionId = hashIdService.decode(encodedUserPaymentOptionId).orElseThrow(() -> new EntityNotFoundException(UserPaymentOption.class.getSimpleName(), encodedCustomerKeyId));
+
+        customerKeyService.deleteUserPaymentOption(authorizedUser.getId(), customerKeyId, userPaymentOptionId);
     }
 }

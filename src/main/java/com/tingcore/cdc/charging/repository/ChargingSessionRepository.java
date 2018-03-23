@@ -5,8 +5,8 @@ import com.google.common.collect.ImmutableMap;
 import com.tingcore.cdc.charging.model.*;
 import com.tingcore.commons.api.repository.AbstractApiRepository;
 import com.tingcore.commons.external.ExternalApiException;
-import com.tingcore.payments.emp.api.ChargesApi;
-import com.tingcore.payments.emp.model.*;
+import com.tingcore.payments.cpo.api.ChargesApi;
+import com.tingcore.payments.cpo.model.*;
 import org.springframework.stereotype.Repository;
 
 import java.time.Instant;

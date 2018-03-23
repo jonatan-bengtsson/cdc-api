@@ -2,14 +2,13 @@ package com.tingcore.cdc.payments.controller;
 
 import com.tingcore.cdc.configuration.AuthorizedUser;
 import com.tingcore.cdc.configuration.WebMvcConfiguration;
-import com.tingcore.cdc.constant.SwaggerDocConstants;
 import com.tingcore.cdc.exception.PaymentAccountFailureException;
 import com.tingcore.cdc.payments.api.ApiCreateAccountRequest;
 import com.tingcore.cdc.payments.service.PaymentAccountService;
 import com.tingcore.commons.api.service.HashIdService;
 import com.tingcore.commons.rest.ErrorResponse;
-import com.tingcore.payments.emp.model.ApiDeletedCustomer;
-import com.tingcore.payments.emp.model.ApiPaymentAccount;
+import com.tingcore.payments.cpo.model.ApiDeletedCustomer;
+import com.tingcore.payments.cpo.model.ApiPaymentAccount;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -43,7 +42,7 @@ public class PaymentAccountController {
     }
 
     @PostMapping("/" + USERS)
-    @ApiOperation(code = 201, value = "Create a user payment account", response = ApiPaymentAccount.class, tags = {SwaggerDocConstants.TAGS_PAYMENT_ACCOUNTS})
+    @ApiOperation(code = 201, value = "Create a user payment account", response = ApiPaymentAccount.class, tags = {ACCOUNTS})
     public ApiPaymentAccount createUserAccount(final @RequestBody @Valid ApiCreateAccountRequest request) {
         return hashIdService.decode(request.getAccount().getAccountOwnerId())
                 .map(longId -> paymentAccountService.createUserAccount(longId, request))
@@ -51,14 +50,14 @@ public class PaymentAccountController {
     }
 
     @GetMapping("/" + USERS + "/{paymentOptionReference}")
-    @ApiOperation(value = "Get a users payment account.", response = ApiPaymentAccount.class, tags = {SwaggerDocConstants.TAGS_PAYMENT_ACCOUNTS})
+    @ApiOperation(value = "Get a users payment account.", response = ApiPaymentAccount.class, tags = {ACCOUNTS})
     public ApiPaymentAccount getUserAccount(final @PathVariable("paymentOptionReference") @NotNull String paymentOptionReference) {
         return paymentAccountService.getAccount(paymentOptionReference);
 
     }
 
     @DeleteMapping("/" + PAYMENT_OPTION + "/{paymentoption}")
-    @ApiOperation(value = "Delete a users payment account.", response = ApiDeletedCustomer.class, tags = {SwaggerDocConstants.TAGS_PAYMENT_ACCOUNTS})
+    @ApiOperation(value = "Delete a users payment account.", response = ApiDeletedCustomer.class, tags = {ACCOUNTS})
     @ApiResponses(value = {
             @ApiResponse(code = 400, message = "Could not parse the request.", response = ErrorResponse.class),
             @ApiResponse(code = 404, message = "Payment account with the supplied id was not found.", response = ErrorResponse.class)
@@ -68,7 +67,7 @@ public class PaymentAccountController {
     }
 
     @GetMapping("/" + USERS)
-    @ApiOperation(value = "Get a users payment accounts.", response = ApiPaymentAccount.class, responseContainer = "List", tags = {SwaggerDocConstants.TAGS_PAYMENT_ACCOUNTS})
+    @ApiOperation(value = "Get a users payment accounts.", response = ApiPaymentAccount.class, responseContainer = "List", tags = {ACCOUNTS})
     public List<ApiPaymentAccount> getUserPaymentAccounts(final @RequestParam(value = "keyId", required = false) String keyId) {
         Long key = null;
         Long user = null;

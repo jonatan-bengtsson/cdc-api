@@ -81,7 +81,6 @@ ext {
     versionUserServiceClient = "1.0.10"
     versionAssetServiceClient = "0.1.18"
     versionOperationServiceClient = "0.1.13"
-    versionPaymentsEmpClient = "0.8.9"
     versionPaymentsCpoClient = "0.8.9"
     versionJackson = '2.8.11'
 }
@@ -101,7 +100,6 @@ dependencies {
     compile("com.tingcore.charging:asset-service-java-client:$versionAssetServiceClient")
     compile("com.tingcore.charging:charging-operations-java-client:$versionOperationServiceClient")
     compile("com.tingcore:user-service-java-client:$versionUserServiceClient")
-    compile("com.tingcore.payments:payments-emp-client:$versionPaymentsEmpClient")
     compile("com.tingcore.payments:payments-cpo-client:$versionPaymentsCpoClient")
     compile "com.tingcore:library-eventprocessing:0.0.8"
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'

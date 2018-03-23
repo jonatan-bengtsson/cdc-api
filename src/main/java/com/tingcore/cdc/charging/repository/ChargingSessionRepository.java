@@ -3,6 +3,8 @@ package com.tingcore.cdc.charging.repository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableMap;
 import com.tingcore.cdc.charging.model.*;
+import com.tingcore.cdc.charging.model.ConnectorId;
+import com.tingcore.cdc.charging.model.Price;
 import com.tingcore.commons.api.repository.AbstractApiRepository;
 import com.tingcore.commons.external.ExternalApiException;
 import com.tingcore.payments.cpo.api.ChargesApi;

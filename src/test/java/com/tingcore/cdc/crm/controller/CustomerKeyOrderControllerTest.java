@@ -8,7 +8,7 @@ import com.tingcore.cdc.crm.utils.CustomerKeyDataUtils;
 import com.tingcore.commons.api.crm.model.Organization;
 import com.tingcore.commons.rest.ErrorResponse;
 import com.tingcore.commons.rest.PageResponse;
-import com.tingcore.customerkeyorder.client.model.response.Order;
+import com.tingcore.customerkeyorder.client.model.response.CustomerKeyOrder;
 import org.junit.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -23,8 +23,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyLong;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(value = CustomerKeyOrderController.class)
@@ -35,7 +35,7 @@ public class CustomerKeyOrderControllerTest extends ControllerUnitTest {
     @Test
     public void createCustomerKeyOrder() throws Exception {
 
-        Order mockResponse = CustomerKeyDataUtils.randomCustomerKeyOrderResponse();
+        CustomerKeyOrder mockResponse = CustomerKeyDataUtils.randomCustomerKeyOrderResponse();
 
         given(authorizedUser.getOrganization()).willReturn(Organization.createBuilder().id(1L).build());
         given(service.createOrder(anyLong(), anyLong(), any(CustomerKeyOrderRequest.class))).willReturn(mockResponse);
@@ -48,7 +48,7 @@ public class CustomerKeyOrderControllerTest extends ControllerUnitTest {
                 .andExpect(status().isOk())
                 .andReturn();
 
-        assertThat(mockMvcUtils.fromJson(result.getResponse().getContentAsString(), Order.class))
+        assertThat(mockMvcUtils.fromJson(result.getResponse().getContentAsString(), CustomerKeyOrder.class))
                 .isEqualToComparingFieldByFieldRecursively(mockResponse);
 
     }
@@ -56,7 +56,7 @@ public class CustomerKeyOrderControllerTest extends ControllerUnitTest {
     @Test
     public void failCreateCustomerKeyOrderNoOrg() throws Exception {
 
-        Order mockResponse = CustomerKeyDataUtils.randomCustomerKeyOrderResponse();
+        CustomerKeyOrder mockResponse = CustomerKeyDataUtils.randomCustomerKeyOrderResponse();
 
         given(service.createOrder(anyLong(), anyLong(), any(CustomerKeyOrderRequest.class))).willReturn(mockResponse);
 
@@ -76,7 +76,7 @@ public class CustomerKeyOrderControllerTest extends ControllerUnitTest {
     @Test
     public void failCreateCustomerKeyOrder() throws Exception {
 
-        Order mockResponse = CustomerKeyDataUtils.randomCustomerKeyOrderResponse();
+        CustomerKeyOrder mockResponse = CustomerKeyDataUtils.randomCustomerKeyOrderResponse();
 
         given(service.createOrder(anyLong(), anyLong(), any(CustomerKeyOrderRequest.class))).willReturn(mockResponse);
 
@@ -97,7 +97,7 @@ public class CustomerKeyOrderControllerTest extends ControllerUnitTest {
     @Test
     public void getUserCustomerKeyOrders() throws Exception {
 
-        List<Order> response = new ArrayList<>();
+        List<CustomerKeyOrder> response = new ArrayList<>();
         response.add(CustomerKeyDataUtils.randomCustomerKeyOrderResponse());
         response.add(CustomerKeyDataUtils.randomCustomerKeyOrderResponse());
         given(service.findOrdersByUserId(anyLong())).willReturn(response);
@@ -109,7 +109,7 @@ public class CustomerKeyOrderControllerTest extends ControllerUnitTest {
                 .andExpect(status().isOk())
                 .andReturn();
 
-        assertThat(mockMvcUtils.fromJson(result.getResponse().getContentAsString(), new TypeReference<PageResponse<Order>>() {}))
+        assertThat(mockMvcUtils.fromJson(result.getResponse().getContentAsString(), new TypeReference<PageResponse<CustomerKeyOrder>>() {}))
                 .isEqualToComparingFieldByFieldRecursively(new PageResponse<>(response));
 
     }

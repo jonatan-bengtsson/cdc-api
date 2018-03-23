@@ -5,8 +5,8 @@ import com.tingcore.cdc.crm.repository.CustomerKeyOrderRepository;
 import com.tingcore.cdc.crm.utils.CustomerKeyDataUtils;
 import com.tingcore.commons.api.repository.ApiResponse;
 import com.tingcore.commons.rest.ErrorResponse;
-import com.tingcore.customerkeyorder.client.model.request.OrderRequest;
-import com.tingcore.customerkeyorder.client.model.response.Order;
+import com.tingcore.customerkeyorder.client.model.request.CustomerKeyOrderRequest;
+import com.tingcore.customerkeyorder.client.model.response.CustomerKeyOrder;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -39,17 +39,17 @@ public class CustomerKeyOrderServiceTest {
 
     @Test
     public void createOrder() {
-        when(repository.createOrder(any(OrderRequest.class)))
+        when(repository.createOrder(any(CustomerKeyOrderRequest.class)))
                 .thenReturn(new ApiResponse<>(CustomerKeyDataUtils.randomCustomerKeyOrderResponse()));
 
-        Order result = unitUnderTest.createOrder(USER_ID, ORG_ID, CustomerKeyDataUtils.randomCustomerKeyOrderRequest());
+        CustomerKeyOrder result = unitUnderTest.createOrder(USER_ID, ORG_ID, CustomerKeyDataUtils.randomCustomerKeyOrderRequest());
 
         assertThat(result).hasNoNullFieldsOrPropertiesExcept("updated");
     }
 
     @Test
     public void failCreateOrder() {
-        when(repository.createOrder(any(OrderRequest.class)))
+        when(repository.createOrder(any(CustomerKeyOrderRequest.class)))
                 .thenReturn(new ApiResponse<>(ErrorResponse.notFound().build()));
 
         assertThatExceptionOfType(CustomerKeyOrderServiceException.class)
@@ -60,14 +60,14 @@ public class CustomerKeyOrderServiceTest {
     @Test
     public void findOrdersByUserId() {
 
-        List<Order> response = new ArrayList<>();
+        List<CustomerKeyOrder> response = new ArrayList<>();
         response.add(CustomerKeyDataUtils.randomCustomerKeyOrderResponse());
         response.add(CustomerKeyDataUtils.randomCustomerKeyOrderResponse());
 
         when(repository.findOrdersByUserId(anyLong()))
                 .thenReturn(new ApiResponse<>(response));
 
-        List<Order> result = unitUnderTest.findOrdersByUserId(USER_ID);
+        List<CustomerKeyOrder> result = unitUnderTest.findOrdersByUserId(USER_ID);
 
         assertThat(result).hasSize(2);
     }

@@ -7,7 +7,7 @@ import com.tingcore.cdc.charging.model.*;
 import com.tingcore.cdc.charging.service.ChargingSessionService;
 import com.tingcore.cdc.configuration.AuthorizedUser;
 import com.tingcore.cdc.configuration.WebMvcConfiguration;
-import com.tingcore.cdc.crm.model.CustomerKey;
+import com.tingcore.cdc.constant.SwaggerDocConstants;
 import com.tingcore.cdc.exception.EntityNotFoundException;
 import com.tingcore.commons.api.service.HashIdService;
 import com.tingcore.commons.rest.ErrorResponse;
@@ -47,11 +47,11 @@ public class ChargingSessionController {
     }
 
     @PostMapping
-    @ApiOperation(code = 201, value = "Create a charging session", response = ChargingSession.class, tags = {SESSIONS})
+    @ApiOperation(code = 201, value = "Create a charging session", response = ChargingSession.class, tags = {SwaggerDocConstants.TAGS_CHARGING_SESSIONS})
     @ApiResponses(value = {
             @ApiResponse(code = 404, message = "Charge site not found.", response = Error.class)
     })
-    public ResponseEntity<ChargingSession> createSession(final @RequestBody @Valid CreateChargingSessionRequest request) {
+    public ResponseEntity<ChargingSession> createChargingSession(final @RequestBody @Valid CreateChargingSessionRequest request) {
         // TODO return created response
         return ResponseEntity.ok(toApiObject(chargingSessionService.startSession(
                 new TrustedUserId(authorizedUser.getId()),
@@ -62,22 +62,22 @@ public class ChargingSessionController {
     }
 
     @GetMapping(value = "/{chargingSessionId}")
-    @ApiOperation(value = "Get a charge session.", tags = {SESSIONS})
+    @ApiOperation(value = "Get a charging session.", tags = {SwaggerDocConstants.TAGS_CHARGING_SESSIONS})
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Get a charging session", response = ChargingSession.class),
             @ApiResponse(code = 404, message = "Charging session not found", response = ErrorResponse.class)
     })
-    public ResponseEntity<ChargingSession> getChargeSession(final @PathVariable("chargingSessionId") String chargingSessionId) {
+    public ResponseEntity<ChargingSession> getChargingSession(final @PathVariable("chargingSessionId") String chargingSessionId) {
             return ResponseEntity.ok(toApiObject(chargingSessionService.fetchSession(sessionIdFromHash(chargingSessionId))));
     }
 
     @GetMapping
-    @ApiOperation(value = "Get ongoing charging sessions.", tags = {SESSIONS})
+    @ApiOperation(value = "Get ongoing charging sessions.", tags = {SwaggerDocConstants.TAGS_CHARGING_SESSIONS})
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Get ongoing charging sessions.", response = ChargingSession.class, responseContainer = "List"),
             @ApiResponse(code = 404, message = "Charging sessions not found", response = ErrorResponse.class)
     })
-    public ResponseEntity getOngoingChargeSessions() {
+    public ResponseEntity getOngoingChargingSessions() {
         return ResponseEntity.ok(chargingSessionService.fetchOngoingSessions(new TrustedUserId(authorizedUser.getId()))
         .stream()
         .map(this::toApiObject)

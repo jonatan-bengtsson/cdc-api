@@ -2,6 +2,7 @@ package com.tingcore.cdc.crm.controller;
 
 import com.tingcore.cdc.configuration.AuthorizedUser;
 import com.tingcore.cdc.configuration.WebMvcConfiguration;
+import com.tingcore.cdc.constant.SwaggerDocConstants;
 import com.tingcore.cdc.crm.model.UserPaymentOption;
 import com.tingcore.cdc.crm.service.PaymentOptionService;
 import com.tingcore.commons.rest.PageResponse;
@@ -36,7 +37,7 @@ public class PaymentOptionsController {
     )
     @ApiOperation(value = "Get payment options",
             notes = "Route allows fetching the payment options the user has set up.",
-            tags = SwaggerConstant.TAGS_PAYMENT_OPTIONS)
+            tags = SwaggerDocConstants.TAGS_PAYMENT_OPTIONS)
     public PageResponse<UserPaymentOption> getUserPaymentOptions() {
         return paymentOptionService.findUserPaymentOptions(authorizedUser.getId());
     }

@@ -2,6 +2,7 @@ package com.tingcore.cdc.crm.controller;
 
 import com.tingcore.cdc.configuration.AuthorizedUser;
 import com.tingcore.cdc.configuration.WebMvcConfiguration;
+import com.tingcore.cdc.constant.SwaggerDocConstants;
 import com.tingcore.cdc.crm.model.CustomerKeyType;
 import com.tingcore.cdc.crm.service.CustomerKeyService;
 import io.swagger.annotations.ApiOperation;
@@ -38,7 +39,7 @@ public class CustomerKeyTypesController {
     )
     @ApiOperation(value = "Get all customer key types",
             notes = "Route allows fetching all customer key types.",
-            tags = SwaggerConstant.TAGS_CUSTOMER_KEYS)
+            tags = SwaggerDocConstants.TAGS_CUSTOMER_KEYS)
     public List<CustomerKeyType> getCustomerKeyTypes() {
         return customerKeyService.getCustomerKeyTypes();
     }

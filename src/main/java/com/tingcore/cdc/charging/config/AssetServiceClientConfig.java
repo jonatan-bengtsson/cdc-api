@@ -22,7 +22,7 @@ public class AssetServiceClientConfig {
     }
 
     @Bean
-    public ChargeSitesApi createChargeSiteControllerApi() {
+    public ChargeSitesApi createChargeSitesApi() {
         ApiClient client = new ApiClient();
         client.getAdapterBuilder().baseUrl(this.assetServiceBaseUrl);
         LOG.info("URL for Asset for ChargeSiteController: {}", this.assetServiceBaseUrl);

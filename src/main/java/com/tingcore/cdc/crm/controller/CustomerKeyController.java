@@ -54,7 +54,7 @@ public class CustomerKeyController {
     )
     @ApiOperation(value = "Get customer keys",
             notes = "Route allows fetching the authorized user's customer keys",
-            tags = SwaggerConstant.TAGS_CUSTOMER_KEYS)
+            tags = SwaggerDocConstants.TAGS_CUSTOMER_KEYS)
     public PageResponse<CustomerKey> getCustomerKeys() {
         return customerKeyService.findByUserId(authorizedUser.getId());
     }
@@ -66,7 +66,7 @@ public class CustomerKeyController {
     )
     @ApiOperation(value = "Get customer key by id",
             notes = "Route allows fetching a single customer key by its id",
-            tags = SwaggerConstant.TAGS_CUSTOMER_KEYS)
+            tags = SwaggerDocConstants.TAGS_CUSTOMER_KEYS)
     public CustomerKey getCustomerKeyById(
             @PathVariable(value = "customerKeyId") String encodedCustomerKeyId
     ) {
@@ -83,7 +83,7 @@ public class CustomerKeyController {
     @ApiOperation(
             value = "Create a customer key",
             notes = "Route allows creating a customer key.",
-            tags = SwaggerConstant.TAGS_CUSTOMER_KEYS
+            tags = SwaggerDocConstants.TAGS_CUSTOMER_KEYS
     )
     public CustomerKey createCustomerKey(
             @Valid @RequestBody CustomerKeyPostRequest customerKeyRequest) {
@@ -99,7 +99,7 @@ public class CustomerKeyController {
     @ApiOperation(
             value = "Add a user payment option to a customer key",
             notes = "Route allows adding a user payment option to a customer key.",
-            tags = SwaggerConstant.TAGS_CUSTOMER_KEYS
+            tags = SwaggerDocConstants.TAGS_CUSTOMER_KEYS
     )
     public CustomerKey addCustomerKeyPaymentOption(
             @ApiParam(value = "The internal customer key id, encoded.", example = SwaggerDocConstants.EXAMPLE_ID)
@@ -120,7 +120,7 @@ public class CustomerKeyController {
     @ApiOperation(
             value = "Delete a user payment option from a customer key",
             notes = "Route allows deleting a user payment option from a customer key.",
-            tags = SwaggerConstant.TAGS_CUSTOMER_KEYS
+            tags = SwaggerDocConstants.TAGS_CUSTOMER_KEYS
     )
     public void deleteCustomerKeyPaymentOption(
             @ApiParam(value = "The internal customer key id, encoded.", example = SwaggerDocConstants.EXAMPLE_ID)

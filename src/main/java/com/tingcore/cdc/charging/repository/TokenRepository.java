@@ -8,10 +8,10 @@ import com.tingcore.cdc.charging.model.CustomerKeyId;
 import com.tingcore.cdc.charging.model.TrustedUserId;
 import com.tingcore.commons.api.repository.AbstractApiRepository;
 import com.tingcore.commons.external.ExternalApiException;
-import com.tingcore.payments.emp.api.TokensApi;
-import com.tingcore.payments.emp.model.ApiAuthorizationToken;
-import com.tingcore.payments.emp.model.Authorization;
-import com.tingcore.payments.emp.model.CreateAuthorizationTokenRequest;
+import com.tingcore.payments.cpo.api.TokensApi;
+import com.tingcore.payments.cpo.model.ApiAuthorizationToken;
+import com.tingcore.payments.cpo.model.Authorization;
+import com.tingcore.payments.cpo.model.CreateAuthorizationTokenRequest;
 import org.springframework.stereotype.Repository;
 
 import java.time.Instant;

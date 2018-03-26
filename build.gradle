@@ -81,8 +81,7 @@ ext {
     versionCommonsApi = "feature-PaginationRefactoring-1.0.7-SNAPSHOT"
     versionAssetServiceClient = "0.1.18"
     versionOperationServiceClient = "0.1.13"
-    versionPaymentsEmpClient = "0.8.9"
-    versionPaymentsCpoClient = "0.8.9"
+    versionPaymentsCpoClient = "0.8.11-SNAPSHOT"
     versionJackson = '2.8.11'
 }
 
@@ -101,12 +100,11 @@ dependencies {
     compile("com.tingcore.charging:asset-service-java-client:$versionAssetServiceClient")
     compile("com.tingcore.charging:charging-operations-java-client:$versionOperationServiceClient")
     compile("com.tingcore:user-service-java-client:$versionUserServiceClient")
-    compile("com.tingcore.payments:payments-emp-client:$versionPaymentsEmpClient")
     compile("com.tingcore.payments:payments-cpo-client:$versionPaymentsCpoClient")
     compile "com.tingcore:library-eventprocessing:0.0.8"
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
     compile 'com.google.code.gson:gson:2.8.2'
-    compile("com.tingcore.customerkeyorder:customer-key-order-service-java-client:0.1.0-SNAPSHOT")
+    compile("com.tingcore.customerkeyorder:customer-key-order-service-java-client:0.2.0-SNAPSHOT")
 
     // Retrofit + OKHttp
     compile("com.squareup.okhttp3:okhttp:$versionOkHttp")

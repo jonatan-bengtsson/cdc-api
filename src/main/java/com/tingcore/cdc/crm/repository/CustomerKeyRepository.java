@@ -2,6 +2,7 @@ package com.tingcore.cdc.crm.repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tingcore.commons.api.repository.ApiResponse;
+import com.tingcore.commons.rest.PageResponse;
 import com.tingcore.users.api.CustomerKeysApi;
 import com.tingcore.users.api.UsersApi;
 import com.tingcore.users.model.*;
@@ -27,8 +28,12 @@ public class CustomerKeyRepository extends AbstractUserServiceRepository {
         this.usersApi = usersApi;
     }
 
-    public ApiResponse<PageResponseCustomerKeyResponse> findByUserId(final Long authorizedUserId) {
-        return execute(usersApi.getUsingGET(authorizedUserId, authorizedUserId));
+    public ApiResponse<PageResponse<CustomerKeyResponse>> findByUserId(final Long authorizedUserId) {
+        final ApiResponse<PageResponseCustomerKeyResponse> apiResponse = execute(usersApi.getUsingGET(authorizedUserId, authorizedUserId));
+
+        return apiResponse.getResponseOptional()
+                .map(response -> new ApiResponse<>(new PageResponse<>(response.getContent(), convertGeneratedPagination(response.getPagination()))))
+                .orElse(new ApiResponse<>(apiResponse.getError()));
     }
 
     public ApiResponse<CustomerKeyResponse> findById(final Long authorizedUserId, final Long customerKeyId) {
@@ -36,7 +41,7 @@ public class CustomerKeyRepository extends AbstractUserServiceRepository {
     }
 
     public ApiResponse<CustomerKeyResponse> post(final Long authorizedUserId, final CustomerKeyRequest customerKeyRequest) {
-        return execute(customerKeysApi.postUsingPOST1(customerKeyRequest, authorizedUserId, authorizedUserId));
+        return execute(customerKeysApi.postUsingPOST(customerKeyRequest, authorizedUserId, authorizedUserId));
     }
 
     public ApiResponse<List<CustomerKeyTypeResponse>> findCustomerKeyTypes() {

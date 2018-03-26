@@ -21,19 +21,37 @@ public class MockMvcUtils {
         this.mapper = mapper;
     }
 
-    public String toJson(final Object o) throws JsonProcessingException {
-        return mapper.writeValueAsString(o);
+    public String toJson(final Object o) {
+        try {
+            return mapper.writeValueAsString(o);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public <T> T fromJson(final String json, final Class<T> clazz) throws IOException {
-        return mapper.readValue(json, clazz);
+    public <T> T fromJson(final String json, final Class<T> className) {
+        try {
+            return mapper.readValue(json, className);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public <T> T fromJson(final String json, final TypeReference<T> clazz) throws IOException {
-        return mapper.readValue(json, clazz);
+    public <T> T fromJson(final String json, final TypeReference<T> className) {
+        try {
+            return mapper.readValue(json, className);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public <T> PageResponse<T> pageFromJson(final String json, final TypeReference<PageResponse<T>> typeReference) throws IOException {
-        return mapper.readValue(json, typeReference);
+    public <T> PageResponse<T> pageFromJson(final String json, final TypeReference<PageResponse<T>> typeReference) {
+        try {
+
+            return mapper.readValue(json, typeReference);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }
+

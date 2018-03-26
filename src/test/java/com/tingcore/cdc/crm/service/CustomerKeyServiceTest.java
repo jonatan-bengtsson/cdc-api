@@ -6,9 +6,11 @@ import com.tingcore.cdc.crm.repository.CustomerKeyRepository;
 import com.tingcore.cdc.crm.utils.CustomerKeyDataUtils;
 import com.tingcore.cdc.utils.CommonDataUtils;
 import com.tingcore.commons.api.repository.ApiResponse;
+import com.tingcore.commons.api.service.HashIdService;
 import com.tingcore.commons.rest.ErrorResponse;
 import com.tingcore.commons.rest.PageResponse;
 import com.tingcore.users.model.*;
+import org.hashids.Hashids;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -47,11 +49,12 @@ public class CustomerKeyServiceTest {
     @Test
     public void findByUserId() {
         final Long userId = CommonDataUtils.getNextId();
-        final PageResponseCustomerKeyResponse mockResponse = CustomerKeyDataUtils.randomPageResponse();
+        final PageResponse<CustomerKeyResponse> mockResponse = CustomerKeyDataUtils.randomPageResponse();
         given(customerKeyRepository.findByUserId(userId)).willReturn(new ApiResponse<>(mockResponse));
         final PageResponse<CustomerKey> response = customerKeyService.findByUserId(userId);
-        assertThat(response.getContent()).hasSize(mockResponse.getContent().size());
-        response.getContent().forEach(customerKey -> {
+        final List<CustomerKey> content = response.getContent();
+        assertThat(content).hasSize(mockResponse.getContent().size());
+        content.forEach(customerKey -> {
             assertThat(customerKey).hasNoNullFieldsOrProperties();
             assertThat(customerKey.getUserPaymentOptions()).hasSize(1);
             assertThat(customerKey.getUserPaymentOptions().get(0)).hasNoNullFieldsOrProperties();

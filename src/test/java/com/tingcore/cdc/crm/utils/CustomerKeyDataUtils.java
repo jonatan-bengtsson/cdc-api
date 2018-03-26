@@ -5,10 +5,10 @@ import com.tingcore.cdc.crm.model.CustomerKeyType;
 import com.tingcore.cdc.crm.request.CustomerKeyOrderRequest;
 import com.tingcore.cdc.crm.request.CustomerKeyPostRequest;
 import com.tingcore.cdc.utils.CommonDataUtils;
+import com.tingcore.commons.rest.PageResponse;
 import com.tingcore.customerkeyorder.client.model.response.CustomerKeyOrder;
 import com.tingcore.users.model.CustomerKeyResponse;
 import com.tingcore.users.model.CustomerKeyTypeResponse;
-import com.tingcore.users.model.PageResponseCustomerKeyResponse;
 
 import java.time.Instant;
 import java.util.Collections;
@@ -28,10 +28,10 @@ public class CustomerKeyDataUtils {
     }
 
 
-    public static PageResponseCustomerKeyResponse randomPageResponse() {
-        final PageResponseCustomerKeyResponse r = new PageResponseCustomerKeyResponse();
-        r.setContent(newArrayList(randomCustomerKeyResponse(), randomCustomerKeyResponse()));
-        return r;
+    public static PageResponse<CustomerKeyResponse> randomPageResponse() {
+        return new PageResponse<>(
+                newArrayList(randomCustomerKeyResponse(), randomCustomerKeyResponse())
+        );
     }
 
     public static CustomerKeyResponse randomCustomerKeyResponse() {

@@ -5,6 +5,7 @@ import com.tingcore.payments.cpo.api.PricesApi;
 import com.tingcore.payments.cpo.api.ChargesApi;
 import com.tingcore.payments.cpo.api.PaymentaccountsApi;
 import com.tingcore.payments.cpo.api.TokensApi;
+import com.tingcore.payments.cpo.api.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
@@ -31,6 +32,11 @@ public class PaymentsServiceConfiguration {
     @Bean
     public PaymentaccountsApi paymentaccountsApi(final ApiClient paymentsClient) {
         return notNull(paymentsClient).createService(PaymentaccountsApi.class);
+    }
+
+    @Bean
+    public SessionhistoryApi sessionhistoryApi(final ApiClient paymentsClient) {
+        return notNull(paymentsClient).createService(SessionhistoryApi.class);
     }
 
     @Bean

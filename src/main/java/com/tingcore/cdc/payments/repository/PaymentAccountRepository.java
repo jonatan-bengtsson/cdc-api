@@ -5,6 +5,9 @@ import com.tingcore.commons.api.repository.AbstractApiRepository;
 import com.tingcore.commons.external.ExternalApiException;
 import com.tingcore.payments.cpo.api.PaymentaccountsApi;
 import com.tingcore.payments.cpo.model.*;
+import com.tingcore.payments.cpo.api.SessionsApi;
+import com.tingcore.payments.cpo.api.PaymentaccountsApi;
+import com.tingcore.payments.cpo.model.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

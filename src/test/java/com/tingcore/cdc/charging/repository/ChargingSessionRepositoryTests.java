@@ -1,6 +1,8 @@
 package com.tingcore.cdc.charging.repository;
 
-import static org.junit.Assert.assertEquals;
+import com.tingcore.payments.cpo.model.ApiCharge;
+import org.junit.Test;
+
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 

@@ -40,7 +40,7 @@ public class CustomerKeyOrderControllerTest extends ControllerUnitTest {
         given(authorizedUser.getOrganization()).willReturn(Organization.createBuilder().id(1L).build());
         given(service.createOrder(anyLong(), anyLong(), any(CustomerKeyOrderRequest.class))).willReturn(mockResponse);
 
-        MockHttpServletRequestBuilder request = post("/v1/customer-keys-orders")
+        MockHttpServletRequestBuilder request = post("/v1/customer-key-orders")
                 .content(mockMvcUtils.toJson(CustomerKeyDataUtils.randomCustomerKeyOrderRequest()))
                 .contentType(MediaType.APPLICATION_JSON_UTF8);
 
@@ -60,7 +60,7 @@ public class CustomerKeyOrderControllerTest extends ControllerUnitTest {
 
         given(service.createOrder(anyLong(), anyLong(), any(CustomerKeyOrderRequest.class))).willReturn(mockResponse);
 
-        MockHttpServletRequestBuilder request = post("/v1/customer-keys-orders")
+        MockHttpServletRequestBuilder request = post("/v1/customer-key-orders")
                 .content(mockMvcUtils.toJson(CustomerKeyDataUtils.randomCustomerKeyOrderRequest()))
                 .contentType(MediaType.APPLICATION_JSON_UTF8);
 
@@ -80,7 +80,7 @@ public class CustomerKeyOrderControllerTest extends ControllerUnitTest {
 
         given(service.createOrder(anyLong(), anyLong(), any(CustomerKeyOrderRequest.class))).willReturn(mockResponse);
 
-        MockHttpServletRequestBuilder request = post("/v1/customer-keys-orders")
+        MockHttpServletRequestBuilder request = post("/v1/customer-key-orders")
                 .content(mockMvcUtils.toJson(CustomerKeyDataUtils.randomInvalidCustomerKeyOrderRequest()))
                 .contentType(MediaType.APPLICATION_JSON_UTF8);
 
@@ -102,7 +102,7 @@ public class CustomerKeyOrderControllerTest extends ControllerUnitTest {
         response.add(CustomerKeyDataUtils.randomCustomerKeyOrderResponse());
         given(service.findOrdersByUserId(anyLong())).willReturn(response);
 
-        MockHttpServletRequestBuilder request = get("/v1/customer-keys-orders")
+        MockHttpServletRequestBuilder request = get("/v1/customer-key-orders")
                 .contentType(MediaType.APPLICATION_JSON_UTF8);
 
         MvcResult result = mockMvc.perform(request)

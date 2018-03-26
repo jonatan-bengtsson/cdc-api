@@ -26,9 +26,9 @@ import static org.apache.commons.lang3.Validate.notNull;
 @RequestMapping("/" + PaymentAccountController.VERSION + "/" + PaymentAccountController.ACCOUNTS)
 public class PaymentAccountController {
     static final String VERSION = "v1";
-    static final String ACCOUNTS = "paymentaccounts";
+    static final String ACCOUNTS = "payment-accounts";
     static final String USERS = "users";
-    static final String PAYMENT_OPTION = "paymentoption";
+    static final String PAYMENT_OPTIONS = "payment-options";
 
     @Resource(name = WebMvcConfiguration.AUTHORIZED_USER)
     private AuthorizedUser authorizedUser;
@@ -57,13 +57,13 @@ public class PaymentAccountController {
 
     }
 
-    @DeleteMapping("/" + PAYMENT_OPTION + "/{paymentoption}")
+    @DeleteMapping("/" + PAYMENT_OPTIONS + "/{paymentOption}")
     @ApiOperation(value = "Delete a users payment account.", response = ApiDeletedCustomer.class, tags = {SwaggerDocConstants.TAGS_PAYMENT_ACCOUNTS})
     @ApiResponses(value = {
             @ApiResponse(code = 400, message = "Could not parse the request.", response = ErrorResponse.class),
             @ApiResponse(code = 404, message = "Payment account with the supplied id was not found.", response = ErrorResponse.class)
     })
-    public ApiDeletedCustomer deleteUserAccount(@PathVariable("paymentoption") String paymentOption) {
+    public ApiDeletedCustomer deleteUserAccount(@PathVariable("paymentOption") String paymentOption) {
         return paymentAccountService.deleteUserAccount(authorizedUser.getId(), paymentOption);
     }
 

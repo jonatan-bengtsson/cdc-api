@@ -21,7 +21,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/v1/customer-keys-orders")
+@RequestMapping(value = "/v1/customer-key-orders")
 public class CustomerKeyOrderController {
 
     private final CustomerKeyOrderService customerKeyOrderService;

@@ -1,4 +1,4 @@
-package com.tingcore.cdc.payments.repository;
+package com.tingcore.cdc.sessionhistory.repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tingcore.commons.api.repository.AbstractApiRepository;

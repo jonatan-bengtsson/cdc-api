@@ -1,10 +1,6 @@
 package com.tingcore.cdc.configuration;
 
 import com.tingcore.payments.cpo.ApiClient;
-import com.tingcore.payments.cpo.api.PricesApi;
-import com.tingcore.payments.cpo.api.ChargesApi;
-import com.tingcore.payments.cpo.api.PaymentaccountsApi;
-import com.tingcore.payments.cpo.api.TokensApi;
 import com.tingcore.payments.cpo.api.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

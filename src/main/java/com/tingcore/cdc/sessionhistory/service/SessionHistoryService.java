@@ -1,6 +1,6 @@
-package com.tingcore.cdc.payments.service;
+package com.tingcore.cdc.sessionhistory.service;
 
-import com.tingcore.cdc.payments.repository.SessionHistoryRepository;
+import com.tingcore.cdc.sessionhistory.repository.SessionHistoryRepository;
 import com.tingcore.payments.cpo.model.ApiChargeHistory;
 import org.springframework.stereotype.Service;
 

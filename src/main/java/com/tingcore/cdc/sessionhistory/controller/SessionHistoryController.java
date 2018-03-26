@@ -1,7 +1,7 @@
-package com.tingcore.cdc.payments.controller;
+package com.tingcore.cdc.sessionhistory.controller;
 
 import com.tingcore.cdc.exception.SessionHistoryFailureException;
-import com.tingcore.cdc.payments.service.SessionHistoryService;
+import com.tingcore.cdc.sessionhistory.service.SessionHistoryService;
 import com.tingcore.commons.api.service.HashIdService;
 import com.tingcore.payments.cpo.model.ApiChargeHistory;
 import io.swagger.annotations.ApiOperation;

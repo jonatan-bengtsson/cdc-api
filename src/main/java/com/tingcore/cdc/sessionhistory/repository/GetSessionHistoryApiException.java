@@ -1,4 +1,4 @@
-package com.tingcore.cdc.payments.repository;
+package com.tingcore.cdc.sessionhistory.repository;
 
 import com.tingcore.commons.external.ExternalApiException;
 import com.tingcore.commons.rest.ErrorResponse;

@@ -5,7 +5,6 @@ import com.tingcore.commons.api.repository.AbstractApiRepository;
 import com.tingcore.commons.external.ExternalApiException;
 import com.tingcore.payments.cpo.api.SessionhistoryApi;
 import com.tingcore.payments.cpo.model.ApiChargeHistory;
-import com.tingcore.payments.cpo.model.ApiSessionHistoryEvent;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -32,7 +31,7 @@ public class SessionHistoryRepository extends AbstractApiRepository {
     }
 
     private <T, E extends ExternalApiException> T getResponseOrSessionHistoryError(CompletableFuture<T> request) throws E {
-        return getResponseOrThrowError(execute(request), GetSessionhistoryApiException::new);
+        return getResponseOrThrowError(execute(request), GetSessionHistoryApiException::new);
     }
 
     @Override

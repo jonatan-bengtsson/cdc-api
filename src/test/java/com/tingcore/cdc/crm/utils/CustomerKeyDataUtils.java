@@ -6,7 +6,6 @@ import com.tingcore.cdc.crm.request.CustomerKeyOrderRequest;
 import com.tingcore.cdc.crm.request.CustomerKeyPostRequest;
 import com.tingcore.cdc.utils.CommonDataUtils;
 import com.tingcore.commons.rest.PageResponse;
-import com.tingcore.customerkeyorder.client.model.response.Order;
 import com.tingcore.customerkeyorder.client.model.response.CustomerKeyOrder;
 import com.tingcore.users.model.CustomerKeyResponse;
 import com.tingcore.users.model.CustomerKeyTypeResponse;

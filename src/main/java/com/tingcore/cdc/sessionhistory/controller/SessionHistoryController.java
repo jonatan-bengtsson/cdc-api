@@ -1,5 +1,6 @@
 package com.tingcore.cdc.sessionhistory.controller;
 
+import com.tingcore.cdc.constant.SwaggerDocConstants;
 import com.tingcore.cdc.exception.SessionHistoryFailureException;
 import com.tingcore.cdc.sessionhistory.service.SessionHistoryService;
 import com.tingcore.commons.api.service.HashIdService;
@@ -30,14 +31,12 @@ public class SessionHistoryController {
     }
 
     @GetMapping(CUSTOMER_KEY + "/{customerkeyid}")
-    @ApiOperation(value = "Get Session history for a users customer key between two dates", response = ApiChargeHistory.class, responseContainer = "List", tags = {SESSION_HISTORY})
+    @ApiOperation(value = "Get Session history for a users customer key between two dates", response = ApiChargeHistory.class, responseContainer = "List", tags = {SwaggerDocConstants.TAGS_SESSION_HISTORY})
     public List<ApiChargeHistory> getEmpSessionHistory(@PathVariable("customerkeyid") @NotNull String customerKeyId,
                                                        @RequestParam("frominstant") @NotNull Long from,
                                                        @RequestParam("toinstant") @NotNull Long to) {
         return hashIdService.decode(customerKeyId)
                 .map(id -> sessionHistoryService.getSessionHistory(id, from, to))
         .orElseThrow(() -> new SessionHistoryFailureException("Could not get session history"));
-
-
     }
 }

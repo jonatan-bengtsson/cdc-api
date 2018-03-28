@@ -14,6 +14,7 @@ import java.time.Instant;
 import java.util.Collections;
 import java.util.concurrent.ThreadLocalRandom;
 
+import static com.tingcore.cdc.crm.utils.AttributeDataUtils.createGenericAddress;
 import static java.util.Collections.emptySet;
 import static org.assertj.core.util.Lists.newArrayList;
 
@@ -101,14 +102,14 @@ public class CustomerKeyDataUtils {
 
     public static CustomerKeyOrderRequest randomCustomerKeyOrderRequest() {
         return new CustomerKeyOrderRequest(
-                CommonDataUtils.randomUUID(),
+                createGenericAddress(),
                 ThreadLocalRandom.current().nextInt(2, 7)
         );
     }
 
     public static CustomerKeyOrderRequest randomInvalidCustomerKeyOrderRequest() {
         return new CustomerKeyOrderRequest(
-                CommonDataUtils.randomUUID(),
+                createGenericAddress(),
                 CommonDataUtils.getNextId().intValue()
         );
     }
@@ -118,7 +119,7 @@ public class CustomerKeyDataUtils {
         order.setId(CommonDataUtils.getNextId());
         order.setUserId(CommonDataUtils.getNextId());
         order.setOrganizationId(CommonDataUtils.getNextId());
-        order.setAddress(CommonDataUtils.randomUUID());
+        order.setAddress(createGenericAddress());
         order.setQuantity(ThreadLocalRandom.current().nextInt(2, 7));
         order.setCustomerKeyType(CommonDataUtils.getNextId());
         order.setCreated(Instant.now());

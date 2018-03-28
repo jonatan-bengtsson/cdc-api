@@ -1,11 +1,11 @@
 package com.tingcore.cdc.charging.controller;
 
 import com.tingcore.cdc.charging.model.BasicChargeSite;
-import com.tingcore.cdc.charging.model.ChargePoint;
 import com.tingcore.cdc.charging.model.ChargePointSite;
 import com.tingcore.cdc.charging.service.ChargePointSiteService;
 import com.tingcore.cdc.configuration.AuthorizedUser;
 import com.tingcore.cdc.configuration.WebMvcConfiguration;
+import com.tingcore.cdc.constant.SwaggerDocConstants;
 import com.tingcore.cdc.exception.EntityNotFoundException;
 import com.tingcore.commons.api.service.HashIdService;
 import com.tingcore.commons.rest.PageResponse;
@@ -18,18 +18,18 @@ import javax.annotation.Resource;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(value = "/v1/chargesites")
-public class ChargeSiteController {
+@RequestMapping(value = "/v1/charge-point-sites")
+public class ChargePointSiteController {
 
     @Resource(name = WebMvcConfiguration.AUTHORIZED_USER)
     private AuthorizedUser authorizedUser;
 
     private final HashIdService hashIdService;
-    private final ChargePointSiteService chargeSiteService;
+    private final ChargePointSiteService chargePointSiteService;
 
     @Autowired
-    public ChargeSiteController(ChargePointSiteService chargeSiteService, HashIdService hashIdService) {
-        this.chargeSiteService = chargeSiteService;
+    public ChargePointSiteController(ChargePointSiteService chargePointSiteService, HashIdService hashIdService) {
+        this.chargePointSiteService = chargePointSiteService;
         this.hashIdService = hashIdService;
     }
 
@@ -39,32 +39,34 @@ public class ChargeSiteController {
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
     @ApiOperation(value = "Get preview versions of Charge Point Sites",
-            notes = "Get preview versions of Charge Point Sites bounded by the box representing the two coordinates. The bounds are not inclusive"
+            notes = "Get preview versions of Charge Point Sites bounded by the box representing the two coordinates. The bounds are not inclusive",
+            tags = SwaggerDocConstants.TAGS_CHARGE_POINT_SITES
     )
 
-    public PageResponse<BasicChargeSite> chargeSitesByCoordinates(
-            @RequestParam("latitude1") double latitude1,
-            @RequestParam("longitude1") double longitude1,
-            @RequestParam("latitude2") double latitude2,
-            @RequestParam("longitude2") double longitude2) {
+    public PageResponse<BasicChargeSite> chargePointSitesByCoordinates(
+            @RequestParam("northWestLatitude") double latitude1,
+            @RequestParam("northWestLongitude") double longitude1,
+            @RequestParam("southEastLatitude") double latitude2,
+            @RequestParam("southEastLongitude") double longitude2) {
 
         // The organization id is the EMP id, but for now we have no choice
         // but to assume that the EMP is also the CPO to use.
         long chargePointOperatorId = this.authorizedUser.getOrganization().getId();
-        return chargeSiteService.getChargeSiteByCoordinate(latitude1, longitude1, latitude2, longitude2, chargePointOperatorId);
+        return chargePointSiteService.getChargeSiteByCoordinate(latitude1, longitude1, latitude2, longitude2, chargePointOperatorId);
     }
 
     @RequestMapping(
-            value = "/{id}",
+            value = "/{chargePointSiteId}",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
     @ApiOperation(value = "Get complete Charge Point Site",
-            notes = "Get complete Charge Point Site including Charge Points with Connectors"
+            notes = "Get complete Charge Point Site including Charge Points with Connectors",
+            tags = SwaggerDocConstants.TAGS_CHARGE_POINT_SITES
     )
-    public ChargePointSite getChargePointSite(@PathVariable("id") String id) {
+    public ChargePointSite getChargePointSite(@PathVariable("chargePointSiteId") String id) {
         long chargePointOperatorId = this.authorizedUser.getOrganization().getId();
-        return chargeSiteService.getChargeSite(getId(id), chargePointOperatorId);
+        return chargePointSiteService.getChargeSite(getId(id), chargePointOperatorId);
     }
 
     private long getId(String hashId) {

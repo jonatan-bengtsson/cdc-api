@@ -9,6 +9,7 @@ import com.tingcore.cdc.charging.model.TrustedUserId;
 import com.tingcore.cdc.charging.service.ChargingSessionService;
 import com.tingcore.cdc.configuration.AuthorizedUser;
 import com.tingcore.cdc.configuration.WebMvcConfiguration;
+import com.tingcore.cdc.constant.SwaggerDocConstants;
 import com.tingcore.cdc.exception.EntityNotFoundException;
 import com.tingcore.commons.api.service.HashIdService;
 import com.tingcore.commons.rest.ErrorResponse;
@@ -47,12 +48,12 @@ public class ChargingSessionEventController {
     }
 
     @PostMapping("/{chargingSessionId}/" + EVENTS)
-    @ApiOperation(code = 201, value = "Create a session event.", response = ChargingSessionEvent.class, tags = {SESSIONS})
+    @ApiOperation(code = 201, value = "Send a charging session event.", response = ChargingSessionEvent.class, tags = {SwaggerDocConstants.TAGS_CHARGING_SESSIONS})
     @ApiResponses(value = {
             @ApiResponse(code = 404, message = "The session with the supplied id could not be found.", response = ErrorResponse.class)
     })
-    public ResponseEntity<ChargingSessionEvent> addEvent(final @PathVariable("chargingSessionId") String chargingSessionId,
-                                                         final @RequestBody @Valid AddChargingSessionEventRequest request) {
+    public ResponseEntity<ChargingSessionEvent> sendChargingSessionEvent(final @PathVariable("chargingSessionId") String chargingSessionId,
+                                                                         final @RequestBody @Valid AddChargingSessionEventRequest request) {
         switch (request.nature) {
             case STOP_REQUESTED:
                 return handleStopEvent(chargingSessionId, String.class.cast(request.data.get("chargePointId")));

@@ -18,16 +18,16 @@ public class ApiCreateAccountRequest {
   }
 
   public static class Account {
-    private com.tingcore.payments.emp.model.Account.PaymentMethodEnum paymentMethod;
+    private com.tingcore.payments.cpo.model.Account.PaymentMethodEnum paymentMethod;
     private String accountOwnerId;
 
     private Map<String, Object> data;
 
-    public com.tingcore.payments.emp.model.Account.PaymentMethodEnum getPaymentMethod() {
+    public com.tingcore.payments.cpo.model.Account.PaymentMethodEnum getPaymentMethod() {
       return paymentMethod;
     }
 
-    public void setPaymentMethod(final com.tingcore.payments.emp.model.Account.PaymentMethodEnum paymentMethod) {
+    public void setPaymentMethod(final com.tingcore.payments.cpo.model.Account.PaymentMethodEnum paymentMethod) {
       this.paymentMethod = paymentMethod;
     }
 

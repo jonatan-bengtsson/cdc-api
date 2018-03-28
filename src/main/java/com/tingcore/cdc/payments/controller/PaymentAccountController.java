@@ -2,14 +2,14 @@ package com.tingcore.cdc.payments.controller;
 
 import com.tingcore.cdc.configuration.AuthorizedUser;
 import com.tingcore.cdc.configuration.WebMvcConfiguration;
+import com.tingcore.cdc.constant.SwaggerDocConstants;
 import com.tingcore.cdc.exception.PaymentAccountFailureException;
 import com.tingcore.cdc.payments.api.ApiCreateAccountRequest;
 import com.tingcore.cdc.payments.service.PaymentAccountService;
 import com.tingcore.commons.api.service.HashIdService;
 import com.tingcore.commons.rest.ErrorResponse;
-import com.tingcore.payments.emp.model.ApiDeletedCustomer;
-import com.tingcore.payments.emp.model.ApiPaymentAccount;
-import com.tingcore.payments.emp.model.DeleteAccountRequest;
+import com.tingcore.payments.cpo.model.ApiDeletedCustomer;
+import com.tingcore.payments.cpo.model.ApiPaymentAccount;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -26,9 +26,9 @@ import static org.apache.commons.lang3.Validate.notNull;
 @RequestMapping("/" + PaymentAccountController.VERSION + "/" + PaymentAccountController.ACCOUNTS)
 public class PaymentAccountController {
     static final String VERSION = "v1";
-    static final String ACCOUNTS = "paymentaccounts";
+    static final String ACCOUNTS = "payment-accounts";
     static final String USERS = "users";
-    static final String PAYMENT_OPTION = "paymentoption";
+    static final String PAYMENT_OPTIONS = "payment-options";
 
     @Resource(name = WebMvcConfiguration.AUTHORIZED_USER)
     private AuthorizedUser authorizedUser;
@@ -43,7 +43,7 @@ public class PaymentAccountController {
     }
 
     @PostMapping("/" + USERS)
-    @ApiOperation(code = 201, value = "Create a user payment account", response = ApiPaymentAccount.class, tags = {ACCOUNTS})
+    @ApiOperation(code = 201, value = "Create a user payment account", response = ApiPaymentAccount.class, tags = {SwaggerDocConstants.TAGS_PAYMENT_ACCOUNTS})
     public ApiPaymentAccount createUserAccount(final @RequestBody @Valid ApiCreateAccountRequest request) {
         return hashIdService.decode(request.getAccount().getAccountOwnerId())
                 .map(longId -> paymentAccountService.createUserAccount(longId, request))
@@ -51,24 +51,24 @@ public class PaymentAccountController {
     }
 
     @GetMapping("/" + USERS + "/{paymentOptionReference}")
-    @ApiOperation(value = "Get a users payment account.", response = ApiPaymentAccount.class, tags = {ACCOUNTS})
+    @ApiOperation(value = "Get a users payment account.", response = ApiPaymentAccount.class, tags = {SwaggerDocConstants.TAGS_PAYMENT_ACCOUNTS})
     public ApiPaymentAccount getUserAccount(final @PathVariable("paymentOptionReference") @NotNull String paymentOptionReference) {
         return paymentAccountService.getAccount(paymentOptionReference);
 
     }
 
-    @DeleteMapping("/" + PAYMENT_OPTION + "/{paymentoption}")
-    @ApiOperation(value = "Delete a users payment account.", response = ApiDeletedCustomer.class, tags = {ACCOUNTS})
+    @DeleteMapping("/" + PAYMENT_OPTIONS + "/{paymentOption}")
+    @ApiOperation(value = "Delete a users payment account.", response = ApiDeletedCustomer.class, tags = {SwaggerDocConstants.TAGS_PAYMENT_ACCOUNTS})
     @ApiResponses(value = {
             @ApiResponse(code = 400, message = "Could not parse the request.", response = ErrorResponse.class),
             @ApiResponse(code = 404, message = "Payment account with the supplied id was not found.", response = ErrorResponse.class)
     })
-    public ApiDeletedCustomer deleteUserAccount(@PathVariable("paymentoption") String paymentOption) {
+    public ApiDeletedCustomer deleteUserAccount(@PathVariable("paymentOption") String paymentOption) {
         return paymentAccountService.deleteUserAccount(authorizedUser.getId(), paymentOption);
     }
 
     @GetMapping("/" + USERS)
-    @ApiOperation(value = "Get a users payment accounts.", response = ApiPaymentAccount.class, responseContainer = "List", tags = {ACCOUNTS})
+    @ApiOperation(value = "Get a users payment accounts.", response = ApiPaymentAccount.class, responseContainer = "List", tags = {SwaggerDocConstants.TAGS_PAYMENT_ACCOUNTS})
     public List<ApiPaymentAccount> getUserPaymentAccounts(final @RequestParam(value = "keyId", required = false) String keyId) {
         Long key = null;
         Long user = null;

@@ -77,13 +77,13 @@ configurations.all {
 ext {
     versionSwagger = "2.7.0"
     versionOkHttp = "3.9.0"
-    versionCommonsApi = "1.0.6-SNAPSHOT"
-    versionUserServiceClient = "1.0.10"
-    versionAssetServiceClient = "0.1.18"
+    versionUserServiceClient = "1.0.11"
+    versionCommonsApi = "1.0.7"
+    versionAssetServiceClient = "0.1.21"
     versionOperationServiceClient = "0.1.13"
-    versionPaymentsEmpClient = "0.8.9"
-    versionPaymentsCpoClient = "0.8.9"
+    versionPaymentsServiceClient = "0.8.12"
     versionJackson = '2.8.11'
+    versionCustomerKeyOrderService = '0.4.0'
 }
 
 dependencies {
@@ -101,11 +101,11 @@ dependencies {
     compile("com.tingcore.charging:asset-service-java-client:$versionAssetServiceClient")
     compile("com.tingcore.charging:charging-operations-java-client:$versionOperationServiceClient")
     compile("com.tingcore:user-service-java-client:$versionUserServiceClient")
-    compile("com.tingcore.payments:payments-emp-client:$versionPaymentsEmpClient")
-    compile("com.tingcore.payments:payments-cpo-client:$versionPaymentsCpoClient")
+    compile("com.tingcore.payments:payments-service-java-client:$versionPaymentsServiceClient")
     compile "com.tingcore:library-eventprocessing:0.0.8"
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
     compile 'com.google.code.gson:gson:2.8.2'
+    compile("com.tingcore.customerkeyorder:customer-key-order-service-java-client:$versionCustomerKeyOrderService")
 
     // Retrofit + OKHttp
     compile("com.squareup.okhttp3:okhttp:$versionOkHttp")

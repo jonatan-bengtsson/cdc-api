@@ -3,7 +3,7 @@ package com.tingcore.cdc.crm.service;
 
 import com.tingcore.cdc.crm.constant.AttributeConstant;
 import com.tingcore.cdc.crm.model.*;
-import com.tingcore.commons.api.utils.JsonUtils;
+import com.tingcore.commons.utils.JsonUtils;
 import com.tingcore.users.model.AttributeResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

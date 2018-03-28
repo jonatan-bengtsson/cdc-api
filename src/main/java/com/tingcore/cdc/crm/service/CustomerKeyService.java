@@ -8,7 +8,6 @@ import com.tingcore.commons.api.repository.ApiResponse;
 import com.tingcore.commons.rest.PageResponse;
 import com.tingcore.users.model.CustomerKeyResponse;
 import com.tingcore.users.model.CustomerKeyTypeResponse;
-import com.tingcore.users.model.PageResponseCustomerKeyResponse;
 import com.tingcore.users.model.UserPaymentOptionIdRequest;
 import org.springframework.stereotype.Service;
 
@@ -25,18 +24,18 @@ public class CustomerKeyService {
     private final CustomerKeyRepository customerKeyRepository;
 
 
-    public CustomerKeyService(final CustomerKeyRepository customerKeyRepository) {
+    CustomerKeyService(final CustomerKeyRepository customerKeyRepository) {
         this.customerKeyRepository = customerKeyRepository;
     }
 
     public PageResponse<CustomerKey> findByUserId(final Long authorizedUserId) {
-        final ApiResponse<PageResponseCustomerKeyResponse> apiResponse = customerKeyRepository.findByUserId(authorizedUserId);
+        final ApiResponse<PageResponse<CustomerKeyResponse>> apiResponse = customerKeyRepository.findByUserId(authorizedUserId);
         return apiResponse
                 .getResponseOptional()
                 .map(apiPageResponse -> new PageResponse<>(apiPageResponse.getContent()
                         .stream()
                         .map(CustomerKeyMapper::toModel)
-                        .collect(Collectors.toList())))
+                        .collect(Collectors.toList()), apiPageResponse.getPagination()))
                 .orElseThrow(() -> new UsersApiException(apiResponse.getError()));
     }
 
@@ -71,5 +70,12 @@ public class CustomerKeyService {
                 .getResponseOptional()
                 .map(CustomerKeyMapper::toModel)
                 .orElseThrow(() -> new UsersApiException(apiResponse.getError()));
+    }
+
+    public void deleteUserPaymentOption(Long authorizedUserId, Long customerKeyId, Long userPaymentOptionId) {
+        final ApiResponse<Void> apiResponse = customerKeyRepository.deleteUserPaymentOption(customerKeyId, userPaymentOptionId, authorizedUserId, authorizedUserId);
+        apiResponse
+                .getErrorOptional()
+                .ifPresent(error -> { throw new UsersApiException(error); } );
     }
 }

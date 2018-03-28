@@ -7,6 +7,7 @@ import com.tingcore.cdc.crm.service.ErrorMappingService;
 import com.tingcore.cdc.crm.service.InvalidAttributeValueException;
 import com.tingcore.cdc.crm.service.UsersApiException;
 import com.tingcore.cdc.exception.EntityNotFoundException;
+import com.tingcore.cdc.payments.repository.PaymentAccountApiException;
 import com.tingcore.cdc.service.MessageByLocaleService;
 import com.tingcore.commons.api.service.ServiceException;
 import com.tingcore.commons.external.ExternalApiException;
@@ -166,6 +167,8 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleExternalApiException(final ExternalApiException e) {
         LOG.debug(e.getMessage(), e);
         if (e instanceof UsersApiException) {
+            return errorResponseToResponseEntity(errorMappingService.prepareErrorResponse(e.getErrorResponse()));
+        } else if (e instanceof PaymentAccountApiException) {
             return errorResponseToResponseEntity(errorMappingService.prepareErrorResponse(e.getErrorResponse()));
         }
         return errorResponseToResponseEntity(e.getErrorResponse());

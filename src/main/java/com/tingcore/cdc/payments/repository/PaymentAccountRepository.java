@@ -3,8 +3,10 @@ package com.tingcore.cdc.payments.repository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tingcore.commons.api.repository.AbstractApiRepository;
 import com.tingcore.commons.external.ExternalApiException;
-import com.tingcore.payments.emp.api.PaymentaccountsApi;
-import com.tingcore.payments.emp.model.*;
+import com.tingcore.payments.cpo.api.PaymentaccountsApi;
+import com.tingcore.payments.cpo.model.ApiDeletedCustomer;
+import com.tingcore.payments.cpo.model.ApiPaymentAccount;
+import com.tingcore.payments.cpo.model.CreateAccountRequest;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -43,7 +45,7 @@ public class PaymentAccountRepository extends AbstractApiRepository {
     }
 
     private <T, E extends ExternalApiException> T getResponseOrPaymentAccountError(CompletableFuture<T> request) throws E {
-        return getResponseOrThrowError(execute(request), GetPaymentAccountApiException::new);
+        return getResponseOrThrowError(execute(request), PaymentAccountApiException::new);
     }
 
     @Override

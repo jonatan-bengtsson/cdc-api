@@ -1,6 +1,8 @@
 package com.tingcore.cdc.charging.repository;
 
-import static org.junit.Assert.assertEquals;
+import com.tingcore.payments.cpo.model.ApiCharge;
+import org.junit.Test;
+
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 
@@ -9,7 +11,7 @@ import org.junit.Test;
 import com.tingcore.cdc.charging.model.ChargingSession;
 import com.tingcore.cdc.charging.model.ChargingSessionStatus;
 import com.tingcore.cdc.charging.repository.ChargingSessionRepository;
-import com.tingcore.payments.emp.model.ApiCharge;
+import com.tingcore.payments.cpo.model.ApiCharge;
 
 public class ChargingSessionRepositoryTests {
 

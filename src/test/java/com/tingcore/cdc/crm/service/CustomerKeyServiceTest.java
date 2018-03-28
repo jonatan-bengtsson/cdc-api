@@ -6,9 +6,11 @@ import com.tingcore.cdc.crm.repository.CustomerKeyRepository;
 import com.tingcore.cdc.crm.utils.CustomerKeyDataUtils;
 import com.tingcore.cdc.utils.CommonDataUtils;
 import com.tingcore.commons.api.repository.ApiResponse;
+import com.tingcore.commons.api.service.HashIdService;
 import com.tingcore.commons.rest.ErrorResponse;
 import com.tingcore.commons.rest.PageResponse;
 import com.tingcore.users.model.*;
+import org.hashids.Hashids;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,6 +18,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
@@ -23,6 +26,8 @@ import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyLong;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 /**
  * @author palmithor
@@ -44,11 +49,12 @@ public class CustomerKeyServiceTest {
     @Test
     public void findByUserId() {
         final Long userId = CommonDataUtils.getNextId();
-        final PageResponseCustomerKeyResponse mockResponse = CustomerKeyDataUtils.randomPageResponse();
+        final PageResponse<CustomerKeyResponse> mockResponse = CustomerKeyDataUtils.randomPageResponse();
         given(customerKeyRepository.findByUserId(userId)).willReturn(new ApiResponse<>(mockResponse));
         final PageResponse<CustomerKey> response = customerKeyService.findByUserId(userId);
-        assertThat(response.getContent()).hasSize(mockResponse.getContent().size());
-        response.getContent().forEach(customerKey -> {
+        final List<CustomerKey> content = response.getContent();
+        assertThat(content).hasSize(mockResponse.getContent().size());
+        content.forEach(customerKey -> {
             assertThat(customerKey).hasNoNullFieldsOrProperties();
             assertThat(customerKey.getUserPaymentOptions()).hasSize(1);
             assertThat(customerKey.getUserPaymentOptions().get(0)).hasNoNullFieldsOrProperties();
@@ -139,6 +145,33 @@ public class CustomerKeyServiceTest {
                 .willReturn(new ApiResponse<>(ErrorResponse.forbidden().build()));
         assertThatExceptionOfType(UsersApiException.class)
                 .isThrownBy(() -> customerKeyService.addUserPaymentOption(CommonDataUtils.getNextId(), CommonDataUtils.getNextId(), CommonDataUtils.getNextId()))
+                .withNoCause();
+    }
+
+    @Test
+    public void deleteUserPaymentOption() {
+        given(customerKeyRepository.deleteUserPaymentOption(anyLong(), anyLong(), anyLong(), anyLong()))
+                .willReturn(new ApiResponse(Optional.empty()));
+
+        final CustomerKeyResponse customerKeyData = CustomerKeyDataUtils.randomCustomerKeyResponse();
+        customerKeyService.deleteUserPaymentOption(
+                customerKeyData.getUserId(),
+                customerKeyData.getId(),
+                customerKeyData.getUserPaymentOptions().get(0).getId());
+
+        verify(customerKeyRepository, times(1)).deleteUserPaymentOption(
+                customerKeyData.getId(),
+                customerKeyData.getUserPaymentOptions().get(0).getId(),
+                customerKeyData.getUserId(),
+                customerKeyData.getUserId());
+    }
+
+    @Test
+    public void failDeleteUserPaymentOptionApiError() {
+        given(customerKeyRepository.deleteUserPaymentOption(anyLong(), anyLong(), anyLong(), anyLong()))
+                .willReturn(new ApiResponse<>(ErrorResponse.forbidden().build()));
+        assertThatExceptionOfType(UsersApiException.class)
+                .isThrownBy(() -> customerKeyService.deleteUserPaymentOption(CommonDataUtils.getNextId(), CommonDataUtils.getNextId(), CommonDataUtils.getNextId()))
                 .withNoCause();
     }
 

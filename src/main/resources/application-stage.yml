@@ -10,3 +10,5 @@ integration:
     hostname: asset-service.tingcore-stage.com
   charging-operations:
     hostname: charging-operations.tingcore-stage.com
+  customer-key-order:
+    hostname: customer-key-order.tingcore-stage.com

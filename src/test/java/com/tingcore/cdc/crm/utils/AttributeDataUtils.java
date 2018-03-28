@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.tingcore.cdc.crm.constant.AttributeConstant;
 import com.tingcore.cdc.crm.model.*;
 import com.tingcore.cdc.utils.CommonDataUtils;
+import com.tingcore.commons.address.GenericAddress;
 import com.tingcore.users.model.AttributeResponse;
 import com.tingcore.users.model.AttributeValueResponse;
 
@@ -72,6 +73,17 @@ public class AttributeDataUtils {
                 "{\"address\": \"Serenity Road 42\", \"postalCode\": \"123 45\", \"city\": \"Stockholm\", \"country\": \"Sweden\"}",
                 AttributeResponse.TypeEnum.JSON);
 
+    }
+
+    static GenericAddress createGenericAddress() {
+        return new GenericAddress.Builder()
+                .withAddress(CommonDataUtils.randomUUID())
+                .withAddressLine2(CommonDataUtils.randomUUID())
+                .withPostalCode(CommonDataUtils.randomUUID())
+                .withCity(CommonDataUtils.randomUUID())
+                .withCountry(CommonDataUtils.randomUUID())
+                .withName(CommonDataUtils.randomUUID())
+                .build();
     }
 
     static AttributeResponse createVatResponse() {

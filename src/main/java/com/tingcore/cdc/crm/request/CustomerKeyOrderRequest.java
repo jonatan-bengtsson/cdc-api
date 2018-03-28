@@ -1,18 +1,18 @@
 package com.tingcore.cdc.crm.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.tingcore.commons.address.GenericAddress;
 import io.swagger.annotations.ApiModelProperty;
 import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 public class CustomerKeyOrderRequest {
 
-    private final String address;
+    private final GenericAddress address;
     private final Integer quantity;
 
-    public CustomerKeyOrderRequest(String address, Integer quantity) {
+    public CustomerKeyOrderRequest(GenericAddress address, Integer quantity) {
         this.address = address;
         this.quantity = quantity;
     }
@@ -24,9 +24,8 @@ public class CustomerKeyOrderRequest {
 
     @JsonProperty("address")
     @NotNull
-    @Size(min = 5, max = 1000)
     @ApiModelProperty(value = "The address the order should be shipped to", example = "Vasagatan2, Stockholm 18123, Sweden", required = true)
-    public String getAddress() {
+    public GenericAddress getAddress() {
         return address;
     }
 

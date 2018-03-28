@@ -79,7 +79,7 @@ ext {
     versionOkHttp = "3.9.0"
     versionUserServiceClient = "1.0.11"
     versionCommonsApi = "1.0.7"
-    versionAssetServiceClient = "0.1.20"
+    versionAssetServiceClient = "0.1.21"
     versionOperationServiceClient = "0.1.13"
     versionPaymentsServiceClient = "0.8.12"
     versionJackson = '2.8.11'

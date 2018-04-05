@@ -5,6 +5,7 @@ import com.tingcore.cdc.configuration.WebMvcConfiguration;
 import com.tingcore.cdc.constant.SwaggerDocConstants;
 import com.tingcore.cdc.exception.PaymentAccountFailureException;
 import com.tingcore.cdc.payments.api.ApiCreateAccountRequest;
+import com.tingcore.cdc.payments.api.ApiStripeCustomer;
 import com.tingcore.cdc.payments.service.PaymentAccountService;
 import com.tingcore.commons.api.service.HashIdService;
 import com.tingcore.commons.rest.ErrorResponse;
@@ -52,12 +53,17 @@ public class PaymentAccountController {
     }
 
     @PostMapping("/" + USERS + "/stripe")
-    @ApiOperation(code = 201, value = "Create a stripe customer", response = String.class, tags = {SwaggerDocConstants.TAGS_PAYMENT_ACCOUNTS})
-    public String createStripeCustomer(final @RequestParam("cardSource") @NotNull String cardSource,
-                                       final @RequestParam("organizationId") @NotNull String organizationId) {
+    @ApiOperation(code = 201, value = "Create a stripe customer", response = ApiStripeCustomer.class, tags = {SwaggerDocConstants.TAGS_PAYMENT_ACCOUNTS})
+    public ApiStripeCustomer createStripeCustomer(final @RequestParam("cardSource") @NotNull String cardSource,
+                                                  final @RequestParam("organizationId") @NotNull String organizationId) {
         return hashIdService.decode(organizationId)
                 .map(id -> paymentAccountService.createStripeCustomer(cardSource, id))
+                .map(this::toApiCustomer)
                 .orElseThrow(() -> new PaymentAccountFailureException(cardSource));
+    }
+
+    private ApiStripeCustomer toApiCustomer(final String customer) {
+        return new ApiStripeCustomer(customer);
     }
 
     @GetMapping("/" + USERS + "/{paymentOptionReference}")

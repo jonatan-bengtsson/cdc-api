@@ -13,6 +13,7 @@ import com.tingcore.payments.cpo.model.ApiPaymentAccount;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -48,6 +49,15 @@ public class PaymentAccountController {
         return hashIdService.decode(request.getAccount().getAccountOwnerId())
                 .map(longId -> paymentAccountService.createUserAccount(longId, request))
                 .orElseThrow(() -> new PaymentAccountFailureException(request.getAccount().getAccountOwnerId()));
+    }
+
+    @PostMapping("/" + USERS + "/stripe")
+    @ApiOperation(code = 201, value = "Create a stripe customer", response = String.class, tags = {SwaggerDocConstants.TAGS_PAYMENT_ACCOUNTS})
+    public String createStripeCustomer(final @RequestParam("cardSource") @NotNull String cardSource,
+                                       final @RequestParam("organizationId") @NotNull String organizationId) {
+        return hashIdService.decode(organizationId)
+                .map(id -> paymentAccountService.createStripeCustomer(cardSource, id))
+                .orElseThrow(() -> new PaymentAccountFailureException(cardSource));
     }
 
     @GetMapping("/" + USERS + "/{paymentOptionReference}")

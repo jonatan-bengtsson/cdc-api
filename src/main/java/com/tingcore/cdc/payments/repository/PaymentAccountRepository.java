@@ -31,11 +31,17 @@ public class PaymentAccountRepository extends AbstractApiRepository {
         return getResponseOrPaymentAccountError(paymentaccountsApi.createUserAccount(request));
     }
 
+    public String createStripeCustomer(final String cardSource,
+                                       final Long organizationID) {
+        return getResponseOrPaymentAccountError(paymentaccountsApi.createStripeCustomer(cardSource, organizationID));
+    }
+
     public ApiPaymentAccount getAccount(final String paymentAccountId) {
         return getResponseOrPaymentAccountError(paymentaccountsApi.getUserAccount(paymentAccountId));
     }
 
-    public ApiDeletedCustomer deleteUserAccount(final Long userId, final String paymentOption) {
+    public ApiDeletedCustomer deleteUserAccount(final Long userId,
+                                                final String paymentOption) {
         return getResponseOrPaymentAccountError(paymentaccountsApi.deleteUserAccount_0(userId, paymentOption));
     }
 

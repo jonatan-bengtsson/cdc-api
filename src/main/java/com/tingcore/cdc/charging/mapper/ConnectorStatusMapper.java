@@ -1,14 +1,13 @@
 package com.tingcore.cdc.charging.mapper;
 
 import com.tingcore.cdc.charging.model.ConnectorStatus;
-import com.tingcore.charging.assets.model.*;
-import com.tingcore.charging.operations.model.ChargePointStatusResponse;
 import com.tingcore.charging.operations.model.ConnectorStatusResponse;
 import com.tingcore.charging.operations.model.StatusBatchResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ConnectorStatusMapper {
 
@@ -34,7 +33,7 @@ public class ConnectorStatusMapper {
     }
 
     public static ConnectorStatus toConnectorStatus(ConnectorStatusResponse connectorStatusResponse) {
-        switch (connectorStatusResponse.getConnectorStatus()) {
+        switch (connectorStatusResponse.getAggregatedConnectorStatus()) {
             case OUT_OF_ORDER:
                 return ConnectorStatus.OUT_OF_ORDER;
             case IN_USE:

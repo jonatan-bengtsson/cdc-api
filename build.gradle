@@ -83,7 +83,7 @@ ext {
     versionOperationServiceClient = "0.1.13"
     versionPaymentsServiceClient = "0.8.14-SNAPSHOT"
     versionJackson = '2.8.11'
-    versionCustomerKeyOrderService = '0.4.0'
+    versionCustomerKeyOrderService = '0.5.0-SNAPSHOT'
 }
 
 dependencies {

@@ -43,7 +43,6 @@ public class ConnectorDataUtils {
         connectorStatusResponse.setConnectorStatus(connectorStatusEnum);
         connectorStatusResponse.setAggregatedConnectorStatus(aggregatedConnectorStatusEnum);
 
-
         return connectorStatusResponse;
     }
 }

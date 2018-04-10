@@ -95,7 +95,7 @@ public class ChargePointSiteMapper {
      */
     private static void updateStatusAccumulator(StatusAccumulator statusAccumulator, com.tingcore.charging.assets.model.ConnectorEntity con, ConnectorStatusResponse connectorStatus) {
         boolean quickCharge = isQuickCharger(con.getData().getConnectorCapability());
-        switch (connectorStatus.getConnectorStatus()) {
+        switch (connectorStatus.getAggregatedConnectorStatus()) {
             case OUT_OF_ORDER:
                 if (quickCharge) {
                     statusAccumulator.incOutOfOrderQuickcharge();

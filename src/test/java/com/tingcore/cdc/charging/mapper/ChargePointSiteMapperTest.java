@@ -175,7 +175,8 @@ public class ChargePointSiteMapperTest {
         CompleteChargePoint ccp = createCompleteChargePoint(chargePointId, chargePointTypeId, connectors, status);
 
         Map<Long, ConnectorStatusResponse> conMap = new HashMap<>();
-        conMap.put(connectorId, ConnectorDataUtils.createConnectorStatusResponse(connectorId, ConnectorStatusResponse.ConnectorStatusEnum.AVAILABLE, ConnectorStatusResponse.AggregatedConnectorStatusEnum.AVAILABLE));
+        conMap.put(connectorId, ConnectorDataUtils.createConnectorStatusResponse(connectorId, ConnectorStatusResponse.ConnectorStatusEnum.AVAILABLE,
+                ConnectorStatusResponse.AggregatedConnectorStatusEnum.AVAILABLE));
 
         Map<Long, ConnectorPrice> priMap = new HashMap<>();
         priMap.put(connectorId, new ConnectorPrice(new ConnectorId(connectorId), "123.45 SEK/min"));
@@ -234,7 +235,8 @@ public class ChargePointSiteMapperTest {
 
 
         Map<Long, ConnectorStatusResponse> conStatusMap = new HashMap<>();
-        conStatusMap.put(connectorId, ConnectorDataUtils.createConnectorStatusResponse(connectorId, ConnectorStatusResponse.ConnectorStatusEnum.AVAILABLE, ConnectorStatusResponse.AggregatedConnectorStatusEnum.AVAILABLE));
+        conStatusMap.put(connectorId, ConnectorDataUtils.createConnectorStatusResponse(connectorId, ConnectorStatusResponse.ConnectorStatusEnum.AVAILABLE,
+                ConnectorStatusResponse.AggregatedConnectorStatusEnum.AVAILABLE));
 
         Map<Long, ConnectorPrice> priceInfoMap = new HashMap<>();
         priceInfoMap.put(connectorId, new ConnectorPrice(new ConnectorId(connectorId), "123.45 SEK/min"));

@@ -10,7 +10,6 @@ import com.tingcore.charging.operations.model.ConnectorStatusResponse;
 public class ConnectorDataUtils {
 
 
-
     public static ConnectorEntity createConnector(Long chargePointId, Long connectorId, Long connectorModelId, int connectorNumber) {
         return createConnector(chargePointId, connectorId, connectorModelId, connectorNumber, BasicConnector.ConnectorTypeEnum.TYPE2, 20_000);
     }
@@ -38,10 +37,11 @@ public class ConnectorDataUtils {
                 .metadata(meta);
     }
 
-    public static ConnectorStatusResponse createConnectorStatusResponse(Long connectorId, ConnectorStatusResponse.ConnectorStatusEnum connectorStatusEnum) {
+    public static ConnectorStatusResponse createConnectorStatusResponse(Long connectorId, ConnectorStatusResponse.ConnectorStatusEnum connectorStatusEnum, ConnectorStatusResponse.AggregatedConnectorStatusEnum aggregatedConnectorStatusEnum) {
         ConnectorStatusResponse connectorStatusResponse = new ConnectorStatusResponse();
         connectorStatusResponse.connectorId(connectorId);
         connectorStatusResponse.setConnectorStatus(connectorStatusEnum);
+        connectorStatusResponse.setAggregatedConnectorStatus(aggregatedConnectorStatusEnum);
 
         return connectorStatusResponse;
     }

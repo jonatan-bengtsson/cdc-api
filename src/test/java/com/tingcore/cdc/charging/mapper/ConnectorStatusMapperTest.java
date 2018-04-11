@@ -40,25 +40,30 @@ public class ConnectorStatusMapperTest {
         Long chargePoint3Id = 3L;
 
 
-
         StatusBatchResponse statusBatchResponse = new StatusBatchResponse()
                 .statusResponses(Arrays.asList(
                         createChargePointStatus(chargePointId, true,
                                 Arrays.asList(
-                                        ConnectorDataUtils.createConnectorStatusResponse(connector1Id, ConnectorStatusResponse.ConnectorStatusEnum.IN_USE),
-                                        ConnectorDataUtils.createConnectorStatusResponse(connector2Id, ConnectorStatusResponse.ConnectorStatusEnum.IN_USE)
+                                        ConnectorDataUtils.createConnectorStatusResponse(connector1Id, ConnectorStatusResponse.ConnectorStatusEnum.IN_USE,
+                                                ConnectorStatusResponse.AggregatedConnectorStatusEnum.IN_USE),
+                                        ConnectorDataUtils.createConnectorStatusResponse(connector2Id, ConnectorStatusResponse.ConnectorStatusEnum.IN_USE,
+                                                ConnectorStatusResponse.AggregatedConnectorStatusEnum.IN_USE)
                                 )
                         ),
                         createChargePointStatus(chargePoint2Id, true,
                                 Arrays.asList(
-                                        ConnectorDataUtils.createConnectorStatusResponse(connector3Id, ConnectorStatusResponse.ConnectorStatusEnum.IN_USE),
-                                        ConnectorDataUtils.createConnectorStatusResponse(connector4Id, ConnectorStatusResponse.ConnectorStatusEnum.AVAILABLE)
+                                        ConnectorDataUtils.createConnectorStatusResponse(connector3Id, ConnectorStatusResponse.ConnectorStatusEnum.IN_USE,
+                                                ConnectorStatusResponse.AggregatedConnectorStatusEnum.IN_USE),
+                                        ConnectorDataUtils.createConnectorStatusResponse(connector4Id, ConnectorStatusResponse.ConnectorStatusEnum.AVAILABLE,
+                                                ConnectorStatusResponse.AggregatedConnectorStatusEnum.AVAILABLE)
                                 )
                         ),
                         createChargePointStatus(chargePoint3Id, false,
                                 Arrays.asList(
-                                        ConnectorDataUtils.createConnectorStatusResponse(connector5Id, ConnectorStatusResponse.ConnectorStatusEnum.OUT_OF_ORDER),
-                                        ConnectorDataUtils.createConnectorStatusResponse(connector6Id, ConnectorStatusResponse.ConnectorStatusEnum.OUT_OF_ORDER)
+                                        ConnectorDataUtils.createConnectorStatusResponse(connector5Id, ConnectorStatusResponse.ConnectorStatusEnum.OUT_OF_ORDER,
+                                                ConnectorStatusResponse.AggregatedConnectorStatusEnum.OUT_OF_ORDER),
+                                        ConnectorDataUtils.createConnectorStatusResponse(connector6Id, ConnectorStatusResponse.ConnectorStatusEnum.OUT_OF_ORDER,
+                                                ConnectorStatusResponse.AggregatedConnectorStatusEnum.OUT_OF_ORDER)
                                 )
                         )
                 ));

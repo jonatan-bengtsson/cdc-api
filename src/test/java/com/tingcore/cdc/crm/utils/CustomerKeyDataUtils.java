@@ -121,7 +121,7 @@ public class CustomerKeyDataUtils {
         order.setOrganizationId(CommonDataUtils.getNextId());
         order.setAddress(createGenericAddress());
         order.setQuantity(ThreadLocalRandom.current().nextInt(2, 7));
-        order.setCustomerKeyType(CommonDataUtils.getNextId());
+        order.setCustomerKeyTypeId(CommonDataUtils.getNextId());
         order.setCreated(Instant.now());
         order.setState(CustomerKeyOrder.States.ORDER_PLACED);
         order.setCustomerKeyOrderItems(emptySet());

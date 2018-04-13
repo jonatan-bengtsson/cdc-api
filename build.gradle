@@ -77,13 +77,13 @@ configurations.all {
 ext {
     versionSwagger = "2.7.0"
     versionOkHttp = "3.9.0"
-    versionUserServiceClient = "1.0.11"
+    versionUserServiceClient = "1.0.12"
     versionCommonsApi = "1.0.7"
-    versionAssetServiceClient = "0.1.21"
-    versionOperationServiceClient = "0.1.13"
-    versionPaymentsServiceClient = "0.8.12"
+    versionAssetServiceClient = "0.1.22"
+    versionOperationServiceClient = "0.1.14"
+    versionPaymentsServiceClient = "0.8.14"
     versionJackson = '2.8.11'
-    versionCustomerKeyOrderService = '0.4.0'
+    versionCustomerKeyOrderService = '0.5.0'
 }
 
 dependencies {

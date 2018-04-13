@@ -27,6 +27,11 @@ public class PaymentAccountService {
         return paymentAccountRepository.createUserAccount(req);
     }
 
+    public String createStripeCustomer(final String cardSource,
+                                       final Long organizationId) {
+        return paymentAccountRepository.createStripeCustomer(cardSource, organizationId);
+    }
+
     public ApiPaymentAccount getAccount(final String paymentOptionReference) {
         return paymentAccountRepository.getAccount(paymentOptionReference);
     }

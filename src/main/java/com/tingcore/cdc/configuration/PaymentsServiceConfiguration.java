@@ -36,6 +36,11 @@ public class PaymentsServiceConfiguration {
     }
 
     @Bean
+    public ReceiptApi receiptApi(final ApiClient paymentsClient) {
+        return notNull(paymentsClient).createService(ReceiptApi.class);
+    }
+
+    @Bean
     public ApiClient paymentsClient(final Environment environment) {
         notNull(environment);
         final ApiClient paymentsClient = new ApiClient();

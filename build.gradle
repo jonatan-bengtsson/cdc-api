@@ -81,7 +81,7 @@ ext {
     versionCommonsApi = "1.0.7"
     versionAssetServiceClient = "0.1.22"
     versionOperationServiceClient = "0.1.14"
-    versionPaymentsServiceClient = "0.8.15"
+    versionPaymentsServiceClient = "0.8.16"
     versionJackson = '2.8.11'
     versionCustomerKeyOrderService = '0.5.0'
 }

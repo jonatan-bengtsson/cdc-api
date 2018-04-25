@@ -1,4 +1,3 @@
-@Library('tingcore@feature/DEVOPS-526') _
 
 applicationPipeline {
     appName = 'cdc-api'

@@ -8,6 +8,7 @@ applicationPipeline {
     npmProjects = ['typescript-client']
 
     // create apigw resources with vpc_integration
-    createApigw = true
+    apigwRepoName = "terraform-module-cd-api-gateway"
     apigwVpcIntegration = true
+    cognitoUserPoolName = "ChargeDrive"
 }

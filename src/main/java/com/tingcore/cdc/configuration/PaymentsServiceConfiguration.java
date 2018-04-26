@@ -36,8 +36,8 @@ public class PaymentsServiceConfiguration {
     }
 
     @Bean
-    public ReceiptApi receiptApi(final ApiClient paymentsClient) {
-        return notNull(paymentsClient).createService(ReceiptApi.class);
+    public ReceiptsApi receiptApi(final ApiClient paymentsClient) {
+        return notNull(paymentsClient).createService(ReceiptsApi.class);
     }
 
     @Bean

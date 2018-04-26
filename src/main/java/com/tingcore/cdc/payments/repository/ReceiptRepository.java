@@ -3,7 +3,7 @@ package com.tingcore.cdc.payments.repository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tingcore.commons.api.repository.AbstractApiRepository;
 import com.tingcore.commons.external.ExternalApiException;
-import com.tingcore.payments.cpo.api.ReceiptApi;
+import com.tingcore.payments.cpo.api.ReceiptsApi;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
@@ -15,10 +15,10 @@ import static com.tingcore.cdc.controller.ApiUtils.getResponseOrThrowError;
 public class ReceiptRepository extends AbstractApiRepository {
 
     private Integer defaultTimeOut;
-    private final ReceiptApi receiptApi;
+    private final ReceiptsApi receiptApi;
 
     public ReceiptRepository(final ObjectMapper objectMapper,
-                             final ReceiptApi receiptApi) {
+                             final ReceiptsApi receiptApi) {
         super(objectMapper);
         this.receiptApi = receiptApi;
     }

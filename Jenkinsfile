@@ -11,4 +11,5 @@ applicationPipeline {
     apigwRepoName = "terraform-module-cd-api-gateway"
     apigwVpcIntegration = true
     cognitoUserPoolName = "ChargeDrive"
+    prodTimeout = 20
 }

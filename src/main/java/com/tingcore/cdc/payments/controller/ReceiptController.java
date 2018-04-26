@@ -11,10 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 import static org.apache.commons.lang3.Validate.notNull;
 
 @RestController
-@RequestMapping("/" + ReceiptController.VERSION + "/" + ReceiptController.RECEIPT)
+@RequestMapping("/" + ReceiptController.VERSION + "/" + ReceiptController.RECEIPTS + "/")
 public class ReceiptController {
     static final String VERSION = "v1";
-    static final String RECEIPT = "receipt";
+    static final String SESSIONS = "sessions";
+    static final String RECEIPTS = "receipts";
 
     private final HashIdService hashIdService;
     private final ReceiptService receiptService;
@@ -25,8 +26,8 @@ public class ReceiptController {
         this.hashIdService = notNull(hashIdService);
     }
 
-    @GetMapping("/{sessionId}")
-    @ApiOperation(value = "Get receipt url for a given sessionId", response = String.class, tags = {RECEIPT})
+    @GetMapping(SESSIONS + "/{sessionId}/")
+    @ApiOperation(value = "Get receipt url for a given sessionId", response = String.class, tags = {RECEIPTS})
     public String getUrlForReceiptPdf(@PathVariable("sessionId") String sessionId) {
 
         return hashIdService.decode(sessionId)

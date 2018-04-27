@@ -7,7 +7,7 @@ readonly INSTALL_DIR=$(pwd)
 
 echo "using install dir [${INSTALL_DIR}]"
 
-JAVA_MEM="-server -d64 -Xmx350m -Xss512k"
+JAVA_MEM="-server -d64 -Xmx2048m -Xss512k"
 JAVA_LOG4J2="-DLog4jContextSelector=org.apache.logging.log4j.core.async.AsyncLoggerContextSelector"
 JAVA_LOCALE="-Duser.country=SE -Duser.language=en -Duser.timezone=Europe/Stockholm -Dsun.jnu.encoding=UTF-8 -Dfile.encoding=UTF-8"
 

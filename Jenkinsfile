@@ -1,6 +1,6 @@
 
 applicationPipeline {
-    //See parameter documentation at https://bitbucket.tingcore-infra.com/projects/JEN/repos/tingcore-global-pipeline/browse/docs/pipelines/applicationPipeline.md
+    //See parameter documentation at https://bitbucket.tingcore-infra.com/projects/JEN/repos/tingcore-global-pipeline/browse/docs/pipelines/applicationPipeline.md .
     appName = 'cdc-api'
     desiredCountTest = 1
     desiredCountProd = 2

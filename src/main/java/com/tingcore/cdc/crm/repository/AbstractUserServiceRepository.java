@@ -12,12 +12,12 @@ import java.util.Optional;
  * @author palmithor
  * @since 2017-12-15
  */
-abstract class AbstractUserServiceRepository extends AbstractApiRepository {
+public abstract class AbstractUserServiceRepository extends AbstractApiRepository {
 
 
     private Integer defaultTimeOut;
 
-    AbstractUserServiceRepository(final ObjectMapper objectMapper) {
+    public AbstractUserServiceRepository(final ObjectMapper objectMapper) {
         super(objectMapper);
     }
 

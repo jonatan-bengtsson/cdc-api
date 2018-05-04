@@ -84,7 +84,7 @@ ext {
     versionPaymentsServiceClient = "0.8.17"
     versionJackson = '2.8.11'
     versionCustomerKeyOrderService = '0.5.0'
-    versionUserServiceJavaClient = "1.2.0-SNAPSHOT"
+    versionUserServiceJavaClient = "1.1.1-SNAPSHOT"
 }
 
 dependencies {

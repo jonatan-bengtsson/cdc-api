@@ -199,6 +199,7 @@ task swaggerTs {
     outputs.dir(swaggerOutputDirTs)
     doLast {
         def config = new CodegenConfigurator()
+        config.addTypeMapping("ChargingKeyOwner", "any")
         config.setInputSpec(swaggerInput)
         config.setOutputDir(swaggerOutputDirTs.path)
         config.setLang("typescript-fetch")

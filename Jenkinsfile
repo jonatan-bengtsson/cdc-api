@@ -14,5 +14,5 @@ applicationPipeline {
     cognitoUserPoolName = "ChargeDrive"
     prodTimeout = 20
     memoryReservation = 2560
-    cpu = 2048
+    cpu = 1024
 }

@@ -42,6 +42,9 @@ app:
   customer-key-order-service:
     base-url: https://${integration.customer-key-order.hostname}
     default-timeout: 20
+  campaign-service:
+    base-url: https://${integration.campaign.hostname}
+    default-timeout: 20
 
 integration:
   payments:
@@ -54,3 +57,5 @@ integration:
     hostname: charging-operations.tingcore-test.com
   customer-key-order:
     hostname: customer-key-order.tingcore-test.com
+  campaign:
+    hostname: campaign-service.tingcore-test.com

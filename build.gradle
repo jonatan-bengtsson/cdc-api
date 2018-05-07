@@ -85,6 +85,7 @@ ext {
     versionJackson = '2.8.11'
     versionCustomerKeyOrderService = '0.5.0'
     versionUserServiceJavaClient = "1.1.1-SNAPSHOT"
+    versionCampaignServiceJavaClient = "0.1.1-SNAPSHOT"
 }
 
 dependencies {
@@ -108,6 +109,7 @@ dependencies {
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
     compile 'com.google.code.gson:gson:2.8.2'
     compile("com.tingcore.customerkeyorder:customer-key-order-service-java-client:$versionCustomerKeyOrderService")
+    compile("com.tingcore.campaign:campaign-service-java-client:$versionCampaignServiceJavaClient")
 
     // Retrofit + OKHttp
     compile("com.squareup.okhttp3:okhttp:$versionOkHttp")
@@ -200,6 +202,7 @@ task swaggerTs {
     doLast {
         def config = new CodegenConfigurator()
         config.addTypeMapping("ChargingKeyOwner", "any")
+        config.addTypeMapping("Product", "any")
         config.setInputSpec(swaggerInput)
         config.setOutputDir(swaggerOutputDirTs.path)
         config.setLang("typescript-fetch")

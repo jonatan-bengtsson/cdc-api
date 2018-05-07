@@ -12,3 +12,5 @@ integration:
     hostname: charging-operations.tingcore-stage.com
   customer-key-order:
     hostname: customer-key-order.tingcore-stage.com
+  campaign:
+    hostname: campaign-service.tingcore-stage.com

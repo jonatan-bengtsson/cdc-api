@@ -34,7 +34,7 @@ public class CampaignControllerTest extends ControllerUnitTest {
 
         final String code = "TEST2018";
 
-        MockHttpServletRequestBuilder request = get("/v1/campaigns/"+code)
+        MockHttpServletRequestBuilder request = get("/v1/campaigns/redeem/"+code)
                 .contentType(MediaType.APPLICATION_JSON_UTF8);
 
         MvcResult response = mockMvc.perform(request)
@@ -59,7 +59,7 @@ public class CampaignControllerTest extends ControllerUnitTest {
 
         final String code = "TEST2018";
 
-        MockHttpServletRequestBuilder request = get("/v1/campaigns/"+code)
+        MockHttpServletRequestBuilder request = get("/v1/campaigns/redeem/"+code)
                 .contentType(MediaType.APPLICATION_JSON_UTF8);
 
         mockMvc.perform(request)

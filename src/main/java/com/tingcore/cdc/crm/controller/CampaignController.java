@@ -33,7 +33,7 @@ public class CampaignController {
     @RequestMapping(
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
-            path = "/{code}"
+            path = "/redeem/{code}"
     )
     @ApiOperation(value = "Redeem campaign voucher",
             notes = "Route allows a user to redeem a campaign voucher",

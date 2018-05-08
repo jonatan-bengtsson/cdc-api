@@ -44,7 +44,7 @@ app:
     default-timeout: 20
   campaign-service:
     base-url: https://${integration.campaign.hostname}
-    default-timeout: 20
+    default-timeout: 10
 
 integration:
   payments:

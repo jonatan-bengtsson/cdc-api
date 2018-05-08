@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.anyLong;
 import static org.mockito.Matchers.anyString;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(value = CampaignController.class)
@@ -34,7 +34,7 @@ public class CampaignControllerTest extends ControllerUnitTest {
 
         final String code = "TEST2018";
 
-        MockHttpServletRequestBuilder request = get("/v1/campaigns/redeem/"+code)
+        MockHttpServletRequestBuilder request = post("/v1/campaigns/redeem/"+code)
                 .contentType(MediaType.APPLICATION_JSON_UTF8);
 
         MvcResult response = mockMvc.perform(request)
@@ -59,7 +59,7 @@ public class CampaignControllerTest extends ControllerUnitTest {
 
         final String code = "TEST2018";
 
-        MockHttpServletRequestBuilder request = get("/v1/campaigns/redeem/"+code)
+        MockHttpServletRequestBuilder request = post("/v1/campaigns/redeem/"+code)
                 .contentType(MediaType.APPLICATION_JSON_UTF8);
 
         mockMvc.perform(request)

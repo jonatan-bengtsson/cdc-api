@@ -31,7 +31,7 @@ public class CampaignController {
     }
 
     @RequestMapping(
-            method = RequestMethod.GET,
+            method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
             path = "/redeem/{code}"
     )

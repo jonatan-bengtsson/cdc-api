@@ -31,6 +31,8 @@ public class CampaignServiceConfiguration {
         return CampaignServiceClient.create()
                 .baseUrl(baseUrl)
                 .connectionTimeout(defaultTimeOut, TimeUnit.SECONDS)
+                .readTimeout(defaultTimeOut, TimeUnit.SECONDS)
+                .writeTimeout(defaultTimeOut, TimeUnit.SECONDS)
                 .build();
     }
 

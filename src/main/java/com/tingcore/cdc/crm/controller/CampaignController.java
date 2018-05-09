@@ -37,7 +37,7 @@ public class CampaignController {
     )
     @ApiOperation(value = "Redeem campaign voucher",
             notes = "Route allows a user to redeem a campaign voucher",
-            tags = SwaggerDocConstants.TAGS_CUSTOMER_KEY_ORDERS)
+            tags = SwaggerDocConstants.TAGS_CAMPAIGNS)
     public List<Product> redeem(@PathVariable("code") String code) {
         if(authorizedUser.getOrganization() == null) {
             throw new CampaignServiceException(ErrorResponse.badRequest().message("Current user has no organization").build());

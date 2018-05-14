@@ -85,7 +85,7 @@ ext {
     versionJackson = '2.8.11'
     versionCustomerKeyOrderService = '0.5.0'
     versionUserServiceJavaClient = "1.1.1-SNAPSHOT"
-    versionCampaignServiceJavaClient = "0.1.1-SNAPSHOT"
+    versionCampaignServiceJavaClient = "0.1.1"
 }
 
 dependencies {

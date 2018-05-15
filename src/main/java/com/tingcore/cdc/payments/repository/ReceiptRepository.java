@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tingcore.commons.api.repository.AbstractApiRepository;
 import com.tingcore.commons.external.ExternalApiException;
 import com.tingcore.payments.cpo.api.ReceiptsApi;
+import com.tingcore.payments.cpo.model.ApiReceipt;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
@@ -23,7 +24,7 @@ public class ReceiptRepository extends AbstractApiRepository {
         this.receiptApi = receiptApi;
     }
 
-    public String getReceipt(final Long sessionId) {
+    public ApiReceipt getReceipt(final Long sessionId) {
         return getResponseOrReceiptError(receiptApi.getUrlForReceiptPdf(sessionId));
     }
 

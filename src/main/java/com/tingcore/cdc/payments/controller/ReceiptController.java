@@ -2,6 +2,7 @@ package com.tingcore.cdc.payments.controller;
 
 import com.tingcore.cdc.payments.service.ReceiptService;
 import com.tingcore.commons.api.service.HashIdService;
+import com.tingcore.payments.cpo.model.ApiReceipt;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,9 +27,9 @@ public class ReceiptController {
         this.hashIdService = notNull(hashIdService);
     }
 
-    @GetMapping(SESSIONS + "/{sessionId}/")
-    @ApiOperation(value = "Get receipt url for a given sessionId", response = String.class, tags = {RECEIPTS})
-    public String getUrlForReceiptPdf(@PathVariable("sessionId") String sessionId) {
+    @GetMapping(SESSIONS + "/{sessionId}")
+    @ApiOperation(value = "Get receipt url for a given sessionId", response = ApiReceipt.class, tags = {RECEIPTS})
+    public ApiReceipt getUrlForReceiptPdf(@PathVariable("sessionId") String sessionId) {
 
         return hashIdService.decode(sessionId)
                 .map(receiptService::getReceipt)

@@ -1,7 +1,7 @@
 package com.tingcore.cdc.charging.repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tingcore.cdc.charging.model.*;
+import com.tingcore.cdc.charging.model.ConnectorId;
 import com.tingcore.charging.assets.api.ApiForPaymentsApi;
 import com.tingcore.charging.assets.model.ChargePointInfo;
 import com.tingcore.commons.api.repository.AbstractApiRepository;
@@ -11,7 +11,6 @@ import org.springframework.stereotype.Repository;
 import java.util.concurrent.CompletableFuture;
 
 import static com.tingcore.cdc.controller.ApiUtils.getResponseOrThrowError;
-import static java.lang.String.format;
 import static org.apache.commons.lang3.Validate.notNull;
 
 @Repository

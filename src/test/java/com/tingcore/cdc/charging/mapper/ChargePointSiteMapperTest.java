@@ -141,6 +141,7 @@ public class ChargePointSiteMapperTest {
                                 .connectorNumber(number)
                                 .connectorType(connectorType)
                                 .adminStatus(adminStatus)
+                                .label(label)
                         )
                         .connectorCapability(new ConnectorCapability()
                                 .current(current)

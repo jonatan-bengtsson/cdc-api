@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
-import java.util.Collections;
+import static java.util.Arrays.asList;
 
 /**
  * @author palmithor
@@ -53,7 +53,7 @@ public class FilterConfiguration {
 
         registrationBean.setFilter(authorizationFilter());
         registrationBean.setOrder(2);
-        registrationBean.setUrlPatterns(Collections.singletonList("/v1/*"));
+        registrationBean.setUrlPatterns(asList("/v1/*", "/v2/*"));
 
         return registrationBean;
     }

@@ -45,10 +45,4 @@ public class UserService {
                 .map(UserMapper::attributeListToUserResponse)
                 .orElseThrow(() -> new UsersApiException(apiResponse.getError()));
     }
-
-    public Organization getOrganisationByUserPrefix(String userPrefix) {
-        Organization organization = new Organization();
-        organization.setId(2L); // TODO, awaiting endpoint in user service.
-        return organization;
-    }
 }

@@ -84,7 +84,7 @@ ext {
     versionPaymentsServiceClient = "0.8.21"
     versionJackson = '2.8.11'
     versionCustomerKeyOrderService = '0.5.0'
-    versionUserServiceClient = "1.1.6"
+    versionUserServiceClient = "1.1.9"
     versionCampaignServiceJavaClient = "0.1.1"
 }
 

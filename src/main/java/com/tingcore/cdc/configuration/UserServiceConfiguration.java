@@ -4,10 +4,8 @@ package com.tingcore.cdc.configuration;
 import com.tingcore.cdc.constant.SpringProfilesConstant;
 import com.tingcore.users.api.UserServiceClient;
 import com.tingcore.users.api.v1.*;
-import com.tingcore.users.api.v2.ChargingKeysApi;
-import com.tingcore.users.api.v2.CustomersApi;
-import com.tingcore.users.api.v2.OrganizationModulesApi;
-import com.tingcore.users.api.v2.SystemUsersApi;
+import com.tingcore.users.api.v1.OrganizationsApi;
+import com.tingcore.users.api.v2.*;
 import okhttp3.logging.HttpLoggingInterceptor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -115,6 +113,12 @@ public class UserServiceConfiguration {
     public SystemUsersApi systemUsersApi() {
         return userServiceClient()
                 .createService(SystemUsersApi.class);
+    }
+
+    @Bean
+    public InternalApi internalApi() {
+        return userServiceClient()
+                .createService(InternalApi.class);
     }
 
     @Value("${app.user-service.base-url}")

@@ -132,12 +132,27 @@ public class ChargePointSiteService {
                             chargePointSiteId,
                             chargePointSiteName,
                             ccps.getLocationEntity().getData().getGeoCoordinate(),
-                            aggergatedSitesStatues.getStatus(),
+                            aggregateNormalAndQuickStatus(aggergatedSitesStatues),
                             aggergatedSitesStatues.getQuickStatus()
                     );
                 }).collect(toList());
 
         return new PageResponse<>(previewChargeSites);
+    }
+
+    private ChargeSiteStatus aggregateNormalAndQuickStatus(ChargePointSiteStatuses aggergatedSitesStatues) {
+        ChargeSiteStatus quickStatus = aggergatedSitesStatues.getQuickStatus();
+        ChargeSiteStatus status = aggergatedSitesStatues.getStatus();
+
+        if(status == ChargeSiteStatus.AVAILABLE || quickStatus == ChargeSiteStatus.AVAILABLE) {
+            return ChargeSiteStatus.AVAILABLE;
+        }
+
+        if(status == ChargeSiteStatus.NONE || status == ChargeSiteStatus.NO_DATA) {
+            return quickStatus;
+        } else {
+            return status;
+        }
     }
 
     /**

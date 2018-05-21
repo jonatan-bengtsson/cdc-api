@@ -2,7 +2,7 @@ package com.tingcore.cdc.crm.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tingcore.cdc.crm.constant.FieldConstant;
-import com.tingcore.users.model.PaymentOptionResponse;
+import com.tingcore.users.model.v1.response.PaymentOptionResponse;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.time.Instant;

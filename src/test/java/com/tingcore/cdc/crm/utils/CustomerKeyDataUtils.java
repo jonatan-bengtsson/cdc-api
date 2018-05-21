@@ -7,8 +7,8 @@ import com.tingcore.cdc.crm.request.CustomerKeyPostRequest;
 import com.tingcore.cdc.utils.CommonDataUtils;
 import com.tingcore.commons.rest.PageResponse;
 import com.tingcore.customerkeyorder.client.model.response.CustomerKeyOrder;
-import com.tingcore.users.model.CustomerKeyResponse;
-import com.tingcore.users.model.CustomerKeyTypeResponse;
+import com.tingcore.users.model.v1.response.CustomerKeyResponse;
+import com.tingcore.users.model.v1.response.CustomerKeyTypeResponse;
 
 import java.time.Instant;
 import java.util.Collections;
@@ -36,24 +36,22 @@ public class CustomerKeyDataUtils {
     }
 
     public static CustomerKeyResponse randomCustomerKeyResponse() {
-        final Long now = Instant.now().toEpochMilli();
-        final CustomerKeyResponse c = new CustomerKeyResponse();
-        c.setId(CommonDataUtils.getNextId());
-        c.setUpdated(now);
-        c.setCreated(now);
-        c.setName(CommonDataUtils.randomUUID());
-        c.setUserId(CommonDataUtils.getNextId());
-        c.setKeyIdentifier(CommonDataUtils.randomUUID().substring(0, 20));
-        c.setValidTo(CommonDataUtils.randomTimestamp(true));
-        c.setValidFrom(CommonDataUtils.randomTimestamp(false));
-        c.setUserPaymentOptions(Collections.singletonList(
-                PaymentOptionDataUtils.randomUserPaymentOptionResponse()
-        ));
-        c.setIsEnabled(true);
-
-
-        c.setType(randomCustomerKeyTypeResponse());
-        return c;
+        final Instant now = Instant.now();
+        return CustomerKeyResponse.createBuilder()
+                .id(CommonDataUtils.getNextId())
+                .updated(now)
+                .created(now)
+                .name(CommonDataUtils.randomUUID())
+                .userId(CommonDataUtils.getNextId())
+                .keyIdentifier(CommonDataUtils.randomUUID().substring(0, 20))
+                .validTo(CommonDataUtils.randomInstant(true))
+                .validFrom(CommonDataUtils.randomInstant(false))
+                .userPaymentOptionResponses((Collections.singletonList(
+                        PaymentOptionDataUtils.randomUserPaymentOptionResponse()
+                )))
+                .enabled(true)
+                .type(randomCustomerKeyTypeResponse())
+                .build();
     }
 
     public static CustomerKey.Builder randomCustomerKey() {
@@ -90,14 +88,14 @@ public class CustomerKeyDataUtils {
     }
 
     public static CustomerKeyTypeResponse randomCustomerKeyTypeResponse() {
-        final Long now = Instant.now().toEpochMilli();
-        final CustomerKeyTypeResponse type = new CustomerKeyTypeResponse();
-        type.setId(CommonDataUtils.getNextId());
-        type.setName(CommonDataUtils.randomUUID());
-        type.setDescription(CommonDataUtils.randomUUID());
-        type.setCreated(now);
-        type.setUpdated(now);
-        return type;
+        final Instant now = Instant.now();
+        return CustomerKeyTypeResponse.createBuilder()
+                .id(CommonDataUtils.getNextId())
+                .name(CommonDataUtils.randomUUID())
+                .description(CommonDataUtils.randomUUID())
+                .created(now)
+                .updated(now)
+                .build();
     }
 
     public static CustomerKeyOrderRequest randomCustomerKeyOrderRequest() {

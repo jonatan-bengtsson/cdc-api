@@ -84,7 +84,7 @@ ext {
     versionPaymentsServiceClient = "0.8.21"
     versionJackson = '2.8.11'
     versionCustomerKeyOrderService = '0.5.0'
-    versionUserServiceJavaClient = "1.1.1-SNAPSHOT"
+    versionUserServiceClient = "1.1.6"
     versionCampaignServiceJavaClient = "0.1.1"
 }
 
@@ -102,8 +102,7 @@ dependencies {
     compile("com.tingcore.commons:commons-api:$versionCommonsApi")
     compile("com.tingcore.charging:asset-service-java-client:$versionAssetServiceClient")
     compile("com.tingcore.charging:charging-operations-java-client:$versionOperationServiceClient")
-    compile("com.tingcore:user-service-java-client:$versionUserServiceClient")
-    compile("com.tingcore.users:java-client:$versionUserServiceJavaClient")
+    compile("com.tingcore.users:java-client:$versionUserServiceClient")
     compile("com.tingcore.payments:payments-service-java-client:$versionPaymentsServiceClient")
     compile "com.tingcore:library-eventprocessing:0.0.8"
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'

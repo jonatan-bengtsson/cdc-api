@@ -33,10 +33,7 @@ public class CustomerKeyOrderController {
         this.customerKeyOrderService = customerKeyOrderService;
     }
 
-    @RequestMapping(
-            method = RequestMethod.POST,
-            produces = MediaType.APPLICATION_JSON_UTF8_VALUE
-    )
+    @RequestMapping(method = RequestMethod.POST)
     @ApiOperation(value = "Create customer key order",
             notes = "Route allows to create a customer key order on behalf of the user logged in",
             tags = SwaggerDocConstants.TAGS_CUSTOMER_KEY_ORDERS)
@@ -47,10 +44,7 @@ public class CustomerKeyOrderController {
         return customerKeyOrderService.createOrder(authorizedUser.getId(), authorizedUser.getOrganization().getId(), request);
     }
 
-    @RequestMapping(
-            method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_UTF8_VALUE
-    )
+    @RequestMapping(method = RequestMethod.GET)
     @ApiOperation(value = "Get user's customer key orders",
             notes = "Route allows to retrieve customer key orders on behalf of the user logged in",
             tags = SwaggerDocConstants.TAGS_CUSTOMER_KEY_ORDERS)

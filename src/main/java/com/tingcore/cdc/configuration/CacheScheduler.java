@@ -1,6 +1,6 @@
 package com.tingcore.cdc.configuration;
 
-import com.tingcore.cdc.crm.repository.AttributeRepository;
+import com.tingcore.cdc.crm.repository.v1.AttributeRepository;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 

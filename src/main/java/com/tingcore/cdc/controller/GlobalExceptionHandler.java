@@ -4,7 +4,7 @@ package com.tingcore.cdc.controller;
 import com.tingcore.cdc.charging.service.AssetServiceException;
 import com.tingcore.cdc.constant.ErrorCode;
 import com.tingcore.cdc.crm.service.ErrorMappingService;
-import com.tingcore.cdc.crm.service.InvalidAttributeValueException;
+import com.tingcore.cdc.crm.service.v1.InvalidAttributeValueException;
 import com.tingcore.cdc.crm.service.UsersApiException;
 import com.tingcore.cdc.exception.EntityNotFoundException;
 import com.tingcore.cdc.payments.repository.PaymentAccountApiException;

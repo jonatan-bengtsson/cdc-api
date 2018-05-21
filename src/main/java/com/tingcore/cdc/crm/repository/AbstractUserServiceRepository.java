@@ -30,20 +30,4 @@ public abstract class AbstractUserServiceRepository extends AbstractApiRepositor
     public Integer getTimeout() {
         return defaultTimeOut;
     }
-
-
-    Pagination convertGeneratedPagination(final com.tingcore.users.model.Pagination responsePagination) {
-        return Optional.ofNullable(responsePagination)
-                .map(pagination -> {
-                    Pagination result = new Pagination();
-                    Optional.ofNullable(pagination.getPrev()).ifPresent(pagingCursor -> result.setPrev(convertGeneratedCursor(pagingCursor)));
-                    Optional.ofNullable(pagination.getNext()).ifPresent(pagingCursor -> result.setNext(convertGeneratedCursor(pagingCursor)));
-                    return result;
-                })
-                .orElse(null);
-    }
-
-    private PagingCursor convertGeneratedCursor(final com.tingcore.users.model.PagingCursor pagingCursor) {
-        return new PagingCursor(pagingCursor.getSortField(), pagingCursor.getSortFieldCursor(), pagingCursor.getSortFieldSortOrder(), pagingCursor.getIdField(), pagingCursor.getIdFieldCursor(), pagingCursor.getIdFieldSortOrder());
-    }
 }

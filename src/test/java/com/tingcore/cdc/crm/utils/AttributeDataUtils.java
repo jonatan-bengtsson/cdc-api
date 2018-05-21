@@ -3,11 +3,12 @@ package com.tingcore.cdc.crm.utils;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.GsonBuilder;
 import com.tingcore.cdc.crm.constant.AttributeConstant;
+import com.tingcore.cdc.crm.constant.AttributeType;
 import com.tingcore.cdc.crm.model.*;
 import com.tingcore.cdc.utils.CommonDataUtils;
 import com.tingcore.commons.address.GenericAddress;
-import com.tingcore.users.model.AttributeResponse;
-import com.tingcore.users.model.AttributeValueResponse;
+import com.tingcore.users.model.v1.response.AttributeResponse;
+import com.tingcore.users.model.v1.response.AttributeValueResponse;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -26,8 +27,7 @@ public class AttributeDataUtils {
     static AttributeResponse createEmailAttributeResponse() {
         final HashMap<String, Object> properties = newHashMap();
         properties.put(PROPERTY_ALLOW_MULTIPLE, true);
-        return createAttributeResponse(properties, AttributeConstant.EMAIL, CommonDataUtils.randomEmail(),
-                AttributeResponse.TypeEnum.STRING);
+        return createAttributeResponse(properties, AttributeConstant.EMAIL, CommonDataUtils.randomEmail(), AttributeType.STRING);
     }
 
     static AttributeResponse createOrganizationResponse() {
@@ -36,7 +36,7 @@ public class AttributeDataUtils {
         properties.put(PROPERTY_REQUIRED, Collections.singletonList(AttributeConstant.ORGANIZATION_NUMBER));
         return createAttributeResponse(properties, AttributeConstant.ORGANIZATION_NUMBER,
                 "{\"organizationNumber\": \"124354564\"}",
-                AttributeResponse.TypeEnum.JSON);
+                AttributeType.JSON);
     }
 
     static AttributeResponse createBillingAddressResponse() {
@@ -44,26 +44,26 @@ public class AttributeDataUtils {
         properties.put(PROPERTY_ALLOW_MULTIPLE, true);
         return createAttributeResponse(properties, AttributeConstant.BILLING_ADDRESS,
                 "{\"address\": \"Serenity Road 42\", \"postalCode\": \"123 45\", \"city\": \"Stockholm\", \"country\": \"Sweden\"}",
-                AttributeResponse.TypeEnum.JSON);
+                AttributeType.JSON);
     }
 
     static AttributeResponse createFirstNameResponse() {
         final HashMap<String, Object> properties = newHashMap();
         properties.put(PROPERTY_ALLOW_MULTIPLE, false);
-        return createAttributeResponse(properties, AttributeConstant.FIRST_NAME, CommonDataUtils.randomUUID(), AttributeResponse.TypeEnum.STRING);
+        return createAttributeResponse(properties, AttributeConstant.FIRST_NAME, CommonDataUtils.randomUUID(), AttributeType.STRING);
     }
 
     static AttributeResponse createLastNameResponse() {
         final HashMap<String, Object> properties = newHashMap();
         properties.put(PROPERTY_ALLOW_MULTIPLE, false);
-        return createAttributeResponse(properties, AttributeConstant.LAST_NAME, CommonDataUtils.randomUUID(), AttributeResponse.TypeEnum.STRING);
+        return createAttributeResponse(properties, AttributeConstant.LAST_NAME, CommonDataUtils.randomUUID(), AttributeType.STRING);
     }
 
     static AttributeResponse createContactEmailResponse() {
         final HashMap<String, Object> properties = newHashMap();
         properties.put(PROPERTY_ALLOW_MULTIPLE, true);
         return createAttributeResponse(properties, AttributeConstant.CONTACT_EMAIL, CommonDataUtils.randomEmail(),
-                AttributeResponse.TypeEnum.STRING);
+                AttributeType.STRING);
     }
 
     static AttributeResponse createVisitingAddress() {
@@ -71,7 +71,7 @@ public class AttributeDataUtils {
         properties.put(PROPERTY_ALLOW_MULTIPLE, true);
         return createAttributeResponse(properties, AttributeConstant.VISITING_ADDRESS,
                 "{\"address\": \"Serenity Road 42\", \"postalCode\": \"123 45\", \"city\": \"Stockholm\", \"country\": \"Sweden\"}",
-                AttributeResponse.TypeEnum.JSON);
+                AttributeType.JSON);
 
     }
 
@@ -91,7 +91,7 @@ public class AttributeDataUtils {
         properties.put(PROPERTY_ALLOW_MULTIPLE, true);
         properties.put(PROPERTY_REQUIRED, Collections.singletonList(AttributeConstant.VAT));
         return createAttributeResponse(properties, AttributeConstant.VAT, "{\"VAT\": \"SE999999999901\"}",
-                AttributeResponse.TypeEnum.JSON);
+                AttributeType.JSON);
 
     }
 
@@ -100,7 +100,7 @@ public class AttributeDataUtils {
         properties.put(PROPERTY_ALLOW_MULTIPLE, true);
         properties.put(PROPERTY_REQUIRED, Collections.singletonList(AttributeConstant.PHONE_NUMBER));
         return createAttributeResponse(properties, AttributeConstant.PHONE_NUMBER, "{\"phoneNumber\": \"0731111111\"}",
-                AttributeResponse.TypeEnum.JSON);
+                AttributeType.JSON);
     }
 
     static AttributeResponse createApprovedTermsConditionsResponse() {
@@ -108,63 +108,62 @@ public class AttributeDataUtils {
         properties.put(PROPERTY_ALLOW_MULTIPLE, true);
         properties.put(PROPERTY_REQUIRED, Arrays.asList("url", "version"));
         return createAttributeResponse(properties, AttributeConstant.APPROVED_TERMS_CONDITIONS, "{\"url\": \"http://chargedrive.com/terms-and-conditions\", \"version\": \"1.1\"}",
-                AttributeResponse.TypeEnum.JSON);
+                AttributeType.JSON);
     }
 
     public static AttributeResponse createAttributeResponse(final HashMap<String, Object> properties,
-                                                             final String attributeName,
-                                                             final String value,
-                                                             final AttributeResponse.TypeEnum type) {
-        final AttributeResponse attributeResponse = new AttributeResponse();
-        attributeResponse.setId(CommonDataUtils.getNextId());
-        attributeResponse.setProperties(properties);
-        attributeResponse.setName(attributeName);
-        attributeResponse.setType(type);
-        final AttributeValueResponse attributeValue = new AttributeValueResponse();
-        attributeResponse.setAttributeValue(attributeValue);
-        attributeValue.setValue(value);
-        return attributeResponse;
+                                                            final String attributeName,
+                                                            final String value,
+                                                            final String type) {
+        return AttributeResponse.createBuilder()
+                .id(CommonDataUtils.getNextId())
+                .properties(properties)
+                .name(attributeName)
+                .type(type)
+                .attributeValue(AttributeValueResponse.createBuilder().value(value).build())
+                .build();
     }
 
-    public static OrganizationNumber createOrganizationNumber () {
-        return new OrganizationNumber(CommonDataUtils.getNextId(), CommonDataUtils.randomNumberStr(1000,9999));
+    public static OrganizationNumber createOrganizationNumber() {
+        return new OrganizationNumber(CommonDataUtils.getNextId(), CommonDataUtils.randomNumberStr(1000, 9999));
     }
 
-    public static AddressCRM createAddress () {
-        return new AddressCRM(CommonDataUtils.getNextId(), CommonDataUtils.randomNumberStr(1000,2000), CommonDataUtils.randomNumberStr(1000,2000), CommonDataUtils.randomNumberStr(1000,2000),
-                CommonDataUtils.randomNumberStr(1000,2000),CommonDataUtils.randomNumberStr(1000,2000), CommonDataUtils.randomNumberStr(1000,2000));
+    public static AddressCRM createAddress() {
+        return new AddressCRM(CommonDataUtils.getNextId(), CommonDataUtils.randomNumberStr(1000, 2000), CommonDataUtils.randomNumberStr(1000, 2000), CommonDataUtils.randomNumberStr(1000, 2000),
+                CommonDataUtils.randomNumberStr(1000, 2000), CommonDataUtils.randomNumberStr(1000, 2000), CommonDataUtils.randomNumberStr(1000, 2000));
     }
 
     public static ApprovedTermsConditions createApprovedTermsConditions() {
         return new ApprovedTermsConditions(CommonDataUtils.getNextId(), AttributeConstant.APPROVED_TERMS_CONDITIONS, CommonDataUtils.randomNumberStr(1, 2));
     }
 
-    public static SocialSecurityNumber createSocialSecurityNumber () {
-        return new SocialSecurityNumber(CommonDataUtils.getNextId(), CommonDataUtils.randomNumberStr(19000101,20180000));
+    public static SocialSecurityNumber createSocialSecurityNumber() {
+        return new SocialSecurityNumber(CommonDataUtils.getNextId(), CommonDataUtils.randomNumberStr(19000101, 20180000));
     }
 
-    public static ApprovedMarketInfo createApprovedMarketInfo () {
+    public static ApprovedMarketInfo createApprovedMarketInfo() {
         return new ApprovedMarketInfo(CommonDataUtils.getNextId(), AttributeConstant.APPROVED_MARKET_INFO, CommonDataUtils.randomNumberStr(1, 2));
     }
 
-    public static ApprovedPrivacyPolicy createApprovedPrivacy () {
+    public static ApprovedPrivacyPolicy createApprovedPrivacy() {
         return new ApprovedPrivacyPolicy(CommonDataUtils.getNextId(), AttributeConstant.APPROVED_PRIVACY_POLICY, CommonDataUtils.randomNumberStr(1, 2));
     }
 
-    public static LicensePlate createLicensePlate () {
-        return new LicensePlate(CommonDataUtils.getNextId(), CommonDataUtils.randomNumberStr(000,999)+"-"+CommonDataUtils.randomNumberStr(000,999));
+    public static LicensePlate createLicensePlate() {
+        return new LicensePlate(CommonDataUtils.getNextId(), CommonDataUtils.randomNumberStr(000, 999) + "-" + CommonDataUtils.randomNumberStr(000, 999));
     }
 
-    public static PhoneNumber createPhoneNumber () {
-        return new PhoneNumber(CommonDataUtils.getNextId(),CommonDataUtils.randomNumberStr(10000,20000), CommonDataUtils.randomNumberStr(1000,5000));
+    public static PhoneNumber createPhoneNumber() {
+        return new PhoneNumber(CommonDataUtils.getNextId(), CommonDataUtils.randomNumberStr(10000, 20000), CommonDataUtils.randomNumberStr(1000, 5000));
     }
 
     public static StringAttribute createStringAttribute(final String value) {
         return new StringAttribute(CommonDataUtils.getNextId(), value);
     }
 
-    public static List<AttributeResponse> allAttributes () throws IOException {
-        Type listType = new TypeToken<List<AttributeResponse>>(){}.getType();
+    public static List<AttributeResponse> allAttributes() throws IOException {
+        Type listType = new TypeToken<List<AttributeResponse>>() {
+        }.getType();
         return new GsonBuilder().create().fromJson(ATTRIBUTES_LIST_JSON, listType);
     }
 

@@ -7,16 +7,13 @@ import com.tingcore.cdc.crm.model.User;
 import com.tingcore.cdc.crm.request.UpdateBusinessCustomerRequest;
 import com.tingcore.cdc.crm.request.UpdatePrivateCustomerRequest;
 import com.tingcore.cdc.utils.CommonDataUtils;
-import com.tingcore.users.model.AttributeResponse;
-import com.tingcore.users.model.AttributeValueListRequest;
-import com.tingcore.users.model.UserResponse;
+import com.tingcore.users.model.v1.request.AttributeValueListRequest;
+import com.tingcore.users.model.v1.response.AttributeResponse;
+import com.tingcore.users.model.v1.response.UserResponse;
 
 import java.lang.reflect.AccessibleObject;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static com.google.common.collect.Lists.newArrayList;
 
@@ -38,34 +35,33 @@ public class UserDataUtils {
                 .build();
     }
 
-    public static UserResponse createValidUserResponse() {
-        final UserResponse response = new UserResponse();
-        response.setOrganization(OrganizationDataUtils.createOrganizationResponse());
-        response.setAccessibleOrganizations(newArrayList(OrganizationDataUtils.createOrganizationResponse()));
-        response.setEmail(CommonDataUtils.randomEmail());
-        response.setId(CommonDataUtils.getNextId());
-        response.setCreated(Instant.now().toEpochMilli());
-        response.setAttributes(newArrayList(
-                AttributeDataUtils.createFirstNameResponse(),
-                AttributeDataUtils.createLastNameResponse(),
-                AttributeDataUtils.createPhoneNumberResponse(),
-                AttributeDataUtils.createPhoneNumberResponse(),
-                AttributeDataUtils.createPhoneNumberResponse(),
-                AttributeDataUtils.createApprovedTermsConditionsResponse()
-        ));
-        return response;
+    public static UserResponse.Builder createValidUserResponse() {
+        return UserResponse.createBuilder()
+                .organization(OrganizationDataUtils.createOrganizationResponse().build())
+                .accessibleOrganizations(newArrayList(OrganizationDataUtils.createOrganizationResponse().build()))
+                .email(CommonDataUtils.randomEmail())
+                .id(CommonDataUtils.getNextId())
+                .created(Instant.now())
+                .attributes(newArrayList(
+                        AttributeDataUtils.createFirstNameResponse(),
+                        AttributeDataUtils.createLastNameResponse(),
+                        AttributeDataUtils.createPhoneNumberResponse(),
+                        AttributeDataUtils.createPhoneNumberResponse(),
+                        AttributeDataUtils.createPhoneNumberResponse(),
+                        AttributeDataUtils.createApprovedTermsConditionsResponse()
+                ));
     }
 
     public static UpdatePrivateCustomerRequest createUpdatePrivateCustomerRequest() {
         return UpdatePrivateCustomerRequest.createBuilder()
                 .address(Lists.newArrayList(AttributeDataUtils.createAddress(), AttributeDataUtils.createAddress()))
-                .approvedTermsConditions(Arrays.asList(AttributeDataUtils.createApprovedTermsConditions()))
-                .approvedMarketInfo(Arrays.asList(AttributeDataUtils.createApprovedMarketInfo()))
-                .approvedPrivacyPolicies(Arrays.asList(AttributeDataUtils.createApprovedPrivacy()))
+                .approvedTermsConditions(Collections.singletonList(AttributeDataUtils.createApprovedTermsConditions()))
+                .approvedMarketInfo(Collections.singletonList(AttributeDataUtils.createApprovedMarketInfo()))
+                .approvedPrivacyPolicies(Collections.singletonList(AttributeDataUtils.createApprovedPrivacy()))
                 .firstName(AttributeDataUtils.createStringAttribute(AttributeConstant.FIRST_NAME))
                 .lastName(AttributeDataUtils.createStringAttribute(AttributeConstant.LAST_NAME))
-                .phoneNumbers(Arrays.asList(AttributeDataUtils.createPhoneNumber()))
-                .licensePlates(Arrays.asList(AttributeDataUtils.createLicensePlate()))
+                .phoneNumbers(Collections.singletonList(AttributeDataUtils.createPhoneNumber()))
+                .licensePlates(Collections.singletonList(AttributeDataUtils.createLicensePlate()))
                 .language(AttributeDataUtils.createStringAttribute(AttributeConstant.LANGUAGE))
                 .socialSecurityNumber(AttributeDataUtils.createSocialSecurityNumber())
                 .timezone(AttributeDataUtils.createStringAttribute(AttributeConstant.TIMEZONE))
@@ -90,11 +86,11 @@ public class UserDataUtils {
     public static UpdateBusinessCustomerRequest createUpdateBusinessCustomerRequest() {
         return UpdateBusinessCustomerRequest.createBuilder()
                 .address(Lists.newArrayList(AttributeDataUtils.createAddress(), AttributeDataUtils.createAddress()))
-                .approvedTermsConditions(Arrays.asList(AttributeDataUtils.createApprovedTermsConditions()))
-                .approvedMarketInfo(Arrays.asList(AttributeDataUtils.createApprovedMarketInfo()))
-                .approvedPrivacyPolicies(Arrays.asList(AttributeDataUtils.createApprovedPrivacy()))
-                .phoneNumbers(Arrays.asList(AttributeDataUtils.createPhoneNumber()))
-                .licensePlates(Arrays.asList(AttributeDataUtils.createLicensePlate()))
+                .approvedTermsConditions(Collections.singletonList(AttributeDataUtils.createApprovedTermsConditions()))
+                .approvedMarketInfo(Collections.singletonList(AttributeDataUtils.createApprovedMarketInfo()))
+                .approvedPrivacyPolicies(Collections.singletonList(AttributeDataUtils.createApprovedPrivacy()))
+                .phoneNumbers(Collections.singletonList(AttributeDataUtils.createPhoneNumber()))
+                .licensePlates(Collections.singletonList(AttributeDataUtils.createLicensePlate()))
                 .language(AttributeDataUtils.createStringAttribute(AttributeConstant.LANGUAGE))
                 .timezone(AttributeDataUtils.createStringAttribute(AttributeConstant.TIMEZONE))
                 .name(AttributeDataUtils.createStringAttribute(AttributeConstant.NAME))
@@ -102,7 +98,7 @@ public class UserDataUtils {
                 .contactFirstName(AttributeDataUtils.createStringAttribute(AttributeConstant.CONTACT_FIRST_NAME))
                 .contactLastName(AttributeDataUtils.createStringAttribute(AttributeConstant.CONTACT_LAST_NAME))
                 .contactEmail(AttributeDataUtils.createStringAttribute(AttributeConstant.CONTACT_EMAIL))
-                .contactPhoneNumber(Arrays.asList(AttributeDataUtils.createPhoneNumber()))
+                .contactPhoneNumber(Collections.singletonList(AttributeDataUtils.createPhoneNumber()))
                 .build();
     }
 
@@ -125,18 +121,18 @@ public class UserDataUtils {
                 .build();
     }
 
-    public static List<AttributeResponse> createMockResponseList (AttributeValueListRequest listRequest, Map<String, Long> cachedAttributes) {
+    public static List<AttributeResponse> createMockResponseList(AttributeValueListRequest listRequest, Map<String, Long> cachedAttributes) {
         List<AttributeResponse> responses = new ArrayList<>();
         AttributeResponseDataUtils.mockOrganizationNumberResponse(listRequest, cachedAttributes).ifPresent(responses::add);
         AttributeResponseDataUtils.mockSocialSecurityNumberResponse(listRequest, cachedAttributes).ifPresent(responses::add);
-        AttributeResponseDataUtils.mockAddressResponse(listRequest, cachedAttributes).forEach(responses::add);
+        responses.addAll(AttributeResponseDataUtils.mockAddressResponse(listRequest, cachedAttributes));
         responses.addAll(AttributeResponseDataUtils.mockLicensePlatesResponse(listRequest, cachedAttributes));
         responses.addAll(AttributeResponseDataUtils.mockPhoneNumbersResponse(listRequest, cachedAttributes));
-        AttributeResponseDataUtils.mockApprovedTermsConditionsResponse(listRequest, cachedAttributes).forEach(approvedTermsConditions -> responses.add(approvedTermsConditions));
-        AttributeResponseDataUtils.mockApprovedMarketInfoResponse(listRequest, cachedAttributes).ifPresent(approvedMarketInfo -> responses.add(approvedMarketInfo));
-        AttributeResponseDataUtils.mockEmailResponse(listRequest, cachedAttributes).ifPresent(email -> responses.add(email));
-        AttributeResponseDataUtils.mockApprovedPrivacyPolicyResponse(listRequest, cachedAttributes).ifPresent(approvedPrivacy -> responses.add(approvedPrivacy));
-        AttributeResponseDataUtils.mockTimeZoneResponse(listRequest, cachedAttributes).ifPresent(timezone -> responses.add(timezone));
+        responses.addAll(AttributeResponseDataUtils.mockApprovedTermsConditionsResponse(listRequest, cachedAttributes));
+        AttributeResponseDataUtils.mockApprovedMarketInfoResponse(listRequest, cachedAttributes).ifPresent(responses::add);
+        AttributeResponseDataUtils.mockEmailResponse(listRequest, cachedAttributes).ifPresent(responses::add);
+        AttributeResponseDataUtils.mockApprovedPrivacyPolicyResponse(listRequest, cachedAttributes).ifPresent(responses::add);
+        AttributeResponseDataUtils.mockTimeZoneResponse(listRequest, cachedAttributes).ifPresent(responses::add);
         return responses;
     }
 }

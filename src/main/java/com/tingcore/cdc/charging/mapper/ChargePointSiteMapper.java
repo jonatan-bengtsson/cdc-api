@@ -182,33 +182,13 @@ public class ChargePointSiteMapper {
         int connectorNumber = c.getData().getBasicConnector().getConnectorNumber();
         return new Connector(
                 c.getMetadata().getId(),
-                getLabel(connectorNumber),
+                c.getData().getBasicConnector().getLabel(),
                 connectorNumber,
                 c.getData().getBasicConnector().getConnectorType(),
                 isQuickCharger(c.getData().getConnectorCapability()),
                 ofNullable(ConnectorStatusMapper.toConnectorStatus(connectorStatusResponse)).orElse(ConnectorStatus.NO_DATA),
                 ofNullable(connectorPrice).map(price -> price.price).orElse("no price information available"));
     }
-
-
-    /**
-     * Maps connector number to label, 1 => A, 2 => B and so on
-     *
-     * @param connectorNumber the connector number to map
-     * @return the label for the connector
-     */
-    private static String getLabel(int connectorNumber) {
-        String[] connectorLabels = new String[]{"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "P", "Q", "R", "S", "T"};
-
-        // ConnectorNumber 0 means all
-        int labelIndex = connectorNumber - 1;
-        if (labelIndex < 0 || labelIndex > connectorLabels.length) {
-            return "NO LABEL PRESENT";
-        }
-
-        return connectorLabels[labelIndex];
-    }
-
 
     /**
      * Creates an aggregated ChargePointSite status from connectors and connectors status map

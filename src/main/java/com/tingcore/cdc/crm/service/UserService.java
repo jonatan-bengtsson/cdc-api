@@ -4,6 +4,7 @@ import com.tingcore.cdc.crm.model.User;
 import com.tingcore.cdc.crm.repository.AttributeRepository;
 import com.tingcore.cdc.crm.repository.UserRepository;
 import com.tingcore.cdc.crm.request.BaseUpdateCustomerRequest;
+import com.tingcore.commons.api.crm.model.Organization;
 import com.tingcore.commons.api.repository.ApiResponse;
 import com.tingcore.users.model.AttributeResponse;
 import com.tingcore.users.model.AttributeValueListRequest;
@@ -44,4 +45,9 @@ public class UserService {
                 .orElseThrow(() -> new UsersApiException(apiResponse.getError()));
     }
 
+    public Organization getOrganisationByUserPrefix(String userPrefix) {
+        Organization organization = new Organization();
+        organization.setId(2L); // TODO, awaiting endpoint in user service.
+        return organization;
+    }
 }

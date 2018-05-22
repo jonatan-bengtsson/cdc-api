@@ -7,6 +7,7 @@ import com.tingcore.charging.assets.model.CompleteChargePoint;
 import com.tingcore.charging.assets.model.CompleteChargePointSite;
 import com.tingcore.charging.operations.model.ConnectorStatusResponse;
 
+import java.util.Comparator;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
@@ -36,7 +37,10 @@ public class ChargePointSiteMapper {
                 ccps.getLocationEntity().getData(),
                 "No description available", // TODO This should be part of CompleteChargeSite
                 getStatusByType(ccps, connectorStatusProvider),
-                ccps.getChargePoints().stream().map(cp -> toChargePoint(cp, connectorStatusProvider, connectorPriceProvider)).collect(Collectors.toList()),
+                ccps.getChargePoints().stream()
+                        .map(cp -> toChargePoint(cp, connectorStatusProvider, connectorPriceProvider))
+                        .sorted(Comparator.comparing(ChargePoint::getAssetName))
+                        .collect(Collectors.toList()),
                 null
         );
     }
@@ -165,6 +169,7 @@ public class ChargePointSiteMapper {
                 cpe.getData().getBasicChargePoint().getAssetName(),
                 ccp.getConnectorEntities().stream()
                         .map(c -> toConnector(c, connectorStatusProvider.statusFor(c.getMetadata().getId()), connectorPriceProvider.priceFor(c.getMetadata().getId())))
+                        .sorted(new ConnectorComparator())
                         .collect(Collectors.toList()));
     }
 
@@ -263,6 +268,18 @@ public class ChargePointSiteMapper {
 
     public interface ConnectorPriceProvider {
         ConnectorPrice priceFor(final Long connectorId);
+    }
+
+    private static class ConnectorComparator implements Comparator<Connector> {
+
+        @Override
+        public int compare(Connector c1, Connector c2) {
+            if(c1.getLabel() != null && c2.getLabel() != null) {
+                return c1.getLabel().compareTo(c2.getLabel());
+            } else {
+                return Integer.compare(c1.getNumber(), c2.getNumber());
+            }
+        }
     }
 }
 

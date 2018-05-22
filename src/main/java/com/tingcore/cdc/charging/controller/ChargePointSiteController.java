@@ -33,11 +33,7 @@ public class ChargePointSiteController {
         this.hashIdService = hashIdService;
     }
 
-    @RequestMapping(
-            value = "/view/map",
-            method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_UTF8_VALUE
-    )
+    @RequestMapping(value = "/view/map", method = RequestMethod.GET)
     @ApiOperation(value = "Get preview versions of Charge Point Sites",
             notes = "Get preview versions of Charge Point Sites bounded by the box representing the two coordinates. The bounds are not inclusive",
             tags = SwaggerDocConstants.TAGS_CHARGE_POINT_SITES
@@ -55,11 +51,7 @@ public class ChargePointSiteController {
         return chargePointSiteService.getChargeSiteByCoordinate(latitude1, longitude1, latitude2, longitude2, chargePointOperatorId);
     }
 
-    @RequestMapping(
-            value = "/{chargePointSiteId}",
-            method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_UTF8_VALUE
-    )
+    @RequestMapping(value = "/{chargePointSiteId}", method = RequestMethod.GET)
     @ApiOperation(value = "Get complete Charge Point Site",
             notes = "Get complete Charge Point Site including Charge Points with Connectors",
             tags = SwaggerDocConstants.TAGS_CHARGE_POINT_SITES

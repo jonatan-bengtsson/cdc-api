@@ -30,11 +30,7 @@ public class CampaignController {
         this.service = service;
     }
 
-    @RequestMapping(
-            method = RequestMethod.POST,
-            produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
-            path = "/redeem/{code}"
-    )
+    @RequestMapping(method = RequestMethod.POST, path = "/redeem/{code}")
     @ApiOperation(value = "Redeem campaign voucher",
             notes = "Route allows a user to redeem a campaign voucher",
             tags = SwaggerDocConstants.TAGS_CAMPAIGNS)

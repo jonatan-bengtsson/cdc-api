@@ -27,11 +27,7 @@ public class ChargingKeyController {
         this.chargingKeyService = chargingKeyService;
     }
 
-    @RequestMapping(
-            method = RequestMethod.POST,
-            produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
-            path = "/activate/{keyIdentifier}"
-    )
+    @RequestMapping(method = RequestMethod.POST, path = "/activate/{keyIdentifier}")
     @ApiOperation(value = "Activate charging key",
             notes = "Route allows to activate the charginf key identified by the given `keyIdentifier`",
             tags = SwaggerDocConstants.TAGS_CHARGING_KEYS)

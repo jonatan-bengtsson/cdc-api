@@ -2,9 +2,10 @@ package com.tingcore.cdc.configuration;
 
 
 import com.tingcore.cdc.constant.SpringProfilesConstant;
-import com.tingcore.users.ApiClient;
-import com.tingcore.users.api.*;
-import com.tingcore.users.api.v2.ChargingKeysApi;
+import com.tingcore.users.api.UserServiceClient;
+import com.tingcore.users.api.v1.*;
+import com.tingcore.users.api.v1.OrganizationsApi;
+import com.tingcore.users.api.v2.*;
 import okhttp3.logging.HttpLoggingInterceptor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -25,14 +26,6 @@ public class UserServiceConfiguration {
     }
 
     @Bean
-    public ApiClient userServiceApiClient() {
-        ApiClient client = new ApiClient();
-        client.getAdapterBuilder().baseUrl(baseUrl);
-        configureOkHttpClient(client);
-        return client;
-    }
-
-    @Bean
     public UserServiceClient userServiceClient() {
         return UserServiceClient
                 .createBuilder()
@@ -45,27 +38,8 @@ public class UserServiceConfiguration {
 
     @Bean
     public UsersApi userControllerApi() {
-        return userServiceApiClient().createService(UsersApi.class);
-    }
-
-    @Bean
-    public OrganizationsApi organizationControllerApi() {
-        return userServiceApiClient().createService(OrganizationsApi.class);
-    }
-
-    @Bean
-    public CustomerKeysApi customerKeysApi() {
-        return userServiceApiClient().createService(CustomerKeysApi.class);
-    }
-
-    @Bean
-    public PaymentOptionsApi paymentOptionsApi() {
-        return userServiceApiClient().createService(PaymentOptionsApi.class);
-    }
-
-    @Bean
-    public AttributesApi provideAttributesControllerApi() {
-        return userServiceApiClient().createService(AttributesApi.class);
+        return userServiceClient()
+                .createService(UsersApi.class);
     }
 
     @Bean
@@ -74,23 +48,87 @@ public class UserServiceConfiguration {
                 .createService(ChargingKeysApi.class);
     }
 
+    @Bean
+    public CustomersApi customersApi() {
+        return userServiceClient()
+                .createService(CustomersApi.class);
+    }
+
+    @Bean
+    public CustomerKeysApi customerKeysApi() {
+        return userServiceClient()
+                .createService(CustomerKeysApi.class);
+    }
+
+    @Bean
+    public AttributeValuesApi attributeValuesApi() {
+        return userServiceClient()
+                .createService(AttributeValuesApi.class);
+    }
+
+    @Bean
+    public PaymentOptionsApi paymentOptionsApi() {
+        return userServiceClient()
+                .createService(PaymentOptionsApi.class);
+    }
+
+    @Bean
+    public CustomerKeyTypesApi customerKeyTypesApi() {
+        return userServiceClient()
+                .createService(CustomerKeyTypesApi.class);
+    }
+
+    @Bean()
+    public com.tingcore.users.api.v1.OrganizationsApi organizationsApiV1() {
+        return userServiceClient()
+                .createService(com.tingcore.users.api.v1.OrganizationsApi.class);
+    }
+
+
+    @Bean
+    public com.tingcore.users.api.v2.OrganizationsApi organizationsApi() {
+        return userServiceClient()
+                .createService(com.tingcore.users.api.v2.OrganizationsApi.class);
+    }
+
+    @Bean
+    public RolesApi rolesApi() {
+        return userServiceClient()
+                .createService(RolesApi.class);
+    }
+
+    @Bean
+    public AttributesApi attributesControllerApi() {
+        return userServiceClient()
+                .createService(AttributesApi.class);
+    }
+
+    @Bean
+    public OrganizationModulesApi organizationModulesApi() {
+        return userServiceClient()
+                .createService(OrganizationModulesApi.class);
+    }
+
+    @Bean
+    public SystemUsersApi systemUsersApi() {
+        return userServiceClient()
+                .createService(SystemUsersApi.class);
+    }
+
+    @Bean
+    public InternalApi internalApi() {
+        return userServiceClient()
+                .createService(InternalApi.class);
+    }
+
     @Value("${app.user-service.base-url}")
     public void setBaseUrl(final String baseUrl) {
         this.baseUrl = baseUrl;
     }
 
+
     @Value("${app.user-service.default-timeout}")
     public void setDefaultTimeOut(final Integer defaultTimeOut) {
         this.defaultTimeOut = defaultTimeOut;
     }
-
-    private void configureOkHttpClient(final ApiClient client) {
-        if (environment.acceptsProfiles(SpringProfilesConstant.DEV)) {
-            HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-            // set your desired log level
-            logging.setLevel(HttpLoggingInterceptor.Level.BODY);
-            client.getOkBuilder().addInterceptor(logging);
-        }
-    }
-
 }

@@ -2,8 +2,8 @@ package com.tingcore.cdc.crm.utils;
 
 import com.tingcore.cdc.crm.model.UserPaymentOption;
 import com.tingcore.cdc.utils.CommonDataUtils;
-import com.tingcore.users.model.PaymentOptionResponse;
-import com.tingcore.users.model.UserPaymentOptionResponse;
+import com.tingcore.users.model.v1.response.PaymentOptionResponse;
+import com.tingcore.users.model.v1.response.UserPaymentOptionResponse;
 
 import java.time.Instant;
 
@@ -19,26 +19,26 @@ public class PaymentOptionDataUtils {
 
     public static PaymentOptionResponse randomPaymentOption() {
         final Instant now = Instant.now();
-        final PaymentOptionResponse paymentOptionResponse = new PaymentOptionResponse();
-        paymentOptionResponse.setId(CommonDataUtils.getNextId());
-        paymentOptionResponse.setCreated(now.toEpochMilli());
-        paymentOptionResponse.setUpdated(now.toEpochMilli());
-        paymentOptionResponse.setDescription(CommonDataUtils.randomUUID());
-        paymentOptionResponse.setName(CommonDataUtils.randomUUID());
-        return paymentOptionResponse;
+        return PaymentOptionResponse.createBuilder()
+                .id(CommonDataUtils.getNextId())
+                .created(now)
+                .updated(now)
+                .description(CommonDataUtils.randomUUID())
+                .name(CommonDataUtils.randomUUID())
+                .build();
     }
 
     public static UserPaymentOptionResponse randomUserPaymentOptionResponse() {
         final Instant now = Instant.now();
-        final UserPaymentOptionResponse r = new UserPaymentOptionResponse();
-        r.setId(CommonDataUtils.getNextId());
-        r.setUpdated(now.toEpochMilli());
-        r.setCreated(now.toEpochMilli());
-        r.setName(CommonDataUtils.randomUUID());
-        r.setDescription(CommonDataUtils.randomUUID());
-        r.setPaymentOptionReference(CommonDataUtils.randomUUID());
-        r.setPaymentOption(randomPaymentOption());
-        return r;
+        return UserPaymentOptionResponse.createBuilder()
+                .id(CommonDataUtils.getNextId())
+                .updated(now)
+                .created(now)
+                .name(CommonDataUtils.randomUUID())
+                .description(CommonDataUtils.randomUUID())
+                .paymentOptionReference(CommonDataUtils.randomUUID())
+                .paymentOption(randomPaymentOption())
+                .build();
     }
 
 

@@ -4,7 +4,7 @@ import com.tingcore.cdc.charging.model.BasicChargeSite;
 import com.tingcore.cdc.charging.model.ChargePointSite;
 import com.tingcore.cdc.charging.service.ChargePointSiteService;
 import com.tingcore.cdc.constant.SwaggerDocConstants;
-import com.tingcore.cdc.crm.service.UserService;
+import com.tingcore.cdc.crm.service.v2.OrganizationService;
 import com.tingcore.cdc.exception.EntityNotFoundException;
 import com.tingcore.commons.api.service.HashIdService;
 import com.tingcore.commons.rest.PageResponse;
@@ -25,13 +25,15 @@ public class PublicChargePointSiteController {
 
     private final HashIdService hashIdService;
     private final ChargePointSiteService chargePointSiteService;
-    private final UserService userService;
+    private final OrganizationService organizationService;
 
     @Autowired
-    public PublicChargePointSiteController(ChargePointSiteService chargePointSiteService, HashIdService hashIdService, UserService userService) {
+    public PublicChargePointSiteController(final ChargePointSiteService chargePointSiteService,
+                                           final HashIdService hashIdService,
+                                           final OrganizationService organizationService) {
         this.chargePointSiteService = chargePointSiteService;
         this.hashIdService = hashIdService;
-        this.userService = userService;
+        this.organizationService = organizationService;
     }
 
     @RequestMapping(
@@ -51,7 +53,7 @@ public class PublicChargePointSiteController {
             @RequestParam("southEastLongitude") double longitude2,
             @RequestParam("userPrefix") String userPrefix) {
 
-        long chargePointOperatorId = userService.getOrganisationByUserPrefix(userPrefix).getId();
+        final Long chargePointOperatorId = organizationService.getOrganizationByUserPrefix(userPrefix).getId();
         return chargePointSiteService
                 .getChargeSiteByCoordinate(latitude1, longitude1, latitude2, longitude2, chargePointOperatorId);
     }
@@ -67,7 +69,7 @@ public class PublicChargePointSiteController {
     )
     public ChargePointSite getChargePointSite(@PathVariable("chargePointSiteId") String id,
                                               @RequestParam("userPrefix") String userPrefix) {
-        long chargePointOperatorId = userService.getOrganisationByUserPrefix(userPrefix).getId();
+        final Long chargePointOperatorId = organizationService.getOrganizationByUserPrefix(userPrefix).getId();
         return chargePointSiteService.getChargeSite(getId(id), chargePointOperatorId);
     }
 

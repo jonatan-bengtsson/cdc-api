@@ -3,7 +3,7 @@ package com.tingcore.cdc.crm.utils;
 import com.google.common.collect.Lists;
 import com.tingcore.cdc.crm.model.Organization;
 import com.tingcore.cdc.utils.CommonDataUtils;
-import com.tingcore.users.model.OrganizationResponse;
+import com.tingcore.users.model.v1.response.OrganizationResponse;
 
 import java.time.Instant;
 
@@ -16,19 +16,18 @@ public class OrganizationDataUtils {
                 .build();
     }
 
-    public static OrganizationResponse createOrganizationResponse() {
-        final OrganizationResponse response = new OrganizationResponse();
-        response.setId(CommonDataUtils.getNextId());
-        response.setName(CommonDataUtils.randomUUID());
-        response.setCreated(Instant.now().toEpochMilli());
-        response.setAttributes(Lists.newArrayList(
-                AttributeDataUtils.createEmailAttributeResponse(),
-                AttributeDataUtils.createOrganizationResponse(),
-                AttributeDataUtils.createBillingAddressResponse(),
-                AttributeDataUtils.createContactEmailResponse(),
-                AttributeDataUtils.createVisitingAddress(),
-                AttributeDataUtils.createVatResponse()
-        ));
-        return response;
+    static OrganizationResponse.Builder createOrganizationResponse() {
+        return OrganizationResponse.createBuilder()
+                .id(CommonDataUtils.getNextId())
+                .name(CommonDataUtils.randomUUID())
+                .created(Instant.now())
+                .attributes(Lists.newArrayList(
+                        AttributeDataUtils.createEmailAttributeResponse(),
+                        AttributeDataUtils.createOrganizationResponse(),
+                        AttributeDataUtils.createBillingAddressResponse(),
+                        AttributeDataUtils.createContactEmailResponse(),
+                        AttributeDataUtils.createVisitingAddress(),
+                        AttributeDataUtils.createVatResponse()
+                ));
     }
 }

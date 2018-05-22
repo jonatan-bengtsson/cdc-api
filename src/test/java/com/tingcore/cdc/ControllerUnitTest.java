@@ -9,7 +9,7 @@ import com.tingcore.cdc.service.MessageByLocaleService;
 import com.tingcore.cdc.utils.CommonDataUtils;
 import com.tingcore.cdc.utils.MockMvcUtils;
 import com.tingcore.commons.api.service.HashIdService;
-import com.tingcore.users.model.UserResponse;
+import com.tingcore.users.model.v1.response.UserResponse;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

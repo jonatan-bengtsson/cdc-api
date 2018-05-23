@@ -1,14 +1,22 @@
 ### variables
 
-variable "app_name" {}
+variable "app_name" {
+  default = "cdc-api"
+}
 
-variable "business_unit" {}
+variable "business_unit" {
+  default = "charge-and-drive"
+}
 
 variable "environment" {}
 
-variable "availability" {}
+variable "availability" {
+  default = "private"
+}
 
-variable "cognito_user_pool_name" {}
+variable "cognito_user_pool_name" {
+  default = "ChargeDrive"
+}
 
 # locals
 

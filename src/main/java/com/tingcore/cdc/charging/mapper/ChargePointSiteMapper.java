@@ -1,12 +1,20 @@
 package com.tingcore.cdc.charging.mapper;
 
-import com.tingcore.cdc.charging.model.*;
+import com.tingcore.cdc.charging.model.AggregatedChargePointTypeStatus;
+import com.tingcore.cdc.charging.model.ChargePoint;
+import com.tingcore.cdc.charging.model.ChargePointSite;
+import com.tingcore.cdc.charging.model.ChargePointTypeStatus;
+import com.tingcore.cdc.charging.model.ChargeSiteStatus;
+import com.tingcore.cdc.charging.model.Connector;
+import com.tingcore.cdc.charging.model.ConnectorPrice;
+import com.tingcore.cdc.charging.model.ConnectorStatus;
 import com.tingcore.charging.assets.model.ChargePointEntity;
 import com.tingcore.charging.assets.model.ChargePointSiteEntity;
 import com.tingcore.charging.assets.model.CompleteChargePoint;
 import com.tingcore.charging.assets.model.CompleteChargePointSite;
 import com.tingcore.charging.operations.model.ConnectorStatusResponse;
 
+import java.util.Comparator;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
@@ -36,7 +44,10 @@ public class ChargePointSiteMapper {
                 ccps.getLocationEntity().getData(),
                 "No description available", // TODO This should be part of CompleteChargeSite
                 getStatusByType(ccps, connectorStatusProvider),
-                ccps.getChargePoints().stream().map(cp -> toChargePoint(cp, connectorStatusProvider, connectorPriceProvider)).collect(Collectors.toList()),
+                ccps.getChargePoints().stream()
+                        .map(cp -> toChargePoint(cp, connectorStatusProvider, connectorPriceProvider))
+                        .sorted(new ChargePointComparator())
+                        .collect(Collectors.toList()),
                 null
         );
     }
@@ -165,6 +176,7 @@ public class ChargePointSiteMapper {
                 cpe.getData().getBasicChargePoint().getAssetName(),
                 ccp.getConnectorEntities().stream()
                         .map(c -> toConnector(c, connectorStatusProvider.statusFor(c.getMetadata().getId()), connectorPriceProvider.priceFor(c.getMetadata().getId())))
+                        .sorted(new ConnectorComparator())
                         .collect(Collectors.toList()));
     }
 
@@ -263,6 +275,61 @@ public class ChargePointSiteMapper {
 
     public interface ConnectorPriceProvider {
         ConnectorPrice priceFor(final Long connectorId);
+    }
+
+    private static class ChargePointComparator implements Comparator<ChargePoint> {
+
+        @Override
+        public int compare(ChargePoint c1, ChargePoint c2) {
+            String s1 = c1.getAssetName();
+            String s2 = c2.getAssetName();
+
+            String[] s1Parts = s1.split("\\s+");
+            String[] s2Parts = s2.split("\\s+");
+
+            if (s1Parts.length != s2Parts.length) {
+                return compareStrings(s1, s2);
+            }
+
+            for (int i = 0; i < s1Parts.length; i++) {
+                int compareResult = compareStrings(s1Parts[i], s2Parts[i]);
+                if (compareResult != 0) {
+                    return compareResult;
+                }
+            }
+
+            return compareStrings(s1, s2);
+        }
+
+        public int compareStrings(String o1, String o2) {
+            String o1StringPart = o1.replaceAll("\\d", "");
+            String o2StringPart = o2.replaceAll("\\d", "");
+
+
+            if (o1StringPart.equalsIgnoreCase(o2StringPart)) {
+                return extractInt(o1) - extractInt(o2);
+            }
+
+            return o1.compareTo(o2);
+        }
+
+        private int extractInt(String s) {
+            String num = s.replaceAll("\\D", "");
+            // return 0 if no digits found
+            return num.isEmpty() ? 0 : Integer.parseInt(num);
+        }
+    }
+
+    private static class ConnectorComparator implements Comparator<Connector> {
+
+        @Override
+        public int compare(Connector c1, Connector c2) {
+            if(c1.getLabel() != null && c2.getLabel() != null) {
+                return c1.getLabel().compareTo(c2.getLabel());
+            } else {
+                return Integer.compare(c1.getNumber(), c2.getNumber());
+            }
+        }
     }
 }
 

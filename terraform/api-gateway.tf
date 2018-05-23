@@ -85,6 +85,42 @@ resource "aws_api_gateway_integration" "options" {
   }
 }
 
+# resources for /public
+resource "aws_api_gateway_resource" "public" {
+  rest_api_id = "${aws_api_gateway_rest_api.this.id}"
+  parent_id   = "${aws_api_gateway_rest_api.this.root_resource_id}"
+  path_part   = "public"
+}
+
+resource "aws_api_gateway_resource" "public_proxy" {
+  rest_api_id = "${aws_api_gateway_rest_api.this.id}"
+  parent_id   = "${aws_api_gateway_resource.public.id}"
+  path_part   = "{proxy+}"
+}
+
+resource "aws_api_gateway_method" "public_proxy_any" {
+  rest_api_id   = "${aws_api_gateway_rest_api.this.id}"
+  resource_id   = "${aws_api_gateway_resource.public_proxy.id}"
+  http_method   = "ANY"
+  authorization = "NONE"
+
+  request_parameters = {
+    "method.request.path.proxy" = true
+  }
+}
+
+# integration request ANY for /public
+resource "aws_api_gateway_integration" "public_proxy_any" {
+  rest_api_id             = "${aws_api_gateway_rest_api.this.id}"
+  resource_id             = "${aws_api_gateway_resource.public_proxy.id}"
+  http_method             = "${aws_api_gateway_method.public_proxy_any.http_method}"
+  integration_http_method = "ANY"
+  type                    = "HTTP_PROXY"
+  connection_type         = "VPC_LINK"
+  connection_id           = "${aws_api_gateway_vpc_link.this.id}"
+  uri                     = "${local.integration_uri}"
+}
+
 # method setting for logging, metrics etc for all methods
 resource "aws_api_gateway_method_settings" "any" {
   rest_api_id = "${aws_api_gateway_rest_api.this.id}"

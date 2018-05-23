@@ -14,7 +14,6 @@ import com.tingcore.payments.cpo.model.ApiPaymentAccount;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -47,7 +46,20 @@ public class PaymentAccountController {
     @PostMapping("/" + USERS)
     @ApiOperation(code = 201, value = "Create a user payment account", response = ApiPaymentAccount.class, tags = {SwaggerDocConstants.TAGS_PAYMENT_ACCOUNTS})
     public ApiPaymentAccount createUserAccount(final @RequestBody @Valid ApiCreateAccountRequest request) {
-        return hashIdService.decode(request.getAccount().getAccountOwnerId())
+
+      // Decoding for payment-type specific fields
+      switch (request.getAccount().getPaymentMethod()) {
+        case PREPAID:
+          break;
+        case STRIPE:
+          request.getAccount().getData().computeIfPresent("organizationId", (k,v) -> hashIdService.decode((String)v).get());
+          break;
+        case ELWIN:
+          request.getAccount().getData().computeIfPresent("organizationId", (k,v) -> hashIdService.decode((String)v).get());
+          break;
+      }
+
+      return hashIdService.decode(request.getAccount().getAccountOwnerId())
                 .map(longId -> paymentAccountService.createUserAccount(longId, request))
                 .orElseThrow(() -> new PaymentAccountFailureException(request.getAccount().getAccountOwnerId()));
     }

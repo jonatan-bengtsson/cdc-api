@@ -8,6 +8,7 @@ import com.tingcore.cdc.constant.SpringProfilesConstant;
 import com.tingcore.cdc.service.MessageByLocaleService;
 import com.tingcore.cdc.utils.CommonDataUtils;
 import com.tingcore.cdc.utils.MockMvcUtils;
+import com.tingcore.commons.api.crm.model.Organization;
 import com.tingcore.commons.api.service.HashIdService;
 import com.tingcore.users.model.v1.response.UserResponse;
 import org.junit.Before;
@@ -45,8 +46,15 @@ public abstract class ControllerUnitTest {
         when(authorizedUserMock.getId()).thenReturn(CommonDataUtils.getNextId());
         final Long authorizedUserId = CommonDataUtils.getNextId();
         final String encodedAuthorizedUserId = hashIdService.encode(authorizedUserId);
+
         given(authorizedUser.getId()).willReturn(authorizedUserId);
         given(authorizedUser.getEncodedId()).willReturn(encodedAuthorizedUserId);
+    }
+
+    protected void mockAuthorizedUserOrganization() {
+        final Organization organizationMock = mock(Organization.class);
+        when(organizationMock.getId()).thenReturn(CommonDataUtils.getNextId());
+        given(authorizedUser.getOrganization()).willReturn(organizationMock);
     }
 }
 

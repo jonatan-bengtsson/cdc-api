@@ -60,6 +60,13 @@ public class SwaggerConfiguration {
                             .modelRef(new ModelRef("string"))
                             .parameterType("header")
                             .required(true)
+                            .build(),
+                    new ParameterBuilder()
+                            .name(ClaimsHeader.HEADER_CLAIM_ORGANIZATION)
+                            .description("The authorized user organization")
+                            .modelRef(new ModelRef("string"))
+                            .parameterType("header")
+                            .required(false)
                             .build()
             ));
         }

@@ -53,7 +53,9 @@ public class FilterConfiguration {
 
         registrationBean.setFilter(authorizationFilter());
         registrationBean.setOrder(2);
-        registrationBean.setUrlPatterns(asList("/v1/*", "/v2/*"));
+        registrationBean.setUrlPatterns(asList(
+                "/v1/*",
+                "/v2/*"));
 
         return registrationBean;
     }

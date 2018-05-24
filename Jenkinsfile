@@ -12,4 +12,7 @@ applicationPipeline {
     memoryReservation = 2560
     cpu = 1024
     customResources = true
+    apigwVpcIntegration = true
+    https = false
+    useLoadBalancer = false
 }

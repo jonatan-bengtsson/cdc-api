@@ -1,0 +1,1 @@
+# Terraform Api Gateway resources using proxy integration

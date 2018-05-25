@@ -28,7 +28,7 @@ import java.util.Optional;
 public class AuthorizationFilter implements Filter {
 
     private static Logger LOG = LoggerFactory.getLogger(AuthorizationFilter.class);
-    public static final String HTTP_METHOD_OPTIONS = "OPTIONS";
+    private static final String HTTP_METHOD_OPTIONS = "OPTIONS";
 
 
     private final HashIdService hashIdService;
@@ -57,7 +57,7 @@ public class AuthorizationFilter implements Filter {
 
         // Unfortunately this needs to be done as filters can not be excluded for certain methods
         // It will however be removed when we introduce spring security
-        if (HTTP_METHOD_OPTIONS.equalsIgnoreCase(request.getMethod())) {
+        if (HTTP_METHOD_OPTIONS.equalsIgnoreCase(request.getMethod()) || request.getRequestURI().equals("/v2/api-docs")) {
             filterChain.doFilter(request, response);
         } else {
             final ClaimsHeaderParser parser = new ClaimsHeaderParser(this.hashIdService,objectMapper,request);

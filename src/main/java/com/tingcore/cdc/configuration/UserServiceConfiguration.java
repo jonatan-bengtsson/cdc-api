@@ -4,7 +4,6 @@ package com.tingcore.cdc.configuration;
 import com.tingcore.cdc.constant.SpringProfilesConstant;
 import com.tingcore.users.api.UserServiceClient;
 import com.tingcore.users.api.v1.*;
-import com.tingcore.users.api.v1.OrganizationsApi;
 import com.tingcore.users.api.v2.*;
 import okhttp3.logging.HttpLoggingInterceptor;
 import org.springframework.beans.factory.annotation.Value;
@@ -36,6 +35,17 @@ public class UserServiceConfiguration {
                 .build();
     }
 
+    @Value("${app.user-service.base-url}")
+    public void setBaseUrl(final String baseUrl) {
+        this.baseUrl = baseUrl;
+    }
+
+
+    @Value("${app.user-service.default-timeout}")
+    public void setDefaultTimeOut(final Integer defaultTimeOut) {
+        this.defaultTimeOut = defaultTimeOut;
+    }
+    
     @Bean
     public UsersApi userControllerApi() {
         return userServiceClient()
@@ -121,14 +131,15 @@ public class UserServiceConfiguration {
                 .createService(InternalApi.class);
     }
 
-    @Value("${app.user-service.base-url}")
-    public void setBaseUrl(final String baseUrl) {
-        this.baseUrl = baseUrl;
+    @Bean
+    public PrivacyPoliciesApi privacyPoliciesApi() {
+        return userServiceClient()
+                .createService(PrivacyPoliciesApi.class);
     }
 
-
-    @Value("${app.user-service.default-timeout}")
-    public void setDefaultTimeOut(final Integer defaultTimeOut) {
-        this.defaultTimeOut = defaultTimeOut;
+    @Bean
+    public TermsAndConditionsApi termsAndConditionsApi() {
+        return userServiceClient()
+                .createService(TermsAndConditionsApi.class);
     }
 }

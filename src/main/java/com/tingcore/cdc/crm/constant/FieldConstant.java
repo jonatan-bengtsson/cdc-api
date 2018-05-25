@@ -70,6 +70,9 @@ public class FieldConstant {
     public static final String VALUE = "value";
     public static final String URL = "url";
     public static final String VERSION = "version";
+    public static final String PRIVACY_POLICY = "privacyPolicy";
+    public static final String TERMS_AND_CONDITIONS = "termsAndConditions";
+    public static final String APPROVED = "approved";
 
     private FieldConstant() {
     }

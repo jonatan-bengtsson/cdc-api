@@ -18,8 +18,7 @@ public class OrganizationRepository extends AbstractUserServiceRepository {
     }
 
     public ApiResponse<Organization> getOrganizationByUserPrefixInternal(final String userPrefix) {
-        // todo remove authorized user id when new client has been integrated
-        return execute(internalApi.getByUserPrefix(null, userPrefix));
+        return execute(internalApi.getByUserPrefix(userPrefix));
     }
 
 }

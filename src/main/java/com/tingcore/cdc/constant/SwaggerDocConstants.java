@@ -20,6 +20,8 @@ public class SwaggerDocConstants {
     // V2
     public static final String TAGS_CUSTOMERS = "Customers";
     public static final String TAGS_CHARGING_KEYS = "Charging Keys";
+    public static final String TAGS_PRIVACY_POLICIES = "Privacy Policies";
+    public static final String TAGS_TERMS_AND_CONDITIONS = "Terms and Conditions";
 
     private SwaggerDocConstants() {
 

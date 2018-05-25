@@ -167,7 +167,7 @@ public class AttributeDataUtils {
         return new GsonBuilder().create().fromJson(ATTRIBUTES_LIST_JSON, listType);
     }
 
-    private static final String ATTRIBUTES_LIST_JSON = "[\n" +
+    public static final String ATTRIBUTES_LIST_JSON = "[\n" +
             "  {\n" +
             "    \"id\": 19,\n" +
             "    \"name\": \"name\",\n" +

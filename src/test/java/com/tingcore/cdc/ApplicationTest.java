@@ -39,4 +39,5 @@ public class ApplicationTest {
         Timestamp t = new Timestamp(System.currentTimeMillis());
         assertThat(t.getTimezoneOffset()).isEqualTo(0);
     }
+
 }

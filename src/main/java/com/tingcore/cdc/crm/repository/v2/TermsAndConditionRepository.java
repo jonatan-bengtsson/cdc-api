@@ -26,17 +26,20 @@ public class TermsAndConditionRepository extends AbstractUserServiceRepository {
     }
 
     public ApiResponse<TermsAndConditionsApproval> getCurrentApproval(final Long authorizedUserId, final Long organizationId) {
-        final ApiResponse<Agreement> apiResponse = execute(termsAndConditionsApi.getActive(authorizedUserId, organizationId));
+        final ApiResponse<Agreement> apiResponse = execute(termsAndConditionsApi.getCustomersActive(authorizedUserId, organizationId));
         return apiResponse.getResponseOptional()
-                .map(agreement -> execute(termsAndConditionsApi.hasApproved(authorizedUserId, authorizedUserId, agreement.getId()))
-                        .getResponseOptional()
-                        .map(a -> new ApiResponse<>(new TermsAndConditionsApproval(agreement, Boolean.TRUE)))
-                        .orElseGet(() -> {
-                            if (apiResponse.getError().getStatusCode().equals(404)) {
-                                return new ApiResponse<>(new TermsAndConditionsApproval(agreement, Boolean.TRUE));
-                            }
-                            return new ApiResponse<>(apiResponse.getError());
-                        }))
+                .map(agreement -> {
+                    final ApiResponse<Agreement> approvalApiResponse = execute(termsAndConditionsApi.hasApproved(authorizedUserId, authorizedUserId, agreement.getId()));
+                    return approvalApiResponse
+                            .getResponseOptional()
+                            .map(a -> new ApiResponse<>(new TermsAndConditionsApproval(agreement, Boolean.TRUE)))
+                            .orElseGet(() -> {
+                                if (approvalApiResponse.getError().getStatusCode().equals(404)) {
+                                    return new ApiResponse<>(new TermsAndConditionsApproval(agreement, Boolean.FALSE));
+                                }
+                                return new ApiResponse<>(apiResponse.getError());
+                            });
+                })
                 .orElseGet(() -> new ApiResponse<>(apiResponse.getError()));
     }
 

@@ -35,6 +35,17 @@ public class UserServiceConfiguration {
                 .build();
     }
 
+    @Value("${app.user-service.base-url}")
+    public void setBaseUrl(final String baseUrl) {
+        this.baseUrl = baseUrl;
+    }
+
+
+    @Value("${app.user-service.default-timeout}")
+    public void setDefaultTimeOut(final Integer defaultTimeOut) {
+        this.defaultTimeOut = defaultTimeOut;
+    }
+    
     @Bean
     public UsersApi userControllerApi() {
         return userServiceClient()
@@ -130,16 +141,5 @@ public class UserServiceConfiguration {
     public TermsAndConditionsApi termsAndConditionsApi() {
         return userServiceClient()
                 .createService(TermsAndConditionsApi.class);
-    }
-
-    @Value("${app.user-service.base-url}")
-    public void setBaseUrl(final String baseUrl) {
-        this.baseUrl = baseUrl;
-    }
-
-
-    @Value("${app.user-service.default-timeout}")
-    public void setDefaultTimeOut(final Integer defaultTimeOut) {
-        this.defaultTimeOut = defaultTimeOut;
     }
 }

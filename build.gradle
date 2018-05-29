@@ -78,12 +78,13 @@ ext {
     versionSwagger = "2.7.0"
     versionOkHttp = "3.9.0"
     versionCommonsApi = "1.0.7"
+    versionCommonsMonitoring = "1.1.0"
     versionAssetServiceClient = "0.1.22"
     versionOperationServiceClient = "0.1.14"
     versionPaymentsServiceClient = "0.8.22"
     versionJackson = '2.8.11'
     versionCustomerKeyOrderService = '0.5.0'
-    versionUserServiceClient = "1.1.13-SNAPSHOT"
+    versionUserServiceClient = "1.1.14"
     versionCampaignServiceJavaClient = "0.1.1"
 }
 
@@ -99,6 +100,7 @@ dependencies {
 
     // Tingcore
     compile("com.tingcore.commons:commons-api:$versionCommonsApi")
+    compile("com.tingcore.commons:monitoring:$versionCommonsMonitoring")
     compile("com.tingcore.charging:asset-service-java-client:$versionAssetServiceClient")
     compile("com.tingcore.charging:charging-operations-java-client:$versionOperationServiceClient")
     compile("com.tingcore.users:java-client:$versionUserServiceClient")

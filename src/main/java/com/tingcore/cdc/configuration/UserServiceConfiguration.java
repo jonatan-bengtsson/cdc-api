@@ -1,7 +1,13 @@
 package com.tingcore.cdc.configuration;
 
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.tingcore.cdc.constant.SpringProfilesConstant;
+import com.tingcore.commons.utils.InstantDeserializer;
+import com.tingcore.commons.utils.InstantSerializer;
 import com.tingcore.users.api.UserServiceClient;
 import com.tingcore.users.api.v1.*;
 import com.tingcore.users.api.v2.*;
@@ -11,6 +17,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
+import java.time.Instant;
 import java.util.concurrent.TimeUnit;
 
 @Configuration
@@ -29,10 +36,26 @@ public class UserServiceConfiguration {
         return UserServiceClient
                 .createBuilder()
                 .baseUrl(baseUrl)
+                .objectMapper(getDefaultObjectMapper())
                 .loggingLevel(environment.acceptsProfiles(SpringProfilesConstant.DEV) ? HttpLoggingInterceptor.Level.BODY : HttpLoggingInterceptor.Level.NONE)
                 .readTimeout(defaultTimeOut.longValue(), TimeUnit.SECONDS)
                 .connectionTimeout(defaultTimeOut.longValue(), TimeUnit.SECONDS)
                 .build();
+    }
+
+    // This is the object mapper used in version 1.1.15 of user service - current version does not have: READ_UNKNOWN_ENUM_VALUES_AS_NULL
+    // So for example when new modules come in, we'll have a crash. So fixed here for now
+    // TODO remove when user service client version >= 1.1.15
+    public static ObjectMapper getDefaultObjectMapper() {
+        final ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        objectMapper.configure(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_AS_NULL, true);
+        final SimpleModule instantModule = new SimpleModule();
+        instantModule.addSerializer(Instant.class, new InstantSerializer());
+        instantModule.addDeserializer(Instant.class, new InstantDeserializer());
+        objectMapper.registerModule(instantModule);
+        return objectMapper;
     }
 
     @Value("${app.user-service.base-url}")

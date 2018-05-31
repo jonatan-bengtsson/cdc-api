@@ -19,6 +19,12 @@ module "route53" {
   environment = "${var.environment}"
 }
 
+module "vpc" {
+  source = "git::ssh://git@bitbucket.tingcore-infra.com/aws/terraform-data-source.git//vpc"
+
+  environment = "${var.environment}"
+}
+
 data "aws_cognito_user_pools" "this" {
   name = "${title(var.environment)}${var.cognito_user_pool_name}"
 }
@@ -29,8 +35,4 @@ data "aws_iam_role" "auth" {
 
 data "aws_iam_role" "cloudwatch" {
   name = "${local.unit_alias}-${var.environment}-apigw-cloudwatch"
-}
-
-data "aws_lb" "this" {
-  name = "${local.unit_alias}-${var.environment}-${var.app_name}-nlb-int"
 }

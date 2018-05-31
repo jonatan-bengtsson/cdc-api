@@ -20,7 +20,7 @@ resource "aws_api_gateway_authorizer" "this" {
 
 resource "aws_api_gateway_vpc_link" "this" {
   name        = "${var.environment}-${var.app_name}"
-  target_arns = ["${data.aws_lb.this.arn}"]
+  target_arns = ["${aws_lb.this.arn}"]
 }
 
 # method request ANY

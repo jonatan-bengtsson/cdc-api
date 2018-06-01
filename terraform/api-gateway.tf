@@ -119,6 +119,10 @@ resource "aws_api_gateway_integration" "public_proxy_any" {
   connection_type         = "VPC_LINK"
   connection_id           = "${aws_api_gateway_vpc_link.this.id}"
   uri                     = "${local.integration_uri}"
+
+  request_parameters = {
+    "integration.request.path.proxy" = "method.request.path.proxy"
+  }
 }
 
 # method setting for logging, metrics etc for all methods

@@ -5,11 +5,10 @@ import com.tingcore.cdc.crm.repository.v1.AttributeRepository;
 import com.tingcore.cdc.crm.repository.v1.UserRepository;
 import com.tingcore.cdc.crm.request.BaseUpdateCustomerRequest;
 import com.tingcore.cdc.crm.service.UsersApiException;
-import com.tingcore.commons.api.repository.ApiResponse;
+import com.tingcore.commons.rest.repository.ApiResponse;
 import com.tingcore.users.model.v1.request.AttributeValueListRequest;
 import com.tingcore.users.model.v1.response.AttributeResponse;
 import com.tingcore.users.model.v1.response.UserResponse;
-import com.tingcore.users.model.v2.response.Organization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

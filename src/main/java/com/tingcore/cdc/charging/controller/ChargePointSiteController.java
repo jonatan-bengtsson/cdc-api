@@ -7,11 +7,10 @@ import com.tingcore.cdc.configuration.AuthorizedUser;
 import com.tingcore.cdc.configuration.WebMvcConfiguration;
 import com.tingcore.cdc.constant.SwaggerDocConstants;
 import com.tingcore.cdc.exception.EntityNotFoundException;
-import com.tingcore.commons.api.service.HashIdService;
+import com.tingcore.commons.hash.HashIdService;
 import com.tingcore.commons.rest.PageResponse;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;

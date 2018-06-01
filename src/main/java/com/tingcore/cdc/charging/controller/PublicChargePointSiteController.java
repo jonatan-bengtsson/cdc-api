@@ -6,16 +6,12 @@ import com.tingcore.cdc.charging.service.ChargePointSiteService;
 import com.tingcore.cdc.constant.SwaggerDocConstants;
 import com.tingcore.cdc.crm.service.v2.OrganizationService;
 import com.tingcore.cdc.exception.EntityNotFoundException;
-import com.tingcore.commons.api.service.HashIdService;
+import com.tingcore.commons.hash.HashIdService;
 import com.tingcore.commons.rest.PageResponse;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 

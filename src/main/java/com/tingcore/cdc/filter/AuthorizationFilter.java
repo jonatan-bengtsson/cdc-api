@@ -5,7 +5,7 @@ import com.tingcore.cdc.configuration.AuthorizedUser;
 import com.tingcore.cdc.configuration.WebMvcConfiguration;
 import com.tingcore.commons.api.security.ClaimsHeaderParser;
 import com.tingcore.commons.api.service.DefaultErrorCode;
-import com.tingcore.commons.api.service.HashIdService;
+import com.tingcore.commons.hash.HashIdService;
 import com.tingcore.commons.rest.ErrorResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

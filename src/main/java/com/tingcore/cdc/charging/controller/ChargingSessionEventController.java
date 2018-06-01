@@ -11,7 +11,7 @@ import com.tingcore.cdc.configuration.AuthorizedUser;
 import com.tingcore.cdc.configuration.WebMvcConfiguration;
 import com.tingcore.cdc.constant.SwaggerDocConstants;
 import com.tingcore.cdc.exception.EntityNotFoundException;
-import com.tingcore.commons.api.service.HashIdService;
+import com.tingcore.commons.hash.HashIdService;
 import com.tingcore.commons.rest.ErrorResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

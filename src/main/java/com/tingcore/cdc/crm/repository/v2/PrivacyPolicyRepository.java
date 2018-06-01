@@ -3,7 +3,7 @@ package com.tingcore.cdc.crm.repository.v2;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tingcore.cdc.crm.model.PrivacyPolicyApproval;
 import com.tingcore.cdc.crm.repository.AbstractUserServiceRepository;
-import com.tingcore.commons.api.repository.ApiResponse;
+import com.tingcore.commons.rest.repository.ApiResponse;
 import com.tingcore.users.api.v2.PrivacyPoliciesApi;
 import com.tingcore.users.model.v2.response.Agreement;
 import org.springframework.stereotype.Repository;

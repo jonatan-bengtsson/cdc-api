@@ -1,8 +1,8 @@
 package com.tingcore.cdc.payments.repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tingcore.commons.api.repository.AbstractApiRepository;
 import com.tingcore.commons.external.ExternalApiException;
+import com.tingcore.commons.rest.repository.AbstractApiRepository;
 import com.tingcore.payments.cpo.api.PaymentaccountsApi;
 import com.tingcore.payments.cpo.model.ApiDeletedCustomer;
 import com.tingcore.payments.cpo.model.ApiPaymentAccount;

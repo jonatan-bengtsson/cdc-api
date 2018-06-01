@@ -2,8 +2,8 @@ package com.tingcore.cdc.crm.repository.v1;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tingcore.cdc.crm.repository.AbstractUserServiceRepository;
-import com.tingcore.commons.api.repository.ApiResponse;
 import com.tingcore.commons.rest.PageResponse;
+import com.tingcore.commons.rest.repository.ApiResponse;
 import com.tingcore.users.api.v1.PaymentOptionsApi;
 import com.tingcore.users.model.v1.response.UserPaymentOptionResponse;
 import org.springframework.stereotype.Repository;

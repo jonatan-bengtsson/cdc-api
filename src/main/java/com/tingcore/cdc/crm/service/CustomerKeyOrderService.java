@@ -3,7 +3,7 @@ package com.tingcore.cdc.crm.service;
 import com.tingcore.cdc.crm.model.CustomerKeyOrderServiceException;
 import com.tingcore.cdc.crm.repository.CustomerKeyOrderRepository;
 import com.tingcore.cdc.crm.request.CustomerKeyOrderRequest;
-import com.tingcore.commons.api.repository.ApiResponse;
+import com.tingcore.commons.rest.repository.ApiResponse;
 import com.tingcore.customerkeyorder.client.model.response.CustomerKeyOrder;
 import org.springframework.stereotype.Service;
 

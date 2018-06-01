@@ -1,6 +1,6 @@
 package com.tingcore.cdc.crm.service;
 
-import com.tingcore.commons.api.service.HashIdService;
+import com.tingcore.commons.hash.HashIdService;
 import com.tingcore.commons.rest.ErrorResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;

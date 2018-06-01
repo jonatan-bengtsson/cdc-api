@@ -4,12 +4,9 @@ import com.tingcore.cdc.configuration.AuthorizedUser;
 import com.tingcore.cdc.configuration.WebMvcConfiguration;
 import com.tingcore.cdc.constant.SwaggerDocConstants;
 import com.tingcore.cdc.crm.service.v2.CustomerService;
-import com.tingcore.commons.api.service.HashIdService;
 import com.tingcore.users.model.v2.response.Customer;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 

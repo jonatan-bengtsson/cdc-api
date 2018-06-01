@@ -3,8 +3,8 @@ package com.tingcore.cdc.crm.service.v1;
 import com.tingcore.cdc.crm.model.UserPaymentOption;
 import com.tingcore.cdc.crm.repository.v1.PaymentOptionsRepository;
 import com.tingcore.cdc.crm.service.UsersApiException;
-import com.tingcore.commons.api.repository.ApiResponse;
 import com.tingcore.commons.rest.PageResponse;
+import com.tingcore.commons.rest.repository.ApiResponse;
 import com.tingcore.users.model.v1.response.UserPaymentOptionResponse;
 import org.springframework.stereotype.Service;
 

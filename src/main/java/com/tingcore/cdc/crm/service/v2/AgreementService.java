@@ -5,7 +5,7 @@ import com.tingcore.cdc.crm.model.TermsAndConditionsApproval;
 import com.tingcore.cdc.crm.repository.v2.PrivacyPolicyRepository;
 import com.tingcore.cdc.crm.repository.v2.TermsAndConditionRepository;
 import com.tingcore.cdc.crm.service.UsersApiException;
-import com.tingcore.commons.api.repository.ApiResponse;
+import com.tingcore.commons.rest.repository.ApiResponse;
 import org.springframework.stereotype.Service;
 
 /**

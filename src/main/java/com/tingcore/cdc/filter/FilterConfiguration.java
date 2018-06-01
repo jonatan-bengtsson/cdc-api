@@ -2,7 +2,7 @@ package com.tingcore.cdc.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tingcore.cdc.constant.SpringProfilesConstant;
-import com.tingcore.commons.api.service.HashIdService;
+import com.tingcore.commons.hash.HashIdService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;

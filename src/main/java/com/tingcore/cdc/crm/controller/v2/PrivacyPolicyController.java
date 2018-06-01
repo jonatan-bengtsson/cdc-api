@@ -6,7 +6,7 @@ import com.tingcore.cdc.constant.SwaggerDocConstants;
 import com.tingcore.cdc.crm.model.PrivacyPolicyApproval;
 import com.tingcore.cdc.crm.service.v2.AgreementService;
 import com.tingcore.cdc.exception.EntityNotFoundException;
-import com.tingcore.commons.api.service.HashIdService;
+import com.tingcore.commons.hash.HashIdService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;

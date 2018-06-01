@@ -2,7 +2,7 @@ package com.tingcore.cdc.crm.repository.v1;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tingcore.cdc.crm.repository.AbstractUserServiceRepository;
-import com.tingcore.commons.api.repository.ApiResponse;
+import com.tingcore.commons.rest.repository.ApiResponse;
 import com.tingcore.users.api.v1.AttributeValuesApi;
 import com.tingcore.users.api.v1.UsersApi;
 import com.tingcore.users.model.v1.request.AttributeValueListRequest;

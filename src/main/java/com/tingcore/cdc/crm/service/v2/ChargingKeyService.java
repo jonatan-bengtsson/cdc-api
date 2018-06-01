@@ -2,7 +2,7 @@ package com.tingcore.cdc.crm.service.v2;
 
 import com.tingcore.cdc.crm.repository.v2.ChargingKeyRepository;
 import com.tingcore.cdc.crm.service.UsersApiException;
-import com.tingcore.commons.api.repository.ApiResponse;
+import com.tingcore.commons.rest.repository.ApiResponse;
 import com.tingcore.users.model.v2.request.ChargingKeyActivationRequest;
 import com.tingcore.users.model.v2.response.ChargingKey;
 import org.springframework.stereotype.Service;

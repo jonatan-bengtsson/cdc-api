@@ -1,7 +1,7 @@
 package com.tingcore.cdc.crm.repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tingcore.commons.api.repository.ApiResponse;
+import com.tingcore.commons.rest.repository.ApiResponse;
 import com.tingcore.customerkeyorder.client.CustomerKeyOrderServiceApi;
 import com.tingcore.customerkeyorder.client.model.request.CustomerKeyOrderRequest;
 import com.tingcore.customerkeyorder.client.model.response.CustomerKeyOrder;

@@ -4,7 +4,7 @@ import com.tingcore.campaign.model.product.Product;
 import com.tingcore.campaign.model.request.RedeemCodeRequest;
 import com.tingcore.cdc.crm.model.CampaignServiceException;
 import com.tingcore.cdc.crm.repository.CampaignRepository;
-import com.tingcore.commons.api.repository.ApiResponse;
+import com.tingcore.commons.rest.repository.ApiResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

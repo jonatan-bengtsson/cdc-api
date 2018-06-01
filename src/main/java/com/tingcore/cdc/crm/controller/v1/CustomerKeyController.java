@@ -8,7 +8,7 @@ import com.tingcore.cdc.crm.model.UserPaymentOption;
 import com.tingcore.cdc.crm.request.CustomerKeyPostRequest;
 import com.tingcore.cdc.crm.service.v1.CustomerKeyService;
 import com.tingcore.cdc.exception.EntityNotFoundException;
-import com.tingcore.commons.api.service.HashIdService;
+import com.tingcore.commons.hash.HashIdService;
 import com.tingcore.commons.rest.ErrorResponse;
 import com.tingcore.commons.rest.PageResponse;
 import com.tingcore.commons.rest.SwaggerDefaultConstant;
@@ -16,7 +16,6 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;

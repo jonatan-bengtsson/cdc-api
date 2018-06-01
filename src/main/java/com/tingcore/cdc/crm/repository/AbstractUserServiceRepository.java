@@ -1,12 +1,8 @@
 package com.tingcore.cdc.crm.repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tingcore.commons.api.repository.AbstractApiRepository;
-import com.tingcore.commons.rest.Pagination;
-import com.tingcore.commons.rest.PagingCursor;
+import com.tingcore.commons.rest.repository.AbstractApiRepository;
 import org.springframework.beans.factory.annotation.Value;
-
-import java.util.Optional;
 
 /**
  * @author palmithor

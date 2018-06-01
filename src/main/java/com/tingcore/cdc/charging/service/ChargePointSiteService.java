@@ -8,7 +8,6 @@ import com.tingcore.cdc.charging.model.*;
 import com.tingcore.cdc.charging.repository.AssetRepository;
 import com.tingcore.cdc.charging.repository.OperationsRepository;
 import com.tingcore.cdc.charging.repository.PriceRepository;
-import com.tingcore.cdc.controller.ApiUtils;
 import com.tingcore.cdc.exception.EntityNotFoundException;
 import com.tingcore.charging.assets.api.ChargeSitesApi;
 import com.tingcore.charging.assets.model.ChargePointSiteEntity;
@@ -17,9 +16,9 @@ import com.tingcore.charging.assets.model.CompleteChargePointSite;
 import com.tingcore.charging.operations.api.OperationsApi;
 import com.tingcore.charging.operations.model.ConnectorStatusResponse;
 import com.tingcore.charging.operations.model.StatusBatchResponse;
-import com.tingcore.commons.api.repository.ApiResponse;
 import com.tingcore.commons.api.service.ForbiddenException;
 import com.tingcore.commons.rest.PageResponse;
+import com.tingcore.commons.rest.repository.ApiResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +28,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
 
+import static com.tingcore.commons.rest.repository.ResponseUtils.getResponseOrThrowError;
 import static java.util.Collections.emptyMap;
 import static java.util.Optional.ofNullable;
 import static java.util.function.Function.identity;
@@ -68,7 +68,7 @@ public class ChargePointSiteService {
      * @return response with basic versions of sites within the bounding box represented by the first and second coordinates.
      */
     public PageResponse<BasicChargeSite> getChargeSiteByCoordinate(double lat1, double lng1, double lat2, double lng2, long chargePointOperatorId) {
-        List<CompleteChargePointSite> allSites = ApiUtils.getResponseOrThrowError(
+        List<CompleteChargePointSite> allSites = getResponseOrThrowError(
                 assetRepository.execute(chargeSitesApi.findChargePointSitesByLocationUsingGET(lat1, lng1, lat2, lng2, chargePointOperatorId)),
                 AssetServiceException::new
         );
@@ -163,7 +163,7 @@ public class ChargePointSiteService {
      * @return A detailed answer of the charge point site including statuses on charge points and connectors
      */
     public com.tingcore.cdc.charging.model.ChargePointSite getChargeSite(long id, long chargePointOperatorId) {
-        CompleteChargePointSite completeChargePointSite = ApiUtils.getResponseOrThrowError(
+        CompleteChargePointSite completeChargePointSite = getResponseOrThrowError(
                 assetRepository.execute(chargeSitesApi.findCompleteChargeSiteByIdUsingGET(id)),
                 AssetServiceException::new
         );

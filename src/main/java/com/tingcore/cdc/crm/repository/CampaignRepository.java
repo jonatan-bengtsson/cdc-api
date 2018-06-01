@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tingcore.campaign.client.CampaignServiceApi;
 import com.tingcore.campaign.model.product.Product;
 import com.tingcore.campaign.model.request.RedeemCodeRequest;
-import com.tingcore.commons.api.repository.ApiResponse;
+import com.tingcore.commons.rest.repository.ApiResponse;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

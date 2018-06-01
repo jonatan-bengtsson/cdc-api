@@ -2,7 +2,7 @@ package com.tingcore.cdc.crm.service.v2;
 
 import com.tingcore.cdc.crm.repository.v2.OrganizationRepository;
 import com.tingcore.cdc.exception.EntityNotFoundException;
-import com.tingcore.commons.api.repository.ApiResponse;
+import com.tingcore.commons.rest.repository.ApiResponse;
 import com.tingcore.users.model.v2.response.Organization;
 import org.springframework.stereotype.Service;
 

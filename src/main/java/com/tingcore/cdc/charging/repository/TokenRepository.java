@@ -6,8 +6,7 @@ import com.tingcore.cdc.charging.model.AuthorizationToken;
 import com.tingcore.cdc.charging.model.ChargePointId;
 import com.tingcore.cdc.charging.model.CustomerKeyId;
 import com.tingcore.cdc.charging.model.TrustedUserId;
-import com.tingcore.commons.api.repository.AbstractApiRepository;
-import com.tingcore.commons.external.ExternalApiException;
+import com.tingcore.commons.rest.repository.AbstractApiRepository;
 import com.tingcore.payments.cpo.api.TokensApi;
 import com.tingcore.payments.cpo.model.ApiAuthorizationToken;
 import com.tingcore.payments.cpo.model.Authorization;
@@ -15,9 +14,8 @@ import com.tingcore.payments.cpo.model.CreateAuthorizationTokenRequest;
 import org.springframework.stereotype.Repository;
 
 import java.time.Instant;
-import java.util.concurrent.CompletableFuture;
 
-import static com.tingcore.cdc.controller.ApiUtils.getResponseOrThrowError;
+import static com.tingcore.commons.rest.repository.ResponseUtils.getResponseOrThrowError;
 import static org.apache.commons.lang3.Validate.notNull;
 
 @Repository
@@ -47,15 +45,11 @@ public class TokenRepository extends AbstractApiRepository {
         request.setChargePoint(chargePointId.id);
         request.setTime(Instant.now().toEpochMilli());
 
-        return apiTokenToModel(getResponseOrTokensError(tokensApi.createAuthorizationToken(request)));
+        return apiTokenToModel(getResponseOrThrowError(tokensApi.createAuthorizationToken(request), TokensApiException::new));
     }
 
     private AuthorizationToken apiTokenToModel(final ApiAuthorizationToken apiAuthorizationToken) {
         return new AuthorizationToken(apiAuthorizationToken.getValue());
-    }
-
-    private <T, E extends ExternalApiException> T getResponseOrTokensError(CompletableFuture<T> request) throws E {
-        return getResponseOrThrowError(execute(request), TokensApiException::new);
     }
 
     @Override

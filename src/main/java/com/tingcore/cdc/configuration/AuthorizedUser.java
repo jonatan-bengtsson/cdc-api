@@ -1,6 +1,6 @@
 package com.tingcore.cdc.configuration;
 
-import com.tingcore.commons.api.crm.model.Organization;
+import com.tingcore.commons.api.model.Organization;
 
 /**
  * @author palmithor

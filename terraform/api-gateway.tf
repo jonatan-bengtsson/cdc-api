@@ -118,7 +118,7 @@ resource "aws_api_gateway_integration" "public_proxy_any" {
   type                    = "HTTP_PROXY"
   connection_type         = "VPC_LINK"
   connection_id           = "${aws_api_gateway_vpc_link.this.id}"
-  uri                     = "${local.integration_uri}"
+  uri                     = "${local.integration_uri_public}"
 
   request_parameters = {
     "integration.request.path.proxy" = "method.request.path.proxy"

@@ -3,7 +3,7 @@ package com.tingcore.cdc.charging.repository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tingcore.cdc.charging.model.ConnectorId;
 import com.tingcore.cdc.charging.model.ConnectorPrice;
-import com.tingcore.commons.external.ExternalApiException;
+import com.tingcore.commons.rest.external.ExternalApiException;
 import com.tingcore.commons.rest.repository.AbstractApiRepository;
 import com.tingcore.payments.cpo.api.PricesApi;
 import com.tingcore.payments.cpo.model.ApiPrice;

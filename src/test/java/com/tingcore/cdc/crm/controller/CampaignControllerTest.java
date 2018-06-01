@@ -5,7 +5,7 @@ import com.tingcore.campaign.model.product.Product;
 import com.tingcore.campaign.model.product.ProductType;
 import com.tingcore.cdc.ControllerUnitTest;
 import com.tingcore.cdc.crm.service.CampaignService;
-import com.tingcore.commons.api.crm.model.Organization;
+import com.tingcore.commons.api.model.Organization;
 import org.junit.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;

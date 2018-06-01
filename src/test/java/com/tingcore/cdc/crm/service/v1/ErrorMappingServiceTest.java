@@ -1,7 +1,7 @@
 package com.tingcore.cdc.crm.service.v1;
 
 import com.tingcore.cdc.crm.service.ErrorMappingService;
-import com.tingcore.commons.api.service.HashIdService;
+import com.tingcore.commons.hash.HashIdService;
 import com.tingcore.commons.rest.ErrorResponse;
 import org.hashids.Hashids;
 import org.junit.Before;

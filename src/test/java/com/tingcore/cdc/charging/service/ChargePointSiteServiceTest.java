@@ -5,16 +5,14 @@ import com.tingcore.cdc.charging.repository.OperationsRepository;
 import com.tingcore.charging.assets.api.ChargeSitesApi;
 import com.tingcore.charging.assets.model.ChargePointSiteEntity;
 import com.tingcore.charging.assets.model.CompleteChargePointSite;
-import com.tingcore.commons.api.repository.ApiResponse;
 import com.tingcore.commons.api.service.ForbiddenException;
+import com.tingcore.commons.rest.repository.ApiResponse;
 import org.junit.Test;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
-import static org.mockito.Matchers.anyLong;
-import static org.mockito.Matchers.anyObject;
-import static org.mockito.Matchers.eq;
+import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 

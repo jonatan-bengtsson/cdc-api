@@ -5,7 +5,7 @@ import com.tingcore.cdc.ControllerUnitTest;
 import com.tingcore.cdc.crm.request.CustomerKeyOrderRequest;
 import com.tingcore.cdc.crm.service.CustomerKeyOrderService;
 import com.tingcore.cdc.crm.utils.CustomerKeyDataUtils;
-import com.tingcore.commons.api.crm.model.Organization;
+import com.tingcore.commons.api.model.Organization;
 import com.tingcore.commons.rest.ErrorResponse;
 import com.tingcore.commons.rest.PageResponse;
 import com.tingcore.customerkeyorder.client.model.response.CustomerKeyOrder;

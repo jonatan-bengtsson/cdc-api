@@ -1,12 +1,11 @@
 package com.tingcore.cdc.crm.controller.v1;
 
 import com.tingcore.cdc.ControllerUnitTest;
-import com.tingcore.cdc.crm.controller.v1.UserController;
 import com.tingcore.cdc.crm.model.User;
-import com.tingcore.cdc.crm.service.v1.UserService;
 import com.tingcore.cdc.crm.service.UsersApiException;
+import com.tingcore.cdc.crm.service.v1.UserService;
 import com.tingcore.cdc.crm.utils.UserDataUtils;
-import com.tingcore.commons.api.service.HashIdService;
+import com.tingcore.commons.hash.HashIdService;
 import com.tingcore.commons.rest.ErrorResponse;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -10,7 +10,7 @@ import com.tingcore.cdc.exception.EntityNotFoundException;
 import com.tingcore.cdc.payments.repository.PaymentAccountApiException;
 import com.tingcore.cdc.service.MessageByLocaleService;
 import com.tingcore.commons.api.service.ServiceException;
-import com.tingcore.commons.external.ExternalApiException;
+import com.tingcore.commons.rest.external.ExternalApiException;
 import com.tingcore.commons.rest.ErrorResponse;
 import com.tingcore.commons.utils.StreamUtils;
 import org.apache.commons.lang3.StringUtils;

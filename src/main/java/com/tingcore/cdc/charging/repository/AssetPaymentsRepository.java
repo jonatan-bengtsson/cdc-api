@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tingcore.cdc.charging.model.ConnectorId;
 import com.tingcore.charging.assets.api.ApiForPaymentsApi;
 import com.tingcore.charging.assets.model.ChargePointInfo;
-import com.tingcore.commons.external.ExternalApiException;
+import com.tingcore.commons.rest.external.ExternalApiException;
 import com.tingcore.commons.rest.repository.AbstractApiRepository;
 import org.springframework.stereotype.Repository;
 

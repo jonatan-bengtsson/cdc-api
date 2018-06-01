@@ -2,14 +2,14 @@ package com.tingcore.cdc;
 
 
 import com.tingcore.cdc.configuration.AuthorizedUser;
-import com.tingcore.cdc.configuration.JacksonConfiguration;
+import com.tingcore.cdc.configuration.CommonServiceConfiguration;
 import com.tingcore.cdc.configuration.LocaleConfiguration;
 import com.tingcore.cdc.constant.SpringProfilesConstant;
 import com.tingcore.cdc.service.MessageByLocaleService;
 import com.tingcore.cdc.utils.CommonDataUtils;
 import com.tingcore.cdc.utils.MockMvcUtils;
-import com.tingcore.commons.api.crm.model.Organization;
-import com.tingcore.commons.api.service.HashIdService;
+import com.tingcore.commons.api.model.Organization;
+import com.tingcore.commons.hash.HashIdService;
 import com.tingcore.users.model.v1.response.UserResponse;
 import org.junit.Before;
 import org.junit.runner.RunWith;
@@ -30,7 +30,7 @@ import static org.mockito.Mockito.when;
  * @since 2017-09-14
  */
 @RunWith(SpringRunner.class)
-@ImportAutoConfiguration({LocaleConfiguration.class, JacksonConfiguration.class})
+@ImportAutoConfiguration({LocaleConfiguration.class, CommonServiceConfiguration.class})
 @Import({MessageByLocaleService.class, HashIdService.class, MockMvcUtils.class})
 @ActiveProfiles(SpringProfilesConstant.UNIT_TEST)
 public abstract class ControllerUnitTest {

@@ -3,7 +3,6 @@ package com.tingcore.cdc.configuration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tingcore.cdc.constant.SpringProfilesConstant;
-import com.tingcore.commons.core.utils.JsonUtils;
 import com.tingcore.users.api.UserServiceClient;
 import com.tingcore.users.api.v1.*;
 import com.tingcore.users.api.v2.*;
@@ -27,19 +26,15 @@ public class UserServiceConfiguration {
     }
 
     @Bean
-    public UserServiceClient userServiceClient() {
+    public UserServiceClient userServiceClient(ObjectMapper objectMapper) {
         return UserServiceClient
                 .createBuilder()
                 .baseUrl(baseUrl)
-                .objectMapper(getDefaultObjectMapper())
+                .objectMapper(objectMapper)
                 .loggingLevel(environment.acceptsProfiles(SpringProfilesConstant.DEV) ? HttpLoggingInterceptor.Level.BODY : HttpLoggingInterceptor.Level.NONE)
                 .readTimeout(defaultTimeOut.longValue(), TimeUnit.SECONDS)
                 .connectionTimeout(defaultTimeOut.longValue(), TimeUnit.SECONDS)
                 .build();
-    }
-
-    public static ObjectMapper getDefaultObjectMapper() {
-        return JsonUtils.getObjectMapper();
     }
 
     @Value("${app.user-service.base-url}")
@@ -54,99 +49,99 @@ public class UserServiceConfiguration {
     }
     
     @Bean
-    public UsersApi userControllerApi() {
-        return userServiceClient()
+    public UsersApi userControllerApi(UserServiceClient userServiceClient) {
+        return userServiceClient
                 .createService(UsersApi.class);
     }
 
     @Bean
-    public ChargingKeysApi chargingKeysApi() {
-        return userServiceClient()
+    public ChargingKeysApi chargingKeysApi(UserServiceClient userServiceClient) {
+        return userServiceClient
                 .createService(ChargingKeysApi.class);
     }
 
     @Bean
-    public CustomersApi customersApi() {
-        return userServiceClient()
+    public CustomersApi customersApi(UserServiceClient userServiceClient) {
+        return userServiceClient
                 .createService(CustomersApi.class);
     }
 
     @Bean
-    public CustomerKeysApi customerKeysApi() {
-        return userServiceClient()
+    public CustomerKeysApi customerKeysApi(UserServiceClient userServiceClient) {
+        return userServiceClient
                 .createService(CustomerKeysApi.class);
     }
 
     @Bean
-    public AttributeValuesApi attributeValuesApi() {
-        return userServiceClient()
+    public AttributeValuesApi attributeValuesApi(UserServiceClient userServiceClient) {
+        return userServiceClient
                 .createService(AttributeValuesApi.class);
     }
 
     @Bean
-    public PaymentOptionsApi paymentOptionsApi() {
-        return userServiceClient()
+    public PaymentOptionsApi paymentOptionsApi(UserServiceClient userServiceClient) {
+        return userServiceClient
                 .createService(PaymentOptionsApi.class);
     }
 
     @Bean
-    public CustomerKeyTypesApi customerKeyTypesApi() {
-        return userServiceClient()
+    public CustomerKeyTypesApi customerKeyTypesApi(UserServiceClient userServiceClient) {
+        return userServiceClient
                 .createService(CustomerKeyTypesApi.class);
     }
 
     @Bean()
-    public com.tingcore.users.api.v1.OrganizationsApi organizationsApiV1() {
-        return userServiceClient()
+    public com.tingcore.users.api.v1.OrganizationsApi organizationsApiV1(UserServiceClient userServiceClient) {
+        return userServiceClient
                 .createService(com.tingcore.users.api.v1.OrganizationsApi.class);
     }
 
 
     @Bean
-    public com.tingcore.users.api.v2.OrganizationsApi organizationsApi() {
-        return userServiceClient()
+    public com.tingcore.users.api.v2.OrganizationsApi organizationsApi(UserServiceClient userServiceClient) {
+        return userServiceClient
                 .createService(com.tingcore.users.api.v2.OrganizationsApi.class);
     }
 
     @Bean
-    public RolesApi rolesApi() {
-        return userServiceClient()
+    public RolesApi rolesApi(UserServiceClient userServiceClient) {
+        return userServiceClient
                 .createService(RolesApi.class);
     }
 
     @Bean
-    public AttributesApi attributesControllerApi() {
-        return userServiceClient()
+    public AttributesApi attributesControllerApi(UserServiceClient userServiceClient) {
+        return userServiceClient
                 .createService(AttributesApi.class);
     }
 
     @Bean
-    public OrganizationModulesApi organizationModulesApi() {
-        return userServiceClient()
+    public OrganizationModulesApi organizationModulesApi(UserServiceClient userServiceClient) {
+        return userServiceClient
                 .createService(OrganizationModulesApi.class);
     }
 
     @Bean
-    public SystemUsersApi systemUsersApi() {
-        return userServiceClient()
+    public SystemUsersApi systemUsersApi(UserServiceClient userServiceClient) {
+        return userServiceClient
                 .createService(SystemUsersApi.class);
     }
 
     @Bean
-    public InternalApi internalApi() {
-        return userServiceClient()
+    public InternalApi internalApi(UserServiceClient userServiceClient) {
+        return userServiceClient
                 .createService(InternalApi.class);
     }
 
     @Bean
-    public PrivacyPoliciesApi privacyPoliciesApi() {
-        return userServiceClient()
+    public PrivacyPoliciesApi privacyPoliciesApi(UserServiceClient userServiceClient) {
+        return userServiceClient
                 .createService(PrivacyPoliciesApi.class);
     }
 
     @Bean
-    public TermsAndConditionsApi termsAndConditionsApi() {
-        return userServiceClient()
+    public TermsAndConditionsApi termsAndConditionsApi(UserServiceClient userServiceClient) {
+        return userServiceClient
                 .createService(TermsAndConditionsApi.class);
     }
 }

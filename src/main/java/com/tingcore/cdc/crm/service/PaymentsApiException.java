@@ -1,6 +1,6 @@
 package com.tingcore.cdc.crm.service;
 
-import com.tingcore.commons.external.ExternalApiException;
+import com.tingcore.commons.rest.external.ExternalApiException;
 import com.tingcore.commons.rest.ErrorResponse;
 
 /**

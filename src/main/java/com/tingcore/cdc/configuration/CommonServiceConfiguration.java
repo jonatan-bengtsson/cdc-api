@@ -1,15 +1,15 @@
 package com.tingcore.cdc.configuration;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.tingcore.commons.api.service.CustomServiceModelToSwagger2Mapper;
-import com.tingcore.commons.api.service.HashIdService;
-import com.tingcore.commons.api.utils.HashIdDeserializer;
-import com.tingcore.commons.api.utils.HashIdSerializer;
-import com.tingcore.commons.utils.JsonUtils;
+import com.tingcore.commons.hash.HashIdDeserializer;
+import com.tingcore.commons.hash.HashIdSerializer;
+import com.tingcore.commons.hash.HashIdService;
 import org.hashids.Hashids;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
-import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.web.client.RestTemplate;
 import springfox.documentation.swagger2.mappers.ServiceModelToSwagger2Mapper;
 
@@ -40,12 +40,14 @@ public class CommonServiceConfiguration {
     }
 
     @Bean
-    public Jackson2ObjectMapperBuilder objectMapperBuilder() {
-        final Jackson2ObjectMapperBuilder objectMapperBuilder = JsonUtils.getObjectMapperBuilder();
-        objectMapperBuilder.serializerByType(Long.class, new HashIdSerializer(hashIdService()));
-        objectMapperBuilder.deserializerByType(Long.class, new HashIdDeserializer(hashIdService()));
+    public ObjectMapper objectMapper(final HashIdService hashIdService) {
+        final ObjectMapper objectMapper = com.tingcore.commons.core.utils.JsonUtils.getObjectMapper();
+        SimpleModule module = new SimpleModule();
+        module.addSerializer(Long.class, new HashIdSerializer(hashIdService));
+        module.addDeserializer(Long.class, new HashIdDeserializer(hashIdService));
+        objectMapper.registerModule(module);
 
-        return objectMapperBuilder;
+        return objectMapper;
     }
 
     @Bean

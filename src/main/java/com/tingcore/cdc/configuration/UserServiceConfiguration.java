@@ -1,7 +1,6 @@
 package com.tingcore.cdc.configuration;
 
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tingcore.cdc.constant.SpringProfilesConstant;
 import com.tingcore.users.api.UserServiceClient;
 import com.tingcore.users.api.v1.*;
@@ -26,11 +25,10 @@ public class UserServiceConfiguration {
     }
 
     @Bean
-    public UserServiceClient userServiceClient(ObjectMapper objectMapper) {
+    public UserServiceClient userServiceClient() {
         return UserServiceClient
                 .createBuilder()
                 .baseUrl(baseUrl)
-                .objectMapper(objectMapper)
                 .loggingLevel(environment.acceptsProfiles(SpringProfilesConstant.DEV) ? HttpLoggingInterceptor.Level.BODY : HttpLoggingInterceptor.Level.NONE)
                 .readTimeout(defaultTimeOut.longValue(), TimeUnit.SECONDS)
                 .connectionTimeout(defaultTimeOut.longValue(), TimeUnit.SECONDS)

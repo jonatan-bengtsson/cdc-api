@@ -15,7 +15,7 @@ public class Connector {
 
     public Connector() {}
 
-    public Connector(Long id, String label, int number, com.tingcore.charging.assets.model.BasicConnector.ConnectorTypeEnum type, boolean quick, double power, ConnectorStatus status, String price) {
+    public Connector(Long id, String label, int number, com.tingcore.charging.assets.model.BasicConnector.ConnectorTypeEnum type, boolean quick, double power, double current, double voltage, ConnectorStatus status, String price) {
         this.id = id;
         this.label = label;
         this.number = number;

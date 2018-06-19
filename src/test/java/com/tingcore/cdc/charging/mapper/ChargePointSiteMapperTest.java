@@ -158,6 +158,8 @@ public class ChargePointSiteMapperTest {
         assertEquals(connectorType, nc.getType());
         assertEquals(isQuick, nc.isQuick());
         assertEquals(power, nc.getPower(), 0.001);
+        assertEquals(current, nc.getCurrent(), 0.001);
+        assertEquals(voltage, nc.getVoltage(), 0.001);
 
     }
 

@@ -7,6 +7,8 @@ public class Connector {
     private com.tingcore.charging.assets.model.BasicConnector.ConnectorTypeEnum type;
     private boolean quick;
     private double power;
+    private double current;
+    private double voltage;
     private ConnectorStatus status;
     private String price;
     private int number;
@@ -20,6 +22,8 @@ public class Connector {
         this.type = type;
         this.quick = quick;
         this.power = power;
+        this.current = current;
+        this.voltage = voltage;
         this.status = status;
         this.price = price;
     }
@@ -31,6 +35,22 @@ public class Connector {
     public double getPower() { return power; }
 
     public void setPower(double power) { this.power = power; }
+
+    public double getCurrent() {
+        return current;
+    }
+
+    public void setCurrent(double current) {
+        this.current = current;
+    }
+
+    public double getVoltage() {
+        return voltage;
+    }
+
+    public void setVoltage(double voltage) {
+        this.voltage = voltage;
+    }
 
     public void setId(Long id) {
         this.id = id;

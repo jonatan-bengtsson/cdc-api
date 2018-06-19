@@ -199,6 +199,8 @@ public class ChargePointSiteMapper {
                 c.getData().getBasicConnector().getConnectorType(),
                 isQuickCharger(c.getData().getConnectorCapability()),
                 c.getData().getConnectorCapability().getPower(),
+                c.getData().getConnectorCapability().getCurrent(),
+                c.getData().getConnectorCapability().getVoltage(),
                 ofNullable(ConnectorStatusMapper.toConnectorStatus(connectorStatusResponse)).orElse(ConnectorStatus.NO_DATA),
                 ofNullable(connectorPrice).map(price -> price.price).orElse("no price information available"));
     }

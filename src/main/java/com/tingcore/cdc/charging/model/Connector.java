@@ -6,18 +6,20 @@ public class Connector {
     private String label;
     private com.tingcore.charging.assets.model.BasicConnector.ConnectorTypeEnum type;
     private boolean quick;
+    private double power;
     private ConnectorStatus status;
     private String price;
     private int number;
 
     public Connector() {}
 
-    public Connector(Long id, String label, int number, com.tingcore.charging.assets.model.BasicConnector.ConnectorTypeEnum type, boolean quick, ConnectorStatus status, String price) {
+    public Connector(Long id, String label, int number, com.tingcore.charging.assets.model.BasicConnector.ConnectorTypeEnum type, boolean quick, double power, ConnectorStatus status, String price) {
         this.id = id;
         this.label = label;
         this.number = number;
         this.type = type;
         this.quick = quick;
+        this.power = power;
         this.status = status;
         this.price = price;
     }
@@ -25,6 +27,10 @@ public class Connector {
     public Long getId() {
         return id;
     }
+
+    public double getPower() { return power; }
+
+    public void setPower(double power) { this.power = power; }
 
     public void setId(Long id) {
         this.id = id;

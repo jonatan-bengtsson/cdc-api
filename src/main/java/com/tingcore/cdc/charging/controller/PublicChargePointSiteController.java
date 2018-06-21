@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/public/v1/charge-point-sites")
@@ -65,17 +64,12 @@ public class PublicChargePointSiteController {
     )
     public ChargePointSite getChargePointSite(@PathVariable("chargePointSiteId") String id,
                                               @RequestParam("userPrefix") String userPrefix) {
-        final Long chargePointOperatorId = organizationService.getOrganizationByUserPrefix(userPrefix).getId();
-        return chargePointSiteService.getChargeSite(getId(id), chargePointOperatorId);
+        final Long empId = organizationService.getOrganizationByUserPrefix(userPrefix).getId();
+        return chargePointSiteService.getChargeSite(getId(id), empId);
     }
 
     private long getId(String hashId) {
-        Optional<Long> decode = hashIdService.decode(hashId);
-        if (decode.isPresent()) {
-            return decode.get();
-        } else {
-            throw new EntityNotFoundException();
-        }
+        return hashIdService.decode(hashId).orElseThrow( EntityNotFoundException::new);
     }
 
 }

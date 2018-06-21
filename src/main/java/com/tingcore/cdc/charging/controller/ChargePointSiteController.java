@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/v1/charge-point-sites")
@@ -44,10 +43,8 @@ public class ChargePointSiteController {
             @RequestParam("southEastLatitude") double latitude2,
             @RequestParam("southEastLongitude") double longitude2) {
 
-        // The organization id is the EMP id, but for now we have no choice
-        // but to assume that the EMP is also the CPO to use.
-        long chargePointOperatorId = this.authorizedUser.getOrganization().getId();
-        return chargePointSiteService.getChargeSiteByCoordinate(latitude1, longitude1, latitude2, longitude2, chargePointOperatorId);
+        long empId = this.authorizedUser.getOrganization().getId();
+        return chargePointSiteService.getChargeSiteByCoordinate(latitude1, longitude1, latitude2, longitude2, empId);
     }
 
     @RequestMapping(value = "/{chargePointSiteId}", method = RequestMethod.GET)
@@ -56,17 +53,12 @@ public class ChargePointSiteController {
             tags = SwaggerDocConstants.TAGS_CHARGE_POINT_SITES
     )
     public ChargePointSite getChargePointSite(@PathVariable("chargePointSiteId") String id) {
-        long chargePointOperatorId = this.authorizedUser.getOrganization().getId();
-        return chargePointSiteService.getChargeSite(getId(id), chargePointOperatorId);
+        long empId = this.authorizedUser.getOrganization().getId();
+        return chargePointSiteService.getChargeSite(getId(id), empId);
     }
 
     private long getId(String hashId) {
-        Optional<Long> decode = hashIdService.decode(hashId);
-        if (decode.isPresent()) {
-            return decode.get();
-        } else {
-            throw new EntityNotFoundException();
-        }
+        return hashIdService.decode(hashId).orElseThrow( EntityNotFoundException::new);
     }
 
 }

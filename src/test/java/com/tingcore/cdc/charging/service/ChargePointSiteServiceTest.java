@@ -2,6 +2,7 @@ package com.tingcore.cdc.charging.service;
 
 import com.tingcore.cdc.charging.repository.AssetRepository;
 import com.tingcore.cdc.charging.repository.OperationsRepository;
+import com.tingcore.cdc.crm.service.v2.OrganizationService;
 import com.tingcore.charging.assets.api.ChargeSitesApi;
 import com.tingcore.charging.assets.model.ChargePointSiteEntity;
 import com.tingcore.charging.assets.model.CompleteChargePointSite;
@@ -9,6 +10,7 @@ import com.tingcore.commons.api.service.ForbiddenException;
 import com.tingcore.commons.rest.repository.ApiResponse;
 import org.junit.Test;
 
+import java.util.Collections;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
@@ -24,12 +26,19 @@ public class ChargePointSiteServiceTest {
         ChargeSitesApi chargeSitesApi = mockChargeSitesApi(cpsFuture);
 
         final ChargePointSiteService cpsService = new ChargePointSiteService(mockAssetRepository(chargeSitesApi),
-                mockOperationsRepository(), null);
+                mockOperationsRepository(), null, mockOrganizationService());
 
         final long chargePointSiteId = 1L;
-        final long chargePointOperatorId = 1L; // But site 1 has 4711 as CPO
-        cpsService.getChargeSite(chargePointSiteId, chargePointOperatorId);
+        final long empId = 1L; // Will map to CPO id 1, but site 1 has 4711 as CPO
+        cpsService.getChargeSite(chargePointSiteId, empId);
 
+    }
+
+    private OrganizationService mockOrganizationService() {
+        OrganizationService organizationService = mock(OrganizationService.class);
+        when(organizationService.getAssociatedCpoIdsFromEmpId(anyLong())).thenAnswer(invocationOnMock ->
+                Collections.singletonList(invocationOnMock.getArguments()[0]));
+        return organizationService;
     }
 
     @SuppressWarnings("unchecked")

@@ -8,6 +8,7 @@ import com.tingcore.cdc.charging.model.*;
 import com.tingcore.cdc.charging.repository.AssetRepository;
 import com.tingcore.cdc.charging.repository.OperationsRepository;
 import com.tingcore.cdc.charging.repository.PriceRepository;
+import com.tingcore.cdc.crm.service.v2.OrganizationService;
 import com.tingcore.cdc.exception.EntityNotFoundException;
 import com.tingcore.charging.assets.api.ChargeSitesApi;
 import com.tingcore.charging.assets.model.ChargePointSiteEntity;
@@ -24,6 +25,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
@@ -46,14 +48,17 @@ public class ChargePointSiteService {
     private final AssetRepository assetRepository;
     private final OperationsRepository operationsRepository;
     private final PriceRepository priceRepository;
+    private final OrganizationService organizationService;
 
     @Autowired
-    public ChargePointSiteService(AssetRepository assetRepository, OperationsRepository operationsRepository, PriceRepository priceRepository) {
+    public ChargePointSiteService(AssetRepository assetRepository, OperationsRepository operationsRepository,
+                                  PriceRepository priceRepository, OrganizationService organizationService) {
         this.chargeSitesApi = assetRepository.getChargeSitesApi();
         this.operationsApi = operationsRepository.getOperationsApi();
         this.assetRepository = assetRepository;
         this.operationsRepository = operationsRepository;
         this.priceRepository = priceRepository;
+        this.organizationService = organizationService;
     }
 
     /**
@@ -64,12 +69,21 @@ public class ChargePointSiteService {
      * @param lng1                  longitude component of first coordinate
      * @param lat2                  latitude component of second coordinate
      * @param lng2                  longitude component of second coordinate
-     * @param chargePointOperatorId include sites operated by this CPO.
+     * @param empOrganizationIdId   the organization id of the EMP that owns the user.
      * @return response with basic versions of sites within the bounding box represented by the first and second coordinates.
      */
-    public PageResponse<BasicChargeSite> getChargeSiteByCoordinate(double lat1, double lng1, double lat2, double lng2, long chargePointOperatorId) {
+    public PageResponse<BasicChargeSite> getChargeSiteByCoordinate(final double lat1, final double lng1, final double lat2, final double lng2,
+                                                                   long empOrganizationIdId) {
+
+        List<Long> chargePointOperatorIds = organizationService.getAssociatedCpoIdsFromEmpId(empOrganizationIdId);
+
+        if(chargePointOperatorIds.size() == 0) {
+            LOG.info("Charge site lat-long request, but the customer's EMP {} has no associated CPOs!", empOrganizationIdId);
+            return new PageResponse<>(Collections.emptyList());
+        }
+
         List<CompleteChargePointSite> allSites = getResponseOrThrowError(
-                assetRepository.execute(chargeSitesApi.findChargePointSitesByLocationUsingGET(lat1, lng1, lat2, lng2, chargePointOperatorId)),
+                assetRepository.execute(chargeSitesApi.findChargePointSitesByLatLongUsingPOST(lat1, lng1, lat2, lng2, chargePointOperatorIds)),
                 AssetServiceException::new
         );
 
@@ -159,16 +173,17 @@ public class ChargePointSiteService {
      * Fetch a detailed version of a charge point site
      *
      * @param id                    the id of a charge point site
-     * @param chargePointOperatorId the CPO operating the charge point site
+     * @param empOrganizationIdId   the organization id of the EMP that owns the user.
      * @return A detailed answer of the charge point site including statuses on charge points and connectors
      */
-    public com.tingcore.cdc.charging.model.ChargePointSite getChargeSite(long id, long chargePointOperatorId) {
+    public com.tingcore.cdc.charging.model.ChargePointSite getChargeSite(final long id,  final long empOrganizationIdId) {
         CompleteChargePointSite completeChargePointSite = getResponseOrThrowError(
                 assetRepository.execute(chargeSitesApi.findCompleteChargeSiteByIdUsingGET(id)),
                 AssetServiceException::new
         );
 
-        if (completeChargePointSite.getChargePointSiteEntity().getData().getOperatorOrganizationId() != chargePointOperatorId) {
+        List<Long> chargePointOperatorIds = organizationService.getAssociatedCpoIdsFromEmpId(empOrganizationIdId);
+        if (!chargePointOperatorIds.contains(completeChargePointSite.getChargePointSiteEntity().getData().getOperatorOrganizationId())) {
             throw new ForbiddenException("Mismatch between requesting operator id and site charge point operator id!");
         }
 

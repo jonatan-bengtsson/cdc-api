@@ -4,7 +4,11 @@ import com.tingcore.cdc.charging.mapper.ChargePointSiteMapper;
 import com.tingcore.cdc.charging.mapper.ChargePointSiteStatuses;
 import com.tingcore.cdc.charging.mapper.ConnectorStatusMapper;
 import com.tingcore.cdc.charging.mapper.OperationsApiMapper;
-import com.tingcore.cdc.charging.model.*;
+import com.tingcore.cdc.charging.model.BasicChargeSite;
+import com.tingcore.cdc.charging.model.ChargePointSite;
+import com.tingcore.cdc.charging.model.ChargeSiteStatus;
+import com.tingcore.cdc.charging.model.ConnectorId;
+import com.tingcore.cdc.charging.model.ConnectorPrice;
 import com.tingcore.cdc.charging.repository.AssetRepository;
 import com.tingcore.cdc.charging.repository.OperationsRepository;
 import com.tingcore.cdc.charging.repository.PriceRepository;
@@ -12,8 +16,9 @@ import com.tingcore.cdc.crm.service.v2.OrganizationService;
 import com.tingcore.cdc.exception.EntityNotFoundException;
 import com.tingcore.charging.assets.api.ChargeSitesApi;
 import com.tingcore.charging.assets.model.ChargePointSiteEntity;
-import com.tingcore.charging.assets.model.ChargePointSiteSettings;
 import com.tingcore.charging.assets.model.CompleteChargePointSite;
+import com.tingcore.charging.assets.model.OrganizationPublishinChannelsPayload;
+import com.tingcore.charging.assets.model.OrganizationPublishingChannel;
 import com.tingcore.charging.operations.api.OperationsApi;
 import com.tingcore.charging.operations.model.ConnectorStatusResponse;
 import com.tingcore.charging.operations.model.StatusBatchResponse;
@@ -77,19 +82,17 @@ public class ChargePointSiteService {
 
         List<Long> chargePointOperatorIds = organizationService.getAssociatedCpoIdsFromEmpId(empOrganizationIdId);
 
-        if(chargePointOperatorIds.size() == 0) {
+        if (chargePointOperatorIds.isEmpty()) {
             LOG.info("Charge site lat-long request, but the customer's EMP {} has no associated CPOs!", empOrganizationIdId);
             return new PageResponse<>(Collections.emptyList());
         }
 
-        List<CompleteChargePointSite> allSites = getResponseOrThrowError(
-                assetRepository.execute(chargeSitesApi.findChargePointSitesByLatLongUsingPOST(lat1, lng1, lat2, lng2, chargePointOperatorIds)),
+        List<CompleteChargePointSite> publishedSites = getResponseOrThrowError(
+                assetRepository.execute(chargeSitesApi
+                        .findChargePointSitesByLatLongUsingPOST1(lat1, lng1, lat2, lng2, OrganizationPublishinChannelsPayload.PublishingChannelsEnum.CHARGE_AND_DRIVE_CONNECT_API
+                                .getValue(), chargePointOperatorIds)),
                 AssetServiceException::new
         );
-
-        List<CompleteChargePointSite> publishedSites = allSites.stream()
-                .filter(shouldChargePointSiteBePublished())
-                .collect(toList());
 
         ApiResponse<StatusBatchResponse> response = operationsRepository.execute(
                 operationsApi.getChargePointStatusUsingPOST(
@@ -229,7 +232,10 @@ public class ChargePointSiteService {
 
 
     private Predicate<CompleteChargePointSite> shouldChargePointSiteBePublished() {
-        return s -> s.getChargePointSiteEntity().getData().getSettings().getPublishingChannels().contains(ChargePointSiteSettings.PublishingChannelsEnum.CHARGE_AND_DRIVE_CONNECT_API);
+        return s -> s.getChargePoints().stream()
+                .anyMatch(ccp -> ccp.getChargePointEntity().getData().getPublishingChannels().stream()
+                        .anyMatch(pc -> pc.getData().getPublishingChannel()
+                                .equals(OrganizationPublishingChannel.PublishingChannelEnum.CHARGE_AND_DRIVE_CONNECT_API)));
     }
 
 }

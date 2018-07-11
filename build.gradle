@@ -78,7 +78,7 @@ ext {
     versionSwagger = "2.7.0"
     versionOkHttp = "3.9.0"
     versionCommons = "1.2.0"
-    versionAssetServiceClient = "1.0.7-SNAPSHOT"
+    versionAssetServiceClient = "1.0.7"
     versionOperationServiceClient = "0.1.17"
     versionPaymentsServiceClient = "0.8.22"
     versionJackson = '2.8.11'

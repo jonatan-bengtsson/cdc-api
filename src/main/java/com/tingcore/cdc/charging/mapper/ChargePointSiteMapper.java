@@ -318,8 +318,13 @@ public class ChargePointSiteMapper {
 
         private long extractLong(String s) {
             String num = s.replaceAll("\\D", "");
-            // return 0 if no digits found
-            return num.isEmpty() ? 0 : Long.parseLong(num);
+            long defaultValue = 0;
+
+            try {
+                return Long.parseLong(num);
+            } catch (NumberFormatException e) {
+                return defaultValue;
+            }
         }
     }
 

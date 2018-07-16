@@ -310,16 +310,16 @@ public class ChargePointSiteMapper {
 
 
             if (o1StringPart.equalsIgnoreCase(o2StringPart)) {
-                return extractInt(o1) - extractInt(o2);
+                return Long.compare(extractLong(o1), extractLong(o2));
             }
 
             return o1.compareTo(o2);
         }
 
-        private int extractInt(String s) {
+        private long extractLong(String s) {
             String num = s.replaceAll("\\D", "");
             // return 0 if no digits found
-            return num.isEmpty() ? 0 : Integer.parseInt(num);
+            return num.isEmpty() ? 0 : Long.parseLong(num);
         }
     }
 

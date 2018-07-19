@@ -74,10 +74,10 @@ idea {
 
 repositories {
     mavenLocal()
-    jcenter()
-    mavenCentral()
     maven { url "https://artifactory.tingcore-central.com/artifactory/libs-release" }
     maven { url "https://artifactory.tingcore-central.com/artifactory/libs-snapshot" }
+    jcenter()
+    mavenCentral()
 }
 
 configurations.all {
@@ -109,9 +109,6 @@ dependencies {
     compile("org.springframework.boot:spring-boot-devtools")
     compileOnly('org.springframework.boot:spring-boot-configuration-processor')
     compile("org.springframework.cloud:spring-cloud-starter-config")
-
-    // Properties migration
-    runtime("org.springframework.boot:spring-boot-properties-migrator")
 
     // Tingcore
     compile("com.tingcore.commons:core:$versionCommons")

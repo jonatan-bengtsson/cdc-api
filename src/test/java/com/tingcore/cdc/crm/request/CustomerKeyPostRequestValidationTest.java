@@ -26,7 +26,7 @@ public class CustomerKeyPostRequestValidationTest extends ValidationTest {
                 CustomerKeyDataUtils.randomRequestAllValid().name(null).build()
         );
         assertThat(constraintViolation.getInvalidValue()).isNull();
-        assertThat(constraintViolation.getMessage()).isEqualTo("may not be null");
+        assertThat(constraintViolation.getMessage()).isEqualTo("must not be null");
         assertThat(StreamUtils.asStream(constraintViolation.getPropertyPath().iterator()).reduce((first, second) -> second).get().toString()).isEqualTo(FieldConstant.NAME);
     }
 
@@ -57,7 +57,7 @@ public class CustomerKeyPostRequestValidationTest extends ValidationTest {
                 CustomerKeyDataUtils.randomRequestAllValid().keyIdentifier(null).build()
         );
         assertThat(constraintViolation.getInvalidValue()).isNull();
-        assertThat(constraintViolation.getMessage()).isEqualTo("may not be null");
+        assertThat(constraintViolation.getMessage()).isEqualTo("must not be null");
         assertThat(StreamUtils.asStream(constraintViolation.getPropertyPath().iterator()).reduce((first, second) -> second).get().toString()).isEqualTo(FieldConstant.KEY_IDENTIFIER);
     }
 

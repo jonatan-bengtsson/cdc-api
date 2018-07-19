@@ -90,7 +90,6 @@ public class UpdateBusinessCustomerRequest extends BaseUpdateCustomerRequest {
     }
 
 
-
     public static Builder createBuilder() {
         return new Builder();
     }

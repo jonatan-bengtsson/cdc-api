@@ -20,7 +20,7 @@ import javax.validation.constraints.Size;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 @RestController
-@RequestMapping(value = "/v2")
+@RequestMapping(value = "/v2/charging-keys")
 public class ChargingKeyController {
 
     private final ChargingKeyService chargingKeyService;
@@ -38,7 +38,7 @@ public class ChargingKeyController {
         this.pagingConverterService = pagingConverterService;
     }
 
-    @RequestMapping(method = GET, value = "/self/charging-keys")
+    @RequestMapping(method = GET)
     @ApiOperation(value = "Get charging keys by owner id",
             notes = "Route allows fetching the charging keys associated with an owner(user or organization) id. " +
                     "The route is paginated.",
@@ -51,7 +51,7 @@ public class ChargingKeyController {
         return chargingKeyService.findChargingKeys(authorizedUser.getId(), limit, fetchPrevious, pagingConverterService.convertToInternal(pagingCursor), keyIdentifierSearchQuery);
     }
 
-    @RequestMapping(method = RequestMethod.POST, path = "/charging-keys/activate/{keyIdentifier}")
+    @RequestMapping(method = RequestMethod.POST, path = "/activate/{keyIdentifier}")
     @ApiOperation(value = "Activate charging key",
             notes = "Route allows to activate the charginf key identified by the given `keyIdentifier`",
             tags = SwaggerDocConstants.TAGS_CHARGING_KEYS)
@@ -59,7 +59,7 @@ public class ChargingKeyController {
         return chargingKeyService.activate(authorizedUser.getId(), keyIdentifier);
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/charging-keys/{chargingKeyId}")
+    @RequestMapping(method = RequestMethod.GET, value = "/{chargingKeyId}")
     @ApiOperation(
             value = "Get by id",
             notes = "Route allows fetching a charging key by charging key id.",

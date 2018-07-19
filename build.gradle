@@ -37,6 +37,8 @@ apply plugin: "eclipse"
 apply plugin: "org.springframework.boot"
 apply plugin: "org.sonarqube"
 apply plugin: "jacoco"
+apply plugin: 'io.spring.dependency-management'
+
 
 group = "com.tingcore"
 
@@ -161,8 +163,8 @@ dependencies {
     // Test
     testCompile("com.squareup.okhttp3:mockwebserver:3.10.0")
     testCompile("org.springframework.boot:spring-boot-starter-test")
-    testCompile("org.assertj:assertj-core:3.8.0")
-    testCompile("io.github.benas:random-beans:3.10.0")
+    testCompile("org.assertj:assertj-core:3.10.0")
+    testCompile("io.github.benas:random-beans:3.6.0")
     testCompile('com.google.truth:truth:0.36')
 }
 

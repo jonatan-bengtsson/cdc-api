@@ -1,4 +1,11 @@
 buildscript {
+    ext {
+        // Build
+        versionSpringBoot = "2.0.3.RELEASE"
+        versionSonarQubePlugin = "2.6.2"
+        versionArtifactoryPlugin = "4.6.2"
+        versionGradleGitProperties = "1.4.17"
+    }
     repositories {
         mavenCentral()
         maven {
@@ -7,14 +14,17 @@ buildscript {
         maven { url "https://artifactory.tingcore-central.com/artifactory/libs-snapshot" }
     }
     dependencies {
-        classpath('tmp.io.swagger:swagger-codegen:2.3.1-SNAPSHOT')
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:$versionSpringBoot")
+
+        classpath("gradle.plugin.com.gorylenko.gradle-git-properties:gradle-git-properties:$versionGradleGitProperties")
+        classpath("org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:$versionSonarQubePlugin")
+        classpath("org.jfrog.buildinfo:build-info-extractor-gradle:$versionArtifactoryPlugin")
+        classpath("tmp.io.swagger:swagger-codegen:2.3.2-SNAPSHOT")
     }
 }
 
 plugins {
     id "com.github.samueltbrown.cucumber" version "0.9"
-    id "org.springframework.boot" version "1.5.8.RELEASE"
-    id "org.sonarqube" version "2.5"
     id "com.github.hierynomus.license" version "0.14.0"
     id 'com.github.jk1.dependency-license-report' version '0.3.4'
 }
@@ -76,15 +86,16 @@ configurations.all {
 
 ext {
     versionSwagger = "2.7.0"
-    versionOkHttp = "3.9.0"
-    versionCommons = "1.2.0"
+    versionOkHttp = "3.10.0"
+    versionCommons = "1.3.3"
     versionAssetServiceClient = "1.0.7"
     versionOperationServiceClient = "0.1.17"
     versionPaymentsServiceClient = "0.8.22"
-    versionJackson = '2.8.11'
+    versionJackson = "2.9.4"
     versionCustomerKeyOrderService = '0.5.0'
-    versionUserServiceClient = "1.3.0"
+    versionUserServiceClient = "1.3.4"
     versionCampaignServiceJavaClient = "0.1.1"
+    versionMicrometer = "1.0.5"
 }
 
 dependencies {
@@ -96,6 +107,9 @@ dependencies {
     compile("org.springframework.boot:spring-boot-devtools")
     compileOnly('org.springframework.boot:spring-boot-configuration-processor')
     compile("org.springframework.cloud:spring-cloud-starter-config")
+
+    // Properties migration
+    runtime("org.springframework.boot:spring-boot-properties-migrator")
 
     // Tingcore
     compile("com.tingcore.commons:core:$versionCommons")
@@ -142,20 +156,19 @@ dependencies {
     compileOnly("org.springframework.boot:spring-boot-configuration-processor")
 
     // Metrics
-    compile("io.micrometer:micrometer-spring-legacy:1.0.0")
-    compile("io.micrometer:micrometer-registry-prometheus:1.0.0")
+    compile("io.micrometer:micrometer-registry-prometheus:$versionMicrometer")
 
     // Test
     testCompile("com.squareup.okhttp3:mockwebserver:3.10.0")
     testCompile("org.springframework.boot:spring-boot-starter-test")
     testCompile("org.assertj:assertj-core:3.8.0")
-    testCompile("io.github.benas:random-beans:3.6.0")
+    testCompile("io.github.benas:random-beans:3.10.0")
     testCompile('com.google.truth:truth:0.36')
 }
 
 dependencyManagement {
     imports {
-        mavenBom "org.springframework.cloud:spring-cloud-dependencies:Camden.SR4"
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:Finchley.RELEASE"
     }
 }
 

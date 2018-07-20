@@ -23,4 +23,6 @@ applicationPipeline {
     customLbNameProd = 'cd-prod-cdc-api-nlb-int'
     customLbPortProd = 80
     customTgNameProd = 'cdc-api-prod-int'
+
+    awsXRay = true
 }

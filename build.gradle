@@ -157,6 +157,11 @@ dependencies {
     // Metrics
     compile("io.micrometer:micrometer-registry-prometheus:$versionMicrometer")
 
+    // Tracing
+    compile("org.springframework.cloud:spring-cloud-starter-sleuth")
+    compile("com.tingcore.spring.starter:spring-cloud-sleuth-xray-starter:0.5.0")
+    compile("io.zipkin.brave:brave-instrumentation-okhttp3:5.1.2")
+
     // Test
     testCompile("com.squareup.okhttp3:mockwebserver:3.10.0")
     testCompile("org.springframework.boot:spring-boot-starter-test")

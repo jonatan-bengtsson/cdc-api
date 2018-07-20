@@ -1,11 +1,16 @@
 package com.tingcore.cdc.configuration;
 
+import brave.Tracing;
+import brave.okhttp3.TracingInterceptor;
 import com.tingcore.campaign.client.CampaignServiceApi;
 import com.tingcore.campaign.client.CampaignServiceClient;
+import okhttp3.Dispatcher;
+import okhttp3.OkHttpClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 @Configuration
@@ -27,13 +32,27 @@ public class CampaignServiceConfiguration {
     }
 
     @Bean
-    public CampaignServiceClient campaignServiceClient() {
-        return CampaignServiceClient.create()
+    public CampaignServiceClient campaignServiceClient(Optional<Tracing> httpTracing) {
+        CampaignServiceClient.Builder clientBuilder = CampaignServiceClient.create()
                 .baseUrl(baseUrl)
                 .connectionTimeout(defaultTimeOut, TimeUnit.SECONDS)
                 .readTimeout(defaultTimeOut, TimeUnit.SECONDS)
-                .writeTimeout(defaultTimeOut, TimeUnit.SECONDS)
-                .build();
+                .writeTimeout(defaultTimeOut, TimeUnit.SECONDS);
+
+        httpTracing.ifPresent(tracing -> {
+            OkHttpClient.Builder okBuilder = new OkHttpClient.Builder()
+                    .dispatcher(
+                            new Dispatcher(
+                                    tracing
+                                            .currentTraceContext()
+                                            .executorService(new Dispatcher().executorService())
+                            )
+                    )
+                    .addNetworkInterceptor(TracingInterceptor.create(tracing));
+            clientBuilder.okHttpClient(okBuilder);
+        });
+
+        return clientBuilder.build();
     }
 
 }

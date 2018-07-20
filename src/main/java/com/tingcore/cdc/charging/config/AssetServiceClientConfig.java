@@ -1,19 +1,20 @@
 package com.tingcore.cdc.charging.config;
 
+import brave.Tracing;
+import brave.okhttp3.TracingInterceptor;
 import com.tingcore.charging.assets.ApiClient;
 import com.tingcore.charging.assets.api.ApiForPaymentsApi;
 import com.tingcore.charging.assets.api.ChargeSitesApi;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import okhttp3.Dispatcher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
+import java.util.Optional;
+
 
 @Configuration
 public class AssetServiceClientConfig {
-
-    private static final Logger LOG = LoggerFactory.getLogger(AssetServiceClientConfig.class);
 
     private final String assetServiceBaseUrl;
 
@@ -22,18 +23,34 @@ public class AssetServiceClientConfig {
     }
 
     @Bean
-    public ChargeSitesApi createChargeSitesApi() {
-        ApiClient client = new ApiClient();
-        client.getAdapterBuilder().baseUrl(this.assetServiceBaseUrl);
-        LOG.info("URL for Asset for ChargeSiteController: {}", this.assetServiceBaseUrl);
-        return client.createService(ChargeSitesApi.class);
+    public ChargeSitesApi createChargeSitesApi(ApiClient apiClient) {
+        return apiClient.createService(ChargeSitesApi.class);
     }
 
     @Bean
-    public ApiForPaymentsApi createApiForPaymentsApi() {
+    public ApiForPaymentsApi createApiForPaymentsApi(ApiClient apiClient) {
+        return apiClient.createService(ApiForPaymentsApi.class);
+    }
+
+    @Bean
+    public ApiClient assetServiceClient(Optional<Tracing> httpTracing) {
         ApiClient client = new ApiClient();
-        client.getAdapterBuilder().baseUrl(this.assetServiceBaseUrl);
-        LOG.info("URL for Asset for PaymentsApi: {}", this.assetServiceBaseUrl);
-        return client.createService(ApiForPaymentsApi.class);
+        client
+                .getAdapterBuilder()
+                .baseUrl(assetServiceBaseUrl);
+
+        httpTracing.ifPresent(tracing -> {
+            Dispatcher dispatcher = new Dispatcher(
+                    tracing
+                            .currentTraceContext()
+                            .executorService(new Dispatcher().executorService())
+            );
+            client
+                    .getOkBuilder()
+                    .dispatcher(dispatcher)
+                    .addNetworkInterceptor(TracingInterceptor.create(tracing));
+        });
+
+        return client;
     }
 }

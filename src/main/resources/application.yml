@@ -68,3 +68,7 @@ management:
         include: health, prometheus
       path-mapping:
         prometheus: /metrics
+
+tracing:
+  xray:
+    enabled: false

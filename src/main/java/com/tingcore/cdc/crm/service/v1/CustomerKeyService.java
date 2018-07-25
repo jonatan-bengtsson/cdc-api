@@ -3,7 +3,6 @@ package com.tingcore.cdc.crm.service.v1;
 import com.tingcore.cdc.crm.model.CustomerKey;
 import com.tingcore.cdc.crm.model.CustomerKeyType;
 import com.tingcore.cdc.crm.repository.v1.CustomerKeyRepository;
-import com.tingcore.cdc.crm.request.CustomerKeyPostRequest;
 import com.tingcore.cdc.crm.service.UsersApiException;
 import com.tingcore.commons.rest.PageResponse;
 import com.tingcore.commons.rest.repository.ApiResponse;
@@ -42,14 +41,6 @@ public class CustomerKeyService {
 
     public CustomerKey findByCustomerKeyId(final Long authorizedUserId, final Long customerKeyId) {
         final ApiResponse<CustomerKeyResponse> apiResponse = customerKeyRepository.findById(authorizedUserId, customerKeyId);
-        return apiResponse
-                .getResponseOptional()
-                .map(CustomerKeyMapper::toModel)
-                .orElseThrow(() -> new UsersApiException(apiResponse.getError()));
-    }
-
-    public CustomerKey create(final Long authorizedUserId, final CustomerKeyPostRequest customerKeyRequest) {
-        final ApiResponse<CustomerKeyResponse> apiResponse = customerKeyRepository.post(authorizedUserId, CustomerKeyMapper.toApiRequest(customerKeyRequest));
         return apiResponse
                 .getResponseOptional()
                 .map(CustomerKeyMapper::toModel)

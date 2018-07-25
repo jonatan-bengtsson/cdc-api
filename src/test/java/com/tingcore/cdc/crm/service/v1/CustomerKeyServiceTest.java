@@ -9,7 +9,6 @@ import com.tingcore.cdc.utils.CommonDataUtils;
 import com.tingcore.commons.rest.ErrorResponse;
 import com.tingcore.commons.rest.PageResponse;
 import com.tingcore.commons.rest.repository.ApiResponse;
-import com.tingcore.users.model.v1.request.CustomerKeyRequest;
 import com.tingcore.users.model.v1.request.UserPaymentOptionIdRequest;
 import com.tingcore.users.model.v1.response.CustomerKeyResponse;
 import com.tingcore.users.model.v1.response.CustomerKeyTypeResponse;
@@ -90,24 +89,6 @@ public class CustomerKeyServiceTest {
         given(customerKeyRepository.findById(userId, customerKeyId)).willReturn(new ApiResponse<>(ErrorResponse.notFound().build()));
         assertThatExceptionOfType(UsersApiException.class)
                 .isThrownBy(() -> customerKeyService.findByCustomerKeyId(userId, customerKeyId))
-                .withNoCause();
-    }
-
-    @Test
-    public void create() {
-        final CustomerKeyResponse expectedResponse = CustomerKeyDataUtils.randomCustomerKeyResponse();
-        given(customerKeyRepository.post(anyLong(), any(CustomerKeyRequest.class)))
-                .willReturn(new ApiResponse<>(expectedResponse));
-        final CustomerKey customerKey = customerKeyService.create(CommonDataUtils.getNextId(), CustomerKeyDataUtils.randomRequestAllValid().build());
-        assertMapping(expectedResponse, customerKey);
-    }
-
-    @Test
-    public void failCreateApiError() {
-        given(customerKeyRepository.post(anyLong(), any(CustomerKeyRequest.class)))
-                .willReturn(new ApiResponse<>(ErrorResponse.forbidden().build()));
-        assertThatExceptionOfType(UsersApiException.class)
-                .isThrownBy(() -> customerKeyService.create(CommonDataUtils.getNextId(), CustomerKeyDataUtils.randomRequestAllValid().build()))
                 .withNoCause();
     }
 

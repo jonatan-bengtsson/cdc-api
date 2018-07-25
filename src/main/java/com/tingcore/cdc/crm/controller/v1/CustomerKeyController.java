@@ -5,7 +5,6 @@ import com.tingcore.cdc.configuration.WebMvcConfiguration;
 import com.tingcore.cdc.constant.SwaggerDocConstants;
 import com.tingcore.cdc.crm.model.CustomerKey;
 import com.tingcore.cdc.crm.model.UserPaymentOption;
-import com.tingcore.cdc.crm.request.CustomerKeyPostRequest;
 import com.tingcore.cdc.crm.service.v1.CustomerKeyService;
 import com.tingcore.cdc.exception.EntityNotFoundException;
 import com.tingcore.commons.hash.HashIdService;
@@ -16,10 +15,12 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import javax.validation.Valid;
 
 /**
  * @author palmithor
@@ -66,19 +67,6 @@ public class CustomerKeyController {
                 .map(customerKeyId -> customerKeyService.findByCustomerKeyId(authorizedUser.getId(), customerKeyId))
                 .orElseThrow(() -> new EntityNotFoundException(CustomerKey.class.getSimpleName(), encodedCustomerKeyId));
     }
-
-
-    @RequestMapping(method = RequestMethod.POST)
-    @ApiOperation(
-            value = "Create a customer key",
-            notes = "Route allows creating a customer key.",
-            tags = SwaggerDocConstants.TAGS_CUSTOMER_KEYS
-    )
-    public CustomerKey createCustomerKey(
-            @Valid @RequestBody CustomerKeyPostRequest customerKeyRequest) {
-        return customerKeyService.create(authorizedUser.getId(), customerKeyRequest);
-    }
-
 
     @RequestMapping(method = RequestMethod.POST, path = "/{customerKeyId}/user-payment-options/{userPaymentOptionId}")
     @ApiOperation(

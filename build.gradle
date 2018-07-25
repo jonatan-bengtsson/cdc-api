@@ -191,13 +191,27 @@ test {
 }
 
 
+boolean sonarAvailable = false
+
+task setSonarAvailable() {
+    doLast {
+        try {
+            new URL(project.property('systemProp.sonar.host.url') as String).openConnection().connect()
+            sonarAvailable = true
+        } catch (Exception e) {
+            println "WARNING Sonar is unreachable"
+        }
+    }
+}
+
+project.tasks["sonarqube"].dependsOn "setSonarAvailable"
+project.tasks["sonarqube"].onlyIf { sonarAvailable }
 
 sonarqube {
     properties {
         property "sonar.projectName", "$rootProject.name"
         property "sonar.projectKey", "$project.group:$rootProject.name"
         property "sonar.projectVersion", "$project.version"
-        property "sonar.host.url", "https://sonarqube.tingcore-central.com"
         property "sonar.jacoco.reportPath", "build/results/jacoco/test.exec"
         property "sonar.jacoco.itReportPath", "build/results/jacoco/cucumber.exec"
         property "sonar.junit.reportPaths", "build/results/test,build/results/cucumber"

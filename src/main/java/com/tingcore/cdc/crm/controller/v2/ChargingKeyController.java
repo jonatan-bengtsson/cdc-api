@@ -3,18 +3,22 @@ package com.tingcore.cdc.crm.controller.v2;
 import com.tingcore.cdc.configuration.AuthorizedUser;
 import com.tingcore.cdc.configuration.WebMvcConfiguration;
 import com.tingcore.cdc.constant.SwaggerDocConstants;
+import com.tingcore.cdc.crm.model.CustomerKey;
+import com.tingcore.cdc.crm.request.UpdateChargingKeyAppRequest;
 import com.tingcore.cdc.crm.service.v2.ChargingKeyService;
 import com.tingcore.cdc.exception.EntityNotFoundException;
 import com.tingcore.commons.hash.HashIdService;
 import com.tingcore.commons.rest.ExternalPagingCursor;
 import com.tingcore.commons.rest.PageResponse;
 import com.tingcore.commons.rest.service.PagingConverterService;
+import com.tingcore.users.model.v1.request.UpdateCustomerKeyRequest;
 import com.tingcore.users.model.v2.response.ChargingKey;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 import javax.validation.constraints.Size;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
@@ -72,5 +76,19 @@ public class ChargingKeyController {
         return hashIdService.decode(chargingKeyId)
                 .map(encodedId -> chargingKeyService.getChargingKeyById(authorizedUser.getId(), encodedId))
                 .orElseThrow(() -> new EntityNotFoundException(ChargingKey.class.getSimpleName(), chargingKeyId));
+    }
+
+    @RequestMapping(method = RequestMethod.PUT, path = "/{customerKeyId}")
+    @ApiOperation(
+            value = "Update a customer key",
+            notes = "Route allows updating a customer key by id.",
+            tags = SwaggerDocConstants.TAGS_CUSTOMER_KEYS
+    )
+    public ChargingKey updateCustomerKey(
+            @PathVariable(value = "customerKeyId") String encodedCustomerKeyId,
+            @Valid @RequestBody UpdateChargingKeyAppRequest updateCustomerKeyRequest){
+        final Long customerKeyId = hashIdService.decode(encodedCustomerKeyId).orElseThrow(() -> new EntityNotFoundException(CustomerKey.class.getSimpleName(), encodedCustomerKeyId));
+        return chargingKeyService.updateChargingKey(authorizedUser.getId(), customerKeyId, updateCustomerKeyRequest);
+
     }
 }

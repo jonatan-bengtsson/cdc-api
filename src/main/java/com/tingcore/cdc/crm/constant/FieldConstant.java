@@ -73,6 +73,7 @@ public class FieldConstant {
     public static final String PRIVACY_POLICY = "privacyPolicy";
     public static final String TERMS_AND_CONDITIONS = "termsAndConditions";
     public static final String APPROVED = "approved";
+    public static final String CHARGING_KEY_NAME = "chargingKeyName";
 
     private FieldConstant() {
     }

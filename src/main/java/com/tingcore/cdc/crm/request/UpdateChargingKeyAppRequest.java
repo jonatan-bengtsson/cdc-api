@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tingcore.cdc.crm.constant.FieldConstant;
 import io.swagger.annotations.ApiModelProperty;
 
+import javax.validation.constraints.Size;
+
 public class UpdateChargingKeyAppRequest {
     private String chargingKeyName;
 
@@ -16,6 +18,7 @@ public class UpdateChargingKeyAppRequest {
     }
 
     @JsonProperty(FieldConstant.CHARGING_KEY_NAME)
+    @Size(max = 50)
     @ApiModelProperty(value ="The name of the charging key", example = "My blue tag")
     public String getChargingKeyName() {
         return chargingKeyName;

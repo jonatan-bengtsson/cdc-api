@@ -78,18 +78,17 @@ public class ChargingKeyController {
                 .orElseThrow(() -> new EntityNotFoundException(ChargingKey.class.getSimpleName(), chargingKeyId));
     }
 
-    @RequestMapping(method = RequestMethod.PUT, path = "/{customerKeyId}")
+    @RequestMapping(method = RequestMethod.PUT, path = "/{chargingKeyId}")
     @ApiOperation(
-            value = "Update a customer key",
-            notes = "Route allows updating a customer key by id.",
-            tags = SwaggerDocConstants.TAGS_CUSTOMER_KEYS
+            value = "Update a charging key",
+            notes = "Route allows updating a charging key by id.",
+            tags = SwaggerDocConstants.TAGS_CHARGING_KEYS
     )
-    public ChargingKey updateCustomerKey(
-            @PathVariable(value = "customerKeyId") String encodedCustomerKeyId,
-            // TODO att valid annotation
-            @RequestBody UpdateChargingKeyAppRequest updateCustomerKeyRequest){
-        final Long customerKeyId = hashIdService.decode(encodedCustomerKeyId).orElseThrow(() -> new EntityNotFoundException(CustomerKey.class.getSimpleName(), encodedCustomerKeyId));
-        return chargingKeyService.updateChargingKey(authorizedUser.getId(), customerKeyId, updateCustomerKeyRequest);
+    public ChargingKey updateChargingKey(
+            @PathVariable(value = "chargingKeyId") String encodedChargingKeyId,
+            @Valid @RequestBody UpdateChargingKeyAppRequest updateChargingKeyRequest){
+        final Long chargingKeyId = hashIdService.decode(encodedChargingKeyId).orElseThrow(() -> new EntityNotFoundException(ChargingKey.class.getSimpleName(), encodedChargingKeyId));
+        return chargingKeyService.updateChargingKey(authorizedUser.getId(), chargingKeyId, updateChargingKeyRequest);
 
     }
 }

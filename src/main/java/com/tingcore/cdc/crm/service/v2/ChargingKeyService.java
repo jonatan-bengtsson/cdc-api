@@ -1,5 +1,6 @@
 package com.tingcore.cdc.crm.service.v2;
 
+import com.tingcore.cdc.crm.model.User;
 import com.tingcore.cdc.crm.repository.v2.ChargingKeyRepository;
 import com.tingcore.cdc.crm.request.UpdateChargingKeyAppRequest;
 import com.tingcore.cdc.crm.service.UsersApiException;
@@ -11,8 +12,6 @@ import com.tingcore.users.model.v2.request.ChargingKeyActivationRequest;
 import com.tingcore.users.model.v2.request.ChargingKeyUpdateRequest;
 import com.tingcore.users.model.v2.response.ChargingKey;
 import org.springframework.stereotype.Service;
-
-import java.util.stream.Collectors;
 
 @Service
 public class ChargingKeyService {
@@ -43,25 +42,18 @@ public class ChargingKeyService {
     }
 
     public ChargingKey updateChargingKey(final Long authorizedUserId, final Long chargingKeyId, final UpdateChargingKeyAppRequest chargingKeyAppRequest) {
-
-        // Hämta den nuvarande nyckeln från user-service
         final ApiResponse<ChargingKey> chargingKeyApiResponse = chargingKeyRepository.getByChargingKeyId(authorizedUserId,chargingKeyId);
         final ChargingKey chargingKey = chargingKeyApiResponse.getResponseOptional().orElseThrow(() -> new UsersApiException(chargingKeyApiResponse.getError()));
 
-        // Kolla så att owner id stämmer överens.
-        if(authorizedUserId != chargingKey.getOwner().getId()){
-            throw new EntityNotFoundException("Owner id does not match.");
-        }
+        if (authorizedUserId.equals(chargingKey.getOwner().getId())) {
 
-            // Mappa om det gamla objektet till det nya.
-            final ChargingKeyUpdateRequest chargingKeyRequest = new ChargingKeyUpdateRequest(
-                    chargingKey.getOwner().getId(), chargingKeyAppRequest.getChargingKeyName(), chargingKey.getKeyIdentifier(),
-                    chargingKey.getEnabled(), chargingKey.getValidFrom(),chargingKey.getValidTo(), chargingKey.getType().getId(),
-                    chargingKey.getAssignedPaymentOptions().stream().map(po -> po.getId()).collect(Collectors.toList()),chargingKey.getOwner().getVersion());
-            final ApiResponse<ChargingKey> apiResponse = chargingKeyRepository.updateChargingKey(authorizedUserId, chargingKeyId, chargingKeyRequest);
+            final ChargingKeyUpdateRequest apiRequest = ChargingKeyMapper.toApiRequest(chargingKeyAppRequest, chargingKey);
+            final ApiResponse<ChargingKey> apiResponse = chargingKeyRepository.updateChargingKey(authorizedUserId, chargingKeyId, apiRequest);
             return apiResponse
-                    .getResponseOptional()
-                    .orElseThrow(() -> new UsersApiException(apiResponse.getError()));
-
+                        .getResponseOptional()
+                        .orElseThrow(() -> new UsersApiException(apiResponse.getError()));
+        } else {
+            throw new EntityNotFoundException(User.class.getSimpleName());
+        }
     }
 }

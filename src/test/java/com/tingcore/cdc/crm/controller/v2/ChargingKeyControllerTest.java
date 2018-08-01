@@ -89,4 +89,16 @@ public class ChargingKeyControllerTest extends ControllerUnitTest {
         mockMvc.perform(request)
                 .andExpect(status().isBadRequest());
     }
+
+    @Test
+    public void updateFailNameTooLong() throws Exception{
+        final Long id = CommonDataUtils.getNextId();
+        final String encodedId = hashIdService.encode(id);
+        UpdateChargingKeyAppRequest chargingKeyAppRequest = new UpdateChargingKeyAppRequest(CommonDataUtils.nextZeroPaddedId(51));
+        MockHttpServletRequestBuilder request = put("/v2/charging-keys/" + encodedId)
+                .content(mockMvcUtils.toJson(chargingKeyAppRequest))
+                .contentType(MediaType.APPLICATION_JSON_UTF8);
+        mockMvc.perform(request)
+                .andExpect(status().isBadRequest());
+    }
 }

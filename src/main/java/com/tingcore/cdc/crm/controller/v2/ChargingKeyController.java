@@ -86,7 +86,8 @@ public class ChargingKeyController {
     )
     public ChargingKey updateCustomerKey(
             @PathVariable(value = "customerKeyId") String encodedCustomerKeyId,
-            @Valid @RequestBody UpdateChargingKeyAppRequest updateCustomerKeyRequest){
+            // TODO att valid annotation
+            @RequestBody UpdateChargingKeyAppRequest updateCustomerKeyRequest){
         final Long customerKeyId = hashIdService.decode(encodedCustomerKeyId).orElseThrow(() -> new EntityNotFoundException(CustomerKey.class.getSimpleName(), encodedCustomerKeyId));
         return chargingKeyService.updateChargingKey(authorizedUser.getId(), customerKeyId, updateCustomerKeyRequest);
 

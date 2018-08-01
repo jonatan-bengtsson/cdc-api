@@ -7,8 +7,12 @@ import io.swagger.annotations.ApiModelProperty;
 public class UpdateChargingKeyAppRequest {
     private String chargingKeyName;
 
-    public UpdateChargingKeyAppRequest(String chargingKeyName) {
+    public UpdateChargingKeyAppRequest(final String chargingKeyName) {
+
         this.chargingKeyName = chargingKeyName;
+    }
+
+    public UpdateChargingKeyAppRequest() {
     }
 
     @JsonProperty(FieldConstant.CHARGING_KEY_NAME)

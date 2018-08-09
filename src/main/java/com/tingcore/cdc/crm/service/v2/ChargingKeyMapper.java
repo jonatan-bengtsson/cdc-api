@@ -30,7 +30,7 @@ public class ChargingKeyMapper {
                                 .map(paymentOption -> paymentOption.getId())
                                 .collect(Collectors.toList()))
                         .orElse(null),
-                Optional.ofNullable(chargingKey.getOwner()).map(ChargingKeyOwner::getVersion).orElse(null));
+                chargingKey.getVersion());
 
     }
 }

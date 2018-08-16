@@ -1,4 +1,4 @@
-package com.tingcore.cdc.payments.model;
+package com.tingcore.cdc.charging.api;
 
 import static org.apache.commons.lang3.Validate.notBlank;
 

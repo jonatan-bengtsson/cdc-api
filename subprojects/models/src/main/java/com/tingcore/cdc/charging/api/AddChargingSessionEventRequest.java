@@ -1,4 +1,4 @@
-package com.tingcore.cdc.payments.model;
+package com.tingcore.cdc.charging.api;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

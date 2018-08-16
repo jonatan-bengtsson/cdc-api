@@ -1,6 +1,6 @@
 package com.tingcore.cdc.crm.service;
 
-import com.tingcore.cdc.crm.model.CustomerKeyOrderServiceException;
+import com.tingcore.cdc.crm.exception.CustomerKeyOrderServiceException;
 import com.tingcore.cdc.crm.repository.CustomerKeyOrderRepository;
 import com.tingcore.cdc.crm.request.CustomerKeyOrderRequest;
 import com.tingcore.commons.rest.repository.ApiResponse;

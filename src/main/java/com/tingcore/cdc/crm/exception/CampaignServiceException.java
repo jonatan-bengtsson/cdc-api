@@ -1,4 +1,4 @@
-package com.tingcore.cdc.crm.model;
+package com.tingcore.cdc.crm.exception;
 
 import com.tingcore.commons.rest.external.ExternalApiException;
 import com.tingcore.commons.rest.ErrorResponse;

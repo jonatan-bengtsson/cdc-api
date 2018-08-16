@@ -13,16 +13,16 @@ abstract class BaseModel {
     private final Instant created;
     private final Instant updated;
 
-    public BaseModel(final Long id, final Instant created, final Instant updated) {
+    protected BaseModel(final Long id, final Instant created, final Instant updated) {
         this.id = id;
         this.created = created;
         this.updated = updated;
     }
 
-    public BaseModel() {
-        this.id = null;
-        this.created = null;
-        this.updated = null;
+    protected BaseModel() {
+        id = null;
+        created = null;
+        updated = null;
     }
 
     @JsonProperty(FieldConstant.ID)

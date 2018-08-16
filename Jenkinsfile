@@ -9,6 +9,8 @@ applicationPipeline {
     buildCommand = './gradlew clean sonarqube build swaggerTs'
     npmProjects = ['typescript-client']
     prodTimeout = 20
+    artifactoryPublish = true
+    publishFeatureBranch = true
     memoryReservation = 2560
     cpu = 1024
     https = false

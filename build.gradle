@@ -3,7 +3,7 @@ buildscript {
         // Build
         versionSpringBoot = "2.0.3.RELEASE"
         versionSonarQubePlugin = "2.6.2"
-        versionArtifactoryPlugin = "4.6.2"
+        versionArtifactoryPlugin = "4.7.5"
         versionGradleGitProperties = "1.4.17"
     }
     repositories {
@@ -101,6 +101,8 @@ ext {
 }
 
 dependencies {
+
+    compile project(':models')
 
     // Spring
     compile("org.springframework.boot:spring-boot-starter-web")
@@ -286,4 +288,123 @@ springBoot  {
 licenseReport {
     renderer = new CsvReportRenderer()
     configurations = ['compile']
+}
+
+allprojects {
+    apply plugin: 'com.jfrog.artifactory'
+    apply plugin: 'java'
+
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+
+    // Debugging print task
+    task printProjectInfo {
+        doLast {
+            println "name " + project.name
+            println "group " + project.group
+            println "version " + project.version
+        }
+    }
+}
+
+subprojects {
+    apply plugin: 'idea'
+    apply plugin: 'eclipse'
+    apply plugin: 'java'
+    apply plugin: 'maven'
+    apply plugin: 'maven-publish'
+
+
+    repositories {
+        mavenLocal()
+        maven { url "https://artifactory.tingcore-central.com/artifactory/libs-release" }
+        maven { url "https://artifactory.tingcore-central.com/artifactory/libs-snapshot" }
+        mavenCentral()
+    }
+
+    dependencies {}
+
+    task sourceJar(type: Jar) {
+        from sourceSets.main.allJava
+    }
+
+    project.tasks["build"].dependsOn "sourceJar"
+
+    publishing {
+        publications {
+            mavenJava(MavenPublication) {
+                from components.java
+                artifact(file("$rootDir/gradle.properties"))
+
+                artifact sourceJar {
+                    classifier "sources"
+                }
+            }
+        }
+    }
+
+    version = getSanitizedVersion()
+    group = "com.tingcore.cdm"
+}
+
+artifactoryPublish.skip = true
+
+artifactory {
+    publish {
+        contextUrl = 'https://artifactory.tingcore-central.com/artifactory'
+        repository {
+            repoKey = 'libs-snapshot-local' // The Artifactory repository key to publish to
+            // username = "input user here for manual testing"
+            // password = "input password here for manual testing"
+
+        }
+        defaults {
+            // Reference to Gradle publications defined in the build script.
+            // This is how we tell the Artifactory Plugin which artifacts should be
+            // published to Artifactory.
+            publications('mavenJava')
+            publishArtifacts = true
+            // Properties to be attached to the published artifacts.
+            // properties = ['qa.level': 'basic', 'dev.team' : 'core']
+        }
+    }
+    resolve {
+        contextUrl = 'https://artifactory.tingcore-central.com/artifactory'
+        repoKey = 'libs-snapshot'
+    }
+}
+
+gradle.taskGraph.afterTask { task, state ->
+    if (task.name == "artifactoryDeploy" && state.failure) {
+        println "WARNING artifactoryDeploy failed"
+        println state.failure.getMessage()
+        state.failure.printStackTrace()
+
+        // Prevent exit code non-zero which causes Jenkins plugin to fail build.
+        state.didWork = true
+        state.failure = null
+    }
+}
+
+String getSanitizedVersion() {
+    sanitize(branch()) + rootProject.version
+}
+
+// This is the same logic as branch name is determined in Jenkins
+static String branch() {
+    String job = System.getenv('JOB_NAME')
+    if (job == null) {
+        job = "/develop"
+    }
+    String branch = job.split('/').last()
+
+    // Ugly hack for url-decoding for '/'
+    return branch.replace("%252F", "/").replace("%2F", "/")
+}
+
+static String sanitize(String s) {
+    if (s == "develop" || s == "master") {
+        return ""
+    }
+    s.replaceAll("/", "-") + '-'
 }

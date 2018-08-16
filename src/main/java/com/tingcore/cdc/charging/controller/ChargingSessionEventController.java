@@ -1,8 +1,8 @@
 package com.tingcore.cdc.charging.controller;
 
-import com.tingcore.cdc.charging.api.AddChargingSessionEventRequest;
-import com.tingcore.cdc.charging.api.ChargingSessionEvent;
-import com.tingcore.cdc.charging.api.ChargingSessionEventNature;
+import com.tingcore.cdc.payments.model.AddChargingSessionEventRequest;
+import com.tingcore.cdc.payments.model.ChargingSessionEvent;
+import com.tingcore.cdc.payments.model.ChargingSessionEventNature;
 import com.tingcore.cdc.charging.model.ChargePointId;
 import com.tingcore.cdc.charging.model.ChargingSessionId;
 import com.tingcore.cdc.charging.model.TrustedUserId;

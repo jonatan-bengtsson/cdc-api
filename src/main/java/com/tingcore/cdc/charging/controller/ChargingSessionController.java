@@ -1,8 +1,8 @@
 package com.tingcore.cdc.charging.controller;
 
-import com.tingcore.cdc.charging.api.ChargingSession;
-import com.tingcore.cdc.charging.api.ChargingSessionStatus;
-import com.tingcore.cdc.charging.api.CreateChargingSessionRequest;
+import com.tingcore.cdc.payments.model.ChargingSession;
+import com.tingcore.cdc.payments.model.ChargingSessionStatus;
+import com.tingcore.cdc.payments.model.CreateChargingSessionRequest;
 import com.tingcore.cdc.charging.model.*;
 import com.tingcore.cdc.charging.service.ChargingSessionService;
 import com.tingcore.cdc.configuration.AuthorizedUser;
@@ -121,8 +121,8 @@ public class ChargingSessionController {
                 Optional.ofNullable(chargingSession.chargeSiteId).map(chargeSiteId -> chargeSiteId.id).orElse(null));
     }
 
-    private com.tingcore.cdc.charging.api.Price toApiObject(final Price price) {
-        return Optional.ofNullable(price).map(p -> new com.tingcore.cdc.charging.api.Price(
+    private com.tingcore.cdc.payments.model.Price toApiObject(final Price price) {
+        return Optional.ofNullable(price).map(p -> new com.tingcore.cdc.payments.model.Price(
                 p.inclVat,
                 p.exclVat,
                 p.currency

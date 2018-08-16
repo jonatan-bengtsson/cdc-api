@@ -1,4 +1,4 @@
-package com.tingcore.cdc.charging.api;
+package com.tingcore.cdc.payments.model;
 
 public enum ChargingSessionStatus {
     CREATED,

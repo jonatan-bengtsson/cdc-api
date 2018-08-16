@@ -1,4 +1,4 @@
-package com.tingcore.cdc.charging.api;
+package com.tingcore.cdc.payments.model;
 
 import io.swagger.annotations.ApiModel;
 import org.hibernate.validator.constraints.NotBlank;

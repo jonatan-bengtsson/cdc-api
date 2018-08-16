@@ -37,58 +37,40 @@ public class AddressCRM extends BaseAttributeModel {
     }
 
     public AddressCRM() {
-        this.address = null;
-        this.addressLine2 = null;
-        this.postalCode = null;
-        this.city = null;
-        this.country = null;
-        this.name = null;
+        address = null;
+        addressLine2 = null;
+        postalCode = null;
+        city = null;
+        country = null;
+        name = null;
     }
 
-    @JsonProperty(FieldConstant.ADDRESS)
-    @ApiModelProperty(value = "First line of address", example = "Serinity Road 42")
-    @Size(min = 1, max = 50)
-    public String getAddress() {
+    @ApiModelProperty(value = "First line of address", example = "Serinity Road 42") @JsonProperty(FieldConstant.ADDRESS) public @Size(min = 1, max = 50) String getAddress() {
         return address;
     }
 
-    @JsonProperty(FieldConstant.ADDRESS_LINE_2)
-    @ApiModelProperty(value = "Second line of address", example = "Apartment 2")
-    @Size(min = 1, max = 50)
-    public String getAddressLine2() {
+    @ApiModelProperty(value = "Second line of address", example = "Apartment 2") @JsonProperty(FieldConstant.ADDRESS_LINE_2) public @Size(min = 1, max = 50) String getAddressLine2() {
         return addressLine2;
     }
 
-    @JsonProperty(FieldConstant.POSTAL_CODE)
-    @ApiModelProperty(value = "Postal code", example = "123 45")
-    @Size(min = 1, max = 10)
-    public String getPostalCode() {
+    @ApiModelProperty(value = "Postal code", example = "123 45") @JsonProperty(FieldConstant.POSTAL_CODE) public @Size(min = 1, max = 10) String getPostalCode() {
         return postalCode;
     }
 
-    @JsonProperty(FieldConstant.CITY)
-    @ApiModelProperty(value = "City or region", example = "Stockholm")
-    @Size(min = 1, max = 50)
-    public String getCity() {
+    @ApiModelProperty(value = "City or region", example = "Stockholm") @JsonProperty(FieldConstant.CITY) public @Size(min = 1, max = 50) String getCity() {
         return city;
     }
 
-    @JsonProperty(FieldConstant.COUNTRY)
-    @ApiModelProperty(value = "Country", example = "Sweden")
-    @Size(min = 1, max = 30)
-    public String getCountry() {
+    @ApiModelProperty(value = "Country", example = "Sweden") @JsonProperty(FieldConstant.COUNTRY) public @Size(min = 1, max = 30) String getCountry() {
         return country;
     }
 
 
-    @JsonProperty(FieldConstant.NAME)
-    @ApiModelProperty(value = "Name to distinguish different addresses", example = "Home address")
-    @Size(min = 1, max = 25)
-    public String getName() {
+    @ApiModelProperty(value = "Name to distinguish different addresses", example = "Home address") @JsonProperty(FieldConstant.NAME) public @Size(min = 1, max = 25) String getName() {
         return name;
     }
 
     public AddressCRM copyWithoutId() {
-        return new AddressCRM(null, this.address, this.addressLine2, this.postalCode, this.city, this.country, this.name);
+        return new AddressCRM(null, address, addressLine2, postalCode, city, country, name);
     }
 }

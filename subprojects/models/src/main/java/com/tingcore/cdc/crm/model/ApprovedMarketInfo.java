@@ -39,6 +39,6 @@ public class ApprovedMarketInfo extends BaseAttributeModel {
 
     @Override
     public ApprovedMarketInfo copyWithoutId () {
-        return new ApprovedMarketInfo(null, this.url, this.version);
+        return new ApprovedMarketInfo(null, url, version);
     }
 }

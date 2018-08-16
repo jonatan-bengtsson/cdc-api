@@ -17,7 +17,7 @@ public abstract class BaseAttributeModel {
     }
 
     public BaseAttributeModel() {
-        this.id = null;
+        id = null;
     }
 
     @JsonProperty(FieldConstant.ID)

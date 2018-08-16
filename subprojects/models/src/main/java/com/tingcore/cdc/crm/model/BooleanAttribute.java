@@ -18,7 +18,7 @@ public class BooleanAttribute extends BaseAttributeModel {
     }
 
     public BooleanAttribute() {
-        this.value = null;
+        value = null;
     }
 
     @JsonProperty(FieldConstant.VALUE)
@@ -28,7 +28,7 @@ public class BooleanAttribute extends BaseAttributeModel {
 
     @Override
     public BooleanAttribute copyWithoutId () {
-        return new BooleanAttribute(null, this.value);
+        return new BooleanAttribute(null, value);
     }
 
     public static Builder createBuilder() {

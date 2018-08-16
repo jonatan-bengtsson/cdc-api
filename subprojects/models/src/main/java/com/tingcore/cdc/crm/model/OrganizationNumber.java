@@ -17,7 +17,7 @@ public class OrganizationNumber extends BaseAttributeModel {
     }
 
     public OrganizationNumber() {
-        this.organizationNumber = null;
+        organizationNumber = null;
     }
 
     @JsonProperty(FieldConstant.ORGANIZATION_NUMBER)
@@ -26,6 +26,6 @@ public class OrganizationNumber extends BaseAttributeModel {
     }
 
     public OrganizationNumber copyWithoutId () {
-        return new OrganizationNumber(null, this.organizationNumber);
+        return new OrganizationNumber(null, organizationNumber);
     }
 }

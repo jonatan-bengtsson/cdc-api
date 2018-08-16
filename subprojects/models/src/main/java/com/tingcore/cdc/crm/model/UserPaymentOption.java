@@ -27,10 +27,10 @@ public class UserPaymentOption extends BaseModel {
     }
 
     public UserPaymentOption() {
-        this.name = null;
-        this.description = null;
-        this.paymentOption = null;
-        this.paymentOptionReference = null;
+        name = null;
+        description = null;
+        paymentOption = null;
+        paymentOptionReference = null;
     }
 
     @JsonProperty(FieldConstant.NAME)

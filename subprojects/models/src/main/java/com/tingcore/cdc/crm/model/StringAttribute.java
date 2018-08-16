@@ -17,7 +17,7 @@ public class StringAttribute extends BaseAttributeModel {
     }
 
     public StringAttribute() {
-        this.value = null;
+        value = null;
     }
 
     @JsonProperty(FieldConstant.VALUE)
@@ -26,7 +26,7 @@ public class StringAttribute extends BaseAttributeModel {
     }
 
     public StringAttribute copyWithoutId() {
-        return new StringAttribute(null, this.value);
+        return new StringAttribute(null, value);
     }
 
     public static Builder createBuilder() {

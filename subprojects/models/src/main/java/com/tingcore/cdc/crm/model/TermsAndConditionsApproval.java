@@ -19,8 +19,8 @@ public class TermsAndConditionsApproval {
     }
 
     public TermsAndConditionsApproval() {
-        this.termsAndConditions = null;
-        this.approved = null;
+        termsAndConditions = null;
+        approved = null;
     }
 
     @JsonProperty(FieldConstant.TERMS_AND_CONDITIONS)

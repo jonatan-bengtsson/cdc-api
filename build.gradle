@@ -344,7 +344,7 @@ subprojects {
     }
 
     version = getSanitizedVersion()
-    group = "com.tingcore.cdm"
+    group = "com.tingcore.cdc"
 }
 
 artifactoryPublish.skip = true

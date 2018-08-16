@@ -20,7 +20,7 @@ public class InstantAttribute extends BaseAttributeModel {
     }
 
     public InstantAttribute() {
-        this.value = null;
+        value = null;
     }
 
     @JsonProperty(FieldConstant.VALUE)
@@ -30,6 +30,6 @@ public class InstantAttribute extends BaseAttributeModel {
 
     @Override
     public InstantAttribute copyWithoutId () {
-        return new InstantAttribute(null, this.value);
+        return new InstantAttribute(null, value);
     }
 }

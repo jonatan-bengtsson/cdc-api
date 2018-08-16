@@ -83,30 +83,30 @@ public class User {
     }
 
     public User() {
-        this.id = null;
-        this.organization = null;
-        this.firstName = null;
-        this.lastName = null;
-        this.email = null;
-        this.address = null;
-        this.timezone = null;
-        this.approvedTermsConditions = null;
-        this.approvedMarketInfo = null;
-        this.licensePlates = null;
-        this.socialSecurityNumber = null;
-        this.customerNumber = null;
-        this.hasChargingAccess = null;
-        this.customerType = null;
-        this.phoneNumbers = null;
-        this.organizationNumber = null;
-        this.language = null;
-        this.activationDate = null;
-        this.approvedPrivacyPolicies = null;
-        this.name = null;
-        this.contactFirstName = null;
-        this.contactLastName = null;
-        this.contactEmail = null;
-        this.contactPhoneNumber = null;
+        id = null;
+        organization = null;
+        firstName = null;
+        lastName = null;
+        email = null;
+        address = null;
+        timezone = null;
+        approvedTermsConditions = null;
+        approvedMarketInfo = null;
+        licensePlates = null;
+        socialSecurityNumber = null;
+        customerNumber = null;
+        hasChargingAccess = null;
+        customerType = null;
+        phoneNumbers = null;
+        organizationNumber = null;
+        language = null;
+        activationDate = null;
+        approvedPrivacyPolicies = null;
+        name = null;
+        contactFirstName = null;
+        contactLastName = null;
+        contactEmail = null;
+        contactPhoneNumber = null;
     }
     
     

@@ -21,8 +21,8 @@ public class PhoneNumber extends BaseAttributeModel {
     }
 
     public PhoneNumber() {
-        this.phoneNumber = null;
-        this.name = null;
+        phoneNumber = null;
+        name = null;
     }
 
     @JsonProperty(FieldConstant.PHONE_NUMBER)
@@ -36,7 +36,7 @@ public class PhoneNumber extends BaseAttributeModel {
     }
 
     public PhoneNumber copyWithoutId() {
-        return new PhoneNumber(null, this.phoneNumber, this.name);
+        return new PhoneNumber(null, phoneNumber, name);
     }
 
     public static Builder createBuilder() {

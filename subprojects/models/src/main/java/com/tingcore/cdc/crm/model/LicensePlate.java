@@ -17,7 +17,7 @@ public class LicensePlate extends BaseAttributeModel {
     }
 
     public LicensePlate() {
-        this.licensePlate = null;
+        licensePlate = null;
     }
 
     @JsonProperty(FieldConstant.LICENSE_PLATE)
@@ -26,6 +26,6 @@ public class LicensePlate extends BaseAttributeModel {
     }
 
     public LicensePlate copyWithoutId () {
-        return new LicensePlate(null, this.licensePlate);
+        return new LicensePlate(null, licensePlate);
     }
 }

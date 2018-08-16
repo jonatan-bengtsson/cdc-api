@@ -32,9 +32,6 @@ public class Organization {
     private StringAttribute organizationType;
 
 
-    public Organization() {
-    }
-    
     @JsonProperty(FieldConstant.ID)
     @ApiModelProperty(position = 1)
     public Long getId () {
@@ -154,7 +151,7 @@ public class Organization {
     }
 
     public void setPhoneNumbers(List<PhoneNumber> telephone) {
-        this.phoneNumbers = telephone;
+        phoneNumbers = telephone;
     }
 
     public void setDiagnosticsUploadLink(StringAttribute diagnosticsUploadLink) {
@@ -260,7 +257,7 @@ public class Organization {
         }
 
         public Builder phoneNumber(List<PhoneNumber> telephone) {
-            this.phoneNumbers = telephone;
+            phoneNumbers = telephone;
             return this;
         }
 

@@ -43,13 +43,13 @@ public class CustomerKey extends BaseModel {
 
 
     public CustomerKey() {
-        this.name = null;
-        this.keyIdentifier = null;
-        this.enabled = null;
-        this.validFrom = null;
-        this.validTo = null;
-        this.type = null;
-        this.userPaymentOptions = null;
+        name = null;
+        keyIdentifier = null;
+        enabled = null;
+        validFrom = null;
+        validTo = null;
+        type = null;
+        userPaymentOptions = null;
     }
 
     @JsonProperty(FieldConstant.NAME)

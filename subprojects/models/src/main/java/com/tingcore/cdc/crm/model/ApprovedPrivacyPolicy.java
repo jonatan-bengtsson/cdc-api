@@ -22,8 +22,8 @@ public class ApprovedPrivacyPolicy extends BaseAttributeModel {
     }
 
     public ApprovedPrivacyPolicy() {
-        this.url = null;
-        this.version = null;
+        url = null;
+        version = null;
     }
 
     @JsonProperty(FieldConstant.URL)
@@ -40,6 +40,6 @@ public class ApprovedPrivacyPolicy extends BaseAttributeModel {
 
     @Override
     public ApprovedPrivacyPolicy copyWithoutId() {
-        return new ApprovedPrivacyPolicy(null, this.url, this.version);
+        return new ApprovedPrivacyPolicy(null, url, version);
     }
 }

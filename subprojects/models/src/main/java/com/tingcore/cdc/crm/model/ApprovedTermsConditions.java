@@ -22,8 +22,8 @@ public class ApprovedTermsConditions extends BaseAttributeModel {
     }
 
     public ApprovedTermsConditions() {
-        this.url = null;
-        this.version = null;
+        url = null;
+        version = null;
     }
 
     @JsonProperty(FieldConstant.URL)
@@ -39,6 +39,6 @@ public class ApprovedTermsConditions extends BaseAttributeModel {
     }
 
     public ApprovedTermsConditions copyWithoutId() {
-        return new ApprovedTermsConditions(null, this.url, this.version);
+        return new ApprovedTermsConditions(null, url, version);
     }
 }

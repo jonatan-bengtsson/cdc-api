@@ -27,6 +27,6 @@ public class SocialSecurityNumber extends BaseAttributeModel {
     }
 
     public SocialSecurityNumber copyWithoutId () {
-        return new SocialSecurityNumber(null, this.socialSecurityNumber);
+        return new SocialSecurityNumber(null, socialSecurityNumber);
     }
 }

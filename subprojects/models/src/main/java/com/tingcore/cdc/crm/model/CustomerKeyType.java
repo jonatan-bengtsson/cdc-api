@@ -22,8 +22,8 @@ public class CustomerKeyType extends BaseModel {
     }
 
     public CustomerKeyType() {
-        this.name = null;
-        this.description = null;
+        name = null;
+        description = null;
     }
 
     @JsonProperty(FieldConstant.NAME)

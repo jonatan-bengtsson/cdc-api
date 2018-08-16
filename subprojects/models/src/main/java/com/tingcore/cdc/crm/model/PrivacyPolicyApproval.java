@@ -19,8 +19,8 @@ public class PrivacyPolicyApproval {
     }
 
     public PrivacyPolicyApproval() {
-        this.privacyPolicy = null;
-        this.approved = null;
+        privacyPolicy = null;
+        approved = null;
     }
 
     @JsonProperty(FieldConstant.PRIVACY_POLICY)

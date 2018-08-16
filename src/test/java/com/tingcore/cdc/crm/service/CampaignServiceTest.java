@@ -4,7 +4,7 @@ import com.tingcore.campaign.model.product.PrepaidProduct;
 import com.tingcore.campaign.model.product.Product;
 import com.tingcore.campaign.model.product.ProductType;
 import com.tingcore.campaign.model.request.RedeemCodeRequest;
-import com.tingcore.cdc.crm.model.CampaignServiceException;
+import com.tingcore.cdc.crm.exception.CampaignServiceException;
 import com.tingcore.cdc.crm.repository.CampaignRepository;
 import com.tingcore.commons.rest.ErrorResponse;
 import com.tingcore.commons.rest.repository.ApiResponse;

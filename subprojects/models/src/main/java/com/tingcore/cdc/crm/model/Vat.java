@@ -19,17 +19,15 @@ public class Vat extends BaseAttributeModel {
     }
 
     public Vat() {
-        this.vat = null;
+        vat = null;
     }
 
-    @JsonProperty(FieldConstant.VAT)
-    @NotNull
-    public String getVat() {
+    @JsonProperty(FieldConstant.VAT) public @NotNull String getVat() {
         return vat;
     }
 
     @Override
     public Vat copyWithoutId() {
-        return new Vat(null, this.vat);
+        return new Vat(null, vat);
     }
 }

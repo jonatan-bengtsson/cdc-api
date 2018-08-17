@@ -9,6 +9,13 @@ module "account" {
   environment   = "${var.environment}"
 }
 
+module "cloudfront_certificate" {
+  source = "git::ssh://git@bitbucket.tingcore-infra.com/aws/terraform-data-source.git//certificates/cloudfront"
+
+  business_unit = "${var.business_unit}"
+  environment   = "${var.environment}"
+}
+
 module "route53" {
   source = "git::ssh://git@bitbucket.tingcore-infra.com/aws/terraform-data-source.git//route53"
 

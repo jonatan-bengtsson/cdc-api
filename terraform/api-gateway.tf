@@ -179,7 +179,7 @@ resource "aws_api_gateway_deployment" "this" {
 # api gateway custom domain
 resource "aws_api_gateway_domain_name" "this" {
   domain_name     = "${local.custom_domain}"
-  certificate_arn = "${module.account.apigw_cert_arn}"
+  certificate_arn = "${module.cloudfront_certificate.arn}"
 }
 
 # api gateway base path mapping for default path /

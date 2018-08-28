@@ -1,16 +1,13 @@
 package com.tingcore.cdc.crm.service.v2;
 
-import com.tingcore.cdc.crm.model.User;
 import com.tingcore.cdc.crm.repository.v2.ChargingKeyRepository;
 import com.tingcore.cdc.crm.request.UpdateChargingKeyAppRequest;
 import com.tingcore.cdc.crm.service.UsersApiException;
-import com.tingcore.cdc.crm.utils.UserDataUtils;
 import com.tingcore.cdc.exception.EntityNotFoundException;
 import com.tingcore.cdc.utils.CommonDataUtils;
 import com.tingcore.commons.rest.ErrorResponse;
 import com.tingcore.commons.rest.repository.ApiResponse;
 import com.tingcore.users.model.v2.request.ChargingKeyActivationRequest;
-import com.tingcore.users.model.v2.request.ChargingKeyUpdateRequest;
 import com.tingcore.users.model.v2.response.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,7 +18,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowableOfType;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyLong;

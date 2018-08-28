@@ -1,7 +1,6 @@
 package com.tingcore.cdc.crm.controller.v2;
 
 import com.tingcore.cdc.ControllerUnitTest;
-import com.tingcore.cdc.crm.model.User;
 import com.tingcore.cdc.crm.request.UpdateChargingKeyAppRequest;
 import com.tingcore.cdc.crm.service.UsersApiException;
 import com.tingcore.cdc.crm.service.v2.ChargingKeyService;
@@ -12,7 +11,6 @@ import org.junit.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
 import static org.assertj.core.api.Assertions.assertThat;

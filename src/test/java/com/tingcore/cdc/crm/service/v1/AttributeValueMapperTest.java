@@ -4,7 +4,6 @@ package com.tingcore.cdc.crm.service.v1;
         import com.tingcore.cdc.crm.constant.FieldConstant;
         import com.tingcore.cdc.crm.request.UpdateBusinessCustomerRequest;
         import com.tingcore.cdc.crm.request.UpdatePrivateCustomerRequest;
-        import com.tingcore.cdc.crm.service.v1.AttributeValueMapper;
         import com.tingcore.cdc.crm.utils.AttributeDataUtils;
         import com.tingcore.cdc.crm.utils.UserDataUtils;
         import com.tingcore.users.model.v1.request.AttributeValueRequest;

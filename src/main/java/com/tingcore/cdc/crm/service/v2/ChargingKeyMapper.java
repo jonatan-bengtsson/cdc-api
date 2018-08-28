@@ -4,7 +4,6 @@ import com.tingcore.cdc.crm.request.UpdateChargingKeyAppRequest;
 import com.tingcore.users.model.v2.request.ChargingKeyUpdateRequest;
 import com.tingcore.users.model.v2.response.BaseResponse;
 import com.tingcore.users.model.v2.response.ChargingKey;
-import com.tingcore.users.model.v2.response.ChargingKeyOwner;
 
 import java.util.Optional;
 import java.util.stream.Collectors;

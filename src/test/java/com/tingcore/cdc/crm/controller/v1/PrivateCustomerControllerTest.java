@@ -1,9 +1,7 @@
 package com.tingcore.cdc.crm.controller.v1;
 
 import com.tingcore.cdc.ControllerUnitTest;
-import com.tingcore.cdc.crm.controller.v1.UserController;
 import com.tingcore.cdc.crm.model.User;
-import com.tingcore.cdc.crm.request.UpdateBusinessCustomerRequest;
 import com.tingcore.cdc.crm.request.UpdatePrivateCustomerRequest;
 import com.tingcore.cdc.crm.service.v1.UserService;
 import com.tingcore.cdc.crm.utils.UserDataUtils;
@@ -36,7 +34,7 @@ public class PrivateCustomerControllerTest extends ControllerUnitTest {
     public void putPrivateCustomerAttributeValues() throws Exception {
         final UpdatePrivateCustomerRequest request = UserDataUtils.createUpdatePrivateCustomerRequest();
         final User response = UserDataUtils.createUpdatePrivateCustomerResponse(request);
-        given(userService.putUserAttributeValues(anyLong(), any(UpdatePrivateCustomerRequest.class))).willReturn(response);
+        given(userService.putUserAttributeValues(anyLong(), any())).willReturn(response);
         MvcResult result = mockMvc.perform(put("/v1/private-customers/self")
                 .content(mockMvcUtils.toJson(request))
                 .contentType(MediaType.APPLICATION_JSON))
@@ -48,9 +46,8 @@ public class PrivateCustomerControllerTest extends ControllerUnitTest {
 
     @Test
     public void failPutPrivateCustomerAttributeValuesBadRequest() throws Exception {
-        final UpdateBusinessCustomerRequest request = UserDataUtils.createUpdateBusinessCustomerRequest();
         mockMvc.perform(put("/v1/private-customers/self")
-                .content(mockMvcUtils.toJson(request))
+                .content("hello world")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
     }

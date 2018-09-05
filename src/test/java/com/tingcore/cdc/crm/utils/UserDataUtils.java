@@ -11,7 +11,6 @@ import com.tingcore.users.model.v1.request.AttributeValueListRequest;
 import com.tingcore.users.model.v1.response.AttributeResponse;
 import com.tingcore.users.model.v1.response.UserResponse;
 
-import java.lang.reflect.AccessibleObject;
 import java.time.Instant;
 import java.util.*;
 

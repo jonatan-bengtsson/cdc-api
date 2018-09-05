@@ -4,7 +4,7 @@ import com.tingcore.cdc.constant.ErrorCode;
 import com.tingcore.cdc.service.MessageByLocaleService;
 import com.tingcore.commons.rest.ErrorResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.web.ErrorController;
+import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 

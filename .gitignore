@@ -104,8 +104,12 @@ typescript-client/
 java-client/
 
 # End of https://www.gitignore.io/api/gradle,intellij
+subprojects/models/out
+subprojects/models/build
 
 ### terraform ###
 .terraform
 *.auto.tfvars
 plan.out
+
+

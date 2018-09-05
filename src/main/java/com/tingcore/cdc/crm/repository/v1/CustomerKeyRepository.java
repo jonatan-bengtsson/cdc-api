@@ -7,7 +7,6 @@ import com.tingcore.commons.rest.repository.ApiResponse;
 import com.tingcore.users.api.v1.CustomerKeyTypesApi;
 import com.tingcore.users.api.v1.CustomerKeysApi;
 import com.tingcore.users.api.v1.PaymentOptionsApi;
-import com.tingcore.users.model.v1.request.CustomerKeyRequest;
 import com.tingcore.users.model.v1.request.UserPaymentOptionIdRequest;
 import com.tingcore.users.model.v1.response.CustomerKeyResponse;
 import com.tingcore.users.model.v1.response.CustomerKeyTypeResponse;
@@ -42,10 +41,6 @@ public class CustomerKeyRepository extends AbstractUserServiceRepository {
 
     public ApiResponse<CustomerKeyResponse> findById(final Long authorizedUserId, final Long customerKeyId) {
         return execute(customerKeysApi.getUserCustomerKeysById(authorizedUserId, authorizedUserId, customerKeyId));
-    }
-
-    public ApiResponse<CustomerKeyResponse> post(final Long authorizedUserId, final CustomerKeyRequest customerKeyRequest) {
-        return execute(customerKeysApi.createCustomerKey(authorizedUserId, authorizedUserId, customerKeyRequest));
     }
 
     public ApiResponse<List<CustomerKeyTypeResponse>> findCustomerKeyTypes() {

@@ -59,3 +59,16 @@ integration:
     hostname: customer-key-order.tingcore-test.com
   campaign:
     hostname: campaign-service.tingcore-test.com
+
+management:
+  endpoints:
+    web:
+      base-path: /
+      exposure:
+        include: health, prometheus
+      path-mapping:
+        prometheus: /metrics
+
+tracing:
+  xray:
+    enabled: false

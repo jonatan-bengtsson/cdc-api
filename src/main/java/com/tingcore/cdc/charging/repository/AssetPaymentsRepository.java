@@ -8,6 +8,7 @@ import com.tingcore.commons.rest.external.ExternalApiException;
 import com.tingcore.commons.rest.repository.AbstractApiRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 import static com.tingcore.cdc.controller.ApiUtils.getResponseOrThrowError;
@@ -24,8 +25,12 @@ public class AssetPaymentsRepository extends AbstractApiRepository {
         this.apiForPaymentsApi = notNull(apiForPaymentsApi);
     }
 
-    public ChargePointInfo fetchChargePointInfo(final ConnectorId id) {
-        return getResponseOrAssetPaymentError(apiForPaymentsApi.findChargePointByConnectorIdUsingGET(id.id));
+    public Optional<ChargePointInfo> fetchChargePointInfo(final ConnectorId id) {
+        try {
+            return Optional.ofNullable(getResponseOrAssetPaymentError(apiForPaymentsApi.findChargePointByConnectorIdUsingGET(id.id)));
+        } catch (Exception e){
+            return Optional.empty();
+        }
     }
 
     private <T, E extends ExternalApiException> T getResponseOrAssetPaymentError(CompletableFuture<T> request) throws E {

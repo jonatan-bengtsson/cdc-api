@@ -8,7 +8,7 @@ import com.tingcore.charging.assets.model.ChargePointInfo;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collector;
+import java.util.Optional;
 
 import static java.util.stream.Collectors.toList;
 import static org.apache.commons.lang3.Validate.notNull;
@@ -63,9 +63,10 @@ public class ChargingSessionService {
 
     private ChargingSessionBuilder populateSessionWithChargeSiteInfo(ChargingSessionBuilder builder) {
         if (builder.getConnectorId() != null) {
-            final ChargePointInfo chargePointInfo = assetPaymentsRepository.fetchChargePointInfo(builder.getConnectorId());
-            builder.setChargePointId(new ChargePointId(chargePointInfo.getId()))
-                    .setChargeSiteId(new ChargeSiteId(chargePointInfo.getBasicChargePoint().getChargePointSiteId()));
+            final Optional<ChargePointInfo> chargePointInfo =
+                    assetPaymentsRepository.fetchChargePointInfo(builder.getConnectorId());
+            chargePointInfo.ifPresent(info -> builder.setChargePointId(new ChargePointId(info.getId()))
+                    .setChargeSiteId(new ChargeSiteId(info.getBasicChargePoint().getChargePointSiteId())));
         }
         return builder;
     }

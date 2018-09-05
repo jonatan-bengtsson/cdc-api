@@ -6,6 +6,7 @@ import com.tingcore.commons.api.service.CustomServiceModelToSwagger2Mapper;
 import com.tingcore.commons.hash.HashIdDeserializer;
 import com.tingcore.commons.hash.HashIdSerializer;
 import com.tingcore.commons.hash.HashIdService;
+import com.tingcore.commons.rest.service.PagingConverterService;
 import org.hashids.Hashids;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,6 +32,11 @@ public class CommonServiceConfiguration {
     @Bean
     public HashIdService hashIdService() {
         return new HashIdService(hashids());
+    }
+
+    @Bean
+    public PagingConverterService pagingConverterService() {
+        return new PagingConverterService(hashIdService());
     }
 
     @Bean

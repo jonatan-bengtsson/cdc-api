@@ -1,8 +1,21 @@
+pluginManagement {
+    repositories {
+        maven { url "https://artifactory.tingcore-central.com/artifactory/remote-repos" }
+        gradlePluginPortal()
+    }
+}
+
+
 rootProject.name = 'cdc-api'
+
+include ':models'
+
+project(':models').projectDir = new File('subprojects/models')
 
 buildscript {
     repositories {
         maven {
+            maven { url "https://artifactory.tingcore-central.com/artifactory/remote-repos" }
             url 'https://plugins.gradle.org/m2/'
         }
     }

@@ -1,0 +1,52 @@
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
+install {
+    repositories.mavenInstaller {
+        pom.artifactId = 'models'
+    }
+}
+
+task execute(type: JavaExec) {
+    main = System.getProperty('mainClass')
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+
+ext {
+    versionCommons = "1.3.9"
+    versionJunit = "4.12"
+    versionSlf4J = "1.7.25"
+    versionGson = "2.8.2"
+    versionJackson = "2.9.4"
+    versionAssetServiceClient = "1.0.15"
+    versionOperationServiceClient = "0.1.21"
+    versionPaymentServiceClient = "1.0.5"
+    versionCustomerKeyOrderService = '0.5.0'
+    versionUserServiceClient = "1.3.9"
+    versionCampaignServiceJavaClient = "0.1.1"
+
+}
+
+dependencies {
+
+    compile "com.tingcore.commons:rest:$versionCommons"
+    compile "com.tingcore.commons:core:$versionCommons"
+    compile("com.tingcore.commons:api:$versionCommons")
+
+    // Jackson
+    compile "com.fasterxml.jackson.core:jackson-annotations:$versionJackson"
+    compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$versionJackson"
+
+    // Tingcore clients
+    compile("com.tingcore.charging:asset-service-java-client:$versionAssetServiceClient")
+    compile("com.tingcore.charging:charging-operations-java-client:$versionOperationServiceClient")
+    compile("com.tingcore.users:java-client:$versionUserServiceClient")
+    compile("com.tingcore.users:models:$versionUserServiceClient")
+    compile("com.tingcore.payments:payments-service-java-client:$versionPaymentServiceClient")
+    compile("com.tingcore.customerkeyorder:customer-key-order-service-java-client:$versionCustomerKeyOrderService")
+    compile("com.tingcore.campaign:campaign-service-java-client:$versionCampaignServiceJavaClient")
+    compile("com.google.code.gson:gson:$versionGson")
+
+    testCompile "junit:junit:$versionJunit"
+}

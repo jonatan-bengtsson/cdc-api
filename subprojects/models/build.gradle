@@ -19,11 +19,11 @@ ext {
     versionSlf4J = "1.7.25"
     versionGson = "2.8.2"
     versionJackson = "2.9.4"
-    versionAssetServiceClient = "1.0.7"
-    versionOperationServiceClient = "0.1.17"
+    versionAssetServiceClient = "1.0.15"
+    versionOperationServiceClient = "0.1.21"
     versionPaymentServiceClient = "1.0.5"
     versionCustomerKeyOrderService = '0.5.0'
-    versionUserServiceClient = "1.3.7-SNAPSHOT"
+    versionUserServiceClient = "1.3.9"
     versionCampaignServiceJavaClient = "0.1.1"
 
 }

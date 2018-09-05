@@ -36,8 +36,8 @@ public class PaymentsServiceConfiguration {
     }
 
     @Bean
-    public SessionhistoryApi sessionhistoryApi(final ApiClient paymentsClient) {
-        return notNull(paymentsClient).createService(SessionhistoryApi.class);
+    public SessionHistoryApi sessionhistoryApi(final ApiClient paymentsClient) {
+        return notNull(paymentsClient).createService(SessionHistoryApi.class);
     }
 
     @Bean

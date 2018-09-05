@@ -3,7 +3,7 @@ package com.tingcore.cdc.sessionhistory.repository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tingcore.commons.rest.external.ExternalApiException;
 import com.tingcore.commons.rest.repository.AbstractApiRepository;
-import com.tingcore.payments.cpo.api.SessionhistoryApi;
+import com.tingcore.payments.cpo.api.SessionHistoryApi;
 import com.tingcore.payments.cpo.model.ApiChargeHistory;
 import org.springframework.stereotype.Repository;
 
@@ -15,11 +15,11 @@ import static org.apache.commons.lang3.Validate.notNull;
 
 @Repository
 public class SessionHistoryRepository extends AbstractApiRepository {
-    private final SessionhistoryApi sessionhistoryApi;
+    private final SessionHistoryApi sessionhistoryApi;
     private static final Integer DEFAULT_TIME_OUT = 60;
 
     public SessionHistoryRepository(final ObjectMapper objectMapper,
-                                    final SessionhistoryApi sessionhistoryApi) {
+                                    final SessionHistoryApi sessionhistoryApi) {
         super(notNull(objectMapper));
         this.sessionhistoryApi = sessionhistoryApi;
     }

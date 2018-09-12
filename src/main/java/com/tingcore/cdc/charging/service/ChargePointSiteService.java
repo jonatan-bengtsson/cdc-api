@@ -16,6 +16,7 @@ import com.tingcore.cdc.crm.service.v2.OrganizationService;
 import com.tingcore.cdc.exception.EntityNotFoundException;
 import com.tingcore.charging.assets.api.ChargeSitesApi;
 import com.tingcore.charging.assets.model.ChargePointSiteEntity;
+import com.tingcore.charging.assets.model.CompleteChargePoint;
 import com.tingcore.charging.assets.model.CompleteChargePointSite;
 import com.tingcore.charging.assets.model.OrganizationPublishinChannelsPayload;
 import com.tingcore.charging.assets.model.OrganizationPublishingChannel;
@@ -194,6 +195,10 @@ public class ChargePointSiteService {
             throw new EntityNotFoundException("ChargePointSite", Long.toString(id));
         }
 
+        // Filter away non-published charge points
+        completeChargePointSite.setChargePoints(completeChargePointSite.getChargePoints().stream()
+                .filter(this::isPublishedInChargeDriveConnect).collect(toList()));
+
         ApiResponse<StatusBatchResponse> statusResponse = operationsRepository.execute(
                 operationsApi.getChargePointStatusUsingPOST(
                         OperationsApiMapper.toBatchStatusRequest(completeChargePointSite)
@@ -233,9 +238,13 @@ public class ChargePointSiteService {
 
     private Predicate<CompleteChargePointSite> shouldChargePointSiteBePublished() {
         return s -> s.getChargePoints().stream()
-                .anyMatch(ccp -> ccp.getChargePointEntity().getData().getPublishingChannels().stream()
-                        .anyMatch(pc -> pc.getData().getPublishingChannel()
-                                .equals(OrganizationPublishingChannel.PublishingChannelEnum.CHARGE_AND_DRIVE_CONNECT_API)));
+                .anyMatch(this::isPublishedInChargeDriveConnect);
+    }
+
+    private boolean isPublishedInChargeDriveConnect(CompleteChargePoint ccp) {
+        return ccp.getChargePointEntity().getData().getPublishingChannels().stream()
+                .anyMatch(pc -> pc.getData().getPublishingChannel()
+                        .equals(OrganizationPublishingChannel.PublishingChannelEnum.CHARGE_AND_DRIVE_CONNECT_API));
     }
 
 }

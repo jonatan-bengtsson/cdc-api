@@ -27,6 +27,10 @@ public class PaymentAccountService {
         return paymentAccountRepository.createUserAccount(req);
     }
 
+    public Ok createElwinContract(final String elwinId, final String keyIdentifier) {
+        return paymentAccountRepository.createElwinContract(elwinId, keyIdentifier);
+    }
+
     public String createStripeCustomer(final String cardSource,
                                        final Long organizationId) {
         return paymentAccountRepository.createStripeCustomer(cardSource, organizationId);

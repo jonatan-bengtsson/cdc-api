@@ -10,6 +10,7 @@ import com.tingcore.cdc.payments.service.PaymentAccountService;
 import com.tingcore.commons.hash.HashIdService;
 import com.tingcore.commons.rest.ErrorResponse;
 import com.tingcore.payments.cpo.model.ApiDeletedCustomer;
+import com.tingcore.payments.cpo.model.ApiElwinCustomerContract;
 import com.tingcore.payments.cpo.model.ApiPaymentAccount;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -82,7 +83,6 @@ public class PaymentAccountController {
     @ApiOperation(value = "Get a users payment account.", response = ApiPaymentAccount.class, tags = {SwaggerDocConstants.TAGS_PAYMENT_ACCOUNTS})
     public ApiPaymentAccount getUserAccount(final @PathVariable("paymentOptionReference") @NotNull String paymentOptionReference) {
         return paymentAccountService.getAccount(paymentOptionReference);
-
     }
 
     @DeleteMapping("/" + PAYMENT_OPTIONS + "/{paymentOption}")
@@ -109,5 +109,17 @@ public class PaymentAccountController {
         }
 
         return paymentAccountService.getAllAccountsById(key, user);
+    }
+
+    @GetMapping("/" + USERS + "/elwin/{elwinId}/contracts")
+    @ApiOperation(value = "Get elwin customer contracts", response = ApiElwinCustomerContract.class, responseContainer = "List", tags = {SwaggerDocConstants.TAGS_PAYMENT_ACCOUNTS})
+    public List<ApiElwinCustomerContract> getElwinContracts(@PathVariable("elwinId") @NotNull String elwinId) {
+        return paymentAccountService.getElwinContracts(elwinId);
+    }
+
+    @GetMapping("/" + USERS + "/elwin/{elwinId}/contracts/{keyIdentifier}")
+    @ApiOperation(value = "Get elwin customer contracts", response = ApiElwinCustomerContract.class, tags = {SwaggerDocConstants.TAGS_PAYMENT_ACCOUNTS})
+    public ApiElwinCustomerContract getElwinContracts(@PathVariable("elwinId") @NotNull String elwinId, @PathVariable("keyIdentifier") @NotNull String keyIdentifier) {
+        return paymentAccountService.getElwinContract(elwinId, keyIdentifier);
     }
 }

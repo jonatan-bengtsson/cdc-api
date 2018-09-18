@@ -49,4 +49,12 @@ public class PaymentAccountService {
                                                 final String paymentOption) {
         return paymentAccountRepository.deleteUserAccount(userId, paymentOption);
     }
+
+    public List<ApiElwinCustomerContract> getElwinContracts(final String elwinId) {
+        return paymentAccountRepository.getElwinContracts(elwinId);
+    }
+
+    public ApiElwinCustomerContract getElwinContract(final String elwinId, final String keyIdentifier) {
+        return paymentAccountRepository.getElwinContract(elwinId, keyIdentifier);
+    }
 }

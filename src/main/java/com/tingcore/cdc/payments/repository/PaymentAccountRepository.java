@@ -4,10 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tingcore.commons.rest.external.ExternalApiException;
 import com.tingcore.commons.rest.repository.AbstractApiRepository;
 import com.tingcore.payments.cpo.api.PaymentaccountsApi;
-import com.tingcore.payments.cpo.model.ApiDeletedCustomer;
-import com.tingcore.payments.cpo.model.ApiPaymentAccount;
-import com.tingcore.payments.cpo.model.CreateAccountRequest;
-import com.tingcore.payments.cpo.model.Ok;
+import com.tingcore.payments.cpo.model.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -53,6 +50,14 @@ public class PaymentAccountRepository extends AbstractApiRepository {
     public List<ApiPaymentAccount> getAllAccountsById(final Long keyId,
                                                       final Long userId) {
         return getResponseOrPaymentAccountError(paymentaccountsApi.getUserPaymentAccounts(keyId, userId));
+    }
+
+    public List<ApiElwinCustomerContract> getElwinContracts(final String elwinId) {
+        return getResponseOrPaymentAccountError(paymentaccountsApi.getElwinCustomers(elwinId));
+    }
+
+    public ApiElwinCustomerContract getElwinContract(final String elwinId, final String keyIdentifier) {
+        return getResponseOrPaymentAccountError(paymentaccountsApi.getElwinCustomer(elwinId, keyIdentifier));
     }
 
     private <T, E extends ExternalApiException> T getResponseOrPaymentAccountError(CompletableFuture<T> request) throws E {

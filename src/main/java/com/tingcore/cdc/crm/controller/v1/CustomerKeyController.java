@@ -7,11 +7,13 @@ import com.tingcore.cdc.crm.model.CustomerKey;
 import com.tingcore.cdc.crm.model.UserPaymentOption;
 import com.tingcore.cdc.crm.service.v1.CustomerKeyService;
 import com.tingcore.cdc.exception.EntityNotFoundException;
+import com.tingcore.cdc.payments.repository.PaymentAccountApiException;
 import com.tingcore.cdc.payments.service.PaymentAccountService;
 import com.tingcore.commons.hash.HashIdService;
 import com.tingcore.commons.rest.ErrorResponse;
 import com.tingcore.commons.rest.PageResponse;
 import com.tingcore.commons.rest.SwaggerDefaultConstant;
+import com.tingcore.payments.cpo.model.ApiElwinCustomerContract;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
@@ -95,9 +97,20 @@ public class CustomerKeyController {
                 .findFirst();
 
         if (connectedPaymentOption.isPresent() && connectedPaymentOption.get().getPaymentOptionReference().startsWith("ELWIN-")) {
+
             String keyIdentifier = customerKey.getKeyIdentifier();
             String elwinId = connectedPaymentOption.get().getPaymentOptionReference().split("-")[1];
-            paymentAccountService.createElwinContract(elwinId, keyIdentifier);
+
+            try {
+                paymentAccountService.getElwinContract(elwinId, keyIdentifier);
+            } catch (PaymentAccountApiException e) {
+                if (e.getErrorResponse().getStatusCode() == 404) {
+                    paymentAccountService.createElwinContract(elwinId, keyIdentifier);
+                } else {
+                    e.printStackTrace();
+                    throw e;
+                }
+            }
         }
 
         return customerKey;

@@ -8,6 +8,7 @@ import com.tingcore.cdc.crm.service.UsersApiException;
 import com.tingcore.cdc.utils.CommonDataUtils;
 import com.tingcore.commons.rest.ErrorResponse;
 import com.tingcore.commons.rest.repository.ApiResponse;
+import com.tingcore.users.model.v2.response.Agreement;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,6 +17,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.anyLong;
 import static org.mockito.Mockito.mock;
@@ -92,5 +94,34 @@ public class AgreementServiceTest {
         given(termsAndConditionRepository.approve(anyLong(), anyLong())).willReturn(new ApiResponse<>(ErrorResponse.notFound().build()));
         assertThatExceptionOfType(UsersApiException.class)
                 .isThrownBy(() -> service.approveTermsAndConditions(CommonDataUtils.getNextId(), CommonDataUtils.getNextId()));
+    }
+
+    @Test
+    public void getPrivacyPolicyByUserPrefix() {
+        given(privacyPolicyRepository.getByUserPrefix(anyString())).willReturn(new ApiResponse<>(mock(Agreement.class)));
+        assertThatCode(() -> service.getPrivacyPolicyByUserPrefix("userPrefix"))
+                .doesNotThrowAnyException();
+    }
+
+    @Test
+    public void getTermsAndConditionsByUserPrefix() {
+        given(termsAndConditionRepository.getByUserPrefix(anyString())).willReturn(new ApiResponse<>(mock(Agreement.class)));
+        assertThatCode(() -> service.getTermsAndConditionsByUserPrefix("userPrefix"))
+                .doesNotThrowAnyException();
+    }
+
+    @Test
+    public void failGetPrivacyPolicyByUserPrefix() {
+        given(privacyPolicyRepository.getByUserPrefix(anyString())).willReturn(new ApiResponse<>(ErrorResponse.notFound().build()));
+        assertThatExceptionOfType(UsersApiException.class)
+                .isThrownBy(() -> service.getPrivacyPolicyByUserPrefix("userPrefix"));
+    }
+
+    @Test
+    public void failGetTermsAndConditionsByUserPrefix() {
+        given(termsAndConditionRepository.getByUserPrefix(anyString())).willReturn(new ApiResponse<>(ErrorResponse.notFound().build()));
+        assertThatExceptionOfType(UsersApiException.class)
+                .isThrownBy(() -> service.getTermsAndConditionsByUserPrefix("userPrefix"));
+
     }
 }

@@ -5,6 +5,7 @@ import com.tingcore.cdc.constant.SpringProfilesConstant;
 import com.tingcore.cdc.crm.repository.v2.PrivacyPolicyRepository;
 import com.tingcore.cdc.crm.repository.v2.TermsAndConditionRepository;
 import com.tingcore.users.api.UserServiceClient;
+import com.tingcore.users.api.v2.InternalAgreementsApi;
 import com.tingcore.users.api.v2.PrivacyPoliciesApi;
 import com.tingcore.users.api.v2.TermsAndConditionsApi;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,13 +32,13 @@ public class UserServiceRepositoryConfiguration {
     @Bean
     @Primary
     TermsAndConditionRepository termsAndConditionRepository() {
-        return new TermsAndConditionRepository(objectMapper, getClient().createService(TermsAndConditionsApi.class));
+        return new TermsAndConditionRepository(objectMapper, getClient().createService(TermsAndConditionsApi.class), getClient().createService(InternalAgreementsApi.class));
     }
 
     @Bean
     @Primary
     PrivacyPolicyRepository privacyPolicyRepository() {
-        return new PrivacyPolicyRepository(objectMapper, getClient().createService(PrivacyPoliciesApi.class));
+        return new PrivacyPolicyRepository(objectMapper, getClient().createService(PrivacyPoliciesApi.class), getClient().createService(InternalAgreementsApi.class));
     }
 
     private UserServiceClient getClient() {

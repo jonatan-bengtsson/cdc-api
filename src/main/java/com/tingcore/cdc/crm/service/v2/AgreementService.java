@@ -6,6 +6,7 @@ import com.tingcore.cdc.crm.repository.v2.PrivacyPolicyRepository;
 import com.tingcore.cdc.crm.repository.v2.TermsAndConditionRepository;
 import com.tingcore.cdc.crm.service.UsersApiException;
 import com.tingcore.commons.rest.repository.ApiResponse;
+import com.tingcore.users.model.v2.response.Agreement;
 import org.springframework.stereotype.Service;
 
 /**
@@ -49,5 +50,14 @@ public class AgreementService {
                 .ifPresent(errorResponse -> {
                     throw new UsersApiException(errorResponse);
                 });
+    }
+    public Agreement getTermsAndConditionsByUserPrefix(final String userPrefix) {
+        final ApiResponse<Agreement> apiResponse = termsAndConditionRepository.getByUserPrefix(userPrefix);
+        return apiResponse.getResponseOptional().orElseThrow(() -> new UsersApiException(apiResponse.getError()));
+    }
+
+    public Agreement getPrivacyPolicyByUserPrefix(final String userPrefix) {
+        final ApiResponse<Agreement> apiResponse = privacyPolicyRepository.getByUserPrefix(userPrefix);
+        return apiResponse.getResponseOptional().orElseThrow(() -> new UsersApiException(apiResponse.getError()));
     }
 }

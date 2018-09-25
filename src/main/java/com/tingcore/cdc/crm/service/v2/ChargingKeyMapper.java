@@ -30,6 +30,7 @@ public class ChargingKeyMapper {
                                 .collect(Collectors.toList()))
                         .orElse(null),
                 chargingKey.getVersion(),
+                // TODO verify that this is not overwriting the original source
                 null);
     }
 }

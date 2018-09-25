@@ -41,8 +41,9 @@ class UserMapper {
                 .build();
     }
 
-    public static User attributeListToUserResponse (List<AttributeResponse> attributes) {
+    public static User attributeListToUserResponse (final List<AttributeResponse> attributes, final Long userId) {
         return User.createBuilder()
+                .id(userId)
                 .firstName(AttributeMapper.findStringAttribute(attributes, AttributeConstant.FIRST_NAME).orElse(null))
                 .lastName(AttributeMapper.findStringAttribute(attributes, AttributeConstant.LAST_NAME).orElse(null))
                 .name(AttributeMapper.findStringAttribute(attributes, AttributeConstant.NAME).orElse(null))

@@ -23,7 +23,7 @@ public class PublicPrivacyPolicyControllerTest extends ControllerUnitTest {
     @Test
     public void getPrivacyPolicyByUserPrefix() throws Exception{
         given(agreementService.getPrivacyPolicyByUserPrefix(anyString())).willReturn(Agreement.createBuilder().id(CommonDataUtils.getNextId()).content(CommonDataUtils.randomNumberStr(10,10)).build());
-        mockMvc.perform(get("/public/v2/privacy-policy/"+ "userPrefix")
+        mockMvc.perform(get("/public/v2/privacy-policies/userPrefix")
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk());
     }
@@ -31,7 +31,7 @@ public class PublicPrivacyPolicyControllerTest extends ControllerUnitTest {
     @Test
     public void failGetPrivacyPolicyByUserPrefix() throws Exception{
         given(agreementService.getPrivacyPolicyByUserPrefix(anyString())).willThrow(new EntityNotFoundException());
-        mockMvc.perform(get("/public/v2/privacy-policy/"+ "userPrefix")
+        mockMvc.perform(get("/public/v2/privacy-policies/userPrefix")
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isNotFound());
 

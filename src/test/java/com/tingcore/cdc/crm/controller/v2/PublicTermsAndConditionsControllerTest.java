@@ -23,7 +23,7 @@ public class PublicTermsAndConditionsControllerTest extends ControllerUnitTest {
     @Test
     public void getTermsAndConditionsByUserPrefix() throws Exception{
         given(agreementService.getTermsAndConditionsByUserPrefix(anyString())).willReturn(Agreement.createBuilder().id(CommonDataUtils.getNextId()).content(CommonDataUtils.randomNumberStr(10,10)).build());
-        mockMvc.perform(get("/public/v2/terms-and-conditions/"+ "userPrefix")
+        mockMvc.perform(get("/public/v2/terms-and-conditions/userPrefix")
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk());
     }
@@ -31,7 +31,7 @@ public class PublicTermsAndConditionsControllerTest extends ControllerUnitTest {
     @Test
     public void failGetTermsAndConditionsByUserPrefix() throws Exception{
         given(agreementService.getTermsAndConditionsByUserPrefix(anyString())).willThrow(new EntityNotFoundException());
-        mockMvc.perform(get("/public/v2/terms-and-conditions/"+ "userPrefix")
+        mockMvc.perform(get("/public/v2/terms-and-conditions/userPrefix")
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isNotFound());
 

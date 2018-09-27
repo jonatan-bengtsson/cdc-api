@@ -23,7 +23,7 @@ public class PublicPrivacyPolicyController {
     @ApiOperation(value = "Get the latest privacy policy",
             notes = "Route allows fetching the active privacy policy for an organization.",
             tags = SwaggerDocConstants.TAGS_PRIVACY_POLICIES)
-    public Agreement getTermsAndConditionsByUserPrefix(@PathVariable("userPrefix") final String userPrefix){
+    public Agreement getPrivacyPolicyByUserPrefix(@PathVariable("userPrefix") final String userPrefix){
         return agreementService.getPrivacyPolicyByUserPrefix(userPrefix);
     }
 

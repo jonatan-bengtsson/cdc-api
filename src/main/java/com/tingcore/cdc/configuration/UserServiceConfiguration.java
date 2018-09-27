@@ -145,9 +145,9 @@ public class UserServiceConfiguration {
     }
 
     @Bean
-    public InternalApi internalApi(UserServiceClient userServiceClient) {
+    public InternalOrganizationApi internalOrganizationApi(UserServiceClient userServiceClient) {
         return userServiceClient
-                .createService(InternalApi.class);
+                .createService(InternalOrganizationApi.class);
     }
 
     @Bean

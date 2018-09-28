@@ -9,17 +9,21 @@ import com.tingcore.cdc.configuration.AuthorizedUser;
 import com.tingcore.cdc.configuration.WebMvcConfiguration;
 import com.tingcore.cdc.constant.SwaggerDocConstants;
 import com.tingcore.cdc.exception.EntityNotFoundException;
+import com.tingcore.cdc.service.TimeService;
 import com.tingcore.commons.hash.HashIdService;
 import com.tingcore.commons.rest.ErrorResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 
 import static com.tingcore.cdc.charging.controller.ChargingSessionController.SESSIONS;
@@ -39,11 +43,17 @@ public class ChargingSessionController {
 
     private final HashIdService hashIdService;
     private final ChargingSessionService chargingSessionService;
+    private final TimeService timeService;
+    private final Integer ongoingSessionsCutOffInHours;
 
     public ChargingSessionController(final HashIdService hashIdService,
-                                     final ChargingSessionService chargingSessionService) {
+                                     final ChargingSessionService chargingSessionService,
+                                     final TimeService timeService,
+                                     @Value("${app.ongoing-sessions-cut-off-in-hours:24}") final Integer ongoingSessionsCutOffInHours) {
         this.hashIdService = notNull(hashIdService);
         this.chargingSessionService = notNull(chargingSessionService);
+        this.timeService = timeService;
+        this.ongoingSessionsCutOffInHours = ongoingSessionsCutOffInHours;
     }
 
     @PostMapping
@@ -78,9 +88,12 @@ public class ChargingSessionController {
             @ApiResponse(code = 404, message = "Charging sessions not found", response = ErrorResponse.class)
     })
     public ResponseEntity getOngoingChargingSessions() {
+        final long cutOff = ongoingSessionsCutOffInHours == null ? 24L : ongoingSessionsCutOffInHours;
+
         return ResponseEntity.ok(chargingSessionService.fetchOngoingSessions(new TrustedUserId(authorizedUser.getId()))
         .stream()
         .map(this::toApiObject)
+        .filter(chargingSession -> timeService.now().isBefore(chargingSession.startTime.plus(cutOff, ChronoUnit.HOURS)))
         .collect(toList()));
     }
 

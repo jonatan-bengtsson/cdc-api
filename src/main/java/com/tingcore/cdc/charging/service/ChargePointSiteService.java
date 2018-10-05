@@ -42,6 +42,7 @@ import static java.util.Optional.ofNullable;
 import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
+import static com.tingcore.cdc.charging.mapper.ChargePointSiteMapper.toGeoCoordinate;
 
 @Service
 public class ChargePointSiteService {
@@ -124,7 +125,7 @@ public class ChargePointSiteService {
                     return new BasicChargeSite(
                             chargePointSiteId,
                             chargePointSiteName,
-                            ccps.getLocationEntity().getData().getGeoCoordinate(),
+                            toGeoCoordinate(ccps.getLocationEntity().getData().getGeoCoordinate()),
                             ChargeSiteStatus.NO_DATA,
                             ChargeSiteStatus.NO_DATA
                     );
@@ -149,7 +150,7 @@ public class ChargePointSiteService {
                     return new BasicChargeSite(
                             chargePointSiteId,
                             chargePointSiteName,
-                            ccps.getLocationEntity().getData().getGeoCoordinate(),
+                            toGeoCoordinate(ccps.getLocationEntity().getData().getGeoCoordinate()),
                             aggregateNormalAndQuickStatus(aggergatedSitesStatues),
                             aggergatedSitesStatues.getQuickStatus()
                     );

@@ -1,6 +1,5 @@
 package com.tingcore.cdc.charging.model;
 
-import com.tingcore.charging.assets.model.GeoCoordinate;
 
 public class BasicChargeSite {
     private Long id;

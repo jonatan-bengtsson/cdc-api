@@ -1,7 +1,5 @@
 package com.tingcore.cdc.charging.model;
 
-import com.tingcore.charging.assets.model.Location;
-
 import java.util.List;
 import java.util.Optional;
 

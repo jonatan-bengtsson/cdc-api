@@ -4,19 +4,15 @@ import com.tingcore.cdc.configuration.AuthorizedUser;
 import com.tingcore.cdc.configuration.WebMvcConfiguration;
 import com.tingcore.cdc.constant.SwaggerDocConstants;
 import com.tingcore.cdc.crm.service.v2.CustomerService;
-import com.tingcore.users.model.v2.request.PrivateCustomerUpdateRequest;
 import com.tingcore.users.model.v2.response.Customer;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import javax.validation.Valid;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
-import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 
 @RestController
 @Validated
@@ -38,14 +34,6 @@ public class CustomerController {
             tags = SwaggerDocConstants.TAGS_CUSTOMERS)
     public Customer getCustomerById() {
         return customerService.findById(authorizedUser.getId());
-    }
-
-    @RequestMapping(value= "/self", method = PUT)
-    @ApiOperation(value = "Update customer",
-    notes = "Route allows creating new or updating an existing customer's attribute values",
-    tags = SwaggerDocConstants.TAGS_CUSTOMERS)
-    public Customer updateCustomerAttributeValues(@Valid @RequestBody PrivateCustomerUpdateRequest request){
-        return customerService.update(authorizedUser.getId(), request);
     }
 
 }

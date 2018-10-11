@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tingcore.cdc.crm.model.TermsAndConditionsApproval;
 import com.tingcore.cdc.crm.repository.AbstractUserServiceRepository;
 import com.tingcore.commons.rest.repository.ApiResponse;
-import com.tingcore.users.api.v2.InternalAgreementsApi;
 import com.tingcore.users.api.v2.TermsAndConditionsApi;
 import com.tingcore.users.model.v2.response.Agreement;
 import org.springframework.stereotype.Repository;
@@ -18,15 +17,12 @@ public class TermsAndConditionRepository extends AbstractUserServiceRepository {
 
 
     private final TermsAndConditionsApi termsAndConditionsApi;
-    private final InternalAgreementsApi internalAgreementsApi;
 
 
     public TermsAndConditionRepository(final ObjectMapper objectMapper,
-                                       final TermsAndConditionsApi termsAndConditionsApi,
-                                       final InternalAgreementsApi internalAgreementsApi) {
+                                       final TermsAndConditionsApi termsAndConditionsApi) {
         super(objectMapper);
         this.termsAndConditionsApi = termsAndConditionsApi;
-        this.internalAgreementsApi= internalAgreementsApi;
     }
 
     public ApiResponse<TermsAndConditionsApproval> getCurrentApproval(final Long authorizedUserId, final Long organizationId) {
@@ -49,9 +45,5 @@ public class TermsAndConditionRepository extends AbstractUserServiceRepository {
 
     public ApiResponse<Void> approve(final Long authorizedUserId, final Long agreementId) {
         return execute(termsAndConditionsApi.approve(authorizedUserId, authorizedUserId, agreementId));
-    }
-
-    public ApiResponse<Agreement> getByUserPrefix(final String userPrefix) {
-        return execute(internalAgreementsApi.getCustomerActiveTermsAndConditions(userPrefix));
     }
 }

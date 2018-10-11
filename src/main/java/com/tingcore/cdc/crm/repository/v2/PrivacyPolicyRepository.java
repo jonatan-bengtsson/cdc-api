@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tingcore.cdc.crm.model.PrivacyPolicyApproval;
 import com.tingcore.cdc.crm.repository.AbstractUserServiceRepository;
 import com.tingcore.commons.rest.repository.ApiResponse;
-import com.tingcore.users.api.v2.InternalAgreementsApi;
 import com.tingcore.users.api.v2.PrivacyPoliciesApi;
 import com.tingcore.users.model.v2.response.Agreement;
 import org.springframework.stereotype.Repository;
@@ -17,15 +16,12 @@ import org.springframework.stereotype.Repository;
 public class PrivacyPolicyRepository extends AbstractUserServiceRepository {
 
     private final PrivacyPoliciesApi privacyPoliciesApi;
-    private final InternalAgreementsApi internalAgreementsApi;
 
 
     public PrivacyPolicyRepository(final ObjectMapper objectMapper,
-                                   final PrivacyPoliciesApi privacyPoliciesApi,
-                                   final InternalAgreementsApi agreementsApi) {
+                                   final PrivacyPoliciesApi privacyPoliciesApi) {
         super(objectMapper);
         this.privacyPoliciesApi = privacyPoliciesApi;
-        this.internalAgreementsApi = agreementsApi;
     }
 
     public ApiResponse<PrivacyPolicyApproval> getCurrentApproval(final Long authorizedUserId, final Long organizationId) {
@@ -48,9 +44,5 @@ public class PrivacyPolicyRepository extends AbstractUserServiceRepository {
 
     public ApiResponse<Void> approve(final Long authorizedUserId, final Long privacyPolicyId) {
         return execute(privacyPoliciesApi.approve(authorizedUserId, authorizedUserId, privacyPolicyId));
-    }
-
-    public ApiResponse<Agreement> getByUserPrefix(final String userPrefix) {
-        return execute(internalAgreementsApi.getCustomerActivePrivacyPolicy(userPrefix));
     }
 }

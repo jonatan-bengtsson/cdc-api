@@ -41,7 +41,7 @@ public class UserService {
         AttributeValueListRequest attributeValueListRequest = AttributeValueMapper.toAttributeValueListRequest(userRequest, attributeRepository.findAll());
         ApiResponse<List<AttributeResponse>> apiResponse = userRepository.putUserAttributeValues(userId, attributeValueListRequest);
         return apiResponse.getResponseOptional()
-                .map(attributeResponseList -> UserMapper.attributeListToUserResponse(attributeResponseList, userId))
+                .map(UserMapper::attributeListToUserResponse)
                 .orElseThrow(() -> new UsersApiException(apiResponse.getError()));
     }
 }

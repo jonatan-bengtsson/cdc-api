@@ -161,10 +161,4 @@ public class UserServiceConfiguration {
         return userServiceClient
                 .createService(TermsAndConditionsApi.class);
     }
-
-    @Bean
-    public InternalAgreementsApi internalAgreementsApi(UserServiceClient userServiceClient){
-        return userServiceClient
-                .createService(InternalAgreementsApi.class);
-    }
 }

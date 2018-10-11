@@ -5,7 +5,7 @@ import com.tingcore.cdc.crm.constant.AttributeType;
 import com.tingcore.cdc.crm.model.User;
 import com.tingcore.cdc.crm.utils.UserDataUtils;
 import com.tingcore.cdc.utils.CommonDataUtils;
-import com.tingcore.commons.constant.SuppressWarningConstant;
+import com.tingcore.commons.core.constant.SuppressWarningConstant;
 import com.tingcore.users.model.v1.response.AttributeResponse;
 import com.tingcore.users.model.v1.response.AttributeValueResponse;
 import com.tingcore.users.model.v1.response.UserResponse;

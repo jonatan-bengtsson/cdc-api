@@ -7,7 +7,7 @@ import com.tingcore.cdc.utils.CommonDataUtils;
 import com.tingcore.cdc.utils.MockMvcUtils;
 import com.tingcore.commons.api.model.Organization;
 import com.tingcore.commons.api.security.ClaimsHeader;
-import com.tingcore.commons.constant.SuppressWarningConstant;
+import com.tingcore.commons.core.constant.SuppressWarningConstant;
 import com.tingcore.commons.hash.HashIdService;
 import okhttp3.mockwebserver.MockWebServer;
 import org.junit.runner.RunWith;

@@ -3,8 +3,8 @@ package com.tingcore.cdc.crm.request;
 import com.tingcore.cdc.crm.constant.FieldConstant;
 import com.tingcore.cdc.crm.utils.CustomerKeyDataUtils;
 import com.tingcore.cdc.utils.ValidationTest;
-import com.tingcore.commons.constant.SuppressWarningConstant;
-import com.tingcore.commons.utils.StreamUtils;
+import com.tingcore.commons.core.constant.SuppressWarningConstant;
+import com.tingcore.commons.core.utils.StreamUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 

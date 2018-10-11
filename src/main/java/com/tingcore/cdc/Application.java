@@ -16,9 +16,8 @@ import org.springframework.context.annotation.AnnotationBeanNameGenerator;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.Environment;
 
-@SpringBootApplication
+@SpringBootApplication(exclude = JpaRepositoriesAutoConfiguration.class)
 @ComponentScan(nameGenerator = Application.CustomBeanNameGenerator.class)
-@EnableAutoConfiguration(exclude = JpaRepositoriesAutoConfiguration.class)
 public class Application {
 
     private static final Logger LOG = LoggerFactory.getLogger(Application.class);

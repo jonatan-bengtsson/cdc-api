@@ -29,7 +29,8 @@ public class ChargingKeyMapper {
                                 .map(paymentOption -> paymentOption.getId())
                                 .collect(Collectors.toList()))
                         .orElse(null),
-                chargingKey.getVersion());
+                chargingKey.getVersion(),
+                null);
 
     }
 }

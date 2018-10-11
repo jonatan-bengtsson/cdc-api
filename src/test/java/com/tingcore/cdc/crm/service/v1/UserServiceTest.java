@@ -11,7 +11,7 @@ import com.tingcore.cdc.crm.service.UsersApiException;
 import com.tingcore.cdc.crm.utils.AttributeDataUtils;
 import com.tingcore.cdc.crm.utils.UserDataUtils;
 import com.tingcore.cdc.utils.CommonDataUtils;
-import com.tingcore.commons.constant.SuppressWarningConstant;
+import com.tingcore.commons.core.constant.SuppressWarningConstant;
 import com.tingcore.commons.rest.ErrorResponse;
 import com.tingcore.commons.rest.repository.ApiResponse;
 import com.tingcore.users.model.v1.request.AttributeValueListRequest;

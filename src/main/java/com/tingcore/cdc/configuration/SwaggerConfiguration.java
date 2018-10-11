@@ -4,7 +4,7 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
 import com.tingcore.cdc.constant.SpringProfilesConstant;
 import com.tingcore.commons.api.security.ClaimsHeader;
-import com.tingcore.commons.constant.SuppressWarningConstant;
+import com.tingcore.commons.core.constant.SuppressWarningConstant;
 import com.tingcore.commons.rest.SwaggerDefaultConstant;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

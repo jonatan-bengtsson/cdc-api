@@ -2,6 +2,7 @@ package com.tingcore.cdc.configuration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.tingcore.commons.api.service.CustomServiceModelToSwagger2Mapper;
 import com.tingcore.commons.hash.HashIdDeserializer;
 import com.tingcore.commons.hash.HashIdSerializer;
@@ -52,6 +53,7 @@ public class CommonServiceConfiguration {
         module.addSerializer(Long.class, new HashIdSerializer(hashIdService));
         module.addDeserializer(Long.class, new HashIdDeserializer(hashIdService));
         objectMapper.registerModule(module);
+        objectMapper.registerModule(new Jdk8Module());
 
         return objectMapper;
     }

@@ -1,13 +1,29 @@
 package com.tingcore.cdc.charging.mapper;
 
 
-import com.tingcore.cdc.charging.model.*;
+import com.tingcore.cdc.charging.model.AggregatedChargePointTypeStatus;
 import com.tingcore.cdc.charging.model.ChargePoint;
+import com.tingcore.cdc.charging.model.ChargePointTypeStatus;
+import com.tingcore.cdc.charging.model.ChargeSiteStatus;
+import com.tingcore.cdc.charging.model.ConnectorId;
+import com.tingcore.cdc.charging.model.ConnectorPrice;
+import com.tingcore.cdc.charging.model.ConnectorStatus;
 import com.tingcore.cdc.charging.utils.ConnectorDataUtils;
 import com.tingcore.cdc.constant.SpringProfilesConstant;
-import com.tingcore.charging.assets.model.*;
+import com.tingcore.charging.assets.model.ChargePointSiteEntity;
+import com.tingcore.charging.assets.model.CompleteChargePoint;
+import com.tingcore.charging.assets.model.CompleteChargePointSite;
+import com.tingcore.charging.assets.model.ConnectorCapability;
+import com.tingcore.charging.assets.model.Location;
+import com.tingcore.charging.assets.model.Address;
+import com.tingcore.charging.assets.model.GeoCoordinate;
+import com.tingcore.charging.assets.model.ConnectorEntity;
 import com.tingcore.charging.assets.model.ChargePointSite;
+import com.tingcore.charging.assets.model.BasicChargePoint;
+import com.tingcore.charging.assets.model.BasicConnector;
 import com.tingcore.charging.assets.model.Connector;
+import com.tingcore.charging.assets.model.EntityMetadata;
+import com.tingcore.charging.assets.model.LocationEntity;
 import com.tingcore.charging.operations.model.ConnectorStatusResponse;
 import org.junit.Test;
 import org.springframework.test.context.ActiveProfiles;
@@ -249,7 +265,19 @@ public class ChargePointSiteMapperTest {
 
         assertEquals(siteId, chargePointSite.getId());
         assertEquals(chargePointId, chargePointSite.getChargePoints().get(0).getId());
-        assertEquals(location.getData(), chargePointSite.getLocation());
+
+        assertEquals(location.getData().getAddress().getCity(), chargePointSite.getLocation().getAddress().getCity().orElse(null));
+        assertEquals(location.getData().getAddress().getCountryIsoCode(), chargePointSite.getLocation().getAddress().getCountryIsoCode());
+        assertEquals(location.getData().getAddress().getFloor(), chargePointSite.getLocation().getAddress().getFloor().orElse(null));
+        assertEquals(location.getData().getAddress().getStreetNumber(), chargePointSite.getLocation().getAddress().getNumber().orElse(null));
+        assertEquals(location.getData().getAddress().getPostalCode(), chargePointSite.getLocation().getAddress().getPostalCode().orElse(null));
+        assertEquals(location.getData().getAddress().getRegion(), chargePointSite.getLocation().getAddress().getRegion().orElse(null));
+        assertEquals(location.getData().getAddress().getStreet(), chargePointSite.getLocation().getAddress().getStreet().orElse(null));
+
+        assertEquals(location.getData().getGeoCoordinate().getLatitude(), chargePointSite.getLocation().getGeoCoordinate().getLatitude(), 10.0e-6);
+        assertEquals(location.getData().getGeoCoordinate().getLongitude(), chargePointSite.getLocation().getGeoCoordinate().getLongitude(), 10.0e-6);
+
+
         assertEquals(siteName, chargePointSite.getName());
 
         ChargePointTypeStatus chargePointTypeStatus = chargePointSite.getChargePointTypeStatuses().get(0);

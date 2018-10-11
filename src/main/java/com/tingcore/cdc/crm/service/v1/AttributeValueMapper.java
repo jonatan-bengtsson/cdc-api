@@ -8,14 +8,18 @@ import com.tingcore.cdc.crm.model.StringAttribute;
 import com.tingcore.cdc.crm.request.BaseUpdateCustomerRequest;
 import com.tingcore.cdc.crm.request.UpdateBusinessCustomerRequest;
 import com.tingcore.cdc.crm.request.UpdatePrivateCustomerRequest;
-import com.tingcore.commons.utils.JsonUtils;
+import com.tingcore.commons.core.utils.JsonUtils;
 import com.tingcore.users.model.v1.request.AttributeValueListRequest;
 import com.tingcore.users.model.v1.request.AttributeValueRequest;
 import com.tingcore.users.model.v1.response.AttributeResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 /**
  * @author moa.mackegard

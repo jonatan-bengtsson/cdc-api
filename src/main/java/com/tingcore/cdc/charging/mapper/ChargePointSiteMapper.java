@@ -1,5 +1,6 @@
 package com.tingcore.cdc.charging.mapper;
 
+import com.tingcore.cdc.charging.model.Address;
 import com.tingcore.cdc.charging.model.AggregatedChargePointTypeStatus;
 import com.tingcore.cdc.charging.model.ChargePoint;
 import com.tingcore.cdc.charging.model.ChargePointSite;
@@ -8,6 +9,8 @@ import com.tingcore.cdc.charging.model.ChargeSiteStatus;
 import com.tingcore.cdc.charging.model.Connector;
 import com.tingcore.cdc.charging.model.ConnectorPrice;
 import com.tingcore.cdc.charging.model.ConnectorStatus;
+import com.tingcore.cdc.charging.model.GeoCoordinate;
+import com.tingcore.cdc.charging.model.Location;
 import com.tingcore.charging.assets.model.ChargePointEntity;
 import com.tingcore.charging.assets.model.ChargePointSiteEntity;
 import com.tingcore.charging.assets.model.CompleteChargePoint;
@@ -41,7 +44,7 @@ public class ChargePointSiteMapper {
         return new ChargePointSite(
                 chargePointSiteId,
                 chargePointSiteName,
-                ccps.getLocationEntity().getData(),
+                toLocation(ccps.getLocationEntity().getData()),
                 "No description available", // TODO This should be part of CompleteChargeSite
                 getStatusByType(ccps, connectorStatusProvider),
                 ccps.getChargePoints().stream()
@@ -203,6 +206,26 @@ public class ChargePointSiteMapper {
                 c.getData().getConnectorCapability().getVoltage(),
                 ofNullable(ConnectorStatusMapper.toConnectorStatus(connectorStatusResponse)).orElse(ConnectorStatus.NO_DATA),
                 ofNullable(connectorPrice).map(price -> price.price).orElse("no price information available"));
+    }
+
+    public static Location toLocation(com.tingcore.charging.assets.model.Location location) {
+        return new Location(toAddress(location.getAddress()), toGeoCoordinate(location.getGeoCoordinate()));
+    }
+
+    public static Address toAddress(com.tingcore.charging.assets.model.Address address) {
+        return new Address(address.getCity(),
+                address.getCountryIsoCode(),
+                address.getPostalCode(),
+                address.getRegion(),
+                address.getRegionIsoCode(),
+                address.getStreet(),
+                address.getStreetNumber(),
+                address.getFloor(),
+                address.getSection());
+    }
+
+    public static GeoCoordinate toGeoCoordinate(com.tingcore.charging.assets.model.GeoCoordinate geoCoordinate) {
+        return new GeoCoordinate(geoCoordinate.getLatitude(), geoCoordinate.getLongitude());
     }
 
     /**

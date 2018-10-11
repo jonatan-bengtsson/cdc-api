@@ -1,7 +1,7 @@
 package com.tingcore.cdc;
 
 import com.tingcore.cdc.constant.SpringProfilesConstant;
-import com.tingcore.commons.constant.SuppressWarningConstant;
+import com.tingcore.commons.core.constant.SuppressWarningConstant;
 import com.tingcore.commons.hash.HashIdService;
 import org.junit.Test;
 import org.junit.runner.RunWith;

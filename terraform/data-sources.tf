@@ -29,6 +29,8 @@ module "route53" {
 module "vpc" {
   source = "git::ssh://git@bitbucket.tingcore-infra.com/aws/terraform-data-source.git//vpc"
 
+  unit_alias = "${module.account.unit_alias}"
+
   environment = "${var.environment}"
 }
 

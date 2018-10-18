@@ -29,6 +29,7 @@ plugins {
     id 'com.github.jk1.dependency-license-report' version '0.3.4'
 }
 
+
 import com.github.jk1.license.render.*
 
 apply plugin: "java"

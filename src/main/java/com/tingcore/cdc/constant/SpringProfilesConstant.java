@@ -16,7 +16,9 @@ public class SpringProfilesConstant {
     public static final String CUCUMBER = "cucumber";
     public static final String INTEGRATION_TEST = "it";
     public static final String FUNCTIONAL_TEST = "ft";
-    public static final String MONITORING = "monitoring";
+
+    // features toggles
+    public static final String SESSION_HISTORY_V2 = "session-history-v2";
 
     private SpringProfilesConstant() {
 

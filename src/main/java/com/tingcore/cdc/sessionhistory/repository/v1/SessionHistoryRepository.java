@@ -1,19 +1,23 @@
-package com.tingcore.cdc.sessionhistory.repository;
+package com.tingcore.cdc.sessionhistory.repository.v1;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tingcore.cdc.sessionhistory.repository.GetSessionHistoryApiException;
 import com.tingcore.commons.rest.external.ExternalApiException;
 import com.tingcore.commons.rest.repository.AbstractApiRepository;
 import com.tingcore.payments.cpo.api.SessionHistoryApi;
 import com.tingcore.payments.cpo.model.ApiChargeHistory;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
+import static com.tingcore.cdc.constant.SpringProfilesConstant.SESSION_HISTORY_V2;
 import static com.tingcore.cdc.controller.ApiUtils.getResponseOrThrowError;
 import static org.apache.commons.lang3.Validate.notNull;
 
 @Repository
+@Profile("!" + SESSION_HISTORY_V2)
 public class SessionHistoryRepository extends AbstractApiRepository {
     private final SessionHistoryApi sessionhistoryApi;
     private static final Integer DEFAULT_TIME_OUT = 60;

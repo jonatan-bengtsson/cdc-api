@@ -7,10 +7,12 @@ import com.tingcore.payments.cpo.api.*;
 import okhttp3.Dispatcher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.env.Environment;
 
 import java.util.Optional;
 
+import static com.tingcore.cdc.constant.SpringProfilesConstant.SESSION_HISTORY_V2;
 import static org.apache.commons.lang3.Validate.notNull;
 
 @Configuration
@@ -36,6 +38,7 @@ public class PaymentsServiceConfiguration {
     }
 
     @Bean
+    @Profile("!" + SESSION_HISTORY_V2)
     public SessionHistoryApi sessionhistoryApi(final ApiClient paymentsClient) {
         return notNull(paymentsClient).createService(SessionHistoryApi.class);
     }

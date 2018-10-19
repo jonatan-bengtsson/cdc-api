@@ -45,6 +45,9 @@ app:
   campaign-service:
     base-url: https://${integration.campaign.hostname}
     default-timeout: 10
+  session-history-service:
+    base-url: https://${integration.history.hostname}
+    default-timeout: 20
 
 integration:
   payments:
@@ -59,6 +62,8 @@ integration:
     hostname: customer-key-order.tingcore-test.com
   campaign:
     hostname: campaign-service.tingcore-test.com
+  history:
+    hostname: session-history.tingcore-test.com
 
 management:
   endpoints:

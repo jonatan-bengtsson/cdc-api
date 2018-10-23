@@ -66,7 +66,7 @@ public class ChargingSessionServiceImpl implements ChargingSessionService {
                                             ChargingSessionId sessionId,
                                             ChargePointId chargePointId) {
         return sessionsApi.stopAsInternalCustomer(new RemoteStopRequestV1()
-                                                      .customerKeyId(0L) // until payments can take a stop request without a CK id
+                                                      .userId(trustedUserId.value)
                                                       .sessionId(sessionId.value))
                           .thenApply(ok -> new ChargingSessionEvent(sessionId,
                                                                     new ChargingSessionEventId(sessionId.value),
@@ -84,7 +84,7 @@ public class ChargingSessionServiceImpl implements ChargingSessionService {
     public List<ChargingSession> fetchOngoingSessions(TrustedUserId userId) {
         throw new NotImplementedException("Fetch Ongoing Sessions: coming soon, to a location near you");
     }
-    
+
     private ChargingSessionBuilder populateSessionWithChargeSiteInfo(ChargingSessionBuilder builder) {
         if (builder.getConnectorId() != null) {
             final Optional<ChargePointInfo> chargePointInfo =

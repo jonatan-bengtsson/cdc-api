@@ -19,6 +19,7 @@ public class SpringProfilesConstant {
 
     // features toggles
     public static final String SESSION_HISTORY_V2 = "session-history-v2";
+    public static final String PAYMENTS_RECEIPT_V2 = "payments-receipt-v2";
 
     private SpringProfilesConstant() {
 

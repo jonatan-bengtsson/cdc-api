@@ -19,6 +19,7 @@ public class SpringProfilesConstant {
 
     // features toggles
     public static final String SESSION_HISTORY_V2 = "session-history-v2";
+    public static final String CHARGING_SESSIONS_V2 = "charging-sessions-v2";
 
     private SpringProfilesConstant() {
 

@@ -1,20 +1,22 @@
 package com.tingcore.cdc.receipt.repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tingcore.cdc.payments.repository.ReceiptApiException;
+import com.tingcore.cdc.exception.ReceiptApiException;
 import com.tingcore.commons.rest.repository.AbstractApiRepository;
 import com.tingcore.commons.rest.repository.ApiResponse;
 import com.tingcore.receipt.client.api.v1.PaymentsReceiptRestApi;
+import org.springframework.stereotype.Repository;
 
 import static com.tingcore.cdc.controller.ApiUtils.getResponseOrThrowError;
 
+@Repository
 public class ReceiptRepository extends AbstractApiRepository {
 
     private final PaymentsReceiptRestApi receiptApi;
     private Integer defaultTimeout;
 
-    public ReceiptRepository(final ObjectMapper objectMapper,
-                             final PaymentsReceiptRestApi receiptApi) {
+    ReceiptRepository(ObjectMapper objectMapper,
+                             PaymentsReceiptRestApi receiptApi) {
         super(objectMapper);
         this.receiptApi = receiptApi;
     }

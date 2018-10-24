@@ -4,15 +4,18 @@ import com.tingcore.cdc.payments.service.ReceiptService;
 import com.tingcore.commons.hash.HashIdService;
 import com.tingcore.payments.cpo.model.ApiReceipt;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.context.annotation.Profile;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import static com.tingcore.cdc.constant.SpringProfilesConstant.PAYMENTS_RECEIPT_V2;
 import static org.apache.commons.lang3.Validate.notNull;
 
 @RestController
 @RequestMapping("/" + ReceiptController.VERSION + "/" + ReceiptController.RECEIPTS + "/")
+@Profile("!" + PAYMENTS_RECEIPT_V2)
 public class ReceiptController {
     static final String VERSION = "v1";
     static final String SESSIONS = "sessions";

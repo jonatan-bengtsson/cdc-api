@@ -5,13 +5,17 @@ import com.tingcore.cdc.exception.ReceiptApiException;
 import com.tingcore.commons.rest.repository.AbstractApiRepository;
 import com.tingcore.commons.rest.repository.ApiResponse;
 import com.tingcore.receipt.client.api.v1.PaymentsReceiptRestApi;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
+import static com.tingcore.cdc.constant.SpringProfilesConstant.PAYMENTS_RECEIPT_V2;
 import static com.tingcore.cdc.controller.ApiUtils.getResponseOrThrowError;
 
 @Repository
+@Profile(PAYMENTS_RECEIPT_V2)
 public class ReceiptRepository extends AbstractApiRepository {
 
+    // todo change to autowired bean instead?
     private final PaymentsReceiptRestApi receiptApi;
     private Integer defaultTimeout;
 

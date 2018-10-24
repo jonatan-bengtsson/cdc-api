@@ -21,7 +21,7 @@ import static com.tingcore.cdc.constant.SpringProfilesConstant.DEV;
 import static com.tingcore.cdc.constant.SpringProfilesConstant.PAYMENTS_RECEIPT_V2;
 
 @Configuration
-// @Profile(PAYMENTS_RECEIPT_V2)
+@Profile(PAYMENTS_RECEIPT_V2)
 public class PaymentsReceiptConfiguration {
 
     private final String baseUrl;

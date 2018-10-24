@@ -23,6 +23,11 @@ public class PaymentsServiceConfiguration {
     }
 
     @Bean
+    public SessionsApi sessionsApi(final ApiClient paymentsClient) {
+        return notNull(paymentsClient).createService(SessionsApi.class);
+    }
+
+    @Bean
     public TokensApi tokensApi(final ApiClient paymentsClient) {
         return notNull(paymentsClient).createService(TokensApi.class);
     }

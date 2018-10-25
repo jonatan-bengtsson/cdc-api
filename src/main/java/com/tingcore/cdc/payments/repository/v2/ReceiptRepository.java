@@ -1,4 +1,4 @@
-package com.tingcore.cdc.receipt.repository;
+package com.tingcore.cdc.payments.repository.v2;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tingcore.cdc.exception.ReceiptApiException;
@@ -15,9 +15,8 @@ import static com.tingcore.cdc.controller.ApiUtils.getResponseOrThrowError;
 @Profile(PAYMENTS_RECEIPT_V2)
 public class ReceiptRepository extends AbstractApiRepository {
 
-    // todo change to autowired bean instead?
     private final PaymentsReceiptRestApi receiptApi;
-    private Integer defaultTimeout;
+    private static final Integer defaultTimeout = 20;
 
     ReceiptRepository(ObjectMapper objectMapper,
                              PaymentsReceiptRestApi receiptApi) {
@@ -27,7 +26,6 @@ public class ReceiptRepository extends AbstractApiRepository {
 
     public String getReceipt(final Long sessionId){
        ApiResponse<String> fetchReceipt = execute(receiptApi.getReceiptUrlBySessionId(sessionId));
-       // Todo create a new exception for this new api?
         return getResponseOrThrowError(fetchReceipt, ReceiptApiException::new);
     }
 

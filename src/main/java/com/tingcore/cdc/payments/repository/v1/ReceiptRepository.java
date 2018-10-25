@@ -1,4 +1,4 @@
-package com.tingcore.cdc.payments.repository;
+package com.tingcore.cdc.payments.repository.v1;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tingcore.cdc.exception.ReceiptApiException;

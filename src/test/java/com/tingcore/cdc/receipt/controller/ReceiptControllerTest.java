@@ -3,7 +3,8 @@ package com.tingcore.cdc.receipt.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tingcore.cdc.ControllerUnitTest;
 import com.tingcore.cdc.exception.EntityNotFoundException;
-import com.tingcore.cdc.receipt.service.ReceiptService;
+import com.tingcore.cdc.payments.controller.ReceiptController;
+import com.tingcore.cdc.payments.service.v2.ReceiptServiceImpl;
 import com.tingcore.commons.rest.ErrorResponse;
 import com.tingcore.payments.cpo.model.ApiReceipt;
 import org.junit.Test;
@@ -23,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles(PAYMENTS_RECEIPT_V2)
 public class ReceiptControllerTest extends ControllerUnitTest {
 
-    @MockBean private ReceiptService service;
+    @MockBean private ReceiptServiceImpl service;
     private ObjectMapper mapper = new ObjectMapper();
 
     @Test

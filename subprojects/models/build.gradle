@@ -26,7 +26,7 @@ ext {
     versionUserServiceClient = "1.3.9"
     versionCampaignServiceJavaClient = "0.7.0"
     versionSessionHistoryServiceClient = "0.5.0-SNAPSHOT"
-    versionPaymentsReceiptClient = "feature-java-client-0.1.0-SNAPSHOT"
+    versionPaymentsReceiptClient = "0.1.0-SNAPSHOT"
 
 }
 

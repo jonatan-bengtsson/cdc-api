@@ -4,7 +4,6 @@ server:
 spring:
   profiles:
     active: dev
-    include: payments-receipt-v2
 logging:
   level:
     org:

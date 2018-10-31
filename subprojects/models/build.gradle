@@ -27,6 +27,7 @@ ext {
     versionCampaignServiceJavaClient = "0.7.0"
     versionSessionHistoryServiceClient = "0.5.0-SNAPSHOT"
     versionPaymentsReceiptClient = "0.1.0-SNAPSHOT"
+    versionPaymentsSessionsClient = "0.0.1-SNAPSHOT"
 
 }
 
@@ -50,6 +51,7 @@ dependencies {
     compile("com.tingcore.campaign:campaign-service-java-client:$versionCampaignServiceJavaClient")
     compile("com.tingcore.payments:session-history-client:$versionSessionHistoryServiceClient")
     compile("com.tingcore.payments:payments-receipt-client:$versionPaymentsReceiptClient")
+    compile("com.tingcore.payments:payments-sessions-client:$versionPaymentsSessionsClient")
     compile("com.google.code.gson:gson:$versionGson")
 
     testCompile "junit:junit:$versionJunit"

@@ -43,7 +43,7 @@ public class PaymentsSessionsConfiguration {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         tracing.ifPresent(httpTracing -> instrumentClient(builder, httpTracing));
         return PaymentsSessionsClient
-                .Companion.create()
+                .create()
                 .okHttpClient(builder)
                 .baseUrl(baseUrl)
                 .readTimeout(timeout, TimeUnit.SECONDS)

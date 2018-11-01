@@ -95,7 +95,7 @@ public class ChargingSessionServiceImpl implements ChargingSessionService {
                                    Optional.ofNullable(session.getPrice()).map(this::toPrice).orElse(null),
                                    Optional.ofNullable(session.getStartTime()).orElse(null),
                                    Optional.ofNullable(session.getStopTime()).orElse(null),
-                                   Optional.ofNullable(session.getSessionStatus()).map(this::toSessionStatus).orElse(null),
+                                   toSessionStatus(session.getSessionStatus()),
                                    optConnectorId.orElse(null),
                                    Optional.ofNullable(session.getChargePointId()).map(ChargePointId::new).orElse(null),
                                    optConnectorId.flatMap(this::getChargeSiteId).orElse(null)

@@ -51,6 +51,9 @@ app:
   payments-receipt:
     base-url: https://${integration.receipt.hostname}
     default-timeout: 20
+  payments-sessions:
+    base-url: https://${integration.sessions.hostname}
+    default-timeout: 20
 
 integration:
   payments:
@@ -69,6 +72,8 @@ integration:
     hostname: session-history.tingcore-test.com
   receipt:
     hostname: payments-receipt.tingcore-test.com
+  sessions:
+    hostname: payments-sessions.tingcore-test.com
 
 management:
   endpoints:

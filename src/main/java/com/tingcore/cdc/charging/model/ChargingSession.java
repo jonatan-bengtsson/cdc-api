@@ -26,7 +26,7 @@ public class ChargingSession {
                            final ChargePointId chargePointId,
                            final ChargeSiteId chargeSiteId) {
         this.id = notNull(id);
-        this.customerKeyId = notNull(customerKeyId);
+        this.customerKeyId = customerKeyId;
         this.price = price;
         this.startTime = startTime;
         this.endTime = endTime;

@@ -1,11 +1,7 @@
 package com.tingcore.cdc.payments.history.v2;
 
-
 import com.tingcore.cdc.payments.history.ApiAmount;
 
-import java.math.BigDecimal;
-
-import static java.util.Optional.ofNullable;
 import static org.apache.commons.lang3.Validate.notNull;
 
 public class ApiAmountAdapter implements ApiAmount {
@@ -32,7 +28,7 @@ public class ApiAmountAdapter implements ApiAmount {
     }
 
     @Override
-    public String getTax() {
-        return ofNullable(original.getTax()).map(BigDecimal::toString).orElse(null);
+    public String getVat() {
+        return original.getVat();
     }
 }

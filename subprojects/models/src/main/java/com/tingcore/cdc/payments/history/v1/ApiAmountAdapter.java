@@ -26,7 +26,7 @@ public class ApiAmountAdapter implements ApiAmount {
     }
 
     @Override
-    public String getTax() {
+    public String getVat() {
         return original.getVat();
     }
 }

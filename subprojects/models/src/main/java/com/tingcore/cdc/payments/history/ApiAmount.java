@@ -11,5 +11,5 @@ public interface ApiAmount {
     @JsonProperty("currency")
     public String getCurrency();
     @JsonProperty("vat")
-    public String getTax();
+    public String getVat();
 }

@@ -14,7 +14,7 @@
           "amountIncl": "400,00",
           "amountExcl": "320,00",
           "currency": "SEK",
-          "tax": "25"
+          "vat": "25"
         },
         "energy": {
           "value": "0,276",

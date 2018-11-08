@@ -11,6 +11,7 @@
     "startTime": 1539722757903,
     "site": "Test CPS 152",
     "balanceStatus": "PAID",
+    "sessionStatus": "CLEARED",
     "organizationId": "Py1nND7mLw",
     "energy": {
       "value": "0,276",
@@ -23,6 +24,7 @@
     "startTime": 1536847206000,
     "site": "Roaming test",
     "balanceStatus": "NOT_PAID",
+    "sessionStatus": "CLEARING",
     "organizationId": "pNK7reEGPr",
     "energy": {
       "value": "0",

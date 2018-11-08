@@ -1,5 +1,6 @@
 package com.tingcore.cdc.payments.history.v2;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tingcore.cdc.payments.history.ApiAmount;
 import com.tingcore.cdc.payments.history.ApiChargeHistory;
 import com.tingcore.cdc.payments.history.ApiSessionEnergy;
@@ -62,6 +63,13 @@ public class ApiChargeHistoryAdapter implements ApiChargeHistory {
     public String getBalanceStatus() {
         return ofNullable(original.getComputedInfo())
                 .map(ApiComputedInfo::getBalanceStatus)
+                .orElse(null);
+    }
+
+    @JsonProperty("sessionStatus")
+    public String getSessionStatus() {
+        return ofNullable(original.getComputedInfo())
+                .map(ApiComputedInfo::getSessionStatus)
                 .orElse(null);
     }
 

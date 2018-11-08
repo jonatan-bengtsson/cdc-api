@@ -34,7 +34,8 @@
         "customerKeyTypeName": "virtual"
       },
       "computedInfo": {
-        "balanceStatus": "PAID"
+        "balanceStatus": "PAID",
+        "sessionStatus": "CLEARED"
       },
       "transactions": []
     },
@@ -64,7 +65,8 @@
         "customerKeyTypeName": "virtual"
       },
       "computedInfo": {
-        "balanceStatus": "NOT_PAID"
+        "balanceStatus": "NOT_PAID",
+        "sessionStatus": "CLEARING"
       },
       "transactions": []
     }

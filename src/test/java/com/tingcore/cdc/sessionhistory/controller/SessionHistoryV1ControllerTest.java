@@ -47,7 +47,9 @@ public class SessionHistoryV1ControllerTest extends ControllerUnitTest {
 
         String result = response.getResponse().getContentAsString();
         String expected = jsonFileToString("test-data/session-history/result.json");
-        assertThatJson(result).isEqualTo(expected);
+        assertThatJson(expected)
+                .withConfiguration(c -> c.whenIgnoringPaths("[*].sessionStatus"))
+                .isEqualTo(result);
     }
 
 }

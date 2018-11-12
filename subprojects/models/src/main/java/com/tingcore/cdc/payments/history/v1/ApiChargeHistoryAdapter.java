@@ -52,6 +52,9 @@ public class ApiChargeHistoryAdapter implements ApiChargeHistory {
     }
 
     @Override
+    public String getSessionStatus() { return null; }
+
+    @Override
     public ApiSessionEnergy getEnergy() {
         return ofNullable(original.getEnergy())
                 .map(ApiSessionEnergyAdapter::new)

@@ -66,7 +66,7 @@ public class ApiChargeHistoryAdapter implements ApiChargeHistory {
                 .orElse(null);
     }
 
-    @JsonProperty("sessionStatus")
+    @Override
     public String getSessionStatus() {
         return ofNullable(original.getComputedInfo())
                 .map(ApiComputedInfo::getSessionStatus)

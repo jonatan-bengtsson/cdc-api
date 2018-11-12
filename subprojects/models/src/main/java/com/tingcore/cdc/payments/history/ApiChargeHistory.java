@@ -16,6 +16,8 @@ public interface ApiChargeHistory {
     public String getSite();
     @JsonProperty("balanceStatus")
     public String getBalanceStatus();
+    @JsonProperty("sessionStatus")
+    public String getSessionStatus();
     @JsonProperty("organizationId")
     public Long getOrganizationId();
     @JsonProperty("energy")

@@ -1,0 +1,32 @@
+[
+  {
+    "sessionId": 7041098048622550,
+    "price": {
+      "inclVat": "400,00",
+      "exclVat": "320,00",
+      "currency": "SEK",
+      "vat": "25"
+    },
+    "connectorId": 3606,
+    "startTime": 1539722757903,
+    "site": "Test CPS 152",
+    "balanceStatus": "PAID",
+    "organizationId": 3,
+    "energy": {
+      "value": "0,276",
+      "unit": "kWh"
+    }
+  },
+  {
+    "sessionId": 348839658737527,
+    "connectorId": 15,
+    "startTime": 1536847206000,
+    "site": "Roaming test",
+    "balanceStatus": "NOT_PAID",
+    "organizationId": 1,
+    "energy": {
+      "value": "0",
+      "unit": "kWh"
+    }
+  }
+]

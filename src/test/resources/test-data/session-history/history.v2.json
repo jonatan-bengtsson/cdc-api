@@ -1,0 +1,74 @@
+{
+  "numTotalSessions": 43,
+  "numPages": 22,
+  "result": [
+    {
+      "history" : {
+        "sessionId": 7041098048622550,
+        "connectorId": 3606,
+        "chargePointName": "ASSET NAME 1",
+        "organizationId": 3,
+        "startTime": 1539722757903,
+        "stopTime": 1540848703000,
+        "price": {
+          "amountIncl": "400,00",
+          "amountExcl": "320,00",
+          "currency": "SEK",
+          "vat": "25"
+        },
+        "energy": {
+          "value": "0,276",
+          "unit": "kWh"
+        },
+        "chargePointSiteInfo": {
+          "chargePointSiteId": 2859,
+          "chargePointSiteName": "Test CPS 152",
+          "chargePointId": 1,
+          "chargePointName": "ASSET NAME 1",
+          "chargePointModelId": 8,
+          "connectorId": 15,
+          "connectorLabel": "B"
+        },
+        "customerKeyId": 1571,
+        "keyIdentifier": "800000000000f3",
+        "customerKeyTypeName": "virtual"
+      },
+      "computedInfo": {
+        "balanceStatus": "PAID",
+        "sessionStatus": "CLEARED"
+      },
+      "transactions": []
+    },
+    {
+      "history" : {
+        "sessionId": 348839658737527,
+        "connectorId": 15,
+        "chargePointName": "ASSET NAME 1",
+        "organizationId": 1,
+        "startTime": 1536847206000,
+        "stopTime": 1536847300000,
+        "energy": {
+          "value": "0",
+          "unit": "kWh"
+        },
+        "chargePointSiteInfo": {
+          "chargePointSiteId": 2859,
+          "chargePointSiteName": "Roaming test",
+          "chargePointId": 1,
+          "chargePointName": "ASSET NAME 1",
+          "chargePointModelId": 8,
+          "connectorId": 15,
+          "connectorLabel": "B"
+        },
+        "customerKeyId": 1611,
+        "keyIdentifier": "80000000000117",
+        "customerKeyTypeName": "virtual"
+      },
+      "computedInfo": {
+        "balanceStatus": "NOT_PAID",
+        "sessionStatus": "CLEARING"
+      },
+      "transactions": []
+    }
+  ]
+}

@@ -7,7 +7,7 @@ import com.tingcore.cdc.crm.service.ErrorMappingService;
 import com.tingcore.cdc.crm.service.v1.InvalidAttributeValueException;
 import com.tingcore.cdc.crm.service.UsersApiException;
 import com.tingcore.cdc.exception.EntityNotFoundException;
-import com.tingcore.cdc.payments.repository.PaymentAccountApiException;
+import com.tingcore.cdc.exception.PaymentAccountApiException;
 import com.tingcore.cdc.service.MessageByLocaleService;
 import com.tingcore.commons.api.service.ServiceException;
 import com.tingcore.commons.core.utils.StreamUtils;

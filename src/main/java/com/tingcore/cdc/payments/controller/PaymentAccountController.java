@@ -6,7 +6,7 @@ import com.tingcore.cdc.constant.SwaggerDocConstants;
 import com.tingcore.cdc.exception.PaymentAccountFailureException;
 import com.tingcore.cdc.payments.api.ApiCreateAccountRequest;
 import com.tingcore.cdc.payments.api.ApiStripeCustomer;
-import com.tingcore.cdc.payments.service.PaymentAccountService;
+import com.tingcore.cdc.payments.service.v1.PaymentAccountService;
 import com.tingcore.commons.hash.HashIdService;
 import com.tingcore.commons.rest.ErrorResponse;
 import com.tingcore.payments.cpo.model.ApiDeletedCustomer;

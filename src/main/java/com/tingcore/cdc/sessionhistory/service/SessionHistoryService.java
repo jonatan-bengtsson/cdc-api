@@ -1,21 +1,11 @@
 package com.tingcore.cdc.sessionhistory.service;
 
-import com.tingcore.cdc.sessionhistory.repository.SessionHistoryRepository;
-import com.tingcore.payments.cpo.model.ApiChargeHistory;
-import org.springframework.stereotype.Service;
+import com.tingcore.cdc.payments.history.ApiChargeHistory;
 
 import java.util.List;
 
-@Service
-public class SessionHistoryService {
+public interface SessionHistoryService {
 
-    private final SessionHistoryRepository sessionHistoryRepository;
+    public List<ApiChargeHistory> getSessionHistory(final Long chargingKeyId, final Long from, final Long to);
 
-    public SessionHistoryService(final SessionHistoryRepository sessionHistoryRepository) {
-        this.sessionHistoryRepository = sessionHistoryRepository;
-    }
-
-    public List<ApiChargeHistory> getSessionHistory(final Long id, final Long from, final Long to) {
-        return sessionHistoryRepository.getSessionHistory(id, from, to);
-    }
 }

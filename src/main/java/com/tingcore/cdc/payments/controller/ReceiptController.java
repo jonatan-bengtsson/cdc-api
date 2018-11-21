@@ -1,5 +1,6 @@
 package com.tingcore.cdc.payments.controller;
 
+import com.tingcore.cdc.exception.EntityNotFoundException;
 import com.tingcore.cdc.payments.service.ReceiptService;
 import com.tingcore.commons.hash.HashIdService;
 import com.tingcore.payments.cpo.model.ApiReceipt;
@@ -33,6 +34,6 @@ public class ReceiptController {
 
         return hashIdService.decode(sessionId)
                 .map(receiptService::getReceipt)
-                .orElseThrow(() -> new IllegalStateException("Could not decode sessionID"));
+                .orElseThrow(() -> new EntityNotFoundException("Receipt"));
     }
 }

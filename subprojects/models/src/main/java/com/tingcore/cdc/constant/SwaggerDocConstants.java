@@ -16,6 +16,7 @@ public class SwaggerDocConstants {
     public static final String TAGS_CHARGING_SESSIONS = "Charging Sessions";
     public static final String TAGS_PAYMENT_ACCOUNTS = "Payment Accounts";
     public static final String TAGS_SESSION_HISTORY = "Session History";
+    public static final String TAGS_PARTNERSHIPS = "Partnerships";
 
     // V2
     public static final String TAGS_CUSTOMERS = "Customers";

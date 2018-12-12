@@ -20,7 +20,7 @@ public class PartnershipsServiceConfiguration {
     private final Long defaultTimeout;
 
     public PartnershipsServiceConfiguration(@Value("${app.partnerships-service.base-url}") final String baseUrl,
-                                            @Value("${app.partnerships-service.default-timeout}") final Long defaultTimeout) {
+                                            @Value("${app.partnerships-service.default-timeout:20}") final Long defaultTimeout) {
         this.baseUrl = baseUrl;
         this.defaultTimeout = defaultTimeout;
     }

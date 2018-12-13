@@ -4,6 +4,9 @@ applicationPipeline {
     desiredCountTest = 1
     desiredCountProd = 2
     businessUnit = 'ChargeAndDrive'
+    systemName = 'Charge & Drive APP'
+    laCode = 'LA004980'
+
     buildCommand = './gradlew clean sonarqube build swaggerTs'
     buildImage = 'ci-build-image:java8'
     npmProjects = ['typescript-client']

@@ -4,7 +4,7 @@ applicationPipeline {
     desiredCountTest = 1
     desiredCountProd = 2
     businessUnit = 'ChargeAndDrive'
-    systemName = 'Charge & Drive APP'
+    systemName = 'CD-APP'
     laCode = 'LA004980'
 
     buildCommand = './gradlew clean sonarqube build swaggerTs'

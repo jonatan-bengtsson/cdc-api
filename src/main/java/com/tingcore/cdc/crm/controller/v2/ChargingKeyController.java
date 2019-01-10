@@ -55,7 +55,7 @@ public class ChargingKeyController {
 
     @RequestMapping(method = RequestMethod.POST, path = "/activate/{keyIdentifier}")
     @ApiOperation(value = "Activate charging key",
-            notes = "Route allows to activate the charginf key identified by the given `keyIdentifier`",
+            notes = "Route allows to activate the charging key identified by the given `keyIdentifier`",
             tags = SwaggerDocConstants.TAGS_CHARGING_KEYS)
     public ChargingKey activate(@PathVariable("keyIdentifier") String keyIdentifier) {
         return chargingKeyService.activate(authorizedUser.getId(), keyIdentifier);

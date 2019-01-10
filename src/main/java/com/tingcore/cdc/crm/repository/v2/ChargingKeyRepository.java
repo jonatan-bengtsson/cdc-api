@@ -12,6 +12,7 @@ import com.tingcore.users.model.v2.request.ChargingKeyActivationRequest;
 import com.tingcore.users.model.v2.request.ChargingKeyRequest;
 import com.tingcore.users.model.v2.request.ChargingKeyUpdateRequest;
 import com.tingcore.users.model.v2.response.ChargingKey;
+import com.tingcore.users.model.v2.response.EntityOwnerType;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -33,12 +34,12 @@ public class ChargingKeyRepository extends AbstractUserServiceRepository {
     }
 
     public ApiResponse<PageResponse<ChargingKey>> findByOwnerId(final Long authorizedUserId, final Integer limit, final Boolean fetchPrevious, final PagingCursor pagingCursor, final String keyIdentifierSearchQuery) {
-        return execute(chargingKeysApi.getChargingKeysByOwnerId(authorizedUserId, authorizedUserId, keyIdentifierSearchQuery,
+        return execute(chargingKeysApi.getChargingKeysByOwnerIdAndType(authorizedUserId, authorizedUserId, EntityOwnerType.USER, keyIdentifierSearchQuery,
                 fetchPrevious, limit, pagingCursor.getSortField(), pagingCursor.getSortFieldCursor(), pagingCursor.getSortFieldSortOrder(),
                 pagingCursor.getIdField(), pagingCursor.getIdFieldCursor(), pagingCursor.getIdFieldSortOrder()));
     }
 
     public ApiResponse<ChargingKey> updateChargingKey(final Long authorizedUserId, final Long chargingKeyId, final ChargingKeyUpdateRequest chargingKeyRequest) {
-        return execute(chargingKeysApi.updateChargingKey(authorizedUserId, chargingKeyId, chargingKeyRequest));
+        return execute(chargingKeysApi.updateChargingKeyByOwnerType(authorizedUserId, chargingKeyId, EntityOwnerType.USER, chargingKeyRequest));
     }
 }

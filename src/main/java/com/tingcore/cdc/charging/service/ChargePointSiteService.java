@@ -11,7 +11,7 @@ import com.tingcore.cdc.charging.model.ConnectorId;
 import com.tingcore.cdc.charging.model.ConnectorPrice;
 import com.tingcore.cdc.charging.repository.AssetRepository;
 import com.tingcore.cdc.charging.repository.OperationsRepository;
-import com.tingcore.cdc.charging.repository.PriceRepository;
+import com.tingcore.cdc.charging.repository.PriceStore;
 import com.tingcore.cdc.crm.service.v2.OrganizationService;
 import com.tingcore.cdc.exception.EntityNotFoundException;
 import com.tingcore.charging.assets.api.ChargeSitesApi;
@@ -54,12 +54,12 @@ public class ChargePointSiteService {
 
     private final AssetRepository assetRepository;
     private final OperationsRepository operationsRepository;
-    private final PriceRepository priceRepository;
+    private final PriceStore priceRepository;
     private final OrganizationService organizationService;
 
     @Autowired
     public ChargePointSiteService(AssetRepository assetRepository, OperationsRepository operationsRepository,
-                                  PriceRepository priceRepository, OrganizationService organizationService) {
+                                  PriceStore priceRepository, OrganizationService organizationService) {
         this.chargeSitesApi = assetRepository.getChargeSitesApi();
         this.operationsApi = operationsRepository.getOperationsApi();
         this.assetRepository = assetRepository;

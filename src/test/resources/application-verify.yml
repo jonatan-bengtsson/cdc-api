@@ -1,19 +1,3 @@
-server:
-  port: 8082
-
-spring:
-  profiles:
-    include: advanced-pricing
-
-logging:
-  level:
-    org:
-      springframework: INFO
-    com:
-      tingcore:
-        organizstion: DEBUG
-    root: INFO
-
 integration:
   payments:
     hostname: payments-service.tingcore-test.com
@@ -37,3 +21,13 @@ integration:
     hostname: partnerships-service.tingcore-test.com
   pricing:
     hostname: payments-pricing.tingcore-test.com
+
+logging:
+  level:
+    com.tingcore.users: TRACE
+    org.springframework.mock.web: TRACE
+    root: WARN
+
+spring:
+  flyway:
+    enabled: false

@@ -12,6 +12,7 @@ import org.springframework.core.env.Environment;
 
 import java.util.Optional;
 
+import static com.tingcore.cdc.constant.SpringProfilesConstant.ADVANCED_PRICING;
 import static com.tingcore.cdc.constant.SpringProfilesConstant.SESSION_HISTORY_V2;
 import static org.apache.commons.lang3.Validate.notNull;
 
@@ -33,6 +34,8 @@ public class PaymentsServiceConfiguration {
     }
 
     @Bean
+    @Profile("!" + ADVANCED_PRICING)
+    @Deprecated
     public PricesApi pricesApi(final ApiClient paymentsClient) {
         return notNull(paymentsClient).createService(PricesApi.class);
     }
@@ -44,6 +47,7 @@ public class PaymentsServiceConfiguration {
 
     @Bean
     @Profile("!" + SESSION_HISTORY_V2)
+    @Deprecated
     public SessionHistoryApi sessionhistoryApi(final ApiClient paymentsClient) {
         return notNull(paymentsClient).createService(SessionHistoryApi.class);
     }

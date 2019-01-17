@@ -1,0 +1,30 @@
+{
+  "segments" :[
+    {
+      "price_components": [
+        {
+          "type": "TIME",
+          "price": 1.00,
+          "step_size": 60
+        }
+      ],
+      "restrictions": {
+        "start_time": "00:00",
+        "end_time": "11:59"
+      }
+    },
+    {
+      "price_components": [
+        {
+          "type": "TIME",
+          "price": 2.00,
+          "step_size": 3600
+        }
+      ],
+      "restrictions": {
+        "start_time": "12:00",
+        "end_time": "23:59"
+      }
+    }
+  ]
+}

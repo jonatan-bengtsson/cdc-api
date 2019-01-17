@@ -22,7 +22,7 @@ import static com.tingcore.cdc.ControllerFunctionalTest.userServiceMockServer;
  * @since 2018-05-25
  */
 @Configuration
-@Profile(SpringProfilesConstant.FUNCTIONAL_TEST)
+@Profile(SpringProfilesConstant.INTEGRATION_TEST)
 public class UserServiceRepositoryConfiguration {
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired

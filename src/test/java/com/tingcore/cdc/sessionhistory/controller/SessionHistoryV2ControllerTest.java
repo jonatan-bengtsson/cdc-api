@@ -12,8 +12,8 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 
 import java.util.stream.Collectors;
 
-import static com.tingcore.cdc.utils.JsonTestUtils.jsonFileToObject;
-import static com.tingcore.cdc.utils.JsonTestUtils.jsonFileToString;
+import static com.tingcore.commons.core.test.JsonTestUtils.jsonFileToObject;
+import static com.tingcore.commons.core.test.JsonTestUtils.jsonFileToString;
 import static net.javacrumbs.jsonunit.assertj.JsonAssertions.assertThatJson;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;

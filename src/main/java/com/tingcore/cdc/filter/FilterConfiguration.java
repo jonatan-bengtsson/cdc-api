@@ -22,7 +22,7 @@ import static java.util.Arrays.asList;
         SpringProfilesConstant.PROD,
         SpringProfilesConstant.DEV,
         SpringProfilesConstant.FILTER_TEST,
-        SpringProfilesConstant.FUNCTIONAL_TEST
+        SpringProfilesConstant.INTEGRATION_TEST
 })
 public class FilterConfiguration {
 

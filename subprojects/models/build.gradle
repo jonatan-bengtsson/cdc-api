@@ -29,7 +29,7 @@ ext {
     versionPaymentsReceiptClient = "1.0.1"
     versionPaymentsSessionsClient = "1.0.2"
     versionPartnershipsServiceClient = "0.2.2"
-
+    versionPaymentsPricingClient = "1.1.1-SNAPSHOT"
 }
 
 dependencies {
@@ -53,6 +53,7 @@ dependencies {
     compile("com.tingcore.payments:session-history-client:$versionSessionHistoryServiceClient")
     compile("com.tingcore.payments:payments-receipt-client:$versionPaymentsReceiptClient")
     compile("com.tingcore.payments:payments-sessions-client:$versionPaymentsSessionsClient")
+    compile("com.tingcore.emp.pricing:payments-pricing-client:$versionPaymentsPricingClient")
     compile("com.tingcore.partnerships:partnerships-service-client:$versionPartnershipsServiceClient")
     compile("com.google.code.gson:gson:$versionGson")
 

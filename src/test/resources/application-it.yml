@@ -1,20 +1,7 @@
 spring:
   profiles:
     active: it
-
-flyway:
-    enabled: true
-
-logging:
-  level:
-    com:
-      tingcore:
-        users: TRACE
-    root: TRACE
+    include: verify
 
 app:
   allowed-origins: http://localhost:3000
-
-security:
-  basic:
-    enabled: false

@@ -1,17 +1,4 @@
 spring:
   profiles:
     active: ut
-
-flyway:
-    enabled: false
-
-logging:
-  level:
-    com:
-      tingcore:
-        users: TRACE
-    root: TRACE
-
-security:
-  basic:
-    enabled: false
+    include: verify

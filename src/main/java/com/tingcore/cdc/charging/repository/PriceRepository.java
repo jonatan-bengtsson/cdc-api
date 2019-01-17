@@ -8,6 +8,7 @@ import com.tingcore.commons.rest.repository.AbstractApiRepository;
 import com.tingcore.payments.cpo.api.PricesApi;
 import com.tingcore.payments.cpo.model.ApiPrice;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.time.Instant;
@@ -15,13 +16,15 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
+import static com.tingcore.cdc.constant.SpringProfilesConstant.ADVANCED_PRICING;
 import static com.tingcore.cdc.controller.ApiUtils.getResponseOrThrowError;
 import static java.lang.String.format;
 import static java.util.stream.Collectors.toList;
 import static org.apache.commons.lang3.Validate.notNull;
 
 @Repository
-public class PriceRepository extends AbstractApiRepository {
+@Profile("!" + ADVANCED_PRICING)
+public class PriceRepository extends AbstractApiRepository implements PriceStore {
 
     private final PricesApi pricesApi;
 
@@ -32,8 +35,9 @@ public class PriceRepository extends AbstractApiRepository {
         this.pricesApi = notNull(pricesApi);
     }
 
+    @Override
     public List<ConnectorPrice> priceForConnectors(final List<ConnectorId> connectorIds) {
-        if(connectorIds.isEmpty()) {
+        if (connectorIds.isEmpty()) {
             return Collections.emptyList();
         }
 

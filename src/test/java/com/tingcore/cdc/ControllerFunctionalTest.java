@@ -30,7 +30,7 @@ import java.util.Collections;
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ImportAutoConfiguration(UserServiceRepositoryConfiguration.class)
-@ActiveProfiles(SpringProfilesConstant.FUNCTIONAL_TEST)
+@ActiveProfiles(SpringProfilesConstant.INTEGRATION_TEST)
 public abstract class ControllerFunctionalTest {
 
     private static final Logger logger = LoggerFactory.getLogger(ControllerFunctionalTest.class);

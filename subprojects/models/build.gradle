@@ -22,8 +22,8 @@ ext {
     versionAssetServiceClient = "1.0.17"
     versionOperationServiceClient = "0.2.3"
     versionPaymentServiceClient = "1.1.17"
-    versionCustomerKeyOrderService = '1.4.0'
-    versionUserServiceClient = "1.3.17-SNAPSHOT"
+    versionCustomerKeyOrderService = '1.4.1'
+    versionUserServiceClient = "1.3.17"
     versionCampaignServiceJavaClient = "0.7.0"
     versionSessionHistoryServiceClient = "1.0.1"
     versionPaymentsReceiptClient = "1.0.1"

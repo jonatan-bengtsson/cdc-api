@@ -11,6 +11,8 @@ integration:
     hostname: customer-key-order.tingcore-test.com
   campaign:
     hostname: campaign-service.tingcore-test.com
+  partnerships:
+    hostname: partnerships-service.tingcore-test.com
 
 app:
   allowed-origins: http://localhost:3000
@@ -25,4 +27,7 @@ app:
     default-timeout: 20
   charging-operations-service:
     base-url: https://${integration.charging-operations.hostname}
+    default-timeout: 20
+  partnerships-service:
+    base-url: https://${integration.partnerships.hostname}
     default-timeout: 20

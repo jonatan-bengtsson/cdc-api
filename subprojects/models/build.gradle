@@ -22,12 +22,13 @@ ext {
     versionAssetServiceClient = "1.0.17"
     versionOperationServiceClient = "0.2.3"
     versionPaymentServiceClient = "1.1.17"
-    versionCustomerKeyOrderService = '1.4.0'
-    versionUserServiceClient = "1.3.9"
+    versionCustomerKeyOrderService = '1.4.1'
+    versionUserServiceClient = "1.3.17"
     versionCampaignServiceJavaClient = "0.7.0"
     versionSessionHistoryServiceClient = "1.0.1"
     versionPaymentsReceiptClient = "1.0.1"
     versionPaymentsSessionsClient = "1.0.2"
+    versionPartnershipsServiceClient = "0.2.2"
 
 }
 
@@ -52,6 +53,7 @@ dependencies {
     compile("com.tingcore.payments:session-history-client:$versionSessionHistoryServiceClient")
     compile("com.tingcore.payments:payments-receipt-client:$versionPaymentsReceiptClient")
     compile("com.tingcore.payments:payments-sessions-client:$versionPaymentsSessionsClient")
+    compile("com.tingcore.partnerships:partnerships-service-client:$versionPartnershipsServiceClient")
     compile("com.google.code.gson:gson:$versionGson")
 
     testCompile "junit:junit:$versionJunit"

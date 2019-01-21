@@ -54,6 +54,9 @@ app:
   payments-sessions:
     base-url: https://${integration.sessions.hostname}
     default-timeout: 20
+  partnerships-service:
+    base-url: https://${integration.partnerships.hostname}
+    default-timeout: 20
 
 integration:
   payments:
@@ -74,6 +77,8 @@ integration:
     hostname: payments-receipt.tingcore-test.com
   sessions:
     hostname: payments-sessions.tingcore-test.com
+  partnerships:
+    hostname: partnerships-service.tingcore-test.com
 
 management:
   endpoints:

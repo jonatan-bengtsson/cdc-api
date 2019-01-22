@@ -3,16 +3,12 @@ server:
 
 spring:
   profiles:
-    include: advanced-pricing
+    include: session-history-v2,charging-sessions-v2,payments-receipt-v2,advanced-pricing
 
 logging:
   level:
-    org:
-      springframework: INFO
-    com:
-      tingcore:
-        organizstion: DEBUG
-    root: INFO
+    org.springframework: INFO
+    root: WARN
 
 integration:
   payments:

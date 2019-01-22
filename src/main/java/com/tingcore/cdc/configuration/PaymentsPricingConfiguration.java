@@ -38,7 +38,7 @@ public class PaymentsPricingConfiguration {
     }
 
     @Bean
-    public PricingClient paymentsSessionsClient(Optional<Tracing> tracing) {
+    public PricingClient paymentsPricingClient(Optional<Tracing> tracing) {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         tracing.ifPresent(httpTracing -> instrumentClient(builder, httpTracing));
         return PricingClient
@@ -54,7 +54,7 @@ public class PaymentsPricingConfiguration {
 
 
     @Bean
-    public PricingProfileRestApi paymentsSessionsRestApi(PricingClient client) {
+    public PricingProfileRestApi paymentsPricingRestApi(PricingClient client) {
         return client
                 .createService(PricingProfileRestApi.class);
     }

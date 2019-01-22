@@ -7,6 +7,7 @@ import com.tingcore.cdc.service.TimeService;
 import com.tingcore.commons.rest.repository.AbstractApiRepository;
 import com.tingcore.commons.rest.repository.ApiResponse;
 import com.tingcore.emp.pricing.client.api.v1.PricingProfileRestApi;
+import com.tingcore.emp.pricing.profile.response.PriceProfileAssociationResponse;
 import com.tingcore.emp.pricing.profile.response.PriceProfileResponse;
 import com.tingcore.emp.pricing.rule.PriceComponent;
 import com.tingcore.emp.pricing.rule.PriceComponentType;
@@ -16,14 +17,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 
 import java.math.RoundingMode;
-import java.util.Currency;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static com.tingcore.cdc.constant.SpringProfilesConstant.ADVANCED_PRICING;
 import static java.lang.String.format;
@@ -53,11 +53,18 @@ public class AdvancedPricingRepository extends AbstractApiRepository implements 
     }
 
     @Override
+    public Integer getTimeout() {
+        return defaultTimeout;
+    }
+
+    @Override
     public List<ConnectorPrice> priceForConnectors(final List<ConnectorId> connectorIds) {
-        return connectorIds
+
+        final List<ConnectorPrice> failed = new ArrayList<>();
+
+        List<ConnectorPrice> successful = connectorIds
                 .parallelStream()
-                .map(connectorId -> execute(priceProfileApi.getCurrentAssociation(connectorId.id)))
-                .map(ApiResponse::getResponseOptional)
+                .map(connectorId -> getConnectorAssociations(connectorId, failed))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .map(associations -> associations.stream().findFirst())
@@ -69,17 +76,39 @@ public class AdvancedPricingRepository extends AbstractApiRepository implements 
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .collect(Collectors.toList());
+
+        return Stream
+                .concat(successful.stream(), failed.stream())
+                .collect(Collectors.toList());
+    }
+
+    private Optional<List<PriceProfileAssociationResponse>> getConnectorAssociations(final ConnectorId connectorId, final List<ConnectorPrice> failed) {
+        ApiResponse<List<PriceProfileAssociationResponse>> response = execute(priceProfileApi.getCurrentAssociation(connectorId.id));
+        if (response.hasError()) {
+            if (HttpStatus.NOT_FOUND.value() == response.getError().getStatusCode()) {
+                LOG.warn("Couldn't find price for connectorId {}, returning free of charge", connectorId);
+                failed.add(new ConnectorPrice(connectorId, "free of charge"));
+            }
+            LOG.warn("Unexpected HTTP error {} while fetching price for connectorId {}, skipping", response.getError().getStatusCode(), connectorId);
+            return Optional.empty();
+        }
+        return response.getResponseOptional();
     }
 
     private Optional<ConnectorPrice> toConnectorPrice(final ProfileReference reference) {
+        Long connectorId = reference.connectorId;
         try {
-            Long connectorId = reference.connectorId;
-            ApiResponse<PriceProfileResponse> request = execute(priceProfileApi.getPriceProfile(reference.orgId, reference.profileId));
-            if (request.hasError()) {
+            ApiResponse<PriceProfileResponse> response = execute(priceProfileApi.getPriceProfile(reference.orgId, reference.profileId));
+            if (response.hasError()) {
+                if (HttpStatus.NOT_FOUND.value() == response.getError().getStatusCode()) {
+                    LOG.warn("Couldn't find price for connectorId {}, returning free of charge", connectorId);
+                    return Optional.of(new ConnectorPrice(new ConnectorId(connectorId), "free of charge"));
+                }
+                LOG.warn("Unexpected HTTP error {} while fetching price for connectorId {}, skipping", response.getError().getStatusCode(), connectorId);
                 return Optional.empty();
             }
 
-            PriceProfileResponse profile = request.getResponse();
+            PriceProfileResponse profile = response.getResponse();
             String currency = profile.getCurrency();
             PriceRules priceRules = objectMapper.readValue(profile.getContent(), PriceRules.class);
             return priceRules
@@ -91,14 +120,9 @@ public class AdvancedPricingRepository extends AbstractApiRepository implements 
                     .map(component -> new ConnectorPrice(new ConnectorId(connectorId), toString(component, currency)))
                     .findFirst();
         } catch (Exception e) {
-            LOG.warn("Couldn't understand advanced-price, skipping. {}", e.getMessage());
-            return Optional.empty();
+            LOG.warn("Couldn't understand advanced-price, returning free of charge. {}", e.getMessage());
+            return Optional.of(new ConnectorPrice(new ConnectorId(connectorId), "free of charge"));
         }
-    }
-
-    @Override
-    public Integer getTimeout() {
-        return defaultTimeout;
     }
 
     private String toString(final PriceComponent component, final String currencyCode) {

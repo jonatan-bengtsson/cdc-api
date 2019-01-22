@@ -1,9 +1,11 @@
 package com.tingcore.cdc.charging.repository;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tingcore.cdc.charging.model.ConnectorId;
 import com.tingcore.cdc.charging.model.ConnectorPrice;
 import com.tingcore.cdc.service.TimeService;
+import com.tingcore.commons.rest.ErrorResponse;
 import com.tingcore.emp.pricing.client.api.v1.PricingProfileRestApi;
 import com.tingcore.emp.pricing.profile.Source;
 import com.tingcore.emp.pricing.profile.response.PriceProfileAssociationResponse;
@@ -40,7 +42,8 @@ public class AdvancedPricingRepositoryTest {
 
     private PricingProfileRestApi api = mock(PricingProfileRestApi.class);
     private TimeService timeService = mock(TimeService.class);
-    private AdvancedPricingRepository repository = new AdvancedPricingRepository(new ObjectMapper(), api, timeService, 1);
+    private ObjectMapper objectMapper = new ObjectMapper();
+    private AdvancedPricingRepository repository = new AdvancedPricingRepository(objectMapper, api, timeService, 1);
 
     @Before
     public void setUp() throws Exception {
@@ -100,9 +103,9 @@ public class AdvancedPricingRepositoryTest {
     }
 
     @Test
-    public void singleConnector_singleAssociation_simpleRule_failAssociationFetch() throws Exception {
+    public void singleConnector_singleAssociation_simpleRule_failAssociationFetchServerError() throws Exception {
         when(api.getCurrentAssociation(anyLong()))
-                .thenReturn(failAssociation(404));
+                .thenReturn(failAssociation(500));
 
         List<ConnectorPrice> result = repository.priceForConnectors(singletonList(CONNECTOR_ID));
 
@@ -110,13 +113,39 @@ public class AdvancedPricingRepositoryTest {
     }
 
     @Test
-    public void singleConnector_singleAssociation_simpleRule_failProfileFetch() {
+    public void singleConnector_singleAssociation_simpleRule_failAssociationFetchNotFound() throws Exception {
+        when(api.getCurrentAssociation(anyLong()))
+                .thenReturn(failAssociation(404));
+
+        List<ConnectorPrice> result = repository.priceForConnectors(singletonList(CONNECTOR_ID));
+
+        assertThat(result).hasSize(1);
+        assertThat(result).contains(new ConnectorPrice(CONNECTOR_ID, "free of charge"));
+    }
+
+    @Test
+    public void singleConnector_singleAssociation_simpleRule_failProfileFetchNotFound() throws Exception {
         when(api.getCurrentAssociation(anyLong()))
                 .thenReturn(completedFuture(singletonList(
                         new PriceProfileAssociationResponse("abc", CONNECTOR_ID.id, NOW, ORGANIZATION_ID, "xyz", NOW, null, Source.ALL, null)
                 )));
         when(api.getPriceProfile(ORGANIZATION_ID, "xyz"))
                 .thenReturn(failProfile(404));
+
+        List<ConnectorPrice> result = repository.priceForConnectors(singletonList(CONNECTOR_ID));
+
+        assertThat(result).hasSize(1);
+        assertThat(result).contains(new ConnectorPrice(CONNECTOR_ID, "free of charge"));
+    }
+
+    @Test
+    public void singleConnector_singleAssociation_simpleRule_failProfileFetchServerError() throws Exception {
+        when(api.getCurrentAssociation(anyLong()))
+                .thenReturn(completedFuture(singletonList(
+                        new PriceProfileAssociationResponse("abc", CONNECTOR_ID.id, NOW, ORGANIZATION_ID, "xyz", NOW, null, Source.ALL, null)
+                )));
+        when(api.getPriceProfile(ORGANIZATION_ID, "xyz"))
+                .thenReturn(failProfile(500));
 
         List<ConnectorPrice> result = repository.priceForConnectors(singletonList(CONNECTOR_ID));
 
@@ -186,15 +215,17 @@ public class AdvancedPricingRepositoryTest {
         assertThat(result).contains(new ConnectorPrice(new ConnectorId(2L), "2.00 SEK/min"));
     }
 
-    private CompletableFuture<List<PriceProfileAssociationResponse>> failAssociation(int code) {
-        HttpException e = new HttpException(Response.error(code, ResponseBody.create(MediaType.parse("application/json"), "{}")));
+    private CompletableFuture<List<PriceProfileAssociationResponse>> failAssociation(int code) throws Exception {
+        ErrorResponse error = ErrorResponse.create().statusCode(code).build();
+        HttpException e = new HttpException(Response.error(code, ResponseBody.create(MediaType.parse("application/json"), objectMapper.writeValueAsString(error))));
         CompletableFuture<List<PriceProfileAssociationResponse>> future = new CompletableFuture<>();
         future.completeExceptionally(e);
         return future;
     }
 
-    private CompletableFuture<PriceProfileResponse> failProfile(int code) {
-        HttpException e = new HttpException(Response.error(code, ResponseBody.create(MediaType.parse("application/json"), "{}")));
+    private CompletableFuture<PriceProfileResponse> failProfile(int code) throws Exception {
+        ErrorResponse error = ErrorResponse.create().statusCode(code).build();
+        HttpException e = new HttpException(Response.error(code, ResponseBody.create(MediaType.parse("application/json"), objectMapper.writeValueAsString(error))));
         CompletableFuture<PriceProfileResponse> future = new CompletableFuture<>();
         future.completeExceptionally(e);
         return future;

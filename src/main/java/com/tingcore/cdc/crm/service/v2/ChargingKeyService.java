@@ -9,8 +9,8 @@ import com.tingcore.commons.rest.PageResponse;
 import com.tingcore.commons.rest.PagingCursor;
 import com.tingcore.commons.rest.repository.ApiResponse;
 import com.tingcore.users.model.v2.request.ChargingKeyActivationRequest;
-import com.tingcore.users.model.v2.request.ChargingKeyUpdateRequest;
 import com.tingcore.users.model.v2.response.ChargingKey;
+import com.tingcore.users.model.v3.request.ChargingKeyUpdateRequest;
 import org.springframework.stereotype.Service;
 
 @Service

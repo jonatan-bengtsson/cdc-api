@@ -10,18 +10,15 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import org.springframework.core.env.Environment;
 
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 import static com.tingcore.cdc.constant.SpringProfilesConstant.DEV;
-import static com.tingcore.cdc.constant.SpringProfilesConstant.SESSION_HISTORY_V2;
 import static org.apache.commons.lang3.Validate.notBlank;
 
 @Configuration
-@Profile(SESSION_HISTORY_V2)
 public class SessionHistoryServiceConfiguration {
 
     private final String baseUrl;

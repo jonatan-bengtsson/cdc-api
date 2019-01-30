@@ -10,10 +10,8 @@ import com.tingcore.payments.cpo.model.ApiReceipt;
 import org.junit.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MvcResult;
 
-import static com.tingcore.cdc.constant.SpringProfilesConstant.PAYMENTS_RECEIPT_V2;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
@@ -21,22 +19,22 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(value = ReceiptController.class)
-@ActiveProfiles(PAYMENTS_RECEIPT_V2)
 public class ReceiptControllerTest extends ControllerUnitTest {
 
-    @MockBean private ReceiptServiceImpl service;
+    @MockBean
+    private ReceiptServiceImpl service;
     private ObjectMapper mapper = new ObjectMapper();
 
     @Test
     public void getReceiptUrl() throws Exception {
-       final Long sessionId = 11L;
-       final String hashId = hashIdService.encode(sessionId);
-       final String mockUrl = "receipt-url";
+        final Long sessionId = 11L;
+        final String hashId = hashIdService.encode(sessionId);
+        final String mockUrl = "receipt-url";
 
         ApiReceipt apiReceipt = new ApiReceipt();
         apiReceipt.setUrl(mockUrl);
 
-       when(service.getReceipt(sessionId)).thenReturn(apiReceipt);
+        when(service.getReceipt(sessionId)).thenReturn(apiReceipt);
 
         MvcResult mvcResult = mockMvc.perform(get("/v1/receipts/sessions/" + hashId))
                 .andExpect(status().isOk())

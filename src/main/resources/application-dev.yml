@@ -3,7 +3,7 @@ server:
 
 spring:
   profiles:
-    include: session-history-v2,charging-sessions-v2,payments-receipt-v2,advanced-pricing
+    include: advanced-pricing
 
 logging:
   level:

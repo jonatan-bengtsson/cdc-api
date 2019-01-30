@@ -23,7 +23,7 @@ ext {
     versionOperationServiceClient = "0.2.3"
     versionPaymentServiceClient = "1.1.17"
     versionCustomerKeyOrderService = '1.4.1'
-    versionUserServiceClient = "1.3.18-SNAPSHOT"
+    versionUserServiceClient = "1.3.18"
     versionCampaignServiceJavaClient = "0.7.0"
     versionSessionHistoryServiceClient = "1.0.1"
     versionPaymentsReceiptClient = "1.0.1"

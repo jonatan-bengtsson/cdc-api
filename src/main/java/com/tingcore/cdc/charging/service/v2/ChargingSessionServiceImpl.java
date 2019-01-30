@@ -1,11 +1,5 @@
 package com.tingcore.cdc.charging.service.v2;
 
-import static com.tingcore.cdc.charging.model.ChargingSessionStatus.*;
-import static com.tingcore.cdc.constant.SpringProfilesConstant.CHARGING_SESSIONS_V2;
-import static java.lang.String.format;
-import static java.util.stream.Collectors.*;
-import static org.apache.commons.lang3.Validate.notNull;
-
 import com.tingcore.cdc.charging.model.*;
 import com.tingcore.cdc.charging.repository.AssetPaymentsRepository;
 import com.tingcore.cdc.charging.repository.SessionsRepository;
@@ -15,19 +9,21 @@ import com.tingcore.payments.cpo.api.SessionsApi;
 import com.tingcore.payments.cpo.model.ApiSessionId;
 import com.tingcore.payments.cpo.model.RemoteStartRequestV1;
 import com.tingcore.payments.cpo.model.RemoteStopRequestV1;
+import com.tingcore.sessions.api.v1.ApiAmount;
+import com.tingcore.sessions.api.v1.ApiSession;
+import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
-import com.tingcore.sessions.api.v1.ApiAmount;
-import com.tingcore.sessions.api.v1.ApiSession;
-import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Service;
+import static com.tingcore.cdc.charging.model.ChargingSessionStatus.*;
+import static java.lang.String.format;
+import static java.util.stream.Collectors.toList;
+import static org.apache.commons.lang3.Validate.notNull;
 
 @Service
-@Profile(CHARGING_SESSIONS_V2)
 public class ChargingSessionServiceImpl implements ChargingSessionService {
 
     private final SessionsApi sessionsApi;
@@ -66,12 +62,12 @@ public class ChargingSessionServiceImpl implements ChargingSessionService {
                                             ChargingSessionId sessionId,
                                             ChargePointId chargePointId) {
         return sessionsApi.stopAsInternalCustomer(new RemoteStopRequestV1()
-                                                          .userId(trustedUserId.value)
-                                                          .sessionId(sessionId.value))
+                .userId(trustedUserId.value)
+                .sessionId(sessionId.value))
                 .thenApply(ok -> new ChargingSessionEvent(sessionId,
-                                                          new ChargingSessionEventId(sessionId.value),
-                                                          Instant.now(),
-                                                          ChargingSessionEventNature.STOP_REQUESTED))
+                        new ChargingSessionEventId(sessionId.value),
+                        Instant.now(),
+                        ChargingSessionEventNature.STOP_REQUESTED))
                 .join();
     }
 
@@ -91,14 +87,14 @@ public class ChargingSessionServiceImpl implements ChargingSessionService {
     private ChargingSession toChargingSession(final ApiSession session) {
         final Optional<ConnectorId> optConnectorId = Optional.ofNullable(session.getConnectorId()).map(ConnectorId::new);
         return new ChargingSession(new ChargingSessionId(session.getSessionId()),
-                                   Optional.ofNullable(session.getChargingKeyId()).map(CustomerKeyId::new).orElse(null),
-                                   Optional.ofNullable(session.getPrice()).map(this::toPrice).orElse(null),
-                                   Optional.ofNullable(session.getStartTime()).orElse(null),
-                                   Optional.ofNullable(session.getStopTime()).orElse(null),
-                                   toSessionStatus(session.getSessionStatus()),
-                                   optConnectorId.orElse(null),
-                                   Optional.ofNullable(session.getChargePointId()).map(ChargePointId::new).orElse(null),
-                                   optConnectorId.flatMap(this::getChargeSiteId).orElse(null)
+                Optional.ofNullable(session.getChargingKeyId()).map(CustomerKeyId::new).orElse(null),
+                Optional.ofNullable(session.getPrice()).map(this::toPrice).orElse(null),
+                Optional.ofNullable(session.getStartTime()).orElse(null),
+                Optional.ofNullable(session.getStopTime()).orElse(null),
+                toSessionStatus(session.getSessionStatus()),
+                optConnectorId.orElse(null),
+                Optional.ofNullable(session.getChargePointId()).map(ChargePointId::new).orElse(null),
+                optConnectorId.flatMap(this::getChargeSiteId).orElse(null)
         );
     }
 

@@ -6,15 +6,12 @@ import com.tingcore.commons.rest.repository.AbstractApiRepository;
 import com.tingcore.commons.rest.repository.ApiResponse;
 import com.tingcore.sessions.history.api.v1.ApiSessionHistoryContainer;
 import com.tingcore.sessions.history.client.api.v1.SessionHistoryRestApi;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
-import static com.tingcore.cdc.constant.SpringProfilesConstant.SESSION_HISTORY_V2;
 import static com.tingcore.cdc.controller.ApiUtils.getResponseOrThrowError;
 import static org.apache.commons.lang3.Validate.notNull;
 
 @Repository
-@Profile(SESSION_HISTORY_V2)
 public class SessionHistoryRepository extends AbstractApiRepository {
     private final SessionHistoryRestApi restApi;
     private static final Integer DEFAULT_TIME_OUT = 60;

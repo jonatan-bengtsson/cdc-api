@@ -10,18 +10,14 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import org.springframework.core.env.Environment;
-
 
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 import static com.tingcore.cdc.constant.SpringProfilesConstant.DEV;
-import static com.tingcore.cdc.constant.SpringProfilesConstant.PAYMENTS_RECEIPT_V2;
 
 @Configuration
-@Profile(PAYMENTS_RECEIPT_V2)
 public class PaymentsReceiptConfiguration {
 
     private final String baseUrl;
@@ -34,7 +30,7 @@ public class PaymentsReceiptConfiguration {
             @Value("${app.payments-receipt.default-timeout}") final Long timeout,
             final Environment environment) {
         this.baseUrl = baseUrl;
-        this.timeout= timeout;
+        this.timeout = timeout;
         this.environment = environment;
     }
 
@@ -56,9 +52,9 @@ public class PaymentsReceiptConfiguration {
 
 
     @Bean
-    public PaymentsReceiptRestApi paymentsReceiptsRestApi(PaymentsReceiptClient client){
-       return client
-               .createService(PaymentsReceiptRestApi.class);
+    public PaymentsReceiptRestApi paymentsReceiptsRestApi(PaymentsReceiptClient client) {
+        return client
+                .createService(PaymentsReceiptRestApi.class);
     }
 
     private void instrumentClient(OkHttpClient.Builder builder, Tracing tracing) {

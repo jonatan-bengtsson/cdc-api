@@ -16,9 +16,6 @@ public class SpringProfilesConstant {
     public static final String INTEGRATION_TEST = "it";
 
     // features toggles
-    public static final String SESSION_HISTORY_V2 = "session-history-v2";
-    public static final String PAYMENTS_RECEIPT_V2 = "payments-receipt-v2";
-    public static final String CHARGING_SESSIONS_V2 = "charging-sessions-v2";
     public static final String ADVANCED_PRICING = "advanced-pricing";
 
     private SpringProfilesConstant() {

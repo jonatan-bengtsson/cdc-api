@@ -1,6 +1,5 @@
 package com.tingcore.cdc.charging.repository;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tingcore.cdc.charging.model.ConnectorId;
 import com.tingcore.cdc.charging.model.ConnectorPrice;
@@ -39,6 +38,7 @@ public class AdvancedPricingRepositoryTest {
     private static final Instant NOW = Instant.now();
     private static final ConnectorId CONNECTOR_ID = new ConnectorId(1L);
     private static final String PROFILE_NAME = "Some Profile";
+    private static final String FREE_OF_CHARGE = "free of charge";
 
     private PricingProfileRestApi api = mock(PricingProfileRestApi.class);
     private TimeService timeService = mock(TimeService.class);
@@ -46,64 +46,136 @@ public class AdvancedPricingRepositoryTest {
     private AdvancedPricingRepository repository = new AdvancedPricingRepository(objectMapper, api, timeService, 1);
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         when(timeService.currentDayOfWeek()).thenReturn(DayOfWeek.FRIDAY);
         when(timeService.currentTime()).thenReturn(LocalTime.MIN);
     }
 
     @Test
-    public void singleConnector_singleAssociation_simpleRule_happyPath() throws Exception {
+    public void singleCon_singleAs_simpleRule_happyPath() throws Exception {
         when(api.getCurrentAssociation(anyLong()))
                 .thenReturn(completedFuture(singletonList(
-                        new PriceProfileAssociationResponse("abc", CONNECTOR_ID.id, NOW, ORGANIZATION_ID, "xyz", NOW, null, Source.ALL, null)
+                        new PriceProfileAssociationResponse("abc", CONNECTOR_ID.id, NOW, ORGANIZATION_ID, "xyz", NOW, null)
                 )));
         when(api.getPriceProfile(ORGANIZATION_ID, "xyz"))
                 .thenReturn(completedFuture(
-                        new PriceProfileResponse("xyz", ORGANIZATION_ID, PROFILE_NAME, jsonFileToString("test-data/advanced-pricing/simple-time-based.json"), CURRENCY, NOW, null)
+                        new PriceProfileResponse("xyz", ORGANIZATION_ID, PROFILE_NAME, jsonFileToString("test-data/advanced-pricing/simple-time-based.json"), CURRENCY, NOW, Source.ALL, null, null)
                 ));
 
         List<ConnectorPrice> result = repository.priceForConnectors(singletonList(CONNECTOR_ID));
 
-        assertThat(result).hasSize(1);
-        assertThat(result).contains(new ConnectorPrice(CONNECTOR_ID, "2.00 SEK/min"));
+        assertThat(result).containsExactly(new ConnectorPrice(CONNECTOR_ID, "2.00 SEK/min"));
     }
 
     @Test
-    public void singleConnector_singleAssociation_advancedRule_happyPath_beforeMidday() throws Exception {
+    public void singleCon_singleAs_advancedRule_happyPath_beforeMidday() throws Exception {
         when(api.getCurrentAssociation(anyLong()))
                 .thenReturn(completedFuture(singletonList(
-                        new PriceProfileAssociationResponse("abc", CONNECTOR_ID.id, NOW, ORGANIZATION_ID, "xyz", NOW, null, Source.ALL, null)
+                        new PriceProfileAssociationResponse("abc", CONNECTOR_ID.id, NOW, ORGANIZATION_ID, "xyz", NOW, null)
                 )));
         when(api.getPriceProfile(ORGANIZATION_ID, "xyz"))
                 .thenReturn(completedFuture(
-                        new PriceProfileResponse("xyz", ORGANIZATION_ID, PROFILE_NAME, jsonFileToString("test-data/advanced-pricing/time-restricted.json"), CURRENCY, NOW, null)
+                        new PriceProfileResponse("xyz", ORGANIZATION_ID, PROFILE_NAME, jsonFileToString("test-data/advanced-pricing/time-restricted.json"), CURRENCY, NOW, Source.ALL, null, null)
                 ));
         List<ConnectorPrice> result = repository.priceForConnectors(singletonList(CONNECTOR_ID));
 
-        assertThat(result).hasSize(1);
-        assertThat(result).contains(new ConnectorPrice(CONNECTOR_ID, "1.00 SEK/min"));
+        assertThat(result).containsExactly(new ConnectorPrice(CONNECTOR_ID, "1.00 SEK/min"));
     }
 
     @Test
-    public void singleConnector_singleAssociation_advancedRule_happyPath_afterMidday() throws Exception {
+    public void singleCon_singleAs_advancedRule_happyPath_afterMidday() throws Exception {
         when(api.getCurrentAssociation(anyLong()))
                 .thenReturn(completedFuture(singletonList(
-                        new PriceProfileAssociationResponse("abc", CONNECTOR_ID.id, NOW, ORGANIZATION_ID, "xyz", NOW, null, Source.ALL, null)
+                        new PriceProfileAssociationResponse("abc", CONNECTOR_ID.id, NOW, ORGANIZATION_ID, "xyz", NOW, null)
                 )));
         when(api.getPriceProfile(ORGANIZATION_ID, "xyz"))
                 .thenReturn(completedFuture(
-                        new PriceProfileResponse("xyz", ORGANIZATION_ID, PROFILE_NAME, jsonFileToString("test-data/advanced-pricing/time-restricted.json"), CURRENCY, NOW, null)
+                        new PriceProfileResponse("xyz", ORGANIZATION_ID, PROFILE_NAME, jsonFileToString("test-data/advanced-pricing/time-restricted.json"), CURRENCY, NOW, Source.ALL, null, null)
                 ));
         when(timeService.currentTime())
                 .thenReturn(LocalTime.NOON.plusMinutes(30));
         List<ConnectorPrice> result = repository.priceForConnectors(singletonList(CONNECTOR_ID));
 
-        assertThat(result).hasSize(1);
-        assertThat(result).contains(new ConnectorPrice(CONNECTOR_ID, "2.00 SEK/h"));
+        assertThat(result).containsExactly(new ConnectorPrice(CONNECTOR_ID, "2.00 SEK/h"));
     }
 
     @Test
-    public void singleConnector_singleAssociation_simpleRule_failAssociationFetchServerError() throws Exception {
+    public void singleCon_singleAs_simpleRule_Sms() throws Exception {
+        when(api.getCurrentAssociation(anyLong()))
+                .thenReturn(completedFuture(singletonList(
+                        new PriceProfileAssociationResponse("abc", CONNECTOR_ID.id, NOW, ORGANIZATION_ID, "xyz", NOW, null)
+                )));
+        when(api.getPriceProfile(ORGANIZATION_ID, "xyz"))
+                .thenReturn(completedFuture(
+                        new PriceProfileResponse("xyz", ORGANIZATION_ID, PROFILE_NAME, jsonFileToString("test-data/advanced-pricing/simple-time-based.json"), CURRENCY, NOW, Source.SMS, null, null)
+                ));
+
+        List<ConnectorPrice> result = repository.priceForConnectors(singletonList(CONNECTOR_ID));
+
+        assertThat(result).isEmpty();
+    }
+
+    @Test
+    public void singleCon_multipleAs_simpleRule_SmsAndAll() throws Exception {
+        when(api.getCurrentAssociation(anyLong()))
+                .thenReturn(completedFuture(asList(
+                        new PriceProfileAssociationResponse("abc", CONNECTOR_ID.id, NOW, ORGANIZATION_ID, "xyz", NOW, null),
+                        new PriceProfileAssociationResponse("def", CONNECTOR_ID.id, NOW, ORGANIZATION_ID, "aaa", NOW, null)
+                )));
+        when(api.getPriceProfile(ORGANIZATION_ID, "xyz"))
+                .thenReturn(completedFuture(
+                        new PriceProfileResponse("xyz", ORGANIZATION_ID, PROFILE_NAME, jsonFileToString("test-data/advanced-pricing/simple-time-based.json"), CURRENCY, NOW, Source.SMS, null, null)
+                ));
+        when(api.getPriceProfile(ORGANIZATION_ID, "aaa"))
+                .thenReturn(completedFuture(
+                        new PriceProfileResponse("aaa", ORGANIZATION_ID, PROFILE_NAME, jsonFileToString("test-data/advanced-pricing/simple-time-based.json"), CURRENCY, NOW, Source.ALL, null, null)
+                ));
+
+        List<ConnectorPrice> result = repository.priceForConnectors(singletonList(CONNECTOR_ID));
+
+        assertThat(result).containsExactly(new ConnectorPrice(CONNECTOR_ID, "2.00 SEK/min"));
+    }
+
+    @Test
+    public void singleCon_multipleAs_simpleRule_SmsAndAll_oneProfileNotFound() throws Exception {
+        when(api.getCurrentAssociation(anyLong()))
+                .thenReturn(completedFuture(asList(
+                        new PriceProfileAssociationResponse("abc", CONNECTOR_ID.id, NOW, ORGANIZATION_ID, "xyz", NOW, null),
+                        new PriceProfileAssociationResponse("def", CONNECTOR_ID.id, NOW, ORGANIZATION_ID, "aaa", NOW, null)
+                )));
+        when(api.getPriceProfile(ORGANIZATION_ID, "xyz"))
+                .thenReturn(completedFuture(
+                        new PriceProfileResponse("xyz", ORGANIZATION_ID, PROFILE_NAME, jsonFileToString("test-data/advanced-pricing/simple-time-based.json"), CURRENCY, NOW, Source.SMS, null, null)
+                ));
+        when(api.getPriceProfile(ORGANIZATION_ID, "aaa"))
+                .thenReturn(failProfile(404));
+
+        List<ConnectorPrice> result = repository.priceForConnectors(singletonList(CONNECTOR_ID));
+
+        assertThat(result).containsExactly(new ConnectorPrice(CONNECTOR_ID, FREE_OF_CHARGE));
+    }
+
+    @Test
+    public void singleCon_multipleAs_simpleRule_SmsAndAll_oneProfileFails() throws Exception {
+        when(api.getCurrentAssociation(anyLong()))
+                .thenReturn(completedFuture(asList(
+                        new PriceProfileAssociationResponse("abc", CONNECTOR_ID.id, NOW, ORGANIZATION_ID, "xyz", NOW, null),
+                        new PriceProfileAssociationResponse("def", CONNECTOR_ID.id, NOW, ORGANIZATION_ID, "aaa", NOW, null)
+                )));
+        when(api.getPriceProfile(ORGANIZATION_ID, "xyz"))
+                .thenReturn(completedFuture(
+                        new PriceProfileResponse("xyz", ORGANIZATION_ID, PROFILE_NAME, jsonFileToString("test-data/advanced-pricing/simple-time-based.json"), CURRENCY, NOW, Source.SMS, null, null)
+                ));
+        when(api.getPriceProfile(ORGANIZATION_ID, "aaa"))
+                .thenReturn(failProfile(500));
+
+        List<ConnectorPrice> result = repository.priceForConnectors(singletonList(CONNECTOR_ID));
+
+        assertThat(result).isEmpty();
+    }
+
+    @Test
+    public void singleCon_singleAs_simpleRule_failAssociationFetchServerError() throws Exception {
         when(api.getCurrentAssociation(anyLong()))
                 .thenReturn(failAssociation(500));
 
@@ -113,36 +185,34 @@ public class AdvancedPricingRepositoryTest {
     }
 
     @Test
-    public void singleConnector_singleAssociation_simpleRule_failAssociationFetchNotFound() throws Exception {
+    public void singleCon_singleAs_simpleRule_failAssociationFetchNotFound() throws Exception {
         when(api.getCurrentAssociation(anyLong()))
                 .thenReturn(failAssociation(404));
 
         List<ConnectorPrice> result = repository.priceForConnectors(singletonList(CONNECTOR_ID));
 
-        assertThat(result).hasSize(1);
-        assertThat(result).contains(new ConnectorPrice(CONNECTOR_ID, "free of charge"));
+        assertThat(result).containsExactly(new ConnectorPrice(CONNECTOR_ID, FREE_OF_CHARGE));
     }
 
     @Test
-    public void singleConnector_singleAssociation_simpleRule_failProfileFetchNotFound() throws Exception {
+    public void singleCon_singleAs_simpleRule_failProfileFetchNotFound() throws Exception {
         when(api.getCurrentAssociation(anyLong()))
                 .thenReturn(completedFuture(singletonList(
-                        new PriceProfileAssociationResponse("abc", CONNECTOR_ID.id, NOW, ORGANIZATION_ID, "xyz", NOW, null, Source.ALL, null)
+                        new PriceProfileAssociationResponse("abc", CONNECTOR_ID.id, NOW, ORGANIZATION_ID, "xyz", NOW, null)
                 )));
         when(api.getPriceProfile(ORGANIZATION_ID, "xyz"))
                 .thenReturn(failProfile(404));
 
         List<ConnectorPrice> result = repository.priceForConnectors(singletonList(CONNECTOR_ID));
 
-        assertThat(result).hasSize(1);
-        assertThat(result).contains(new ConnectorPrice(CONNECTOR_ID, "free of charge"));
+        assertThat(result).containsExactly(new ConnectorPrice(CONNECTOR_ID, FREE_OF_CHARGE));
     }
 
     @Test
-    public void singleConnector_singleAssociation_simpleRule_failProfileFetchServerError() throws Exception {
+    public void singleCon_singleAs_simpleRule_failProfileFetchServerError() throws Exception {
         when(api.getCurrentAssociation(anyLong()))
                 .thenReturn(completedFuture(singletonList(
-                        new PriceProfileAssociationResponse("abc", CONNECTOR_ID.id, NOW, ORGANIZATION_ID, "xyz", NOW, null, Source.ALL, null)
+                        new PriceProfileAssociationResponse("abc", CONNECTOR_ID.id, NOW, ORGANIZATION_ID, "xyz", NOW, null)
                 )));
         when(api.getPriceProfile(ORGANIZATION_ID, "xyz"))
                 .thenReturn(failProfile(500));
@@ -153,66 +223,64 @@ public class AdvancedPricingRepositoryTest {
     }
 
     @Test
-    public void singleConnector_multipleAssociation_simpleRule_happyPath() throws Exception {
+    public void singleCon_multipleAs_simpleRule_happyPath() throws Exception {
         when(api.getCurrentAssociation(anyLong()))
                 .thenReturn(completedFuture(asList(
-                        new PriceProfileAssociationResponse("abc", CONNECTOR_ID.id, NOW, ORGANIZATION_ID, "xyz", NOW, null, Source.ALL, null),
-                        new PriceProfileAssociationResponse("def", CONNECTOR_ID.id, NOW, ORGANIZATION_ID, "xyz", NOW, null, Source.SMS, null)
+                        new PriceProfileAssociationResponse("abc", CONNECTOR_ID.id, NOW, ORGANIZATION_ID, "xyz", NOW, null),
+                        new PriceProfileAssociationResponse("def", CONNECTOR_ID.id, NOW, ORGANIZATION_ID, "xyz", NOW, null)
                 )));
         when(api.getPriceProfile(ORGANIZATION_ID, "xyz"))
-                .thenReturn(completedFuture(new PriceProfileResponse("xyz", ORGANIZATION_ID, PROFILE_NAME, jsonFileToString("test-data/advanced-pricing/simple-time-based.json"), CURRENCY, NOW, null)));
+                .thenReturn(completedFuture(new PriceProfileResponse("xyz", ORGANIZATION_ID, PROFILE_NAME, jsonFileToString("test-data/advanced-pricing/simple-time-based.json"), CURRENCY, NOW, Source.ALL, null, null)));
 
         List<ConnectorPrice> result = repository.priceForConnectors(singletonList(CONNECTOR_ID));
 
-        assertThat(result).hasSize(1);
-        assertThat(result).contains(new ConnectorPrice(CONNECTOR_ID, "2.00 SEK/min"));
+        assertThat(result).containsExactly(new ConnectorPrice(CONNECTOR_ID, "2.00 SEK/min"));
     }
 
     @Test
-    public void multipleConnector_singleAssociation_simpleRule_happyPath() throws Exception {
+    public void multipleCon_singleAs_simpleRule_happyPath() throws Exception {
         when(api.getCurrentAssociation(anyLong()))
-                .thenReturn(completedFuture(singletonList(new PriceProfileAssociationResponse("abc", CONNECTOR_ID.id, NOW, ORGANIZATION_ID, "xyz", NOW, null, Source.ALL, null))))
-                .thenReturn(completedFuture(singletonList(new PriceProfileAssociationResponse("def", 2L, NOW, ORGANIZATION_ID, "zzz", NOW, null, Source.ALL, null))));
+                .thenReturn(completedFuture(singletonList(new PriceProfileAssociationResponse("abc", CONNECTOR_ID.id, NOW, ORGANIZATION_ID, "xyz", NOW, null))))
+                .thenReturn(completedFuture(singletonList(new PriceProfileAssociationResponse("def", 2L, NOW, ORGANIZATION_ID, "zzz", NOW, null))));
         when(api.getPriceProfile(ORGANIZATION_ID, "xyz"))
-                .thenReturn(completedFuture(new PriceProfileResponse("xyz", ORGANIZATION_ID, PROFILE_NAME, jsonFileToString("test-data/advanced-pricing/simple-time-based.json"), CURRENCY, NOW, null)));
+                .thenReturn(completedFuture(new PriceProfileResponse("xyz", ORGANIZATION_ID, PROFILE_NAME, jsonFileToString("test-data/advanced-pricing/simple-time-based.json"), CURRENCY, NOW, Source.ALL, null, null)));
         when(api.getPriceProfile(ORGANIZATION_ID, "zzz"))
-                .thenReturn(completedFuture(new PriceProfileResponse("zzz", ORGANIZATION_ID, PROFILE_NAME, jsonFileToString("test-data/advanced-pricing/simple-energy-based.json"), CURRENCY, NOW, null)));
+                .thenReturn(completedFuture(new PriceProfileResponse("zzz", ORGANIZATION_ID, PROFILE_NAME, jsonFileToString("test-data/advanced-pricing/simple-energy-based.json"), CURRENCY, NOW, Source.ALL, null, null)));
 
         List<ConnectorPrice> result = repository.priceForConnectors(asList(CONNECTOR_ID, new ConnectorId(2L)));
 
-        assertThat(result).hasSize(2);
-        assertThat(result).contains(new ConnectorPrice(CONNECTOR_ID, "2.00 SEK/min"));
-        assertThat(result).contains(new ConnectorPrice(new ConnectorId(2L), "10.00 SEK/kWh"));
+        assertThat(result).containsExactlyInAnyOrder(
+                new ConnectorPrice(CONNECTOR_ID, "2.00 SEK/min"),
+                new ConnectorPrice(new ConnectorId(2L), "10.00 SEK/kWh")
+        );
     }
 
     @Test
-    public void multipleConnector_singleAssociation_simpleRule_failAssociationFetch() throws Exception {
+    public void multipleCon_singleAs_simpleRule_failAssociationFetch() throws Exception {
         when(api.getCurrentAssociation(anyLong()))
-                .thenReturn(completedFuture(singletonList(new PriceProfileAssociationResponse("abc", CONNECTOR_ID.id, NOW, ORGANIZATION_ID, "xyz", NOW, null, Source.ALL, null))))
+                .thenReturn(completedFuture(singletonList(new PriceProfileAssociationResponse("abc", CONNECTOR_ID.id, NOW, ORGANIZATION_ID, "xyz", NOW, null))))
                 .thenReturn(failAssociation(500));
         when(api.getPriceProfile(ORGANIZATION_ID, "xyz"))
-                .thenReturn(completedFuture(new PriceProfileResponse("xyz", ORGANIZATION_ID, PROFILE_NAME, jsonFileToString("test-data/advanced-pricing/simple-time-based.json"), CURRENCY, NOW, null)));
+                .thenReturn(completedFuture(new PriceProfileResponse("xyz", ORGANIZATION_ID, PROFILE_NAME, jsonFileToString("test-data/advanced-pricing/simple-time-based.json"), CURRENCY, NOW, Source.ALL, null, null)));
 
         List<ConnectorPrice> result = repository.priceForConnectors(asList(CONNECTOR_ID, new ConnectorId(2L)));
 
-        assertThat(result).hasSize(1);
-        assertThat(result).contains(new ConnectorPrice(CONNECTOR_ID, "2.00 SEK/min"));
+        assertThat(result).containsExactly(new ConnectorPrice(CONNECTOR_ID, "2.00 SEK/min"));
     }
 
     @Test
-    public void multipleConnector_singleAssociation_simpleRule_failProfileFetch() throws Exception {
+    public void multipleCon_singleAs_simpleRule_failProfileFetch() throws Exception {
         when(api.getCurrentAssociation(anyLong()))
-                .thenReturn(completedFuture(singletonList(new PriceProfileAssociationResponse("abc", CONNECTOR_ID.id, NOW, ORGANIZATION_ID, "xyz", NOW, null, Source.ALL, null))))
-                .thenReturn(completedFuture(singletonList(new PriceProfileAssociationResponse("def", 2L, NOW, ORGANIZATION_ID, "zzz", NOW, null, Source.ALL, null))));
+                .thenReturn(completedFuture(singletonList(new PriceProfileAssociationResponse("abc", CONNECTOR_ID.id, NOW, ORGANIZATION_ID, "xyz", NOW, null))))
+                .thenReturn(completedFuture(singletonList(new PriceProfileAssociationResponse("def", 2L, NOW, ORGANIZATION_ID, "zzz", NOW, null))));
         when(api.getPriceProfile(ORGANIZATION_ID, "xyz"))
                 .thenReturn(failProfile(500));
         when(api.getPriceProfile(ORGANIZATION_ID, "zzz"))
-                .thenReturn(completedFuture(new PriceProfileResponse("zzz", ORGANIZATION_ID, PROFILE_NAME, jsonFileToString("test-data/advanced-pricing/simple-time-based.json"), CURRENCY, NOW, null)));
+                .thenReturn(completedFuture(new PriceProfileResponse("zzz", ORGANIZATION_ID, PROFILE_NAME, jsonFileToString("test-data/advanced-pricing/simple-time-based.json"), CURRENCY, NOW, Source.ALL, null, null)));
 
         List<ConnectorPrice> result = repository.priceForConnectors(asList(CONNECTOR_ID, new ConnectorId(2L)));
 
-        assertThat(result).hasSize(1);
-        assertThat(result).contains(new ConnectorPrice(new ConnectorId(2L), "2.00 SEK/min"));
+        assertThat(result).containsExactly(new ConnectorPrice(new ConnectorId(2L), "2.00 SEK/min"));
     }
 
     private CompletableFuture<List<PriceProfileAssociationResponse>> failAssociation(int code) throws Exception {

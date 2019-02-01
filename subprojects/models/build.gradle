@@ -29,7 +29,7 @@ ext {
     versionPaymentsReceiptClient = "1.0.1"
     versionPaymentsSessionsClient = "1.0.2"
     versionPartnershipsServiceClient = "0.2.2"
-    versionPaymentsPricingClient = "1.2.0"
+    versionPaymentsPricingClient = "1.4.3-SNAPSHOT"
 }
 
 dependencies {

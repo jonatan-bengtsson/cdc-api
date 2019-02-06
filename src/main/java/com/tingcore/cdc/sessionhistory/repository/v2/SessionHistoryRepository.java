@@ -16,8 +16,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import java.io.IOException;
-import java.time.Instant;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
@@ -48,10 +48,10 @@ public class SessionHistoryRepository {
         final BoolQueryBuilder query = QueryBuilders.boolQuery()
                 .must(termQuery("identity.chargingKey.id", chargingKeyId))
                 .filter(rangeQuery("startedAt")
-                        .gte(Instant.ofEpochMilli(from))
+                        .gte(new Date(from))
                         .format("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"))
                 .filter(rangeQuery("stoppedAt")
-                        .lte(Instant.ofEpochMilli(to))
+                        .lte(new Date(to))
                         .format("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
 
         final SearchSourceBuilder sourceBuilder = new SearchSourceBuilder()

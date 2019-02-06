@@ -1,0 +1,97 @@
+[
+  {
+    "id": 7041098048622550,
+    "userId": 1,
+    "user": {
+      "id": 1337,
+      "keyIdentifier": "800000000000f3",
+      "email": "yolo@biz.io"
+    },
+    "identity": {
+      "type": "Internal Customer",
+      "chargingKey": {
+        "id": 1571,
+        "typeName": "virtual"
+      }
+    },
+    "connector": {
+      "id": 3606,
+      "label": "B",
+      "chargePoint": {
+        "id": 1,
+        "name": "ASSET NAME 1",
+        "modelId": 8,
+        "chargePointSite": {
+          "id": 2859,
+          "name": "Test CPS 152",
+          "address": {
+            "countryIsoCode": "se"
+          }
+        },
+        "ownerId": 3
+      }
+    },
+    "startedAt": 1539722757903,
+    "stopRequestedAt": 1540848703000,
+    "energy": {
+      "value": 276,
+      "unit": "Wh"
+    },
+    "payment": {
+      "price": {
+        "amountMinorUnitsIncl": 40000,
+        "amountMinorUnitsExcl": 32000,
+        "vat": 25.0,
+        "currency": "SEK"
+      },
+      "transactions": [],
+      "balance": {
+        "amountMinorUnitsIncl": 0,
+        "currency": "SEK"
+      }
+    },
+    "status": "CLEARED"
+  },
+  {
+    "id": 348839658737527,
+    "userId": 1,
+    "user": {
+      "id": 1337,
+      "keyIdentifier": "80000000000117",
+      "email": "yolo@biz.io"
+    },
+    "identity": {
+      "type": "Internal Customer",
+      "chargingKey": {
+        "id": 1611,
+        "typeName": "virtual"
+      }
+    },
+    "connector": {
+      "id": 15,
+      "label": "B",
+      "chargePoint": {
+        "id": 1,
+        "name": "ASSET NAME 1",
+        "modelId": 8,
+        "chargePointSite": {
+          "id": 2859,
+          "name": "Roaming test",
+          "address": {
+            "countryIsoCode": "se"
+          }
+        },
+        "ownerId": 1
+      }
+    },
+    "startedAt": 1536847206000,
+    "stopRequestedAt": 1536847300000,
+    "energy": {
+      "value": 0,
+      "unit": "Wh"
+    },
+    "payment": {
+    },
+    "status": "CLEARING"
+  }
+]

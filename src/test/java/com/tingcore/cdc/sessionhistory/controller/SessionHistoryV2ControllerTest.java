@@ -1,15 +1,17 @@
 package com.tingcore.cdc.sessionhistory.controller;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.tingcore.cdc.ControllerUnitTest;
 import com.tingcore.cdc.payments.history.v2.ApiChargeHistoryAdapter;
 import com.tingcore.cdc.sessionhistory.service.SessionHistoryService;
-import com.tingcore.sessions.history.api.v1.ApiSessionHistoryContainer;
+import com.tingcore.payments.sessionstasher.models.v1.Session;
 import org.junit.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.tingcore.commons.core.test.JsonTestUtils.jsonFileToObject;
@@ -31,10 +33,9 @@ public class SessionHistoryV2ControllerTest extends ControllerUnitTest {
 
     @Test
     public void testGetChargingKeyHistory() throws Exception {
-        ApiSessionHistoryContainer original = jsonFileToObject("test-data/session-history/history.v2.json", ApiSessionHistoryContainer.class);
+        List<Session> original = jsonFileToObject("test-data/session-history/session-archive.v1.json", new TypeReference<List<Session>>() {});
         when(service.getSessionHistory(anyLong(), anyLong(), anyLong()))
                 .thenReturn(original
-                        .getResult()
                         .stream()
                         .map(ApiChargeHistoryAdapter::new)
                         .collect(Collectors.toList()));

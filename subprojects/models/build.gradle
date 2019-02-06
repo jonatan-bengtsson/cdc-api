@@ -30,6 +30,7 @@ ext {
     versionPaymentsSessionsClient = "1.0.2"
     versionPartnershipsServiceClient = "0.2.2"
     versionPaymentsPricingClient = "1.4.3-SNAPSHOT"
+    versionSessionStasherModel = "0.1.0"
 }
 
 dependencies {
@@ -55,6 +56,7 @@ dependencies {
     compile("com.tingcore.payments:payments-sessions-client:$versionPaymentsSessionsClient")
     compile("com.tingcore.emp.pricing:payments-pricing-client:$versionPaymentsPricingClient")
     compile("com.tingcore.partnerships:partnerships-service-client:$versionPartnershipsServiceClient")
+    compile("com.tingcore.payments:session-stasher-model:$versionSessionStasherModel")
     compile("com.google.code.gson:gson:$versionGson")
 
     testCompile "junit:junit:$versionJunit"

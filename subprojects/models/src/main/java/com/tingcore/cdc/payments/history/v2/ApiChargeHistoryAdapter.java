@@ -1,12 +1,9 @@
 package com.tingcore.cdc.payments.history.v2;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tingcore.cdc.payments.history.ApiAmount;
 import com.tingcore.cdc.payments.history.ApiChargeHistory;
 import com.tingcore.cdc.payments.history.ApiSessionEnergy;
-import com.tingcore.sessions.history.api.v1.ApiChargePointSiteInfo;
-import com.tingcore.sessions.history.api.v1.ApiComputedInfo;
-import com.tingcore.sessions.history.api.v1.ApiHistoryLine;
+import com.tingcore.payments.sessionstasher.models.v1.*;
 
 import java.time.Instant;
 
@@ -14,76 +11,82 @@ import static java.util.Optional.ofNullable;
 import static org.apache.commons.lang3.Validate.notNull;
 
 public class ApiChargeHistoryAdapter implements ApiChargeHistory {
+    private enum BalanceStatus {
+        NOT_PAID, PAID, REFUND;
 
-    private final com.tingcore.sessions.history.api.v1.ApiSessionHistory original;
+        public static BalanceStatus fromBalance(final Balance balance) {
+            final int signum = Long.signum(balance.getAmountMinorUnitsIncl());
+            return signum == 0 ? PAID : (signum < 0 ? NOT_PAID : REFUND);
+        }
+    }
 
-    public ApiChargeHistoryAdapter(com.tingcore.sessions.history.api.v1.ApiSessionHistory original) {
-        this.original = notNull(original);
+    private final Session session;
+
+    public ApiChargeHistoryAdapter(final Session session) {
+        this.session = notNull(session);
     }
 
     @Override
     public Long getSessionId() {
-        return ofNullable(original.getHistory())
-                .map(ApiHistoryLine::getSessionId)
-                .orElse(null);
+        return session.getId();
     }
 
     @Override
     public ApiAmount getPrice() {
-        return ofNullable(original.getHistory())
-                .map(ApiHistoryLine::getPrice)
+        return ofNullable(session.getPayment())
+                .map(Payment::getPrice)
                 .map(ApiAmountAdapter::new)
                 .orElse(null);
     }
 
     @Override
     public Long getConnectorId() {
-        return ofNullable(original.getHistory())
-                .map(ApiHistoryLine::getConnectorId)
+        return ofNullable(session.getConnector())
+                .map(Connector::getId)
                 .orElse(null);
     }
 
     @Override
     public Long getStartTime() {
-        return ofNullable(original.getHistory())
-                .map(ApiHistoryLine::getStartTime)
+        return ofNullable(session.getStartedAt())
                 .map(Instant::toEpochMilli)
                 .orElse(null);
     }
 
     @Override
     public String getSite() {
-        return ofNullable(original.getHistory())
-                .map(ApiHistoryLine::getChargePointSiteInfo)
-                .map(ApiChargePointSiteInfo::getChargePointSiteName)
+        return ofNullable(session.getConnector())
+                .map(Connector::getChargePoint)
+                .map(ChargePoint::getChargePointSite)
+                .map(ChargePointSite::getName)
                 .orElse(null);
     }
 
     @Override
     public String getBalanceStatus() {
-        return ofNullable(original.getComputedInfo())
-                .map(ApiComputedInfo::getBalanceStatus)
-                .orElse(null);
+        return ofNullable(session.getPayment())
+                .map(Payment::getBalance)
+                .map((balance) -> BalanceStatus.fromBalance(balance).name())
+                .orElse(BalanceStatus.NOT_PAID.name());
     }
 
     @Override
     public String getSessionStatus() {
-        return ofNullable(original.getComputedInfo())
-                .map(ApiComputedInfo::getSessionStatus)
-                .orElse(null);
+        return session.getStatus()
+                .name();
     }
 
     @Override
     public Long getOrganizationId() {
-        return ofNullable(original.getHistory())
-                .map(ApiHistoryLine::getOrganizationId)
+        return ofNullable(session.getConnector())
+                .map(Connector::getChargePoint)
+                .map(ChargePoint::getOwnerId)
                 .orElse(null);
     }
 
     @Override
     public ApiSessionEnergy getEnergy() {
-        return ofNullable(original.getHistory())
-                .map(ApiHistoryLine::getEnergy)
+        return ofNullable(session.getEnergy())
                 .map(ApiSessionEnergyAdapter::new)
                 .orElse(null);
     }

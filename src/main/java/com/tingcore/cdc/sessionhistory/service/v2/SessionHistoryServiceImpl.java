@@ -7,12 +7,10 @@ import com.tingcore.cdc.sessionhistory.service.SessionHistoryService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
 public class SessionHistoryServiceImpl implements SessionHistoryService {
-
     private final SessionHistoryRepository sessionHistoryRepository;
 
     public SessionHistoryServiceImpl(final SessionHistoryRepository sessionHistoryRepository) {
@@ -22,10 +20,8 @@ public class SessionHistoryServiceImpl implements SessionHistoryService {
     @Override
     public List<ApiChargeHistory> getSessionHistory(final Long chargingKeyId, final Long from, final Long to) {
         return sessionHistoryRepository
-                .getSessionHistory(chargingKeyId, from, to)
-                .getResult()
+                .getSession(chargingKeyId, from, to)
                 .stream()
-                .filter(Objects::nonNull)
                 .map(ApiChargeHistoryAdapter::new)
                 .collect(Collectors.toList());
     }

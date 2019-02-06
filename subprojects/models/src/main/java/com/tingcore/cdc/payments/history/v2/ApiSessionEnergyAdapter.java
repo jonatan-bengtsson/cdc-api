@@ -1,25 +1,25 @@
 package com.tingcore.cdc.payments.history.v2;
 
-
 import com.tingcore.cdc.payments.history.ApiSessionEnergy;
+import com.tingcore.payments.sessionstasher.models.v1.SessionEnergy;
 
 import static org.apache.commons.lang3.Validate.notNull;
 
 public class ApiSessionEnergyAdapter implements ApiSessionEnergy {
 
-    private final com.tingcore.sessions.history.api.v1.ApiSessionEnergy original;
+    private final SessionEnergy sessionEnergy;
 
-    public ApiSessionEnergyAdapter(com.tingcore.sessions.history.api.v1.ApiSessionEnergy original) {
-        this.original = notNull(original);
+    public ApiSessionEnergyAdapter(final SessionEnergy sessionEnergy) {
+        this.sessionEnergy = notNull(sessionEnergy);
     }
 
     @Override
     public String getValue() {
-        return original.getValue();
+        return Long.toString(sessionEnergy.getValue());
     }
 
     @Override
     public String getUnit() {
-        return original.getUnit();
+        return sessionEnergy.getUnit();
     }
 }

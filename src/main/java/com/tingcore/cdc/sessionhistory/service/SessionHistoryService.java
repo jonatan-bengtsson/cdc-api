@@ -5,7 +5,5 @@ import com.tingcore.cdc.payments.history.ApiChargeHistory;
 import java.util.List;
 
 public interface SessionHistoryService {
-
-    public List<ApiChargeHistory> getSessionHistory(final Long chargingKeyId, final Long from, final Long to);
-
+    List<ApiChargeHistory> getSessionHistory(final Long chargingKeyId, final Long from, final Long to);
 }

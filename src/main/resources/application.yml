@@ -45,9 +45,6 @@ app:
   campaign-service:
     base-url: https://${integration.campaign.hostname}
     default-timeout: 10
-  session-history-service:
-    base-url: https://${integration.history.hostname}
-    default-timeout: 20
   payments-receipt:
     base-url: https://${integration.receipt.hostname}
     default-timeout: 20

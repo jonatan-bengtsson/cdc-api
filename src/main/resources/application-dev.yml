@@ -23,8 +23,6 @@ integration:
     hostname: customer-key-order.tingcore-test.com
   campaign:
     hostname: campaign-service.tingcore-test.com
-  history:
-    hostname: session-history.tingcore-test.com
   receipt:
     hostname: payments-receipt.tingcore-test.com
   sessions:

@@ -4,32 +4,34 @@ import com.tingcore.cdc.payments.history.ApiAmount;
 import com.tingcore.payments.sessionstasher.models.v1.Amount;
 
 import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
+import java.util.Currency;
+import java.util.Locale;
 
 import static org.apache.commons.lang3.Validate.notNull;
 
 public class ApiAmountAdapter implements ApiAmount {
-    private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#0.00"); // should rather be localized by the client
-    static {
-        final DecimalFormatSymbols DECIMAL_FORMAT_SYMBOLS = new DecimalFormatSymbols();
-        DECIMAL_FORMAT_SYMBOLS.setDecimalSeparator(',');
-        DECIMAL_FORMAT.setDecimalFormatSymbols(DECIMAL_FORMAT_SYMBOLS);
-    }
+    private static final Locale LOCALE = new Locale("sv","SE");
+    private static final NumberFormat NUMBER_FORMAT = DecimalFormat.getNumberInstance(LOCALE);
 
     private final Amount amount;
+    private final int fractionDigits;
 
     public ApiAmountAdapter(final Amount amount) {
         this.amount = notNull(amount);
+        this.fractionDigits = Currency.getInstance(amount.getCurrency()).getDefaultFractionDigits();
     }
 
     @Override
     public String getInclVat() {
-        return DECIMAL_FORMAT.format(amount.getAmountMinorUnitsIncl());
+        double a = convertAmount(amount.getAmountMinorUnitsIncl(), fractionDigits);
+        return formatNumber(a, LOCALE, fractionDigits);
     }
 
     @Override
     public String getExclVat() {
-        return DECIMAL_FORMAT.format(amount.getAmountMinorUnitsExcl());
+        double a = convertAmount(amount.getAmountMinorUnitsExcl(), fractionDigits);
+        return formatNumber(a, LOCALE, fractionDigits);
     }
 
     @Override
@@ -39,6 +41,14 @@ public class ApiAmountAdapter implements ApiAmount {
 
     @Override
     public String getVat() {
-        return Double.toString(amount.getVat());
+        return NUMBER_FORMAT.format(amount.getVat());
+    }
+
+    private static double convertAmount(final long amount, final int fractionDigits) {
+        return amount / (Math.pow(10, fractionDigits));
+    }
+
+    private static String formatNumber(final double amount, final Locale locale, final int fractionDigits) {
+        return String.format(locale, "%." + fractionDigits + "f", amount);
     }
 }

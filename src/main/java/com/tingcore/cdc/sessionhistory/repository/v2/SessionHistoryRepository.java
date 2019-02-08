@@ -47,12 +47,10 @@ public class SessionHistoryRepository {
     public List<Session> getSession(final Long chargingKeyId, final Long from, final Long to) {
         final BoolQueryBuilder query = QueryBuilders.boolQuery()
                 .must(termQuery("identity.chargingKey.id", chargingKeyId))
-                .filter(rangeQuery("startedAt")
-                        .gte(new Date(from))
-                        .format("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"))
+                    .filter(rangeQuery("startedAt")
+                        .gte(new Date(from)))
                 .filter(rangeQuery("stoppedAt")
-                        .lte(new Date(to))
-                        .format("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
+                        .lte(new Date(to)));
 
         final SearchSourceBuilder sourceBuilder = new SearchSourceBuilder()
                 .query(query);

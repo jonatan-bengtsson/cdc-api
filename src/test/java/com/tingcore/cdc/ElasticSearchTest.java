@@ -39,10 +39,11 @@ public abstract class ElasticSearchTest {
         testData.forEach((id, doc) -> bulkRequest.add(new IndexRequest(index, type, id.toString()).source(doc, XContentType.JSON)));
         try {
             client.bulk(bulkRequest);
-            Thread.sleep(3000);
-        } catch (IOException | InterruptedException e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+        embeddedElastic.refreshIndices();
     }
 
     @AfterClass

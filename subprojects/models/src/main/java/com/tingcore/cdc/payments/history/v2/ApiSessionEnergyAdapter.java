@@ -21,13 +21,13 @@ public class ApiSessionEnergyAdapter implements ApiSessionEnergy {
     @Override
     public String getValue() {
         final long value = sessionEnergy.getValue();
-        final double v = sessionEnergy.getUnit().equals("Wh") ? (value / 1000d) : value;
+        final double v = sessionEnergy.getUnit().equalsIgnoreCase("Wh") ? (value / 1000d) : value;
         return NUMBER_FORMAT.format(v);
     }
 
     @Override
     public String getUnit() {
         final String unit = sessionEnergy.getUnit();
-        return unit.equals("Wh") ? "kWh" : unit;
+        return unit.equalsIgnoreCase("Wh") ? "kWh" : unit;
     }
 }

@@ -39,13 +39,14 @@ public class SessionHistoryRepositoryTest extends ElasticSearchTest {
     public void testHits() {
         final DateTimeFormatter formatter = DateTimeFormatter.ISO_INSTANT;
         final long from = formatter.parse("2018-12-12T10:31:00.343Z", Instant::from).toEpochMilli();
-        final long to = formatter.parse("2018-12-12T10:46:30.343Z", Instant::from).toEpochMilli();
+        final long to = formatter.parse("2018-12-12T10:36:30.343Z", Instant::from).toEpochMilli();
 
         final List<Session> sessions = repository.getSession(1001765L, from, to);
 
-        assertThat(sessions.size()).isEqualTo(2);
+        assertThat(sessions.size()).isEqualTo(3);
         assertThat(sessions.get(0).getId()).isEqualTo(4);
-        assertThat(sessions.get(1).getId()).isEqualTo(2);
+        assertThat(sessions.get(1).getId()).isEqualTo(5);
+        assertThat(sessions.get(2).getId()).isEqualTo(2);
     }
 
     private static Map<Object, String> testData() {

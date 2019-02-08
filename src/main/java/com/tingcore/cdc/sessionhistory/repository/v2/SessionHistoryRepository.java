@@ -49,7 +49,7 @@ public class SessionHistoryRepository {
                 .must(termQuery("identity.chargingKey.id", chargingKeyId))
                     .filter(rangeQuery("startedAt")
                         .gte(new Date(from)))
-                .filter(rangeQuery("stoppedAt")
+                .filter(rangeQuery("startedAt")
                         .lte(new Date(to)));
 
         final SearchSourceBuilder sourceBuilder = new SearchSourceBuilder()

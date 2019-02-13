@@ -21,17 +21,17 @@ import static org.apache.commons.lang3.Validate.notNull;
 @Configuration
 public class DebtCollectConfiguration {
 
-    private final String BASE_URL;
-    private final Long DEFAULT_TIMEOUT;
-    private final Environment ENV;
+    private final String base_url;
+    private final Long defaultTimeout;
+    private final Environment env;
 
 
     public DebtCollectConfiguration(@Value("${app.debt-collect.base-url}") String baseUrl,
                                     @Value("${app.debt-collect.default-timeout:20}") Long defaultTimeout,
                                     final Environment env) {
-        BASE_URL = notNull(baseUrl);
-        DEFAULT_TIMEOUT = notNull(defaultTimeout);
-        ENV = notNull(env);
+        this.base_url = notNull(baseUrl);
+        this.defaultTimeout = notNull(defaultTimeout);
+        this.env = notNull(env);
     }
 
     @Bean
@@ -40,11 +40,11 @@ public class DebtCollectConfiguration {
         tracing.ifPresent(httpTracing -> instrumentClient(builder, httpTracing));
         return DebtCollectClient
                 .create()
-                .baseUrl(BASE_URL)
-                .readTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
-                .writeTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
-                .connectionTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
-                .loggingLevel(ENV.acceptsProfiles(DEV) ? HttpLoggingInterceptor.Level.BODY : HttpLoggingInterceptor.Level.NONE)
+                .baseUrl(base_url)
+                .readTimeout(defaultTimeout, TimeUnit.SECONDS)
+                .writeTimeout(defaultTimeout, TimeUnit.SECONDS)
+                .connectionTimeout(defaultTimeout, TimeUnit.SECONDS)
+                .loggingLevel(env.acceptsProfiles(DEV) ? HttpLoggingInterceptor.Level.BODY : HttpLoggingInterceptor.Level.NONE)
                 .build();
     }
 

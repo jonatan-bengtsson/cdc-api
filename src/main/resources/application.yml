@@ -60,6 +60,9 @@ app:
   debt-tracker:
     base-url: https://${integration.debt-tracker.hostname}
     default-timeout: 20
+  debt-collect:
+    base-url: https://${integration.debt-collect.hostname}
+    default-timeout: 20
   elasticsearch:
     scheme: https
     host: https://${integration.elasticsearch.hostname}

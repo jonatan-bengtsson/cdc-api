@@ -28,7 +28,10 @@
             "countryIsoCode": "se"
           }
         },
-        "ownerId": 3
+        "owner": {
+          "id": 3,
+          "name": "yolo1"
+        }
       }
     },
     "startedAt": 1539722757903,
@@ -81,7 +84,10 @@
             "countryIsoCode": "se"
           }
         },
-        "ownerId": 1
+        "owner": {
+          "id": 1,
+          "name": "yolo1"
+        }
       }
     },
     "startedAt": 1536847206000,

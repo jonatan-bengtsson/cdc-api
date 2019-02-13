@@ -80,7 +80,8 @@ public class ApiChargeHistoryAdapter implements ApiChargeHistory {
     public Long getOrganizationId() {
         return ofNullable(session.getConnector())
                 .map(Connector::getChargePoint)
-                .map(ChargePoint::getOwnerId)
+                .map(ChargePoint::getOwner)
+                .map(Organization::getId)
                 .orElse(null);
     }
 

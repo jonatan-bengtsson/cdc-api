@@ -29,14 +29,14 @@ public class DebtTrackerRepository extends AbstractApiRepository {
         this.defaultTimeout = notNull(defaultTimeout);
     }
 
-    public List<ApiSessionDebt> getAllDebtForUserAndCustomerKey(Long userId, Long customerKey) {
-        final ApiResponse<List<ApiSessionDebt>> execute = execute(debttrackerRestApi.getDebtForIdentity(userId, customerKey));
+    public List<ApiSessionDebt> getAllDebtForUserAndChargingKeyId(Long userId, Long chargingKeyId) {
+        final ApiResponse<List<ApiSessionDebt>> execute = execute(debttrackerRestApi.getDebtForIdentity(userId, chargingKeyId));
         return getResponseOrThrowError(execute, DebtTrackerApiException::new);
     }
 
 
-    public List<ApiDebtSummary> getDebtSummaryForUserAndCustomerKey(Long userId, Long customerKey) {
-        final ApiResponse<List<ApiDebtSummary>> execute = execute(debttrackerRestApi.getDebtSummaryForIdentity(userId, customerKey));
+    public List<ApiDebtSummary> getDebtSummaryForUserAndChargingKeyId(Long userId, Long chargingKeyId) {
+        final ApiResponse<List<ApiDebtSummary>> execute = execute(debttrackerRestApi.getDebtSummaryForIdentity(userId, chargingKeyId));
         return getResponseOrThrowError(execute, DebtTrackerApiException::new);
     }
 

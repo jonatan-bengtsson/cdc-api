@@ -7,6 +7,7 @@ import com.tingcore.cdc.crm.service.ErrorMappingService;
 import com.tingcore.cdc.crm.service.v1.InvalidAttributeValueException;
 import com.tingcore.cdc.crm.service.UsersApiException;
 import com.tingcore.cdc.exception.EntityNotFoundException;
+import com.tingcore.cdc.exception.InputValueProcessingException;
 import com.tingcore.cdc.exception.PaymentAccountApiException;
 import com.tingcore.cdc.service.MessageByLocaleService;
 import com.tingcore.commons.api.service.ServiceException;
@@ -55,10 +56,10 @@ public class GlobalExceptionHandler {
         LOG.warn(e.getMessage(), e);
         ErrorCode errorCode = ErrorCode.INTERNAL_SERVER_ERROR;
         return errorResponseToResponseEntity(ErrorResponse
-                .serverError()
-                .code(errorCode.value())
-                .message(messageByLocaleService.getMessage(errorCode.messageKey()))
-                .build());
+                                                     .serverError()
+                                                     .code(errorCode.value())
+                                                     .message(messageByLocaleService.getMessage(errorCode.messageKey()))
+                                                     .build());
     }
 
 
@@ -67,10 +68,10 @@ public class GlobalExceptionHandler {
         LOG.trace(e.getMessage(), e);
         final ErrorCode errorCode = ErrorCode.VALIDATION_FAILED;
         return errorResponseToResponseEntity(ErrorResponse.badRequest()
-                .code(errorCode.value())
-                .message(messageByLocaleService.getMessage(errorCode.messageKey()))
-                .addFieldViolation(e)
-                .build());
+                                                     .code(errorCode.value())
+                                                     .message(messageByLocaleService.getMessage(errorCode.messageKey()))
+                                                     .addFieldViolation(e)
+                                                     .build());
     }
 
     @ExceptionHandler(value = MethodArgumentTypeMismatchException.class)
@@ -78,10 +79,10 @@ public class GlobalExceptionHandler {
         LOG.trace(e.getMessage(), e);
         final ErrorCode errorCode = ErrorCode.VALIDATION_FAILED;
         return errorResponseToResponseEntity(ErrorResponse.badRequest()
-                .code(errorCode.value())
-                .message(messageByLocaleService.getMessage(errorCode.messageKey()))
-                .addFieldViolation(e.getName(), e.getValue(), messageByLocaleService.getMessage(ErrorCode.INVALID_TYPE.messageKey()))
-                .build());
+                                                     .code(errorCode.value())
+                                                     .message(messageByLocaleService.getMessage(errorCode.messageKey()))
+                                                     .addFieldViolation(e.getName(), e.getValue(), messageByLocaleService.getMessage(ErrorCode.INVALID_TYPE.messageKey()))
+                                                     .build());
     }
 
     @ExceptionHandler(value = HttpMediaTypeNotSupportedException.class)
@@ -89,9 +90,9 @@ public class GlobalExceptionHandler {
         LOG.trace(e.getMessage(), e);
         final ErrorCode errorCode = ErrorCode.UNSUPPORTED_MEDIA_TYPE;
         return errorResponseToResponseEntity(ErrorResponse.badRequest()
-                .code(errorCode.value())
-                .message(messageByLocaleService.getMessage(errorCode.messageKey()))
-                .build());
+                                                     .code(errorCode.value())
+                                                     .message(messageByLocaleService.getMessage(errorCode.messageKey()))
+                                                     .build());
     }
 
     @ExceptionHandler(value = HttpRequestMethodNotSupportedException.class)
@@ -99,9 +100,9 @@ public class GlobalExceptionHandler {
         LOG.trace(e.getMessage(), e);
         final ErrorCode errorCode = ErrorCode.METHOD_NOT_ALLOWED;
         return errorResponseToResponseEntity(ErrorResponse.methodNotAllowed()
-                .code(errorCode.value())
-                .message(messageByLocaleService.getMessage(errorCode.messageKey()))
-                .build());
+                                                     .code(errorCode.value())
+                                                     .message(messageByLocaleService.getMessage(errorCode.messageKey()))
+                                                     .build());
     }
 
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
@@ -115,8 +116,8 @@ public class GlobalExceptionHandler {
         if (e.getBindingResult().getFieldErrorCount() > 0 || e.getBindingResult().getGlobalErrorCount() == 0) {
             StreamUtils.asStream(fieldErrors.iterator())
                     .forEach(fieldError -> builder.addFieldViolation(fieldError.getField(),
-                            fieldError.getRejectedValue(),
-                            fieldError.getDefaultMessage()));
+                                                                     fieldError.getRejectedValue(),
+                                                                     fieldError.getDefaultMessage()));
 
             return errorResponseToResponseEntity(builder.build());
         } else {
@@ -129,9 +130,9 @@ public class GlobalExceptionHandler {
         LOG.trace(e.getMessage(), e);
         final ErrorCode errorCode = ErrorCode.MALFORMED_REQUEST;
         return errorResponseToResponseEntity(ErrorResponse.badRequest()
-                .code(errorCode.value())
-                .message(messageByLocaleService.getMessage(errorCode.messageKey()))
-                .build());
+                                                     .code(errorCode.value())
+                                                     .message(messageByLocaleService.getMessage(errorCode.messageKey()))
+                                                     .build());
     }
 
     @ExceptionHandler(value = MissingServletRequestParameterException.class)
@@ -160,6 +161,11 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = EntityNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleResourceNotFoundException(final EntityNotFoundException e) {
+        return handleServiceException(e, ErrorResponse.notFound());
+    }
+
+    @ExceptionHandler(value = InputValueProcessingException.class)
+    public ResponseEntity<ErrorResponse> handleInputValueProcessingException(final InputValueProcessingException e) {
         return handleServiceException(e, ErrorResponse.notFound());
     }
 

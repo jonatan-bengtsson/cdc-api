@@ -31,28 +31,33 @@ public class DebtTrackerController {
         this.debtTrackerRepository = notNull(debtTrackerRepository);
     }
 
-    @GetMapping("/users/{userId}/customerkeys/{customerKeyId}")
+    @GetMapping("/users/{userId}/charging-keys/{chargingKeyId}")
     @ApiOperation(value = "Get all debt for a specified user and customer key", responseContainer = "List", response = ApiSessionDebt.class, tags = {DEBT_TRACKER})
-    public List<ApiSessionDebt> getAllDebtForUserAndCustomerKey(@PathVariable("userId") String userId,
-                                                                @PathVariable("customerKeyId") String customerKeyId) {
+    public List<ApiSessionDebt> getAllDebtForUserAndChargingKeyId(@PathVariable("userId") String userId,
+                                                                  @PathVariable("chargingKeyId") String chargingKeyId) {
+        notNull(userId);
+        notNull(chargingKeyId);
 
         final Long user = decodeHashId(userId);
-        final Long key = decodeHashId(customerKeyId);
+        final Long key = decodeHashId(chargingKeyId);
 
-        return debtTrackerRepository.getAllDebtForUserAndCustomerKey(user, key)
+        return debtTrackerRepository.getAllDebtForUserAndChargingKeyId(user, key)
                 .stream()
                 .map(this::toDomainSessionDebt)
                 .collect(toList());
     }
 
-    @GetMapping("/users/{userId}/customerkeys/{customerKeyId}/summary")
+    @GetMapping("/users/{userId}/charging-keys/{chargingKeyId}/summary")
     @ApiOperation(value = "Get a debt summary for a specified user and customer key", responseContainer = "List", response = ApiDebtSummary.class, tags = {DEBT_TRACKER})
-    public List<ApiDebtSummary> getDebtSummaryForUserAndCustomerKey(@PathVariable("userId") String userId,
-                                                                    @PathVariable("customerKeyId") String customerKeyId) {
-        final Long user = decodeHashId(userId);
-        final Long key = decodeHashId(customerKeyId);
+    public List<ApiDebtSummary> getDebtSummaryForUserAndChargingKeyId(@PathVariable("userId") String userId,
+                                                                      @PathVariable("chargingKeyId") String chargingKeyId) {
+        notNull(userId);
+        notNull(chargingKeyId);
 
-        return debtTrackerRepository.getDebtSummaryForUserAndCustomerKey(user, key);
+        final Long user = decodeHashId(userId);
+        final Long key = decodeHashId(chargingKeyId);
+
+        return debtTrackerRepository.getDebtSummaryForUserAndChargingKeyId(user, key);
     }
 
     private ApiSessionDebt toDomainSessionDebt(com.tingcore.payments.debttracker.response.ApiSessionDebt debt) {

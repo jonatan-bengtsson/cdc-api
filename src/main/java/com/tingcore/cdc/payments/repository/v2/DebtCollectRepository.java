@@ -6,7 +6,6 @@ import com.tingcore.commons.rest.repository.AbstractApiRepository;
 import com.tingcore.commons.rest.repository.ApiResponse;
 import com.tingcore.payments.debt.collector.api.v1.DebtCollectorRestApi;
 import com.tingcore.payments.debt.collector.request.ApiClearSessionRequest;
-import com.tingcore.payments.events.domain.ClearingDebtSourceV1;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,7 +17,7 @@ import static org.apache.commons.lang3.Validate.notNull;
 @Repository
 public class DebtCollectRepository extends AbstractApiRepository {
     private static final Logger LOG = LoggerFactory.getLogger(DebtCollectRepository.class);
-
+    private static final String SOURCE = "CLEARING_CDC";
     private Integer defaultTimeOut;
     private final DebtCollectorRestApi debtCollectorRestApi;
 
@@ -31,7 +30,7 @@ public class DebtCollectRepository extends AbstractApiRepository {
     }
 
     public Long clearSession(Long sessionId) {
-        final ApiClearSessionRequest req = new ApiClearSessionRequest(sessionId, ClearingDebtSourceV1.CLEARING_CDC.name());
+        final ApiClearSessionRequest req = new ApiClearSessionRequest(sessionId, SOURCE);
         ApiResponse<Long> clearSession = execute(debtCollectorRestApi.clearDebtForSession(req));
         return getResponseOrThrowError(clearSession, DebtCollectApiException::new);
 

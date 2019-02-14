@@ -30,7 +30,7 @@ public class DebtCollectController {
         this.debtCollectRepository = notNull(debtCollectRepository);
     }
 
-    @PostMapping("/debit/sessions/{sessionId}")
+    @PostMapping("/sessions/{sessionId}/debit")
     @ApiOperation(value = "clear debt for a session", response = String.class, tags = {DEBT_COLLECT})
     public String clearDebtForSession(@PathVariable("sessionId") String sessionId) {
         return hashIdService.decode(sessionId)

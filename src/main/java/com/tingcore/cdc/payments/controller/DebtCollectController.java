@@ -1,17 +1,19 @@
 package com.tingcore.cdc.payments.controller;
 
 import com.tingcore.cdc.exception.EntityNotFoundException;
+import com.tingcore.cdc.exception.InputValueProcessingException;
+import com.tingcore.cdc.payments.api.ApiClearSessionsRequest;
 import com.tingcore.cdc.payments.repository.v2.DebtCollectRepository;
 import com.tingcore.commons.hash.HashIdService;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
 
+import java.util.Collections;
+import java.util.List;
+
+import static java.util.stream.Collectors.toList;
 import static org.apache.commons.lang3.Validate.notNull;
 
 @RestController
@@ -36,8 +38,28 @@ public class DebtCollectController {
         notNull(sessionId);
 
         return hashIdService.decode(sessionId)
-                .map(debtCollectRepository::clearSession)
+                .map(id -> debtCollectRepository.clearSessions(Collections.singletonList(id)))
+                .map(sessionIds -> sessionIds.get(0).value)
                 .map(hashIdService::encode)
                 .orElseThrow(() -> new EntityNotFoundException("SessionId"));
+    }
+
+    @PostMapping("/sessions/request-clearing")
+    @ApiOperation(value = "clear debt for multiple sessions",responseContainer = "List", response = String.class, tags = {DEBT_COLLECT})
+    public List<String> clearDebtForMultipleSessions(@RequestBody @NotNull ApiClearSessionsRequest request) {
+        final List<Long> sessionIds = request.getSessionIds()
+                .stream()
+                .map(this::decodeHashId)
+                .collect(toList());
+
+         return debtCollectRepository.clearSessions(sessionIds)
+                .stream()
+                .map(sessionId -> hashIdService.encode(sessionId.value))
+                .collect(toList());
+    }
+
+    private Long decodeHashId(String hashId) {
+        return hashIdService.decode(hashId)
+                .orElseThrow(() -> new InputValueProcessingException(hashId));
     }
 }

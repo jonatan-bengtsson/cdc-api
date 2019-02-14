@@ -35,7 +35,7 @@ public class DebtTrackerConfiguration {
     }
 
     @Bean
-    public DebtTrackerClient paymentsPricingClient(Optional<Tracing> tracing) {
+    public DebtTrackerClient debtTrackerClient(Optional<Tracing> tracing) {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         tracing.ifPresent(httpTracing -> instrumentClient(builder, httpTracing));
         return DebtTrackerClient

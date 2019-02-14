@@ -57,6 +57,9 @@ app:
   payments-pricing:
     base-url: https://${integration.pricing.hostname}
     default-timeout: 20
+  debt-tracker:
+    base-url: https://${integration.debt-tracker.hostname}
+    default-timeout: 20
   elasticsearch:
     scheme: https
     host: https://${integration.elasticsearch.hostname}

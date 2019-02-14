@@ -119,6 +119,7 @@ dependencies {
     compile("com.tingcore.payments:session-stasher-model:$versionSessionStasherModel")
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
     compile 'com.google.code.gson:gson:2.8.2'
+    compile("com.tingcore.payments:payments-debt-tracker-client:1.0.0")
 
     // Retrofit + OKHttp
     compile("com.squareup.okhttp3:okhttp:$versionOkHttp")

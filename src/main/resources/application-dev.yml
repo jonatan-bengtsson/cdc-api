@@ -31,5 +31,7 @@ integration:
     hostname: partnerships-service.tingcore-test.com
   pricing:
     hostname: payments-pricing.tingcore-test.com
+  debt-tracker:
+    hostname: payments-debt-tracker.tingcore-test.com
   elasticsearch:
     hostname: vpc-test-cd-search-3tvlibvjcv7cf7sn7cvdg45ro4.eu-west-1.es.amazonaws.com

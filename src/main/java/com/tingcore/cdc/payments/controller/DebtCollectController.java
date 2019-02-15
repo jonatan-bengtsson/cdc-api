@@ -39,22 +39,22 @@ public class DebtCollectController {
 
         return hashIdService.decode(sessionId)
                 .map(id -> debtCollectRepository.clearSessions(Collections.singletonList(id)))
-                .map(sessionIds -> sessionIds.get(0).value)
+                .map(sessionIds -> sessionIds.get(0))
                 .map(hashIdService::encode)
                 .orElseThrow(() -> new EntityNotFoundException("SessionId"));
     }
 
     @PostMapping("/sessions/request-clearing")
-    @ApiOperation(value = "clear debt for multiple sessions",responseContainer = "List", response = String.class, tags = {DEBT_COLLECT})
+    @ApiOperation(value = "clear debt for multiple sessions", responseContainer = "List", response = String.class, tags = {DEBT_COLLECT})
     public List<String> clearDebtForMultipleSessions(@RequestBody @NotNull ApiClearSessionsRequest request) {
         final List<Long> sessionIds = request.getSessionIds()
                 .stream()
                 .map(this::decodeHashId)
                 .collect(toList());
 
-         return debtCollectRepository.clearSessions(sessionIds)
+        return debtCollectRepository.clearSessions(sessionIds)
                 .stream()
-                .map(sessionId -> hashIdService.encode(sessionId.value))
+                .map(hashIdService::encode)
                 .collect(toList());
     }
 

@@ -96,7 +96,7 @@ ext {
     versionMicrometer = "1.0.5"
     versionSessionStasherModel = "0.1.3"
     versionElasticSearch = "6.3.1"
-    versionDebtCollect = "1.0.0"
+    versionDebtCollect = "1.0.1"
 }
 
 dependencies {

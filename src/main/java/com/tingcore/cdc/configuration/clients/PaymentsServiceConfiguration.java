@@ -1,4 +1,4 @@
-package com.tingcore.cdc.configuration;
+package com.tingcore.cdc.configuration.clients;
 
 import brave.Tracing;
 import brave.okhttp3.TracingInterceptor;
@@ -7,12 +7,10 @@ import com.tingcore.payments.cpo.api.*;
 import okhttp3.Dispatcher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import org.springframework.core.env.Environment;
 
 import java.util.Optional;
 
-import static com.tingcore.cdc.constant.SpringProfilesConstant.ADVANCED_PRICING;
 import static org.apache.commons.lang3.Validate.notNull;
 
 @Configuration
@@ -30,13 +28,6 @@ public class PaymentsServiceConfiguration {
     @Bean
     public TokensApi tokensApi(final ApiClient paymentsClient) {
         return notNull(paymentsClient).createService(TokensApi.class);
-    }
-
-    @Bean
-    @Profile("!" + ADVANCED_PRICING)
-    @Deprecated
-    public PricesApi pricesApi(final ApiClient paymentsClient) {
-        return notNull(paymentsClient).createService(PricesApi.class);
     }
 
     @Bean

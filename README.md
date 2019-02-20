@@ -45,11 +45,11 @@ Runs the application in development mode.
 #### test 
 Runs the application using the **test** envionment configuration. Requires VPN for connecting to spring cloud configurations.
 
-#### stage
-[Not yet created] Runs the application using the **stage** envionment configuration.
 
-#### prod
-[Not yet created] Runs the application using the **prod** envionment configuration.
+### Toggles (available profiles)
+
+#### price-profiles-from-rest
+forces price-profiles fetching from pricing-service apis (instead of Elasticsearch). This can be useful when Elasticsearch is being re-indexed
 
 ### Troubleshooting
 **The builds are slow**

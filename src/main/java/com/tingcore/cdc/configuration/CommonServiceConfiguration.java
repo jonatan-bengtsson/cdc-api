@@ -4,16 +4,20 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.tingcore.commons.api.service.CustomServiceModelToSwagger2Mapper;
+import com.tingcore.commons.core.utils.JsonUtils;
 import com.tingcore.commons.hash.HashIdDeserializer;
 import com.tingcore.commons.hash.HashIdSerializer;
 import com.tingcore.commons.hash.HashIdService;
 import com.tingcore.commons.rest.service.PagingConverterService;
 import org.hashids.Hashids;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.web.client.RestTemplate;
 import springfox.documentation.swagger2.mappers.ServiceModelToSwagger2Mapper;
+
+import static com.tingcore.cdc.constant.BeanQualifierConstants.VANILLA_OBJECT_MAPPER;
 
 @Configuration
 public class CommonServiceConfiguration {
@@ -47,6 +51,7 @@ public class CommonServiceConfiguration {
     }
 
     @Bean
+    @Primary
     public ObjectMapper objectMapper(final HashIdService hashIdService) {
         final ObjectMapper objectMapper = com.tingcore.commons.core.utils.JsonUtils.getObjectMapper();
         SimpleModule module = new SimpleModule();
@@ -56,6 +61,12 @@ public class CommonServiceConfiguration {
         objectMapper.registerModule(new Jdk8Module());
 
         return objectMapper;
+    }
+
+    @Bean
+    @Qualifier(VANILLA_OBJECT_MAPPER)
+    public ObjectMapper vanillaObjectMapper() {
+        return JsonUtils.getObjectMapper();
     }
 
     @Bean

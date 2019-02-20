@@ -65,7 +65,7 @@ app:
     default-timeout: 20
   elasticsearch:
     scheme: https
-    host: https://${integration.elasticsearch.hostname}
+    host: ${integration.elasticsearch.hostname}
     port: 443
 
 management:

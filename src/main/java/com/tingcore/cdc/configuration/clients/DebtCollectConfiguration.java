@@ -1,4 +1,4 @@
-package com.tingcore.cdc.configuration;
+package com.tingcore.cdc.configuration.clients;
 
 import brave.Tracing;
 import brave.okhttp3.TracingInterceptor;

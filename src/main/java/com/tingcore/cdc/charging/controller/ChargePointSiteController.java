@@ -58,7 +58,7 @@ public class ChargePointSiteController {
     }
 
     private long getId(String hashId) {
-        return hashIdService.decode(hashId).orElseThrow( EntityNotFoundException::new);
+        return hashIdService.decode(hashId).orElseThrow(EntityNotFoundException::new);
     }
 
 }

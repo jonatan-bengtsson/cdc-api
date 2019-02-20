@@ -1,8 +1,7 @@
-package com.tingcore.cdc.configuration;
+package com.tingcore.cdc.configuration.clients;
 
 import brave.Tracing;
 import brave.okhttp3.TracingInterceptor;
-import com.tingcore.emp.pricing.client.PricingClient;
 import com.tingcore.payments.debttracker.DebtTrackerClient;
 import com.tingcore.payments.debttracker.api.v1.DebttrackerRestApi;
 import okhttp3.Dispatcher;

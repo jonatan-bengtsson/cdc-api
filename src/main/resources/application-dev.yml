@@ -1,10 +1,6 @@
 server:
   port: 8082
 
-spring:
-  profiles:
-    include: advanced-pricing
-
 logging:
   level:
     org.springframework: INFO

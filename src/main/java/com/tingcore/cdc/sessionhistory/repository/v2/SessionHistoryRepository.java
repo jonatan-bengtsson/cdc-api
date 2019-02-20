@@ -13,6 +13,7 @@ import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import java.io.IOException;
@@ -26,6 +27,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.stream.Collectors;
 
+import static com.tingcore.cdc.constant.BeanQualifierConstants.VANILLA_OBJECT_MAPPER;
 import static org.elasticsearch.index.query.QueryBuilders.rangeQuery;
 import static org.elasticsearch.index.query.QueryBuilders.termQuery;
 
@@ -38,7 +40,7 @@ public class SessionHistoryRepository {
     private final RestHighLevelClient client;
     private final ObjectMapper objectMapper;
 
-    public SessionHistoryRepository(final ObjectMapper objectMapper,
+    public SessionHistoryRepository(final @Qualifier(VANILLA_OBJECT_MAPPER) ObjectMapper objectMapper,
                                     final RestHighLevelClient client) {
         this.objectMapper = objectMapper;
         this.client = client;

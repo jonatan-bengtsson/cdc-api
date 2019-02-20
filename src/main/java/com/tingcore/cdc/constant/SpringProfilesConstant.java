@@ -16,7 +16,7 @@ public class SpringProfilesConstant {
     public static final String INTEGRATION_TEST = "it";
 
     // features toggles
-    public static final String ADVANCED_PRICING = "advanced-pricing";
+    public static final String PRICE_PROFILES_FROM_REST = "price-profiles-from-rest";
 
     private SpringProfilesConstant() {
 

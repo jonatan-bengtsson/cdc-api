@@ -4,16 +4,18 @@ package com.tingcore.cdc.controller;
 import com.tingcore.cdc.charging.service.AssetServiceException;
 import com.tingcore.cdc.constant.ErrorCode;
 import com.tingcore.cdc.crm.service.ErrorMappingService;
-import com.tingcore.cdc.crm.service.v1.InvalidAttributeValueException;
 import com.tingcore.cdc.crm.service.UsersApiException;
+import com.tingcore.cdc.crm.service.v1.InvalidAttributeValueException;
+import com.tingcore.cdc.exception.ElasticSearchException;
 import com.tingcore.cdc.exception.EntityNotFoundException;
 import com.tingcore.cdc.exception.InputValueProcessingException;
 import com.tingcore.cdc.exception.PaymentAccountApiException;
 import com.tingcore.cdc.service.MessageByLocaleService;
+import com.tingcore.commons.api.service.DefaultErrorCode;
 import com.tingcore.commons.api.service.ServiceException;
 import com.tingcore.commons.core.utils.StreamUtils;
-import com.tingcore.commons.rest.external.ExternalApiException;
 import com.tingcore.commons.rest.ErrorResponse;
+import com.tingcore.commons.rest.external.ExternalApiException;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -178,6 +180,17 @@ public class GlobalExceptionHandler {
             return errorResponseToResponseEntity(errorMappingService.prepareErrorResponse(e.getErrorResponse()));
         }
         return errorResponseToResponseEntity(e.getErrorResponse());
+    }
+
+    @ExceptionHandler(value = ElasticSearchException.class)
+    public ResponseEntity<ErrorResponse> handleElasticSearchException(final ElasticSearchException e) {
+        LOG.error(e.getMessage(), e);
+        final ErrorCode errorCode = ErrorCode.DATA_PROCESSING_ERROR;
+        return errorResponseToResponseEntity(
+                ErrorResponse.serverError()
+                        .code(errorCode.value())
+                        .message(messageByLocaleService.getMessage(errorCode.messageKey()))
+                        .build());
     }
 
     @ExceptionHandler(value = InvalidAttributeValueException.class)

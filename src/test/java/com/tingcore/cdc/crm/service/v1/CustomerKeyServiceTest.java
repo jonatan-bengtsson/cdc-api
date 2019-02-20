@@ -5,6 +5,8 @@ import com.tingcore.cdc.crm.model.CustomerKeyType;
 import com.tingcore.cdc.crm.repository.v1.CustomerKeyRepository;
 import com.tingcore.cdc.crm.service.UsersApiException;
 import com.tingcore.cdc.crm.utils.CustomerKeyDataUtils;
+import com.tingcore.cdc.payments.repository.v2.DebtCollectRepository;
+import com.tingcore.cdc.payments.repository.v2.DebtTrackerRepository;
 import com.tingcore.cdc.utils.CommonDataUtils;
 import com.tingcore.commons.rest.ErrorResponse;
 import com.tingcore.commons.rest.PageResponse;
@@ -18,12 +20,15 @@ import org.junit.runner.RunWith;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.util.Lists.newArrayList;
+import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyLong;
@@ -37,14 +42,18 @@ import static org.mockito.Mockito.verify;
 @RunWith(SpringRunner.class)
 public class CustomerKeyServiceTest {
 
-    @MockBean private CustomerKeyRepository customerKeyRepository;
-
+    @MockBean
+    private CustomerKeyRepository customerKeyRepository;
+    @MockBean
+    DebtTrackerRepository debtTrackerRepository;
+    @MockBean
+    DebtCollectRepository debtCollectRepository;
 
     private CustomerKeyService customerKeyService;
 
     @Before
     public void setUp() {
-        customerKeyService = new CustomerKeyService(customerKeyRepository);
+        customerKeyService = new CustomerKeyService(customerKeyRepository, debtTrackerRepository, debtCollectRepository);
     }
 
     @Test
@@ -115,6 +124,10 @@ public class CustomerKeyServiceTest {
         final CustomerKeyResponse expectedResponse = CustomerKeyDataUtils.randomCustomerKeyResponse();
         given(customerKeyRepository.addUserPaymentOption(anyLong(), any(UserPaymentOptionIdRequest.class), anyLong()))
                 .willReturn(new ApiResponse<>(expectedResponse));
+        given(debtTrackerRepository.getSessionsInForUserAndChargingKeyId(anyLong(), anyLong()))
+                .willReturn(new ApiResponse<>(Collections.emptyList()));
+        given(debtCollectRepository.clearSessions(anyList()))
+                .willReturn(Collections.emptyList());
         final CustomerKey customerKey = customerKeyService.addUserPaymentOption(
                 expectedResponse.getUserId(),
                 expectedResponse.getId(),

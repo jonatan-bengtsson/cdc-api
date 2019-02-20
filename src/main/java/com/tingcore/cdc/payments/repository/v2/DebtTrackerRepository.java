@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 import static com.tingcore.cdc.controller.ApiUtils.getResponseOrThrowError;
+import static java.util.stream.Collectors.toList;
 import static org.apache.commons.lang3.Validate.notNull;
 
 @Repository
@@ -32,6 +33,13 @@ public class DebtTrackerRepository extends AbstractApiRepository {
     public List<ApiSessionDebt> getAllDebtForUserAndChargingKeyId(Long userId, Long chargingKeyId) {
         final ApiResponse<List<ApiSessionDebt>> execute = execute(debttrackerRestApi.getDebtForIdentity(userId, chargingKeyId));
         return getResponseOrThrowError(execute, DebtTrackerApiException::new);
+    }
+
+    public ApiResponse<List<Long>> getSessionsInForUserAndChargingKeyId(Long userId, Long chargingKeyId) {
+        return execute(debttrackerRestApi.getDebtForIdentity(userId, chargingKeyId)
+                               .thenApply(apiSessionDebts -> apiSessionDebts.stream()
+                                       .map(ApiSessionDebt::getSessionId)
+                                       .collect(toList())));
     }
 
 

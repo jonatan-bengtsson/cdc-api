@@ -2,6 +2,8 @@ package com.tingcore.cdc.crm.repository.v1;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tingcore.cdc.crm.repository.AbstractUserServiceRepository;
+import com.tingcore.cdc.payments.repository.v2.DebtCollectRepository;
+import com.tingcore.cdc.payments.repository.v2.DebtTrackerRepository;
 import com.tingcore.commons.rest.PageResponse;
 import com.tingcore.commons.rest.repository.ApiResponse;
 import com.tingcore.users.api.v1.CustomerKeyTypesApi;

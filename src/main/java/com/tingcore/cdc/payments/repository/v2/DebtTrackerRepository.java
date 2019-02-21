@@ -35,7 +35,7 @@ public class DebtTrackerRepository extends AbstractApiRepository {
         return getResponseOrThrowError(execute, DebtTrackerApiException::new);
     }
 
-    public ApiResponse<List<Long>> getSessionsInForUserAndChargingKeyId(Long userId, Long chargingKeyId) {
+    public ApiResponse<List<Long>> getSessionsInDebtForUserAndChargingKeyId(Long userId, Long chargingKeyId) {
         return execute(debttrackerRestApi.getDebtForIdentity(userId, chargingKeyId)
                                .thenApply(apiSessionDebts -> apiSessionDebts.stream()
                                        .map(ApiSessionDebt::getSessionId)

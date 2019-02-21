@@ -20,7 +20,6 @@ import org.junit.runner.RunWith;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -124,7 +123,7 @@ public class CustomerKeyServiceTest {
         final CustomerKeyResponse expectedResponse = CustomerKeyDataUtils.randomCustomerKeyResponse();
         given(customerKeyRepository.addUserPaymentOption(anyLong(), any(UserPaymentOptionIdRequest.class), anyLong()))
                 .willReturn(new ApiResponse<>(expectedResponse));
-        given(debtTrackerRepository.getSessionsInForUserAndChargingKeyId(anyLong(), anyLong()))
+        given(debtTrackerRepository.getSessionsInDebtForUserAndChargingKeyId(anyLong(), anyLong()))
                 .willReturn(new ApiResponse<>(Collections.emptyList()));
         given(debtCollectRepository.clearSessions(anyList()))
                 .willReturn(Collections.emptyList());

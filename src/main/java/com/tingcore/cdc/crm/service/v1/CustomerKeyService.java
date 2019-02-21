@@ -65,10 +65,10 @@ public class CustomerKeyService {
         UserPaymentOptionIdRequest apiRequest = new UserPaymentOptionIdRequest(userPaymentOptionId);
         final ApiResponse<CustomerKeyResponse> apiResponse = customerKeyRepository.addUserPaymentOption(customerKeyId, apiRequest, authorizedUserId);
 
-        // temporary solution while we decide what to do in user service regarding kafka and sns/sqs
-        // Don't want to destroy the response for updating paymentoption if debt collect fails
+        /* TODO (RM)temporary solution while we decide what to do in user service regarding kafka and sns/sqs
+            Don't want to destroy the response for updating paymentoption if debt collect fails*/
         if (!apiResponse.hasError()) {
-            debtTrackerRepository.getSessionsInForUserAndChargingKeyId(authorizedUserId, customerKeyId)
+            debtTrackerRepository.getSessionsInDebtForUserAndChargingKeyId(authorizedUserId, customerKeyId)
                     .getResponseOptional()
                     .map(debtCollectRepository::clearSessions);
         }

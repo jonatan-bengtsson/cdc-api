@@ -6,17 +6,17 @@ import com.tingcore.cdc.payments.repository.v2.DebtTrackerRepository;
 import com.tingcore.commons.hash.HashIdService;
 import com.tingcore.payments.debttracker.response.ApiDebtSummary;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
 import static org.apache.commons.lang3.Validate.notNull;
 
-@Controller
+@RestController
 @RequestMapping("/" + DebtTrackerController.VERSION + "/" + DebtTrackerController.DEBT_TRACKER + "/")
 public class DebtTrackerController {
     static final String VERSION = "v1";
@@ -32,7 +32,7 @@ public class DebtTrackerController {
     }
 
     @GetMapping("/users/{userId}/charging-keys/{chargingKeyId}")
-    @ApiOperation(value = "Get all debt for a specified user and customer key", responseContainer = "List", response = ApiSessionDebt.class, tags = {DEBT_TRACKER})
+    @ApiOperation(value = "Get all debt for a specified user and customer key", tags = {DEBT_TRACKER})
     public List<ApiSessionDebt> getAllDebtForUserAndChargingKeyId(@PathVariable("userId") String userId,
                                                                   @PathVariable("chargingKeyId") String chargingKeyId) {
         notNull(userId);
@@ -48,7 +48,7 @@ public class DebtTrackerController {
     }
 
     @GetMapping("/users/{userId}/charging-keys/{chargingKeyId}/summary")
-    @ApiOperation(value = "Get a debt summary for a specified user and customer key", responseContainer = "List", response = ApiDebtSummary.class, tags = {DEBT_TRACKER})
+    @ApiOperation(value = "Get a debt summary for a specified user and customer key", tags = {DEBT_TRACKER})
     public List<ApiDebtSummary> getDebtSummaryForUserAndChargingKeyId(@PathVariable("userId") String userId,
                                                                       @PathVariable("chargingKeyId") String chargingKeyId) {
         notNull(userId);

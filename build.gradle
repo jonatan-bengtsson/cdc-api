@@ -97,6 +97,7 @@ ext {
     versionSessionStasherModel = "0.1.5"
     versionElasticSearch = "6.3.1"
     versionDebtCollect = "1.0.1"
+    versionDebtTracker = "1.0.1"
 }
 
 dependencies {
@@ -120,7 +121,7 @@ dependencies {
     compile("com.tingcore.payments:session-stasher-model:$versionSessionStasherModel")
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
     compile 'com.google.code.gson:gson:2.8.2'
-    compile("com.tingcore.payments:payments-debt-tracker-client:1.0.0")
+    compile("com.tingcore.payments:payments-debt-tracker-client:$versionDebtTracker")
     compile("com.tingcore.payments:payments-debt-collector-client:$versionDebtCollect")
 
     // Retrofit + OKHttp

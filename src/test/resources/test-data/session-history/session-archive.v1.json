@@ -26,6 +26,9 @@
           "name": "Test CPS 152",
           "address": {
             "countryIsoCode": "se"
+          }, "geoCoordinate": {
+            "lon": 10.751698,
+            "lat": 59.923385
           }
         },
         "owner": {
@@ -82,6 +85,9 @@
           "name": "Roaming test",
           "address": {
             "countryIsoCode": "se"
+          }, "geoCoordinate": {
+            "lon": 10.751698,
+            "lat": 59.923385
           }
         },
         "owner": {

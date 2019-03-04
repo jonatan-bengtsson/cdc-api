@@ -1,8 +1,8 @@
 package com.tingcore.cdc.payments.service.v2;
 
+import com.tingcore.cdc.payments.api.ApiReceipt;
 import com.tingcore.cdc.payments.repository.v2.ReceiptRepository;
 import com.tingcore.cdc.payments.service.ReceiptService;
-import com.tingcore.payments.cpo.model.ApiReceipt;
 import org.springframework.stereotype.Service;
 
 @Service

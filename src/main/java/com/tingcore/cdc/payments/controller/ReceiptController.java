@@ -1,9 +1,9 @@
 package com.tingcore.cdc.payments.controller;
 
 import com.tingcore.cdc.exception.EntityNotFoundException;
+import com.tingcore.cdc.payments.api.ApiReceipt;
 import com.tingcore.cdc.payments.service.ReceiptService;
 import com.tingcore.commons.hash.HashIdService;
-import com.tingcore.payments.cpo.model.ApiReceipt;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

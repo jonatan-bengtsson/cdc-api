@@ -2,7 +2,7 @@ package com.tingcore.cdc.payments.service.v1;
 
 import com.tingcore.cdc.payments.api.ApiCreateAccountRequest;
 import com.tingcore.cdc.payments.repository.v1.PaymentAccountRepository;
-import com.tingcore.payments.cpo.model.*;
+import com.tingcore.payments.model.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

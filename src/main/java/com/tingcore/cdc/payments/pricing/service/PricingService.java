@@ -4,15 +4,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tingcore.cdc.charging.model.ConnectorId;
 import com.tingcore.cdc.charging.model.ConnectorPrice;
 import com.tingcore.cdc.payments.pricing.model.ConnectorPriceProfile;
+import com.tingcore.cdc.payments.pricing.model.PriceUnit;
 import com.tingcore.cdc.payments.pricing.repository.PricingRepository;
 import com.tingcore.cdc.service.TimeService;
 import com.tingcore.emp.pricing.profile.response.PriceProfileResponse;
 import com.tingcore.emp.pricing.rule.PriceComponent;
 import com.tingcore.emp.pricing.rule.PriceComponentType;
 import com.tingcore.emp.pricing.rule.PriceRules;
-import com.tingcore.payments.cpo.model.ApiPrice;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -25,7 +23,6 @@ import static java.lang.String.format;
 
 @Service
 public class PricingService {
-    private static final Logger LOG = LoggerFactory.getLogger(PricingService.class);
 
     private final PricingRepository repository;
     private final ObjectMapper objectMapper;
@@ -72,14 +69,14 @@ public class PricingService {
     private String toString(final PriceComponent component, final String currencyCode) {
         Currency currency = Currency.getInstance(currencyCode);
         String price = component.getPrice().setScale(currency.getDefaultFractionDigits(), RoundingMode.HALF_UP).toPlainString();
-        ApiPrice.UnitEnum unit;
+        PriceUnit unit;
         if (PriceComponentType.TIME.equals(component.getType()) && 60L == component.getStepSize()) {
-            unit = ApiPrice.UnitEnum.MIN;
+            unit = PriceUnit.MIN;
         } else if (PriceComponentType.TIME.equals(component.getType()) && 3600L == component.getStepSize()) {
-            unit = ApiPrice.UnitEnum.H;
+            unit = PriceUnit.H;
         } else {
-            unit = ApiPrice.UnitEnum.KWH;
+            unit = PriceUnit.KWH;
         }
-        return format("%s\u00A0%s/%s", price, currency.getCurrencyCode(), unit.getValue());
+        return format("%s\u00A0%s/%s", price, currency.getCurrencyCode(), unit);
     }
 }

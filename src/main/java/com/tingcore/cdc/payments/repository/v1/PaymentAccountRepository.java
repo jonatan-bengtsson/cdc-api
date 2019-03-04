@@ -4,8 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tingcore.cdc.exception.PaymentAccountApiException;
 import com.tingcore.commons.rest.external.ExternalApiException;
 import com.tingcore.commons.rest.repository.AbstractApiRepository;
-import com.tingcore.payments.cpo.api.PaymentaccountsApi;
-import com.tingcore.payments.cpo.model.*;
+import com.tingcore.payments.api.PaymentaccountsApi;
+import com.tingcore.payments.model.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -45,7 +45,7 @@ public class PaymentAccountRepository extends AbstractApiRepository {
 
     public ApiDeletedCustomer deleteUserAccount(final Long userId,
                                                 final String paymentOption) {
-        return getResponseOrPaymentAccountError(paymentaccountsApi.deleteUserAccount_0(userId, paymentOption));
+        return getResponseOrPaymentAccountError(paymentaccountsApi.deleteUserAccount(userId, paymentOption));
     }
 
     public List<ApiPaymentAccount> getAllAccountsById(final Long keyId,

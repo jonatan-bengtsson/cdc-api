@@ -2,8 +2,8 @@ package com.tingcore.cdc.configuration.clients;
 
 import brave.Tracing;
 import brave.okhttp3.TracingInterceptor;
-import com.tingcore.payments.cpo.ApiClient;
-import com.tingcore.payments.cpo.api.*;
+import com.tingcore.payments.ApiClient;
+import com.tingcore.payments.api.*;
 import okhttp3.Dispatcher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,10 +15,6 @@ import static org.apache.commons.lang3.Validate.notNull;
 
 @Configuration
 public class PaymentsServiceConfiguration {
-    @Bean
-    public ChargesApi chargesApi(final ApiClient paymentsClient) {
-        return notNull(paymentsClient).createService(ChargesApi.class);
-    }
 
     @Bean
     public SessionsApi sessionsApi(final ApiClient paymentsClient) {
@@ -26,18 +22,8 @@ public class PaymentsServiceConfiguration {
     }
 
     @Bean
-    public TokensApi tokensApi(final ApiClient paymentsClient) {
-        return notNull(paymentsClient).createService(TokensApi.class);
-    }
-
-    @Bean
     public PaymentaccountsApi paymentaccountsApi(final ApiClient paymentsClient) {
         return notNull(paymentsClient).createService(PaymentaccountsApi.class);
-    }
-
-    @Bean
-    public ReceiptsApi receiptApi(final ApiClient paymentsClient) {
-        return notNull(paymentsClient).createService(ReceiptsApi.class);
     }
 
     @Bean

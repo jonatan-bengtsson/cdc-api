@@ -11,6 +11,7 @@ import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
+import org.elasticsearch.search.sort.SortOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -55,7 +56,9 @@ public class SessionHistoryRepository {
                         .lte(new Date(to)));
 
         final SearchSourceBuilder sourceBuilder = new SearchSourceBuilder()
-                .query(query);
+                .query(query)
+                .sort("startedAt", SortOrder.DESC)
+                .size(100); // TODO remove hardcoded size when we implement pagination in app
         final SearchRequest request = new SearchRequest(ES_INDEX)
                 .source(sourceBuilder);
 

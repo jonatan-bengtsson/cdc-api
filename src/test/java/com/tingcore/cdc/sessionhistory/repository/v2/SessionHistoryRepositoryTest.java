@@ -46,8 +46,8 @@ public class SessionHistoryRepositoryTest extends ElasticSearchTest {
         final List<Session> sessions = repository.getSession(1001765L, from, to);
 
         assertThat(sessions.size()).isEqualTo(3);
-        assertThat(sessions.get(0).getId()).isEqualTo(4);
-        assertThat(sessions.get(1).getId()).isEqualTo(5);
+        assertThat(sessions.get(0).getId()).isEqualTo(5);
+        assertThat(sessions.get(1).getId()).isEqualTo(4);
         assertThat(sessions.get(2).getId()).isEqualTo(2);
     }
 
